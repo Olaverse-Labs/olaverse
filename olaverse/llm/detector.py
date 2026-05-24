@@ -35,7 +35,8 @@ class LIDNeural5:
         # Read class labels from model config if populated
         if hasattr(self.model.config, "id2label") and self.model.config.id2label:
             # Sort keys to align classes
-            self.classes = [self.model.config.id2label[str(i)] for i in range(len(self.model.config.id2label))]
+            id2lbl = self.model.config.id2label
+            self.classes = [id2lbl[i] if i in id2lbl else id2lbl[str(i)] for i in range(len(id2lbl))]
             
         self.model.eval()
         self._loaded = True

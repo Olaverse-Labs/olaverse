@@ -9,6 +9,7 @@ from olaverse.nlp.language_detection import detect_language
 from olaverse.nlp.diacritizer import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_igbo
 from olaverse.nlp.sentiment import analyze_sentiment
 from olaverse.nlp.tokenizer import Tokenizer
+from olaverse.nlp.legal import LegalPeace
 from olaverse.data.loaders import load_dataset
 from olaverse.utils.downloader import get_model_path, get_cache_dir
 
@@ -271,3 +272,42 @@ def test_tokenizer_custom_path(tmp_path):
         
     with pytest.raises(FileNotFoundError):
         Tokenizer(lang="hausa", model_path="nonexistent_tokenizer.json")
+
+def test_legal_peace_import_error():
+    # If unsloth is not installed/mocked, it should raise ImportError
+    with patch.dict("sys.modules", {"unsloth": None}):
+        lp = LegalPeace()
+        with pytest.raises(ImportError) as exc_info:
+            lp.load()
+        assert "unsloth" in str(exc_info.value)
+
+def test_legal_peace_mocked():
+    mock_unsloth = MagicMock()
+    mock_fast_lm = MagicMock()
+    mock_unsloth.FastLanguageModel = mock_fast_lm
+    
+    mock_model = MagicMock()
+    mock_tokenizer = MagicMock()
+    
+    mock_tokenizer.return_value = {"input_ids": [1, 2, 3]}
+    mock_tokenizer.decode.return_value = "Mocked contract response"
+    mock_model.generate.return_value = [[1, 2, 3, 4, 5]]
+    
+    mock_fast_lm.from_pretrained.return_value = (mock_model, mock_tokenizer)
+    
+    mock_torch = MagicMock()
+    mock_torch.cuda.is_available.return_value = False
+    
+    with patch.dict("sys.modules", {"unsloth": mock_unsloth, "torch": mock_torch}):
+        lp = LegalPeace()
+        lp.load()
+        
+        assert lp._loaded is True
+        assert lp.model == mock_model
+        assert lp.tokenizer == mock_tokenizer
+        
+        res = lp.generate("Analyze this contract clause: ...")
+        assert res == "Mocked contract response"
+        mock_tokenizer.assert_called_with("Analyze this contract clause: ...", return_tensors="pt")
+
+

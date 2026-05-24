@@ -7,6 +7,7 @@ from olaverse.nlp.language_detection import detect_language
 from olaverse.nlp.sentiment import analyze_sentiment
 from olaverse.nlp.preprocessing import mask_pii, is_pidgin_particle
 from olaverse.nlp.tokenizer import Tokenizer
+from olaverse.nlp.legal import LegalPeace
 
 __all__ = [
     "diacritize_yoruba",
@@ -16,5 +17,6 @@ __all__ = [
     "analyze_sentiment",
     "mask_pii",
     "is_pidgin_particle",
-    "Tokenizer"
+    "Tokenizer",
+    "LegalPeace"
 ]

@@ -12,7 +12,7 @@ def _load_model(model_name_or_path="lid-lite-5.json"):
     resolved_path = model_name_or_path
     if not os.path.exists(resolved_path):
         try:
-            resolved_path = get_model_path(model_name_or_path)
+            resolved_path = get_model_path(model_name_or_path, repo_id="olaverse/lid-lite-5")
         except Exception:
             resolved_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "models", model_name_or_path)
             

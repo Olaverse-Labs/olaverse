@@ -32,6 +32,10 @@ dev = [
 legal = [
     "unsloth",
 ]
+deeplearning = [
+    "torch",
+    "transformers",
+]
 
 [tool.setuptools.packages.find]
 where = ["."]

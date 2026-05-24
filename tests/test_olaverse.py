@@ -5,11 +5,12 @@ import shutil
 from unittest.mock import patch, MagicMock
 from olaverse.utils.constants import STATES, BANKS, format_naira, get_telco
 from olaverse.nlp.preprocessing import mask_pii, is_pidgin_particle
-from olaverse.nlp.language_detection import detect_language
+from olaverse.nlp.language_detection import detect_language, LIDLite5
 from olaverse.nlp.diacritizer import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_igbo
 from olaverse.nlp.sentiment import analyze_sentiment
 from olaverse.nlp.tokenizer import Tokenizer
 from olaverse.llm.legal import LegalPeace
+from olaverse.llm.detector import LIDNeural5
 from olaverse.data.loaders import load_dataset
 from olaverse.utils.downloader import get_model_path, get_cache_dir
 
@@ -195,11 +196,14 @@ def test_language_detection_custom_path(tmp_path):
     # Test passing custom path to language detector
     model_file = tmp_path / "dummy_lang_model.json"
     dummy_model = {
-        "priors": {"yor": -0.5, "eng": -0.5},
+        "classes": ["yor", "eng"],
+        "intercept": [0.0, 0.0],
         "features": {
-            "_ola_": {"yor": 2.0, "eng": -2.0}
-        },
-        "default_log_prob": -10.0
+            "ola": {
+                "weights": [2.0, -2.0],
+                "idf": 1.0
+            }
+        }
     }
     model_file.write_text(json.dumps(dummy_model), encoding="utf-8")
     
@@ -314,6 +318,83 @@ def test_legal_peace_root_import():
     from olaverse import LegalPeace
     lp = LegalPeace(model_name="olaverse/legal-peace-v2.0")
     assert lp.model_name == "olaverse/legal-peace-v2.0"
+
+def test_lid_lite_5():
+    detector = LIDLite5()
+    
+    # Verify predictions
+    assert detector.predict("Bawo ni, se daadaa ni?") == "yor"
+    assert detector.predict("Ina kwana? Lafiya lau.") == "hau"
+    assert detector.predict("Kedu ka ị mere?") == "ibo"
+    assert detector.predict("How far, wetin dey happen?") == "pcm"
+    assert detector.predict("How are you doing today?") == "eng"
+    
+    # Verify probabilities
+    probs = detector.predict_proba("Kedu ka ị mere?")
+    assert abs(sum(probs.values()) - 1.0) < 1e-5
+    assert probs["ibo"] > 0.5
+
+def test_lid_neural_5_import_error():
+    # If transformers is not installed, it should raise ImportError
+    with patch.dict("sys.modules", {"transformers": None}):
+        lp = LIDNeural5()
+        with pytest.raises(ImportError) as exc_info:
+            lp.load()
+        assert "transformers" in str(exc_info.value)
+
+def test_lid_neural_5_mocked():
+    mock_transformers = MagicMock()
+    mock_model = MagicMock()
+    mock_tokenizer = MagicMock()
+    
+    mock_trained_tokenizer = MagicMock()
+    mock_tokenizer.from_pretrained.return_value = mock_trained_tokenizer
+    mock_trained_tokenizer.return_value = {"input_ids": [1, 2, 3]}
+    
+    mock_trained_model = MagicMock()
+    mock_model.from_pretrained.return_value = mock_trained_model
+    
+    # Mock logits output
+    mock_output = MagicMock()
+    mock_output.logits = MagicMock()
+    mock_trained_model.return_value = mock_output
+    
+    # Mock model config
+    mock_trained_model.config = MagicMock()
+    mock_trained_model.config.id2label = {
+        "0": "eng",
+        "1": "hau",
+        "2": "ibo",
+        "3": "pcm",
+        "4": "yor"
+    }
+    
+    mock_transformers.AutoTokenizer = mock_tokenizer
+    mock_transformers.AutoModelForSequenceClassification = mock_model
+    
+    # Mock torch.softmax to return a list representing probabilities
+    mock_torch = MagicMock()
+    mock_torch.no_grad = lambda: MagicMock()
+    # Mock softmax(logits).squeeze().tolist() to return a probability array with index 3 high
+    mock_softmax_val = MagicMock()
+    mock_softmax_val.squeeze.return_value.tolist.return_value = [0.1, 0.1, 0.1, 0.6, 0.1]
+    mock_torch.softmax.return_value = mock_softmax_val
+    
+    with patch.dict("sys.modules", {"transformers": mock_transformers, "torch": mock_torch}):
+        detector = LIDNeural5()
+        detector.load()
+        
+        assert detector._loaded is True
+        assert detector.classes == ['eng', 'hau', 'ibo', 'pcm', 'yor']
+        
+        # Test predict
+        pred = detector.predict("How far, wetin dey happen?")
+        assert pred == "pcm"
+        
+        # Test predict_proba
+        probs = detector.predict_proba("How far, wetin dey happen?")
+        assert probs["pcm"] == 0.6
+
 
 
 

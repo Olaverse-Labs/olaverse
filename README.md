@@ -84,15 +84,29 @@ decoded = tok.decode(tokens)
 print(decoded) # → "Ẹ kú àbọ̀"
 ```
 
-### 3. Language Detection
-Detect if a sentence is Yoruba, Hausa, Igbo, Nigerian Pidgin, or English.
-```python
-from olaverse.nlp import detect_language
+### 3. Language Detection (`LIDLite5` & `LIDNeural5`)
+Identify whether text is Yoruba, Hausa, Igbo, Nigerian Pidgin, or English.
 
-detect_language("Bawo ni, se daadaa ni?")   # → 'yor'
-detect_language("Ina kwana?")                # → 'hau'
-detect_language("Kedu ka ị mere?")           # → 'ibo'
-detect_language("How far, wetin dey happen?") # → 'pcm'
+#### Option A: Lightweight (Zero-Dependency CPU)
+```python
+from olaverse import LIDLite5
+
+detector = LIDLite5()
+print(detector.predict("How far, wetin dey happen?")) # → 'pcm'
+
+# Get confidence scores across all 5 classes
+probs = detector.predict_proba("How far, wetin dey happen?")
+print(probs) # → {'eng': 0.0006, 'hau': 0.0014, ...}
+```
+
+#### Option B: Neural (Transformer GPU/CPU)
+```python
+from olaverse import LIDNeural5
+
+detector = LIDNeural5()
+detector.load()  # Downloads and caches model from HF (olaverse/lid-neural-5)
+
+print(detector.predict("How far, wetin dey happen?")) # → 'pcm'
 ```
 
 ### 4. Yoruba & Igbo Diacritizer

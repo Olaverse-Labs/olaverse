@@ -1,5 +1,5 @@
 # Olaverse 🌍
-> Sovereign ML infrastructure and production-ready interface to load and run all Olaverse models.
+> Advanced ML infrastructure and production-ready interface to load and run all Olaverse models.
 
 [![PyPI Version](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
@@ -15,7 +15,7 @@ Standard NLP tools and model interfaces don't capture local nuances, custom toke
 
 - **🏛️ Enterprise Legal AI**: Built-in support and inference pipeline for `olaverse/legal-peace-v1.0` (fine-tuned Mistral-7B for contract analysis and legal reasoning).
 - **🚀 GPU & CPU Optimized**: Lazy-loading and custom CUDA/Unsloth optimization layers for large LLMs alongside hyper-efficient, 100% offline local NLP tools.
-- **📦 Sovereign Tokenizers (`OTK-BPE`)**: Custom Byte-Level BPE tokenizers (e.g. `olaverse/otk-bpe-50k`) trained on dedicated Nigerian and African language corpora (up to **63% fewer tokens** compared to GPT-4).
+- **📦 Optimized Tokenizers (`OTK-BPE`)**: Custom Byte-Level BPE tokenizers (e.g. `olaverse/otk-bpe-50k`) trained on dedicated Nigerian and African language corpora (up to **63% fewer tokens** compared to GPT-4).
 - **🗣️ Advanced Diacritic Restoration**:
   - Yoruba Diacritizer (dot-below only): **97.5% character accuracy**.
   - Yoruba Diacritizer (full tonal): **90.0% word accuracy** via Viterbi decoding.
@@ -68,7 +68,7 @@ print(response)
 ```
 
 ### 2. Custom Tokenizers (`Tokenizer`)
-Use sovereign Byte-Level BPE tokenizers without needing local `.json` file paths. Loads from Hugging Face Hub automatically if not cached.
+Use optimized Byte-Level BPE tokenizers without needing local `.json` file paths. Loads from Hugging Face Hub automatically if not cached.
 ```python
 from olaverse.nlp import Tokenizer
 

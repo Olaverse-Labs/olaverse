@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "olaverse"
+version = "0.1.0"
+description = "Sovereign ML infrastructure and NLP tools for Nigeria"
+readme = "README.md"
+authors = [
+    { name = "Olumide Ola", email = "ola@olaverse.ai" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "numpy>=1.20.0",
+    "requests>=2.25.0",
+    "tqdm>=4.50.0",
+    "tokenizers>=0.13.0",
+]
+requires-python = ">=3.8"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "jupyter>=1.0.0",
+    "scikit-learn>=1.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["olaverse*"]
+
+[tool.setuptools.exclude-package-data]
+olaverse = ["models/*"]

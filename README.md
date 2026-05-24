@@ -34,6 +34,12 @@ Install core library (lightweight, CPU offline-first tokenizers & text helpers):
 pip install olaverse
 ```
 
+Install with transformer model dependencies (torch + transformers, for `LIDNeural5`):
+
+```bash
+pip install olaverse[deeplearning]
+```
+
 Install with legal model dependencies (unsloth, torch, etc. for GPU inference):
 
 ```bash
@@ -105,6 +111,7 @@ from olaverse import LIDNeural5
 
 detector = LIDNeural5()
 detector.load()  # Downloads and caches model from HF (olaverse/lid-neural-5)
+                 # Requires: pip install olaverse[deeplearning]
 
 print(detector.predict("How far, wetin dey happen?")) # → 'pcm'
 ```

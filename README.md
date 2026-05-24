@@ -22,7 +22,7 @@ Standard NLP tools and model interfaces don't capture local nuances, custom toke
   - Igbo Diacritizer: **95.2% character accuracy**.
 - **🎭 Context-Aware Sentiment Analysis**: Captures sentiment nuances in Pidgin English and regional languages (**72% accuracy**).
 - **🔒 Nigerian-specific PII Masking**: Automatically masks emails, local +234/080 phone formats, BVN, and NIN.
-- **🇳🇬 Robust Language Detection**: Accurately classifies text across 5 languages: Yoruba (`yor`), Hausa (`hau`), Igbo (`ibo`), Pidgin (`pcm`), and English (`eng`) with **96.6% accuracy**.
+- **🇳🇬 Robust Language Detection**: Accurately classifies text across 5 languages: Yoruba (`yor`), Hausa (`hau`), Igbo (`ibo`), Pidgin (`pcm`), and English (`eng`) with **98.12% accuracy** (LIDLite5) and **98.96% accuracy** (LIDNeural5).
 
 ---
 

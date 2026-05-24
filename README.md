@@ -1,4 +1,4 @@
-# Olaverse 🌍
+# Olaverse
 > Advanced ML infrastructure and production-ready interface to load and run all Olaverse models.
 
 [![PyPI Version](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/)

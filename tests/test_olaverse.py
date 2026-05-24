@@ -9,7 +9,7 @@ from olaverse.nlp.language_detection import detect_language
 from olaverse.nlp.diacritizer import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_igbo
 from olaverse.nlp.sentiment import analyze_sentiment
 from olaverse.nlp.tokenizer import Tokenizer
-from olaverse.nlp.legal import LegalPeace
+from olaverse.llm.legal import LegalPeace
 from olaverse.data.loaders import load_dataset
 from olaverse.utils.downloader import get_model_path, get_cache_dir
 
@@ -309,5 +309,11 @@ def test_legal_peace_mocked():
         res = lp.generate("Analyze this contract clause: ...")
         assert res == "Mocked contract response"
         mock_tokenizer.assert_called_with("Analyze this contract clause: ...", return_tensors="pt")
+
+def test_legal_peace_root_import():
+    from olaverse import LegalPeace
+    lp = LegalPeace(model_name="olaverse/legal-peace-v2.0")
+    assert lp.model_name == "olaverse/legal-peace-v2.0"
+
 
 

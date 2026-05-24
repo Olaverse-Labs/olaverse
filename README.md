@@ -53,13 +53,14 @@ pip install -e ".[dev]"
 ### 1. Legal & Contract Analysis (`LegalPeace`)
 Direct interface for loading and running the `olaverse/legal-peace-v1.0` model. Uses Unsloth under the hood for fast, memory-efficient inference.
 ```python
-from olaverse.nlp import LegalPeace
+from olaverse.llm import LegalPeace
 
-# Instantiates the wrapper with default configurations
-model = LegalPeace()
+# Instantiates the wrapper with default configurations (or enter custom model name/parameters)
+model = LegalPeace(model_name="olaverse/legal-peace-v1.0")
 
 # Loads model & tokenizer lazily (requires GPU and unsloth installed)
 model.load()
+
 
 prompt = "Analyze this contract clause: 'The parties agree that all disputes shall be resolved through binding arbitration in Delaware.' What are the key legal implications?"
 response = model.generate(prompt, max_new_tokens=300, temperature=0.7)

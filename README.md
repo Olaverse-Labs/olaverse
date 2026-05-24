@@ -180,4 +180,4 @@ get_telco("08031234567")     # → 'MTN'
 
 ## License
 
-Apache License 2.0.
+Apache License 2.0. See [LICENSE](LICENSE) for details.

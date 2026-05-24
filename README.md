@@ -68,7 +68,7 @@ print(response)
 ```
 
 ### 2. Custom Tokenizers (`Tokenizer`)
-Use optimized Byte-Level BPE tokenizers without needing local `.json` file paths. Loads from Hugging Face Hub automatically if not cached.
+Use optimized Byte-Level BPE tokenizers without needing local `.json` file paths. Loads from Hugging Face Hub automatically if not cached. For details on performance and training, see the [otk-bpe repository](https://github.com/Olaverse-Labs/otk-bpe).
 ```python
 from olaverse.nlp import Tokenizer
 

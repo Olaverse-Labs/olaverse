@@ -6,7 +6,7 @@ from olaverse.nlp import (
     detect_language,
     LIDLite5,
     mask_pii,
-    is_pidgin_particle,
+    clean_text,
     TTSNormalizer
 )
 from olaverse.speech import TTSPipeline, BaseAcousticModel, BaseVocoder
@@ -24,7 +24,7 @@ __all__ = [
     "diacritize_igbo",
     "detect_language",
     "mask_pii",
-    "is_pidgin_particle",
+    "clean_text",
     "TTSPipeline",
     "TTSNormalizer",
     "BaseAcousticModel",

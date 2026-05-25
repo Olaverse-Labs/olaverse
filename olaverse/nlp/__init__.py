@@ -5,7 +5,7 @@ from olaverse.nlp.diacritizer import (
 )
 from olaverse.nlp.language_detection import detect_language, LIDLite5
 
-from olaverse.nlp.preprocessing import mask_pii, is_pidgin_particle
+from olaverse.nlp.preprocessing import mask_pii, clean_text
 from olaverse.nlp.tokenizer import Tokenizer
 from olaverse.nlp.normalization import TTSNormalizer
 
@@ -16,7 +16,7 @@ __all__ = [
     "detect_language",
     "LIDLite5",
     "mask_pii",
-    "is_pidgin_particle",
+    "clean_text",
     "Tokenizer",
     "TTSNormalizer"
 ]

@@ -1,173 +1,38 @@
-# Olaverse
-> Advanced ML infrastructure and production-ready interface to load and run all Olaverse models.
+# Olaverse Documentation
 
 [![PyPI Version](https://img.shields.io/badge/pypi-v0.1.2-blue)](https://pypi.org/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-CPU%20&%20GPU-orange)](https://github.com/)
 [![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://Olaverse-Labs.github.io/olaverse/)
 
-Standard NLP tools and model interfaces don't capture local nuances, custom tokenizers, or specific fine-tuned downstream configurations (like contract analysis & legal reasoning). 
+Welcome to the official developer documentation for the **Olaverse SDK**.
 
-**Olaverse** is a unified Python package and developer interface designed to run all Olaverse model families—ranging from lightweight CPU-only local NLP modules to large enterprise-grade legal and reasoning models.
+**Olaverse** is a unified Python package and developer interface designed to seamlessly integrate state-of-the-art African NLP features, Text-to-Speech (TTS) architecture, and Large Language Models (LLMs) into your applications.
 
 **📚 Full API Documentation is available at [https://Olaverse-Labs.github.io/olaverse/](https://Olaverse-Labs.github.io/olaverse/)**
 
 ---
 
-## Key Features
+## Key Capabilities
 
-- **🗣️ Speech Synthesis (TTS)**: End-to-End Text-to-Speech pipelines to translate normalized text and restored tones into high-fidelity audio waveforms.
-- **🏛️ Enterprise Legal AI**: Built-in support and inference pipeline for `olaverse/legal-peace-v1.0` (fine-tuned Mistral-7B for contract analysis and legal reasoning).
-- **🚀 GPU & CPU Optimized**: Lazy-loading and custom CUDA/Unsloth optimization layers for large LLMs alongside hyper-efficient, 100% offline local NLP tools.
-- **📦 Optimized Tokenizers (`OTK-BPE`)**: Custom Byte-Level BPE tokenizers (e.g. `olaverse/otk-bpe-50k`) trained on dedicated African language corpora (up to **63% fewer tokens** compared to GPT-4).
-- **🗣️ Advanced Diacritic Restoration**:
-  - Yoruba Diacritizer (dot-below only): **97.5% character accuracy**.
-  - Yoruba Diacritizer (full tonal): **90.0% word accuracy** via Viterbi decoding.
-  - Igbo Diacritizer: **95.2% character accuracy**.
-- **🔒 Global PII Masking**: Securely masks emails, global phone numbers, social security numbers, and credit cards across text datasets.
-- **🇳🇬 Robust Language Detection**: Accurately classifies text across 5 local languages: Yoruba, Hausa, Igbo, Pidgin, and English with **98.12% accuracy** (LIDLite5) and **98.96% accuracy** (LIDNeural5).
+- **🗣️ Natural Language Processing**: Accurate text diacritization (Yoruba, Igbo), Language Detection (covering 5 local languages), custom Byte-Level BPE tokenization, and robust PII masking.
+- **🎙️ Speech Synthesis**: End-to-End Text-to-Speech (TTS) pipelines to translate normalized text and restored tones into high-fidelity audio waveforms.
+- **🧠 Large Language Models**: Easy, memory-efficient inference interfaces for loading advanced domain-specific LLMs (like `LegalPeace` for legal contract reasoning).
+- **🌍 Global Utilities**: Built-in constants, universal currency formatters, and generic `.wav` audio I/O tools.
 
 ---
 
-## Installation
-
-Install core library (lightweight, CPU offline-first tokenizers & text helpers):
+## Quick Install
 
 ```bash
 pip install olaverse
 ```
 
-Install with transformer model dependencies (torch + transformers, for `LIDNeural5`):
-
-```bash
-pip install olaverse[deeplearning]
-```
-
-Install with legal model dependencies (unsloth, torch, etc. for GPU inference):
-
-```bash
-pip install olaverse[legal]
-```
-
-For development mode (with Jupyter notebooks and training dependencies):
-
-```bash
-pip install -e ".[dev]"
-```
-
 ---
 
-## Quick Start
+## Navigation
 
-### 1. Legal & Contract Analysis (`LegalPeace`)
-Direct interface for loading and running the `olaverse/legal-peace-v1.0` model. Uses Unsloth under the hood for fast, memory-efficient inference.
-```python
-from olaverse.llm import LegalPeace
-
-# Instantiates the wrapper with default configurations (or enter custom model name/parameters)
-model = LegalPeace(model_name="olaverse/legal-peace-v1.0")
-
-# Loads model & tokenizer lazily (requires GPU and unsloth installed)
-model.load()
-
-
-prompt = "Analyze this contract clause: 'The parties agree that all disputes shall be resolved through binding arbitration in Delaware.' What are the key legal implications?"
-response = model.generate(prompt, max_new_tokens=300, temperature=0.7)
-print(response)
-```
-
-### 2. Custom Tokenizers (`Tokenizer`)
-Use optimized Byte-Level BPE tokenizers without needing local `.json` file paths. Loads from Hugging Face Hub automatically if not cached. For details on performance and training, see the [otk-bpe repository](https://github.com/Olaverse-Labs/otk-bpe).
-```python
-from olaverse.nlp import Tokenizer
-
-# Load the 50k unified model
-tok = Tokenizer("naija") 
-# Or specific languages (e.g., "yo", "ig", "ha", "pcm", or full model name "otk-bpe-50k-yo")
-# tok = Tokenizer("yo")
-
-tokens = tok.encode("Ẹ kú àbọ̀")
-print(tokens) # → [124, 381]
-
-decoded = tok.decode(tokens)
-print(decoded) # → "Ẹ kú àbọ̀"
-```
-
-### 3. Language Detection (`LIDLite5` & `LIDNeural5`)
-Identify whether text is Yoruba, Hausa, Igbo, Nigerian Pidgin, or English.
-
-#### Option A: Lightweight (Zero-Dependency CPU)
-```python
-from olaverse import LIDLite5
-
-detector = LIDLite5()
-print(detector.predict("How far, wetin dey happen?")) # → 'pcm'
-
-# Get confidence scores across all 5 classes
-probs = detector.predict_proba("How far, wetin dey happen?")
-print(probs) # → {'eng': 0.0006, 'hau': 0.0014, ...}
-```
-
-#### Option B: Neural (Transformer GPU/CPU)
-```python
-from olaverse import LIDNeural5
-
-detector = LIDNeural5()
-detector.load()  # Downloads and caches model from HF (olaverse/lid-neural-5)
-                 # Requires: pip install olaverse[deeplearning]
-
-print(detector.predict("How far, wetin dey happen?")) # → 'pcm'
-```
-
-### 4. Yoruba & Igbo Diacritizer
-Restore missing diacritics in Yoruba or Igbo text.
-```python
-from olaverse.nlp import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_igbo
-
-# Dot-below only (no tones)
-diacritize_yoruba_dot_below("Ojo lo si oja")
-# → 'Ọjọ lo si ọja'
-
-# Full tonal diacritics
-diacritize_yoruba("Ojo lo si oja lana")
-# → 'Ọjọ́ ló sí ọjà lànà'
-
-# Igbo diacritics
-diacritize_igbo("Kedu ka i mere")
-# → 'Kedụ ka ị mere'
-```
-
-### 5. Text Preprocessing & Global PII Masking
-Strip HTML tags, clean URLs, and securely mask sensitive global data (Emails, Credit Cards, Social Security Numbers, and Phone Numbers).
-```python
-from olaverse.nlp import mask_pii, clean_text
-
-mask_pii("Contact me at support@olaverse.co.uk or call +1-800-555-0199")
-# → 'Contact me at [EMAIL] or call [PHONE]'
-
-clean_text("Read more at <a href='https://olaverse.ai'>Olaverse</a>!   ")
-# → 'Read more at Olaverse!'
-```
-
-### 6. Global Constants & Utilities
-```python
-from olaverse.utils.constants import CURRENCIES, CONTINENTS, format_currency
-
-CONTINENTS["AF"]           # → 'Africa'
-CURRENCIES["GBP"]          # → '£'
-format_currency(1500, "$") # → '$1,500.00'
-```
-
----
-
-## Design Philosophy
-
-1. **Unified Interface**: A single, clean library to access all Olaverse NLP, Tokenizer, and Large Language Models.
-2. **Resource-Adaptive**: Keeps local CPU helpers lightweight and fully offline-capable, while offering scalable legal and reasoning GPU wrappers.
-3. **Honest Metrics & Benchmarks**: We believe in sharing open, verifiable performance indicators of our tokenizers and classifiers against global baselines.
-
----
-
-## License
-
-Apache License 2.0. See [LICENSE](LICENSE) for details.
+- **[NLP & Tokenization](https://Olaverse-Labs.github.io/olaverse/nlp/)**: Explore the `Tokenizer`, Language Detection, Diacritization, and PII masking tools.
+- **[Speech Synthesis](https://Olaverse-Labs.github.io/olaverse/speech/)**: Learn how to use the End-to-End `TTSPipeline` and extend it with custom Acoustic models.
+- **[Language Models](https://Olaverse-Labs.github.io/olaverse/llm/)**: Explore how to run large models like `LegalPeace` and the Neural language detector.
+- **[Global Utilities](https://Olaverse-Labs.github.io/olaverse/utils/)**: Check out the built-in generic constants and audio utilities.

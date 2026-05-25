@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olaverse"
-version = "0.1.1"
+version = "0.1.2"
 description = "Advanced ML infrastructure and interface to load and run all Olaverse models"
 readme = "README.md"
 authors = [

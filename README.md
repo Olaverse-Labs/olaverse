@@ -1,13 +1,16 @@
 # Olaverse
 > Advanced ML infrastructure and production-ready interface to load and run all Olaverse models.
 
-[![PyPI Version](https://img.shields.io/badge/pypi-v0.1.0-blue)](https://pypi.org/)
+[![PyPI Version](https://img.shields.io/badge/pypi-v0.1.2-blue)](https://pypi.org/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
 [![Platform](https://img.shields.io/badge/platform-CPU%20&%20GPU-orange)](https://github.com/)
+[![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://Olaverse-Labs.github.io/olaverse/)
 
 Standard NLP tools and model interfaces don't capture local nuances, custom tokenizers, or specific fine-tuned downstream configurations (like contract analysis & legal reasoning). 
 
 **Olaverse** is a unified Python package and developer interface designed to run all Olaverse model families—ranging from lightweight CPU-only local NLP modules to large enterprise-grade legal and reasoning models.
+
+**📚 Full API Documentation is available at [https://Olaverse-Labs.github.io/olaverse/](https://Olaverse-Labs.github.io/olaverse/)**
 
 ---
 

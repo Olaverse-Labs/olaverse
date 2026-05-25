@@ -1,4 +1,5 @@
 from olaverse.nlp.diacritizer import (
+    Diacritizer,
     diacritize_yoruba,
     diacritize_yoruba_dot_below,
     diacritize_igbo
@@ -10,6 +11,7 @@ from olaverse.nlp.tokenizer import Tokenizer
 from olaverse.nlp.normalization import TTSNormalizer
 
 __all__ = [
+    "Diacritizer",
     "diacritize_yoruba",
     "diacritize_yoruba_dot_below",
     "diacritize_igbo",

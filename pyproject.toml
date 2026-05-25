@@ -29,6 +29,10 @@ dev = [
     "jupyter>=1.0.0",
     "scikit-learn>=1.0.0",
 ]
+docs = [
+    "mkdocs-material",
+    "mkdocstrings[python]",
+]
 legal = [
     "unsloth",
 ]

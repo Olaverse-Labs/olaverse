@@ -134,38 +134,25 @@ diacritize_igbo("Kedu ka i mere")
 # → 'Kedụ ka ị mere'
 ```
 
-### 5. Sentiment Analysis
-Analyze sentiment across English and Nigerian languages.
+### 5. Text Preprocessing & Global PII Masking
+Strip HTML tags, clean URLs, and securely mask sensitive global data (Emails, Credit Cards, Social Security Numbers, and Phone Numbers).
 ```python
-from olaverse.nlp import analyze_sentiment
+from olaverse.nlp import mask_pii, clean_text
 
-analyze_sentiment("This film too sweet!")
-# → {'label': 'positive', 'confidence': 0.74}
+mask_pii("Contact me at support@olaverse.co.uk or call +1-800-555-0199")
+# → 'Contact me at [EMAIL] or call [PHONE]'
 
-analyze_sentiment("I no like am at all")
-# → {'label': 'negative', 'confidence': 0.68}
+clean_text("Read more at <a href='https://olaverse.ai'>Olaverse</a>!   ")
+# → 'Read more at Olaverse!'
 ```
 
-### 6. Text Preprocessing & PII Masking
-Strip or mask sensitive data (NIN, BVN, phone numbers) while preserving Pidgin particles like "sha", "sef", "abeg".
+### 6. Global Constants & Utilities
 ```python
-from olaverse.nlp import mask_pii, is_pidgin_particle
+from olaverse.utils.constants import CURRENCIES, CONTINENTS, format_currency
 
-mask_pii("Call me on 08012345678 or my BVN is 22233344455")
-# → 'Call me on [PHONE] or my BVN is [BVN]'
-
-is_pidgin_particle("sha")   # → True
-is_pidgin_particle("sef")   # → True
-```
-
-### 7. Constants & Local Helpers
-```python
-from olaverse.utils.constants import STATES, BANKS, format_naira, get_telco
-
-STATES["Lagos"]              # → 'Ikeja'
-BANKS["Guaranty Trust Bank"]  # → '058'
-format_naira(1500000)        # → '₦1,500,000.00'
-get_telco("08031234567")     # → 'MTN'
+CONTINENTS["AF"]           # → 'Africa'
+CURRENCIES["GBP"]          # → '£'
+format_currency(1500, "$") # → '$1,500.00'
 ```
 
 ---

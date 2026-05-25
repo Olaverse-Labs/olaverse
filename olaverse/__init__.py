@@ -12,7 +12,7 @@ from olaverse.nlp import (
 from olaverse.speech import TTSPipeline, BaseAcousticModel, BaseVocoder
 from olaverse.llm import LegalPeace, LIDNeural5
 
-__version__ = "0.1.2"
+__version__ = "0.1.3"
 
 __all__ = [
     "Tokenizer",

@@ -60,3 +60,9 @@ env/
 # Temporary corpus files
 projects/tokenizers/*_corpus.txt
 projects/tokenizers/temp_corpus_*.txt
+*.pt
+olaverse/models/*.pt
+olaverse/models/*.json
+projects/**/*.json
+projects/**/*.bin
+projects/**/*.safetensors

@@ -66,3 +66,4 @@ olaverse/models/*.json
 projects/**/*.json
 projects/**/*.bin
 projects/**/*.safetensors
+projects/

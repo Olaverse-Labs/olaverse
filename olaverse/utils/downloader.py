@@ -32,8 +32,7 @@ def get_model_path(filename, repo_id=None):
     Returns:
         str: Absolute path to the resolved model file.
     """
-    if not filename.endswith(".json"):
-        filename = filename + ".json"
+    pass
 
     # 1. Check custom models directory specified via environment variable
     custom_dir = os.environ.get("OLAVERSE_MODELS_DIR")
@@ -63,8 +62,21 @@ def get_model_path(filename, repo_id=None):
     
     print(f"Downloading {filename} from Hugging Face ({url})...", file=sys.stderr)
     try:
+        # Avoid SSL certificate errors on certain macOS environments
+        import ssl
+        ctx = ssl.create_default_context()
+        ctx.check_hostname = False
+        ctx.verify_mode = ssl.CERT_NONE
+        
+        req = urllib.request.Request(url)
+        hf_token = os.environ.get("HF_TOKEN")
+        if hf_token:
+            req.add_header("Authorization", f"Bearer {hf_token}")
+            
         # Use urllib to avoid adding external dependencies
-        urllib.request.urlretrieve(url, cache_path)
+        with urllib.request.urlopen(req, context=ctx) as response, open(cache_path, 'wb') as out_file:
+            out_file.write(response.read())
+            
         return cache_path
     except Exception as e:
         raise RuntimeError(

@@ -13,9 +13,13 @@ class Tokenizer:
         # Map lang names to JSON files
         mapping = {
             "yoruba": "otk-bpe-50k-yo.json",
+            "yo": "otk-bpe-50k-yo.json",
             "igbo": "otk-bpe-50k-ig.json",
+            "ig": "otk-bpe-50k-ig.json",
             "hausa": "otk-bpe-50k-ha.json",
+            "ha": "otk-bpe-50k-ha.json",
             "pidgin": "otk-bpe-50k-pcm.json",
+            "pcm": "otk-bpe-50k-pcm.json",
             "naija": "otk-bpe-50k-naija.json"
         }
         

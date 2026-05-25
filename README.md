@@ -13,16 +13,16 @@ Standard NLP tools and model interfaces don't capture local nuances, custom toke
 
 ## Key Features
 
+- **🗣️ Speech Synthesis (TTS)**: End-to-End Text-to-Speech pipelines to translate normalized text and restored tones into high-fidelity audio waveforms.
 - **🏛️ Enterprise Legal AI**: Built-in support and inference pipeline for `olaverse/legal-peace-v1.0` (fine-tuned Mistral-7B for contract analysis and legal reasoning).
 - **🚀 GPU & CPU Optimized**: Lazy-loading and custom CUDA/Unsloth optimization layers for large LLMs alongside hyper-efficient, 100% offline local NLP tools.
-- **📦 Optimized Tokenizers (`OTK-BPE`)**: Custom Byte-Level BPE tokenizers (e.g. `olaverse/otk-bpe-50k`) trained on dedicated Nigerian and African language corpora (up to **63% fewer tokens** compared to GPT-4).
+- **📦 Optimized Tokenizers (`OTK-BPE`)**: Custom Byte-Level BPE tokenizers (e.g. `olaverse/otk-bpe-50k`) trained on dedicated African language corpora (up to **63% fewer tokens** compared to GPT-4).
 - **🗣️ Advanced Diacritic Restoration**:
   - Yoruba Diacritizer (dot-below only): **97.5% character accuracy**.
   - Yoruba Diacritizer (full tonal): **90.0% word accuracy** via Viterbi decoding.
   - Igbo Diacritizer: **95.2% character accuracy**.
-- **🎭 Context-Aware Sentiment Analysis**: Captures sentiment nuances in Pidgin English and regional languages (**72% accuracy**).
-- **🔒 Nigerian-specific PII Masking**: Automatically masks emails, local +234/080 phone formats, BVN, and NIN.
-- **🇳🇬 Robust Language Detection**: Accurately classifies text across 5 languages: Yoruba (`yor`), Hausa (`hau`), Igbo (`ibo`), Pidgin (`pcm`), and English (`eng`) with **98.12% accuracy** (LIDLite5) and **98.96% accuracy** (LIDNeural5).
+- **🔒 Global PII Masking**: Securely masks emails, global phone numbers, social security numbers, and credit cards across text datasets.
+- **🇳🇬 Robust Language Detection**: Accurately classifies text across 5 local languages: Yoruba, Hausa, Igbo, Pidgin, and English with **98.12% accuracy** (LIDLite5) and **98.96% accuracy** (LIDNeural5).
 
 ---
 

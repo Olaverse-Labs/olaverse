@@ -2,9 +2,13 @@ import os
 
 class LegalPeace:
     """
-    Interface for the LegalPeace model family.
-    Base Model: Mistral-7B-v0.3
+    Interface for the LegalPeace model family (Beta).
+    Base Model: Mistral-7B-v0.3 (via unsloth 4-bit quantization).
     Fine-tuned for Contract Analysis & Legal Reasoning.
+
+    Warning:
+        This is a beta model. Outputs should always be reviewed by a qualified legal professional.
+        Not recommended for production use.
     """
     def __init__(self, model_name="olaverse/legal-peace-v1.0", max_seq_length=2048, load_in_4bit=True):
         self.model_name = model_name

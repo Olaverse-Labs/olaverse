@@ -3,8 +3,9 @@ import os
 class LIDNeural5:
     """
     Interface for the LIDNeural5 transformer-based language detection model.
-    Base Model: microsoft/Multilingual-MiniLM-L12-H384
+    Base Model: castorini/afriberta_large (XLM-RoBERTa, 125M parameters)
     Fine-tuned on 5 languages: Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), and English ('eng').
+    Testing Accuracy: 98.96% (Macro validation).
     """
     def __init__(self, model_name="olaverse/lid-neural-5"):
         self.model_name = model_name

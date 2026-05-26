@@ -79,6 +79,7 @@ plugins:
             docstring_style: google
 
 nav:
+  - 🏠 Main Site: https://www.olaverse.co.uk/
   - Home: index.md
   - Core Modules:
     - NLP & Tokenization: nlp.md

@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block footer %}
+<!-- Olaverse Labs branded footer -->
+<footer class="md-footer">
+  <div class="ov-footer-brand">
+    <span>Built by</span>
+    <a href="https://github.com/Olaverse-Labs" target="_blank" class="ov-logo-pill">
+      <!-- Olaverse gradient circle logo (SVG placeholder — swap with real logo) -->
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="11" stroke="white" stroke-width="1.5" opacity="0.6"/>
+        <circle cx="12" cy="12" r="5" fill="white" opacity="0.9"/>
+        <circle cx="12" cy="5"  r="2" fill="white"/>
+        <circle cx="12" cy="19" r="2" fill="white"/>
+        <circle cx="5"  cy="12" r="2" fill="white"/>
+        <circle cx="19" cy="12" r="2" fill="white"/>
+      </svg>
+      Olaverse Labs
+    </a>
+    <span>·</span>
+    <a href="https://Olaverse-Labs.github.io/olaverse/" target="_blank">Documentation</a>
+    <span>·</span>
+    <a href="https://github.com/Olaverse-Labs/olaverse" target="_blank">GitHub</a>
+    <span>·</span>
+    <a href="https://huggingface.co/olaverse" target="_blank">Hugging Face</a>
+  </div>
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid" style="text-align:center; padding: 0.5rem 1rem 0.9rem; color: #6b7280; font-size: 0.75rem;">
+      &copy; 2024 Olaverse Labs &nbsp;·&nbsp; Apache 2.0 License
+    </div>
+  </div>
+</footer>
+{% endblock %}

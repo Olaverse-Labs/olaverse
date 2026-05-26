@@ -1,0 +1,305 @@
+/* =====================================================================
+   Olaverse Docs — Custom Theme
+   Matches olaverse.ai brand: purple/violet gradients, clean dark UI
+   ===================================================================== */
+
+/* ── Google Fonts ──────────────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ── CSS Variables ─────────────────────────────────────────────────── */
+:root {
+  --ov-purple:      #7c3aed;
+  --ov-purple-light:#a855f7;
+  --ov-pink:        #ec4899;
+  --ov-grad:        linear-gradient(135deg, #7c3aed 0%, #a855f7 50%, #ec4899 100%);
+  --ov-grad-text:   linear-gradient(135deg, #a855f7 0%, #ec4899 100%);
+  --ov-radius:      12px;
+}
+
+/* ── Base font ─────────────────────────────────────────────────────── */
+body,
+.md-typeset {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+code, pre, .md-typeset code {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+}
+
+/* ================================================================== */
+/*  LIGHT MODE                                                         */
+/* ================================================================== */
+[data-md-color-scheme="default"] {
+  --md-primary-fg-color:        #7c3aed;
+  --md-primary-fg-color--light: #a855f7;
+  --md-primary-fg-color--dark:  #5b21b6;
+  --md-accent-fg-color:         #a855f7;
+
+  --md-default-bg-color:        #fafafa;
+  --md-default-fg-color:        #111827;
+  --md-default-fg-color--light: #374151;
+
+  /* Sidebar */
+  --md-nav-bg:   #f5f3ff;
+}
+
+/* ================================================================== */
+/*  DARK MODE                                                          */
+/* ================================================================== */
+[data-md-color-scheme="slate"] {
+  --md-primary-fg-color:        #a855f7;
+  --md-primary-fg-color--light: #c084fc;
+  --md-primary-fg-color--dark:  #7c3aed;
+  --md-accent-fg-color:         #c084fc;
+
+  --md-default-bg-color:        #0f0f14;
+  --md-default-fg-color:        #f3f4f6;
+  --md-default-fg-color--light: #d1d5db;
+
+  /* Sidebar */
+  --md-nav-bg:   #18181f;
+
+  /* Code blocks */
+  --md-code-bg-color:           #1a1a2e;
+}
+
+/* ── Header ────────────────────────────────────────────────────────── */
+.md-header {
+  background: var(--ov-grad) !important;
+  box-shadow: 0 2px 20px rgba(124, 58, 237, 0.35) !important;
+}
+
+.md-header__title {
+  font-weight: 700;
+  letter-spacing: -0.3px;
+  font-size: 1.05rem;
+}
+
+.md-header__button.md-logo img,
+.md-header__button.md-logo svg {
+  height: 2rem;
+  filter: brightness(0) invert(1);  /* makes logo white on gradient header */
+}
+
+/* Search bar */
+.md-search__form {
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.15) !important;
+  backdrop-filter: blur(8px);
+}
+
+.md-search__input {
+  color: #fff !important;
+}
+.md-search__input::placeholder {
+  color: rgba(255,255,255,0.65) !important;
+}
+
+/* ── Navigation sidebar ────────────────────────────────────────────── */
+.md-sidebar {
+  background: var(--md-nav-bg) !important;
+}
+
+.md-nav__title {
+  font-weight: 700;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ov-purple-light) !important;
+}
+
+.md-nav__link--active,
+.md-nav__link:focus,
+.md-nav__link:hover {
+  color: var(--ov-purple-light) !important;
+}
+
+/* Active nav item pill */
+.md-nav__link--active {
+  font-weight: 600;
+  position: relative;
+}
+
+/* ── Hero section (index page) ─────────────────────────────────────── */
+.ov-hero {
+  text-align: center;
+  padding: 3.5rem 1rem 2.5rem;
+  background: linear-gradient(160deg, #f5f3ff 0%, #fce7f3 100%);
+  border-radius: var(--ov-radius);
+  margin-bottom: 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+[data-md-color-scheme="slate"] .ov-hero {
+  background: linear-gradient(160deg, #1a1030 0%, #1a0a2e 100%);
+}
+
+.ov-hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(168,85,247,0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+/* ── Content area ──────────────────────────────────────────────────── */
+.md-content__inner {
+  max-width: 860px;
+}
+
+/* Page headings */
+.md-typeset h1 {
+  font-weight: 800;
+  font-size: 2rem;
+  letter-spacing: -0.5px;
+  background: var(--ov-grad-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.md-typeset h2 {
+  font-weight: 700;
+  font-size: 1.35rem;
+  border-bottom: 2px solid;
+  border-image: var(--ov-grad) 1;
+  padding-bottom: 0.3rem;
+  margin-top: 2.2rem;
+}
+
+.md-typeset h3 {
+  font-weight: 600;
+  color: var(--ov-purple-light);
+}
+
+/* ── Inline code ───────────────────────────────────────────────────── */
+.md-typeset code:not(pre code) {
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+  border-radius: 5px;
+  padding: 0.15em 0.45em;
+  font-size: 0.85em;
+}
+
+[data-md-color-scheme="slate"] .md-typeset code:not(pre code) {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+}
+
+/* ── Code blocks ───────────────────────────────────────────────────── */
+.md-typeset pre {
+  border-radius: var(--ov-radius) !important;
+  border-left: 3px solid var(--ov-purple) !important;
+}
+
+.md-typeset pre > code {
+  font-size: 0.86rem;
+}
+
+/* ── Admonitions (warning, note etc.) ─────────────────────────────── */
+.md-typeset .admonition,
+.md-typeset details {
+  border-radius: var(--ov-radius) !important;
+  border-left-width: 4px !important;
+}
+
+.md-typeset .admonition.warning {
+  border-left-color: #f59e0b !important;
+}
+
+/* ── Tables ────────────────────────────────────────────────────────── */
+.md-typeset table:not([class]) {
+  border-radius: var(--ov-radius);
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.md-typeset table:not([class]) th {
+  background: var(--ov-grad);
+  color: #fff !important;
+  font-weight: 600;
+}
+
+.md-typeset table:not([class]) tr:nth-child(even) {
+  background: rgba(124, 58, 237, 0.04);
+}
+
+/* ── Buttons / badges ──────────────────────────────────────────────── */
+.md-typeset .md-button {
+  border-radius: 999px !important;
+  font-weight: 600;
+  background: var(--ov-grad);
+  color: #fff !important;
+  border: none !important;
+  padding: 0.55em 1.6em;
+  transition: opacity 0.2s;
+}
+
+.md-typeset .md-button:hover {
+  opacity: 0.85;
+}
+
+/* ── Footer ────────────────────────────────────────────────────────── */
+.md-footer {
+  background: #0f0f14 !important;
+  border-top: 1px solid rgba(124, 58, 237, 0.25);
+}
+
+.md-footer-meta {
+  background: #0f0f14 !important;
+}
+
+/* Built-by badge */
+.ov-footer-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.2rem 1rem 0.8rem;
+  font-size: 0.82rem;
+  color: #9ca3af;
+  font-family: 'Inter', sans-serif;
+}
+
+.ov-footer-brand a {
+  color: #c084fc;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+.ov-footer-brand a:hover {
+  color: #fff;
+}
+
+.ov-footer-brand .ov-logo-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--ov-grad);
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem 0.18rem 0.3rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+.ov-footer-brand .ov-logo-pill svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.35);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.65);
+}
+
+/* ── Smooth transitions ─────────────────────────────────────────────── */
+* { transition: background-color 0.2s, color 0.2s, border-color 0.2s; }

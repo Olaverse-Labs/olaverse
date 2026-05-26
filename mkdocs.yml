@@ -2,22 +2,68 @@ site_name: Olaverse
 site_description: Advanced ML infrastructure and interface for Olaverse models
 site_url: https://olaverse-labs.github.io/olaverse/
 repo_url: https://github.com/Olaverse-Labs/olaverse
+repo_name: Olaverse-Labs/olaverse
 
 theme:
   name: material
+  custom_dir: docs/overrides
+  logo: assets/logo.png        # drop your logo here when ready
+  favicon: assets/logo.png
+
+  font:
+    text: Inter
+    code: JetBrains Mono
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.instant
+    - navigation.footer
+    - search.highlight
+    - search.suggest
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+
   palette:
-    # Palette toggle for light mode
+    # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
+      primary: deep purple
+      accent: purple
       toggle:
-        icon: material/brightness-7
+        icon: material/weather-sunny
         name: Switch to dark mode
-    # Palette toggle for dark mode
+
+    # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: deep purple
+      accent: purple
       toggle:
-        icon: material/brightness-4
+        icon: material/weather-night
         name: Switch to light mode
+
+  icon:
+    repo: fontawesome/brands/github
+
+extra_css:
+  - stylesheets/extra.css
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Olaverse-Labs
+      name: Olaverse Labs on GitHub
+    - icon: simple/huggingface
+      link: https://huggingface.co/olaverse
+      name: Olaverse on Hugging Face
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/olaverse/
+      name: olaverse on PyPI
+
+  generator: false   # hides "Made with MkDocs Material" in footer
 
 plugins:
   - search
@@ -28,6 +74,9 @@ plugins:
           options:
             show_source: false
             show_root_heading: true
+            show_category_heading: true
+            members_order: source
+            docstring_style: google
 
 nav:
   - Home: index.md

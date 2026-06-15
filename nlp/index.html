@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Advanced ML infrastructure and interface for Olaverse models">
+        <meta name="description" content="African NLP, MIST language models, and Text-to-Speech architecture — one Python SDK">
       
       
       
@@ -16,7 +16,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="../speech/">
+        <link rel="next" href="../llm/">
       
       
         
@@ -37,6 +37,26 @@
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
+  
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+    
+      
+      
+    
+  
+  
+  <style>:root{--md-admonition-icon--warning:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M6.457%201.047c.659-1.234%202.427-1.234%203.086%200l6.082%2011.378A1.75%201.75%200%200%201%2014.082%2015H1.918a1.75%201.75%200%200%201-1.543-2.575Zm1.763.707a.25.25%200%200%200-.44%200L1.698%2013.132a.25.25%200%200%200%20.22.368h12.164a.25.25%200%200%200%20.22-.368Zm.53%203.996v2.5a.75.75%200%200%201-1.5%200v-2.5a.75.75%200%200%201%201.5%200M9%2011a1%201%200%201%201-2%200%201%201%200%200%201%202%200%22/%3E%3C/svg%3E');--md-admonition-icon--tip:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M8%201.5c-2.363%200-4%201.69-4%203.75%200%20.984.424%201.625.984%202.304l.214.253c.223.264.47.556.673.848.284.411.537.896.621%201.49a.75.75%200%200%201-1.484.211c-.04-.282-.163-.547-.37-.847a9%209%200%200%200-.542-.68q-.126-.149-.268-.32C3.201%207.75%202.5%206.766%202.5%205.25%202.5%202.31%204.863%200%208%200s5.5%202.31%205.5%205.25c0%201.516-.701%202.5-1.328%203.259q-.142.172-.268.319c-.207.245-.383.453-.541.681-.208.3-.33.565-.37.847a.751.751%200%200%201-1.485-.212c.084-.593.337-1.078.621-1.489.203-.292.45-.584.673-.848q.113-.133.213-.253c.561-.679.985-1.32.985-2.304%200-2.06-1.637-3.75-4-3.75M5.75%2012h4.5a.75.75%200%200%201%200%201.5h-4.5a.75.75%200%200%201%200-1.5M6%2015.25a.75.75%200%200%201%20.75-.75h2.5a.75.75%200%200%201%200%201.5h-2.5a.75.75%200%200%201-.75-.75%22/%3E%3C/svg%3E');--md-admonition-icon--note:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2016%2016%22%3E%3Cpath%20d%3D%22M0%208a8%208%200%201%201%2016%200A8%208%200%200%201%200%208m8-6.5a6.5%206.5%200%201%200%200%2013%206.5%206.5%200%200%200%200-13M6.5%207.75A.75.75%200%200%201%207.25%207h1a.75.75%200%200%201%20.75.75v2.75h.25a.75.75%200%200%201%200%201.5h-2a.75.75%200%200%201%200-1.5h.25v-2h-.25a.75.75%200%200%201-.75-.75M8%206a1%201%200%201%201%200-2%201%201%200%200%201%200%202%22/%3E%3C/svg%3E');}</style>
+
 
 
     
@@ -90,6 +110,10 @@
     <div data-md-component="announce">
       
     </div>
+    
+      <div data-md-color-scheme="default" data-md-component="outdated" hidden>
+        
+      </div>
     
     
       
@@ -171,6 +195,11 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
       </label>
       <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
         
         <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
           
@@ -267,18 +296,93 @@
     
   
   
-    
-    
-      <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
-          
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
   
   
-  Core Modules
+    
+  
+  NLP & Tokenization
 
-        </a>
-      </li>
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../llm/" class="md-tabs__link">
+        
+  
+  
     
+  
+  Language Models
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../speech/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Speech (Roadmap)
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../utils/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Utilities
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../changelog/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Changelog
+
+      </a>
+    </li>
   
 
       
@@ -388,63 +492,6 @@
   
   
   
-    
-    
-    
-    
-      
-        
-        
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
-        
-          
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Core Modules
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Core Modules
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-    
-  
-  
-  
     <li class="md-nav__item md-nav__item--active">
       
       <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
@@ -504,117 +551,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#text-preprocessing-cleaning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Text Preprocessing &amp; Cleaning
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.clean_text" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        clean_text
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#global-pii-masking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Global PII Masking
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.mask_pii" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        mask_pii
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#text-normalization-tts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Text Normalization (TTS)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TTSNormalizer
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="TTSNormalizer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer.expand_numbers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        expand_numbers
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer.normalize" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        normalize
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#language-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -627,21 +563,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lidlite5-lightweight-zero-dependency" class="md-nav__link">
+  <a href="#lidlite5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LIDLite5 — Lightweight (Zero-dependency)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#detect_language-quick-one-liner" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_language — Quick one-liner
+        LIDLite5
       
     </span>
   </a>
@@ -650,17 +575,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.detect_language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_language
-      
-    </span>
-  </a>
   
 </li>
       
@@ -721,6 +635,140 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#olaverse.nlp.detect_language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_language
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="detect_language">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lidneural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LIDNeural5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batch-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LIDNeural5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_proba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_proba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_proba_batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_proba_batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#diacritization" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -733,10 +781,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#yoruba-diacritizer" class="md-nav__link">
+  <a href="#available-models" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Yoruba Diacritizer
+        Available Models
       
     </span>
   </a>
@@ -744,13 +792,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#igbo-diacritizer" class="md-nav__link">
+  <a href="#quick-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Igbo Diacritizer
+        Quick Functions
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unified-diacritizer-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unified Diacritizer Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Unified Diacritizer Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-routing-modelauto-new-in-v014" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-routing (model="auto") — New in v0.1.4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -768,6 +844,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Diacritizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.Diacritizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.Diacritizer.restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -775,6 +885,17 @@
     <span class="md-ellipsis">
       
         diacritize_yoruba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.diacritize_yoruba_dot_below" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacritize_yoruba_dot_below
       
     </span>
   </a>
@@ -800,6 +921,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Tokenization — OTK-BPE-50k">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-otk-bpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OTK-BPE?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -859,6 +1008,268 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#text-normalization-tts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Normalization (TTS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TTSNormalizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TTSNormalizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.expand_abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expand_abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.expand_numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expand_numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.normalize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nigerian-pidgin-normalization-naijanormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nigerian Pidgin Normalization — NaijaNormalizer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NaijaNormalizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NaijaNormalizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer.normalize_informal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize_informal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer.normalize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stopwords
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stopwords">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-with-scikit-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using with scikit-learn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#text-preprocessing-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Preprocessing &amp; Cleaning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Text Preprocessing &amp; Cleaning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pii-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PII Masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.mask_pii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mask_pii
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="mask_pii">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Cleaning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.clean_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clean_text
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -866,38 +1277,9 @@
     </li>
   
 
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../speech/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
     
-  
-    Speech Synthesis
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
+      
+      
   
   
   
@@ -922,10 +1304,36 @@
     </li>
   
 
-              
-            
-              
-                
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../speech/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Speech (Roadmap)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
   
   
   
@@ -938,7 +1346,7 @@
   <span class="md-ellipsis">
     
   
-    Global Utilities
+    Utilities
   
 
     
@@ -950,11 +1358,30 @@
     </li>
   
 
-              
-            
-          </ul>
-        </nav>
+    
       
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../changelog/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -986,117 +1413,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#text-preprocessing-cleaning" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Text Preprocessing &amp; Cleaning
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.clean_text" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        clean_text
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#global-pii-masking" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Global PII Masking
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.mask_pii" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        mask_pii
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#text-normalization-tts" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Text Normalization (TTS)
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        TTSNormalizer
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="TTSNormalizer">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer-functions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Functions
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Functions">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer.expand_numbers" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        expand_numbers
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#olaverse.nlp.TTSNormalizer.normalize" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        normalize
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#language-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1109,21 +1425,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lidlite5-lightweight-zero-dependency" class="md-nav__link">
+  <a href="#lidlite5" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LIDLite5 — Lightweight (Zero-dependency)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#detect_language-quick-one-liner" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_language — Quick one-liner
+        LIDLite5
       
     </span>
   </a>
@@ -1132,17 +1437,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.nlp.detect_language" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        detect_language
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1203,6 +1497,140 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#olaverse.nlp.detect_language" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        detect_language
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="detect_language">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#lidneural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LIDNeural5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#batch-inference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Batch Inference
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LIDNeural5">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.load" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_proba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_proba
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_proba_batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_proba_batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.LIDNeural5.predict_batch" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        predict_batch
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#diacritization" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1215,10 +1643,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#yoruba-diacritizer" class="md-nav__link">
+  <a href="#available-models" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Yoruba Diacritizer
+        Available Models
       
     </span>
   </a>
@@ -1226,13 +1654,41 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#igbo-diacritizer" class="md-nav__link">
+  <a href="#quick-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Igbo Diacritizer
+        Quick Functions
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#unified-diacritizer-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Unified Diacritizer Class
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Unified Diacritizer Class">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto-routing-modelauto-new-in-v014" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Auto-routing (model="auto") — New in v0.1.4
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -1250,6 +1706,40 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Diacritizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.Diacritizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.Diacritizer.restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -1257,6 +1747,17 @@
     <span class="md-ellipsis">
       
         diacritize_yoruba
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.diacritize_yoruba_dot_below" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacritize_yoruba_dot_below
       
     </span>
   </a>
@@ -1282,6 +1783,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Tokenization — OTK-BPE-50k">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#why-otk-bpe" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why OTK-BPE?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1341,6 +1870,268 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#text-normalization-tts" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Normalization (TTS)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TTSNormalizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TTSNormalizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.expand_abbreviations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expand_abbreviations
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.expand_numbers" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        expand_numbers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.TTSNormalizer.normalize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#nigerian-pidgin-normalization-naijanormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Nigerian Pidgin Normalization — NaijaNormalizer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        NaijaNormalizer
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="NaijaNormalizer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Functions
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Functions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer.normalize_informal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize_informal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#olaverse.nlp.NaijaNormalizer.normalize" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        normalize
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#stopwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stopwords
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Stopwords">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Sets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#using-with-scikit-learn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using with scikit-learn
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#text-preprocessing-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Preprocessing &amp; Cleaning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Text Preprocessing &amp; Cleaning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#pii-masking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PII Masking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.mask_pii" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        mask_pii
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="mask_pii">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#text-cleaning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Text Cleaning
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.nlp.clean_text" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        clean_text
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -1362,248 +2153,71 @@
 
 
 <h1 id="nlp-tokenization">NLP &amp; Tokenization</h1>
-<p>The <code>olaverse.nlp</code> module provides tools for text manipulation, optimized tokenization, speech-ready normalization, diacritization for African languages, and PII masking.</p>
+<p>The <code>olaverse.nlp</code> module is the core of the SDK — production-ready tools for African language text processing, detection, diacritization, tokenization, and preprocessing.</p>
+<pre><code class="language-bash">pip install olaverse          # all NLP tools included (no GPU required)
+pip install olaverse[deeplearning]  # adds LIDNeural5 neural detection
+</code></pre>
 <hr />
-<h2 id="text-preprocessing-cleaning">Text Preprocessing &amp; Cleaning</h2>
-<p>Utilities to strip HTML markup, clean up whitespace, and remove URLs from raw text.</p>
-<pre><code class="language-python">from olaverse.nlp import clean_text
-
-clean_text(&quot;Read more at &lt;a href='https://olaverse.ai'&gt;Olaverse&lt;/a&gt;!   &quot;)
-# → 'Read more at Olaverse!'
-</code></pre>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.nlp.clean_text" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">olaverse</span><span class="o">.</span><span class="n">nlp</span><span class="o">.</span><span class="n">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">remove_urls</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">remove_html</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents first">
-
-        <p>General text cleaning utility.
-Strips extra whitespaces, and optionally removes URLs and HTML tags.</p>
-
-
-    </div>
-
-</div><hr />
-<h2 id="global-pii-masking">Global PII Masking</h2>
-<p>Securely redacts sensitive personal identifiers — emails, global phone numbers, credit card numbers, and social security numbers — from any text.</p>
-<pre><code class="language-python">from olaverse.nlp import mask_pii
-
-mask_pii(&quot;Contact me at support@olaverse.co.uk or call +1-800-555-0199&quot;)
-# → 'Contact me at [EMAIL] or call [PHONE]'
-
-mask_pii(&quot;My card is 4111-1111-1111-1111 and SSN 123-45-6789&quot;)
-# → 'My card is [CREDIT_CARD] and SSN [SSN]'
-</code></pre>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.nlp.mask_pii" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">olaverse</span><span class="o">.</span><span class="n">nlp</span><span class="o">.</span><span class="n">mask_pii</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents first">
-
-        <p>Mask general Personally Identifiable Information (PII) globally.
-Replaces Emails, Credit Cards, Social Security Numbers (SSN), and Phone numbers.</p>
-
-
-    </div>
-
-</div><hr />
-<h2 id="text-normalization-tts">Text Normalization (TTS)</h2>
-<p><code>TTSNormalizer</code> converts raw text into a form suitable for speech synthesis — expanding numbers, currencies, abbreviations, and date formats into their spoken equivalents.</p>
-<pre><code class="language-python">from olaverse.nlp import TTSNormalizer
-
-norm = TTSNormalizer()
-print(norm.normalize(&quot;She paid $1,200.50 on 12/25/2023&quot;))
-# → 'She paid one thousand two hundred dollars and fifty cents on December twenty-fifth twenty twenty-three'
-</code></pre>
-
-
-<div class="doc doc-object doc-class">
-
-
-
-<h2 id="olaverse.nlp.TTSNormalizer" class="doc doc-heading">
-            <code>olaverse.nlp.TTSNormalizer</code>
-
-
-</h2>
-
-
-    <div class="doc doc-contents first">
-
-
-
-        <p>Normalizes text for TTS processing by expanding numbers, symbols, and abbreviations
-into full phonetic/spoken words based on the target language.</p>
-
-
-
-
-
-
-
-
-
-
-
-<div class="doc doc-children">
-
-
-
-
-
-
-
-
-<h3 id="olaverse.nlp.TTSNormalizer-functions">Functions</h3>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="olaverse.nlp.TTSNormalizer.expand_numbers" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">expand_numbers</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-
-</h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Expands digits into spoken words.
-Currently implements a basic digit-by-digit reading as a fallback.
-Can be extended to handle full localized number expansion logic.</p>
-
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h4 id="olaverse.nlp.TTSNormalizer.normalize" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
-
-</h4>
-
-
-    <div class="doc doc-contents ">
-
-        <p>Applies all TTS normalization pipelines sequentially.</p>
-
-
-    </div>
-
-</div>
-
-
-
-  </div>
-
-    </div>
-
-</div><hr />
 <h2 id="language-detection">Language Detection</h2>
-<h3 id="lidlite5-lightweight-zero-dependency">LIDLite5 — Lightweight (Zero-dependency)</h3>
-<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-lite-5">olaverse/lid-lite-5</a></p>
-<p><code>LIDLite5</code> uses a custom TF-IDF (unigram + bigram) feature extractor with a Logistic Regression classifier. The entire model is a single ~1.1 MB JSON file. No deep learning required.</p>
-<table>
-<thead>
-<tr>
-<th>Property</th>
-<th>Value</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>Model Type</td>
-<td>TF-IDF + Logistic Regression</td>
-</tr>
-<tr>
-<td>Vocabulary</td>
-<td>5,000 top n-gram terms</td>
-</tr>
-<tr>
-<td>File Size</td>
-<td>1.10 MB</td>
-</tr>
-<tr>
-<td>Accuracy</td>
-<td><strong>98.12%</strong> (Macro)</td>
-</tr>
-<tr>
-<td>Latency</td>
-<td><strong>0.014 ms/sentence</strong></td>
-</tr>
-<tr>
-<td>Dependencies</td>
-<td>Pure Python + NumPy</td>
-</tr>
-</tbody>
-</table>
-<pre><code class="language-bash">pip install olaverse  # no extra dependencies needed
-</code></pre>
-<pre><code class="language-python">from olaverse import LIDLite5
+<p>Two models cover the same 5 languages at very different scales. Pick based on your latency and accuracy requirements.</p>
+<div class="ov-compare-grid">
 
-detector = LIDLite5()
+<div class="ov-compare-card">
+  <div class="ov-compare-title">LIDLite5 — Lightweight</div>
+  <div class="ov-compare-badge ov-badge-green">Zero GPU · Instant</div>
+  <ul>
+    <li><strong>1.1 MB</strong> JSON model</li>
+    <li><strong>0.014 ms</strong> per sentence</li>
+    <li><strong>98.12%</strong> macro accuracy</li>
+    <li>TF-IDF + Logistic Regression</li>
+    <li>Pure Python — no torch, no transformers</li>
+  </ul>
+</div>
 
-# Predict dominant language
-lang = detector.predict(&quot;Bawo ni, se daadaa ni?&quot;)
-print(lang)  # → 'yor'
-
-# Get confidence scores across all 5 classes
-probs = detector.predict_proba(&quot;How far, wetin dey happen?&quot;)
-print(probs)
-# → {'eng': 0.006, 'hau': 0.001, 'ibo': 0.002, 'pcm': 0.989, 'yor': 0.002}
-</code></pre>
-<h3 id="detect_language-quick-one-liner">detect_language — Quick one-liner</h3>
-<pre><code class="language-python">from olaverse.nlp import detect_language
-
-detect_language(&quot;E kaaro, bawo ni?&quot;)  # → 'yor'
-</code></pre>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.nlp.detect_language" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">olaverse</span><span class="o">.</span><span class="n">nlp</span><span class="o">.</span><span class="n">detect_language</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span></code>
-
-</h2>
-
-
-    <div class="doc doc-contents first">
-
-        <p>Detect the language of the given text using LIDLite5.
-Returns: 'yor' (Yoruba), 'hau' (Hausa), 'ibo' (Igbo), 'pcm' (Pidgin), or 'eng' (English).</p>
-
-
-    </div>
+<div class="ov-compare-card">
+  <div class="ov-compare-title">LIDNeural5 — Neural</div>
+  <div class="ov-compare-badge ov-badge-purple">GPU Recommended</div>
+  <ul>
+    <li><strong>484 MB</strong> — XLM-RoBERTa 125M</li>
+    <li><strong>13.3 ms</strong> per sentence (CPU/GPU)</li>
+    <li><strong>98.96%</strong> macro accuracy</li>
+    <li>Fine-tuned on castorini/afriberta_large</li>
+    <li>Requires <code>olaverse[deeplearning]</code></li>
+  </ul>
+</div>
 
 </div>
+
+<h3 id="lidlite5">LIDLite5</h3>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-lite-5">olaverse/lid-lite-5</a></p>
+<pre><code class="language-python">from olaverse import LIDLite5, detect_language
+
+# Class interface
+detector = LIDLite5()
+detector.predict(&quot;Bawo ni, se daadaa ni?&quot;)      # → 'yor'
+detector.predict(&quot;Sannu, yaya kake?&quot;)            # → 'hau'
+detector.predict(&quot;How far, wetin dey happen?&quot;)   # → 'pcm'
+
+# Probability distribution over all 5 classes
+detector.predict_proba(&quot;Kedu, ọ dị mma?&quot;)
+# → {'eng': 0.002, 'hau': 0.001, 'ibo': 0.993, 'pcm': 0.003, 'yor': 0.001}
+
+# Quick one-liner
+detect_language(&quot;E kaaro, bawo ni?&quot;)             # → 'yor'
+</code></pre>
+
 
 <div class="doc doc-object doc-class">
 
 
 
 <h2 id="olaverse.nlp.LIDLite5" class="doc doc-heading">
-            <code>olaverse.nlp.LIDLite5</code>
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.LIDLite5</span>
 
 
 </h2>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">LIDLite5</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -1637,10 +2251,12 @@ Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), and English ('eng')
 
 
 <h4 id="olaverse.nlp.LIDLite5.predict" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">predict</span>
+
 
 </h4>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -1656,10 +2272,12 @@ Returns: 'yor', 'hau', 'ibo', 'pcm', or 'eng'.</p>
 
 
 <h4 id="olaverse.nlp.LIDLite5.predict_proba" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">predict_proba</span>
+
 
 </h4>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -1676,73 +2294,130 @@ Returns: 'yor', 'hau', 'ibo', 'pcm', or 'eng'.</p>
 
     </div>
 
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.nlp.detect_language" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.detect_language</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">detect_language</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Detect the language of the given text using LIDLite5.
+Returns: 'yor' (Yoruba), 'hau' (Hausa), 'ibo' (Igbo), 'pcm' (Pidgin), or 'eng' (English).</p>
+
+
+    </div>
+
 </div><hr />
-<h2 id="diacritization">Diacritization</h2>
-<h3 id="yoruba-diacritizer">Yoruba Diacritizer</h3>
-<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/diacnet-yor">olaverse/diacnet-yor</a> · <a href="https://huggingface.co/olaverse/diacnet-yor-x">olaverse/diacnet-yor-x</a></p>
-<p>Two complementary Yoruba diacritization models are available:</p>
+<h3 id="lidneural5">LIDNeural5</h3>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-neural-5">olaverse/lid-neural-5</a></p>
+<pre><code class="language-bash">pip install olaverse[deeplearning]
+</code></pre>
+<pre><code class="language-python">from olaverse import LIDNeural5
+
+detector = LIDNeural5()
+detector.load()  # downloads once from Hugging Face, cached after first run
+
+detector.predict(&quot;Kedu ka ị mere today?&quot;)        # → 'ibo'
+detector.predict(&quot;Ẹ káàárọ̀, ẹ káàbọ̀&quot;)        # → 'yor'
+
+probs = detector.predict_proba(&quot;How far, wetin dey happen?&quot;)
+# → {'pcm': 0.991, 'eng': 0.006, 'ibo': 0.001, 'hau': 0.001, 'yor': 0.001}
+</code></pre>
+<h4 id="batch-inference">Batch Inference</h4>
+<p><code>predict_batch</code> and <code>predict_proba_batch</code> run a <strong>single batched forward pass</strong> — much faster than calling <code>predict()</code> in a loop over a dataset.</p>
+<pre><code class="language-python">texts = [&quot;Bawo ni?&quot;, &quot;Kedu ọ dị?&quot;, &quot;How far?&quot;, &quot;Sannu dai.&quot;]
+
+# Returns a list of predicted language codes
+langs = detector.predict_batch(texts)
+# → ['yor', 'ibo', 'pcm', 'hau']
+
+# Returns a list of probability dicts — one per input
+probs = detector.predict_proba_batch([&quot;Bawo ni?&quot;, &quot;Kedu?&quot;])
+# → [
+#     {'yor': 0.991, 'eng': 0.005, ...},
+#     {'ibo': 0.987, 'eng': 0.008, ...},
+#   ]
+</code></pre>
+<p><strong>Per-language accuracy:</strong></p>
 <table>
 <thead>
 <tr>
-<th>Model</th>
-<th>Architecture</th>
-<th>Word Accuracy</th>
-<th>Character Accuracy</th>
-<th>Size</th>
+<th>Language</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1-Score</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>diacnet-yor</code> (dot-below only)</td>
-<td>BiLSTM</td>
-<td>—</td>
-<td>93.35% char</td>
-<td>2.4 MB</td>
+<td>Yoruba (<code>yor</code>)</td>
+<td>99.60%</td>
+<td>99.60%</td>
+<td>99.60%</td>
 </tr>
 <tr>
-<td><code>diacnet-yor-x</code> (full tonal + dot-below)</td>
-<td>AfriBERTa Transformer</td>
-<td>82.46%</td>
-<td>—</td>
-<td>503 MB</td>
+<td>Hausa (<code>hau</code>)</td>
+<td>99.60%</td>
+<td>99.20%</td>
+<td>99.40%</td>
+</tr>
+<tr>
+<td>Igbo (<code>ibo</code>)</td>
+<td>98.79%</td>
+<td>98.20%</td>
+<td>98.50%</td>
+</tr>
+<tr>
+<td>Nigerian Pidgin (<code>pcm</code>)</td>
+<td>99.20%</td>
+<td>98.80%</td>
+<td>99.00%</td>
+</tr>
+<tr>
+<td>English (<code>eng</code>)</td>
+<td>97.63%</td>
+<td>99.00%</td>
+<td>98.31%</td>
+</tr>
+<tr>
+<td><strong>Overall (Macro)</strong></td>
+<td></td>
+<td></td>
+<td><strong>98.96%</strong></td>
 </tr>
 </tbody>
 </table>
-<p>The <code>Diacritizer</code> class uses a <strong>Viterbi decoding</strong> approach on top of the transformer model for full tonal restoration, achieving <strong>90.0% word accuracy</strong> on evaluation sets.</p>
-<pre><code class="language-python">from olaverse.nlp import diacritize_yoruba, diacritize_yoruba_dot_below
-
-# Full tonal diacritics (uses diacnet-yor-x with Viterbi decoding)
-diacritize_yoruba(&quot;Ojo lo si oja lana&quot;)
-# → 'Ọjọ́ ló sí ọjà lànà'
-
-# Dot-below only (fast, uses diacnet-yor BiLSTM)
-diacritize_yoruba_dot_below(&quot;Ojo lo si oja&quot;)
-# → 'Ọjọ lo si ọja'
-</code></pre>
-<h3 id="igbo-diacritizer">Igbo Diacritizer</h3>
-<pre><code class="language-python">from olaverse.nlp import diacritize_igbo
-
-diacritize_igbo(&quot;Kedu ka i mere&quot;)
-# → 'Kedụ ka ị mere'
-</code></pre>
 
 
 <div class="doc doc-object doc-class">
 
 
 
-<h2 id="olaverse.nlp.Diacritizer" class="doc doc-heading">
-            <code>olaverse.nlp.Diacritizer</code>
+<h2 id="olaverse.nlp.LIDNeural5" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.LIDNeural5</span>
 
 
 </h2>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">LIDNeural5</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;olaverse/lid-neural-5&#39;</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents first">
 
 
 
-        <p>Unified interface for restoring diacritics in African languages using model IDs.</p>
+        <p>High-accuracy transformer-based language identifier for 5 Nigerian languages.</p>
+<p>Base Model: castorini/afriberta_large (XLM-RoBERTa, 125M parameters)
+Fine-tuned on: Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), English ('eng')
+Validation accuracy: 98.96% macro-F1</p>
+<p>Requires: pip install olaverse[deeplearning]</p>
 
 
 
@@ -1763,7 +2438,535 @@ diacritize_igbo(&quot;Kedu ka i mere&quot;)
 
 
 
+<h3 id="olaverse.nlp.LIDNeural5-functions">Functions</h3>
 
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.LIDNeural5.load" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">load</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load</span><span class="p">()</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Download and load the model from Hugging Face (runs once; cached after first call).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.LIDNeural5.predict_proba" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">predict_proba</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Return probability distribution over all 5 languages.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>dict</code></td>            <td>
+                  <code><span title="dict">dict</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>{'eng': 0.02, 'hau': 0.01, 'ibo': 0.95, 'pcm': 0.01, 'yor': 0.01}</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.LIDNeural5.predict" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">predict</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Predict the dominant language of the text.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+<th>Name</th>          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+<td><code>str</code></td>            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>One of 'yor', 'hau', 'ibo', 'pcm', 'eng'.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.LIDNeural5.predict_proba_batch" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">predict_proba_batch</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict_proba_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Predict language probabilities for a list of texts in a single forward pass.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>texts</code>
+            </td>
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of text strings.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of dicts, one per input text:</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>[{'eng': 0.02, 'ibo': 0.95, ...}, ...]</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.LIDNeural5.predict_batch" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">predict_batch</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">predict_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Predict the dominant language for a list of texts.</p>
+<p>Uses a single batched forward pass — much faster than calling
+<code>predict()</code> in a loop for large inputs.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>texts</code>
+            </td>
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of text strings.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>List of language codes, e.g. <code>['yor', 'ibo', 'pcm']</code>.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+<h2 id="diacritization">Diacritization</h2>
+<p>DiacNet restores tones and diacritical marks stripped from Yoruba and Igbo text — the critical front-end step for TTS, language learning, and NLP accuracy.</p>
+<h3 id="available-models">Available Models</h3>
+<table>
+<thead>
+<tr>
+<th>Model ID</th>
+<th>Language</th>
+<th>Method</th>
+<th>Speed</th>
+<th>Accuracy</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diacnet-yor-viterbi</code></td>
+<td>Yoruba</td>
+<td>Viterbi n-gram</td>
+<td>⚡ Fast</td>
+<td>Good</td>
+<td>~7 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-yor-db</code></td>
+<td>Yoruba (dot-below only)</td>
+<td>KNN backoff</td>
+<td>⚡ Fast</td>
+<td>Dot-below focused</td>
+<td>~2 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-yor</code></td>
+<td>Yoruba</td>
+<td>BiLSTM</td>
+<td>Medium</td>
+<td>93.35% char</td>
+<td>2.4 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-yor-x</code></td>
+<td>Yoruba (full)</td>
+<td>XLM-RoBERTa</td>
+<td>Slow</td>
+<td>82.46% word</td>
+<td>503 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-ig</code></td>
+<td>Igbo</td>
+<td>KNN backoff</td>
+<td>⚡ Fast</td>
+<td>Good</td>
+<td>~3 MB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="quick-functions">Quick Functions</h3>
+<pre><code class="language-python">from olaverse import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_igbo
+
+# Yoruba — full tonal diacritics (Viterbi, fast)
+diacritize_yoruba(&quot;Ojo lo si oja lana&quot;)
+# → 'Ọjọ́ ló sí ọjà lànà'
+
+# Yoruba — dot-below vowels only (KNN)
+diacritize_yoruba_dot_below(&quot;Ojo lo si oja&quot;)
+# → 'Ọjọ lo si ọja'
+
+# Igbo
+diacritize_igbo(&quot;Kedu ka i mere&quot;)
+# → 'Kedụ ka ị mere'
+</code></pre>
+<h3 id="unified-diacritizer-class">Unified Diacritizer Class</h3>
+<p>Use <code>Diacritizer</code> when you need to choose a specific model, switch between neural backends, or process mixed-language input.</p>
+<pre><code class="language-python">from olaverse.nlp import Diacritizer
+
+# Default: fast Viterbi for Yoruba
+d = Diacritizer(model=&quot;diacnet-yor-viterbi&quot;)
+d.restore(&quot;Ojo lo si oja lana&quot;)
+# → 'Ọjọ́ ló sí ọjà lànà'
+
+# High-accuracy neural (requires olaverse[deeplearning])
+d_neural = Diacritizer(model=&quot;diacnet-yor-x&quot;)
+d_neural.restore(&quot;Ojo lo si oja lana&quot;)
+</code></pre>
+<h4 id="auto-routing-modelauto-new-in-v014">Auto-routing (<code>model="auto"</code>) — <em>New in v0.1.4</em></h4>
+<p>Set <code>model="auto"</code> to skip manual language selection. LIDLite5 detects the language on each call and routes to the correct backend — Yoruba → <code>diacnet-yor-viterbi</code>, Igbo → <code>diacnet-ig</code>. Both LIDLite5 and the target diacritizer are lazy-loaded on first use.</p>
+<pre><code class="language-python">from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model=&quot;auto&quot;)
+
+# Yoruba text — routes to diacnet-yor-viterbi
+d.restore(&quot;Ojo lo si oja lana&quot;)
+# → 'Ọjọ́ ló sí ọjà lànà'
+
+# Igbo text — routes to diacnet-ig
+d.restore(&quot;Kedu ka i mere&quot;)
+# → 'Kedụ ka ị mere'
+</code></pre>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="olaverse.nlp.Diacritizer" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.Diacritizer</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;diacnet-yor-viterbi&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Unified interface for restoring diacritics in African languages.</p>
+<p>Pass a model ID to use a specific backend, or <code>model="auto"</code> to detect
+the language automatically and route to the appropriate diacritizer.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>model</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>One of:</p>
+<ul>
+<li><code>"diacnet-yor-viterbi"</code> — Yoruba, fast Viterbi n-gram (default)</li>
+<li><code>"diacnet-yor-db"</code>      — Yoruba dot-below only, KNN</li>
+<li><code>"diacnet-ig"</code>          — Igbo, KNN</li>
+<li><code>"diacnet-yor"</code>         — Yoruba BiLSTM (requires <code>olaverse[deeplearning]</code>)</li>
+<li><code>"diacnet-yor-x"</code>       — Yoruba XLM-RoBERTa (requires <code>olaverse[deeplearning]</code>)</li>
+<li><code>"auto"</code>                — detect language via LIDLite5, then route automatically</li>
+</ul>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;diacnet-yor-viterbi&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h3 id="olaverse.nlp.Diacritizer-functions">Functions</h3>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.Diacritizer.restore" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">restore</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">restore</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Restore diacritics in the given text.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>text</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Plain text (tones/diacritics stripped or missing).</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Text with diacritics restored.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
 
 
 
@@ -1777,10 +2980,30 @@ diacritize_igbo(&quot;Kedu ka i mere&quot;)
 
 
 <h2 id="olaverse.nlp.diacritize_yoruba" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">olaverse</span><span class="o">.</span><span class="n">nlp</span><span class="o">.</span><span class="n">diacritize_yoruba</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.diacritize_yoruba</span>
+
 
 </h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">diacritize_yoruba</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 
+    <div class="doc doc-contents first">
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.nlp.diacritize_yoruba_dot_below" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.diacritize_yoruba_dot_below</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">diacritize_yoruba_dot_below</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -1793,10 +3016,12 @@ diacritize_igbo(&quot;Kedu ka i mere&quot;)
 
 
 <h2 id="olaverse.nlp.diacritize_igbo" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">olaverse</span><span class="o">.</span><span class="n">nlp</span><span class="o">.</span><span class="n">diacritize_igbo</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.diacritize_igbo</span>
+
 
 </h2>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">diacritize_igbo</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -1806,61 +3031,69 @@ diacritize_igbo(&quot;Kedu ka i mere&quot;)
 </div><hr />
 <h2 id="tokenization-otk-bpe-50k">Tokenization — OTK-BPE-50k</h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/otk-bpe-50k">olaverse/otk-bpe-50k</a></p>
-<p><code>Tokenizer</code> wraps the <strong>OTK-BPE-50k</strong> family of Byte-Level BPE tokenizers, each trained on dedicated African language corpora. They achieve <strong>0% out-of-vocabulary (OOV)</strong> tokens via raw UTF-8 byte mapping.</p>
+<p>Byte-Level BPE tokenizers trained on dedicated corpora for each Nigerian language. <strong>0% out-of-vocabulary</strong> tokens via raw UTF-8 byte fallback.</p>
+<h3 id="why-otk-bpe">Why OTK-BPE?</h3>
+<p>General-purpose tokenizers like GPT-4's cl100k tokenize African languages character-by-character, blowing up sequence lengths and wasting context. OTK-BPE-50k learns proper subwords from native text:</p>
 <table>
 <thead>
 <tr>
 <th>Model</th>
 <th>Language</th>
 <th>Vocab</th>
-<th>vs GPT-4</th>
+<th>Efficiency vs GPT-4</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td><code>otk-bpe-50k-yo</code></td>
 <td>Yoruba</td>
-<td>50k</td>
-<td>63% fewer tokens</td>
+<td>50,000</td>
+<td><strong>63% fewer tokens</strong></td>
 </tr>
 <tr>
 <td><code>otk-bpe-50k-ig</code></td>
 <td>Igbo</td>
-<td>50k</td>
+<td>50,000</td>
 <td>~60% fewer tokens</td>
 </tr>
 <tr>
 <td><code>otk-bpe-50k-ha</code></td>
 <td>Hausa</td>
-<td>50k</td>
+<td>50,000</td>
 <td>~58% fewer tokens</td>
 </tr>
 <tr>
 <td><code>otk-bpe-50k-pcm</code></td>
 <td>Nigerian Pidgin</td>
-<td>50k</td>
+<td>50,000</td>
 <td>~55% fewer tokens</td>
 </tr>
 <tr>
 <td><code>otk-bpe-50k-naija</code></td>
 <td>Unified (all 4)</td>
-<td>50k</td>
+<td>50,000</td>
 <td>Balanced</td>
 </tr>
 </tbody>
 </table>
-<pre><code class="language-bash">pip install olaverse  # tokenizer library included
-</code></pre>
-<pre><code class="language-python">from olaverse.nlp import Tokenizer
+<h3 id="usage">Usage</h3>
+<pre><code class="language-python">from olaverse import Tokenizer
 
-# Load by short code: &quot;yo&quot;, &quot;ig&quot;, &quot;ha&quot;, &quot;pcm&quot;, or &quot;naija&quot;
-tok = Tokenizer(&quot;yo&quot;)
+# Load by language code
+tok_yo = Tokenizer(&quot;yo&quot;)      # Yoruba
+tok_ig = Tokenizer(&quot;ig&quot;)      # Igbo
+tok_ha = Tokenizer(&quot;ha&quot;)      # Hausa
+tok_pcm = Tokenizer(&quot;pcm&quot;)    # Nigerian Pidgin
+tok_all = Tokenizer(&quot;naija&quot;)  # Unified
 
-tokens = tok.encode(&quot;Ẹ kú àbọ̀&quot;)
-print(tokens)   # → [124, 381]
+# Encode / decode
+ids = tok_yo.encode(&quot;Ẹ kú àbọ̀&quot;)
+print(ids)                      # → [124, 381]
+print(tok_yo.decode(ids))       # → 'Ẹ kú àbọ̀'
 
-decoded = tok.decode(tokens)
-print(decoded)  # → 'Ẹ kú àbọ̀'
+# For fine-tuning / dataset preparation
+sentences = [&quot;Bawo ni?&quot;, &quot;Se daadaa ni?&quot;, &quot;Mo dupe.&quot;]
+all_ids = [tok_yo.encode(s) for s in sentences]
 </code></pre>
 
 
@@ -1869,11 +3102,12 @@ print(decoded)  # → 'Ẹ kú àbọ̀'
 
 
 <h2 id="olaverse.nlp.Tokenizer" class="doc doc-heading">
-            <code>olaverse.nlp.Tokenizer</code>
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.Tokenizer</span>
 
 
 </h2>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">Tokenizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;naija&#39;</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -1907,10 +3141,12 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
 <h4 id="olaverse.nlp.Tokenizer.encode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">encode</span>
+
 
 </h4>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -1925,10 +3161,12 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
 <h4 id="olaverse.nlp.Tokenizer.decode" class="doc doc-heading">
-            <code class="highlight language-python"><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span></code>
+            <span class="doc doc-object-name doc-function-name">decode</span>
+
 
 </h4>
-
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+</code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -1942,6 +3180,623 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
   </div>
+
+    </div>
+
+</div><hr />
+<h2 id="text-normalization-tts">Text Normalization (TTS)</h2>
+<p><code>TTSNormalizer</code> converts raw text into a form suitable for speech synthesis — expanding numbers, abbreviations, and punctuation into their spoken equivalents.</p>
+<pre><code class="language-python">from olaverse import TTSNormalizer
+
+# Yoruba normalization
+norm = TTSNormalizer(lang=&quot;yo&quot;)
+norm.normalize(&quot;Dr. Ade lo si oja lana&quot;)
+# → 'Dọ́kítà Ade lo si oja lana'
+
+norm.normalize(&quot;O san ₦1,200&quot;)
+# → 'O san  ọ̀kan ẹgbẹ̀rún méjì'
+
+# Igbo normalization
+norm_ig = TTSNormalizer(lang=&quot;ig&quot;)
+norm_ig.normalize(&quot;Prof. Obi ra ulo&quot;)
+# → 'Purofesọ Obi ra ulo'
+</code></pre>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="olaverse.nlp.TTSNormalizer" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.TTSNormalizer</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;yo&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+
+
+        <p>Normalizes text for TTS processing by expanding numbers, abbreviations, and
+symbols into their spoken equivalents.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>lang</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Target language. One of <code>'yo'</code> (Yoruba), <code>'ig'</code> (Igbo),
+  <code>'pcm'</code> (Nigerian Pidgin). Defaults to <code>'yo'</code>.</p>
+              </div>
+            </td>
+            <td>
+                  <code>&#39;yo&#39;</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h3 id="olaverse.nlp.TTSNormalizer-functions">Functions</h3>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.TTSNormalizer.expand_abbreviations" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">expand_abbreviations</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">expand_abbreviations</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Expand abbreviations to their spoken forms.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.TTSNormalizer.expand_numbers" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">expand_numbers</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">expand_numbers</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Expand digit characters to spoken words (digit-by-digit).</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.TTSNormalizer.normalize" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">normalize</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Run the full normalization pipeline: abbreviations → numbers.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>text</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Raw input text.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Normalized text ready for phonetic processing.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+<h2 id="nigerian-pidgin-normalization-naijanormalizer">Nigerian Pidgin Normalization — NaijaNormalizer</h2>
+<p><strong><code>NaijaNormalizer</code></strong> is a Pidgin-specific TTS normalizer built on top of <code>TTSNormalizer</code>. It adds a pre-processing step that expands informal Pidgin spellings — SMS shorthand, phonetic spellings, loan abbreviations — before running the standard abbreviation and number expansion.</p>
+<pre><code class="language-python">from olaverse import NaijaNormalizer
+
+norm = NaijaNormalizer()
+
+# Informal spellings expanded first, then standard normalization
+norm.normalize(&quot;Oga, 2moro na Sunday. Call am nd tell am 2 come.&quot;)
+# → 'Oga, tomorrow na Sunday. Call am and tell am to come.'
+
+norm.normalize(&quot;e don finish. tnx 4 d help, u r d best!&quot;)
+# → 'e don finish. thanks for the help, you are the best!'
+
+# normalize_informal() only — skip abbreviations/number expansion
+norm.normalize_informal(&quot;dis tin dey hard nd i no sabi wetin 2 do&quot;)
+# → 'this tin dey hard and i no sabi wetin to do'
+</code></pre>
+<p><strong>Informal expansion map includes</strong> (35+ entries):</p>
+<table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Output</th>
+<th>Input</th>
+<th>Output</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>2moro</code></td>
+<td>tomorrow</td>
+<td><code>2day</code></td>
+<td>today</td>
+</tr>
+<tr>
+<td><code>b4</code></td>
+<td>before</td>
+<td><code>4</code></td>
+<td>for</td>
+</tr>
+<tr>
+<td><code>dis</code></td>
+<td>this</td>
+<td><code>dat</code></td>
+<td>that</td>
+</tr>
+<tr>
+<td><code>nd</code> / <code>n</code></td>
+<td>and</td>
+<td><code>u</code></td>
+<td>you</td>
+</tr>
+<tr>
+<td><code>pls</code></td>
+<td>please</td>
+<td><code>tnx</code></td>
+<td>thanks</td>
+</tr>
+<tr>
+<td><code>lol</code></td>
+<td>laugh</td>
+<td><code>smh</code></td>
+<td>sigh</td>
+</tr>
+<tr>
+<td><code>jst</code></td>
+<td>just</td>
+<td><code>wat</code></td>
+<td>what</td>
+</tr>
+<tr>
+<td><code>wen</code></td>
+<td>when</td>
+<td><code>hw</code></td>
+<td>how</td>
+</tr>
+</tbody>
+</table>
+
+
+<div class="doc doc-object doc-class">
+
+
+
+<h2 id="olaverse.nlp.NaijaNormalizer" class="doc doc-heading">
+            <span class="doc doc-object-name doc-class-name">olaverse.nlp.NaijaNormalizer</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">NaijaNormalizer</span><span class="p">(</span><span class="n">canonical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+            <p class="doc doc-class-bases">
+              Bases: <code><a class="autorefs autorefs-internal" title="olaverse.nlp.TTSNormalizer (olaverse.nlp.normalization.TTSNormalizer)" href="#olaverse.nlp.TTSNormalizer">TTSNormalizer</a></code></p>
+
+
+
+        <p>Extended text normalizer for <strong>Nigerian Pidgin English</strong> (Naija / <code>pcm</code>).</p>
+<p>Inherits the full <code>TTSNormalizer</code> pipeline and adds Pidgin-specific
+informal spelling normalization — collapsing common alternate spellings
+to a canonical spoken form before TTS processing.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>canonical</code>
+            </td>
+            <td>
+                  <code><span title="bool">bool</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>If <code>True</code> (default), apply informal-spelling normalization
+       before the standard abbreviation + number pipeline.
+       Set to <code>False</code> to use only the base <code>TTSNormalizer</code> behaviour.</p>
+              </div>
+            </td>
+            <td>
+                  <code>True</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Example::</p>
+<pre><code>from olaverse.nlp import NaijaNormalizer
+
+norm = NaijaNormalizer()
+norm.normalize("Oga, e don finish. Call am 2moro.")
+# → 'Oga, e don finish. Call am tomorrow.'
+</code></pre>
+
+
+
+
+
+
+
+
+
+
+
+<div class="doc doc-children">
+
+
+
+
+
+
+
+
+<h3 id="olaverse.nlp.NaijaNormalizer-functions">Functions</h3>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.NaijaNormalizer.normalize_informal" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">normalize_informal</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">normalize_informal</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Collapse Pidgin informal spellings to canonical spoken forms.</p>
+
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h4 id="olaverse.nlp.NaijaNormalizer.normalize" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">normalize</span>
+
+
+</h4>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents ">
+
+        <p>Full normalization pipeline for Pidgin:
+informal spellings → abbreviations → numbers.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>text</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Raw Pidgin input text.</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>TTS-ready normalized text.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    </div>
+
+</div>
+
+
+
+  </div>
+
+    </div>
+
+</div><hr />
+<h2 id="stopwords">Stopwords</h2>
+<p>The stopwords module provides curated stopword sets for all 4 Nigerian languages, ready for use in NLP pipelines, TF-IDF vectorizers, and preprocessing workflows.</p>
+<pre><code class="language-python">from olaverse import (
+    YORUBA_STOPWORDS, IGBO_STOPWORDS, HAUSA_STOPWORDS, PIDGIN_STOPWORDS,
+    get_stopwords, filter_stopwords,
+)
+</code></pre>
+<h3 id="available-sets">Available Sets</h3>
+<table>
+<thead>
+<tr>
+<th>Constant</th>
+<th>Language</th>
+<th>Example words</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>YORUBA_STOPWORDS</code></td>
+<td>Yoruba</td>
+<td>mo, mi, o, ni, ní, fun, lati, ati, tabi, sugbon, ṣugbọn</td>
+</tr>
+<tr>
+<td><code>IGBO_STOPWORDS</code></td>
+<td>Igbo</td>
+<td>m, mu, gi, gị, ya, anyi, anyị, ka, na, nke</td>
+</tr>
+<tr>
+<td><code>HAUSA_STOPWORDS</code></td>
+<td>Hausa</td>
+<td>ni, kai, ke, shi, ita, mu, ku, su, da, ko, amma</td>
+</tr>
+<tr>
+<td><code>PIDGIN_STOPWORDS</code></td>
+<td>Nigerian Pidgin</td>
+<td>i, you, him, na, be, go, don, dey, de, wey, sey</td>
+</tr>
+</tbody>
+</table>
+<p>All sets are <code>frozenset</code> — safe to use in <code>in</code> membership tests and <code>set</code> operations.</p>
+<h3 id="usage_1">Usage</h3>
+<pre><code class="language-python"># Direct membership test
+&quot;ni&quot; in YORUBA_STOPWORDS   # → True
+&quot;atal&quot; in IGBO_STOPWORDS   # → False
+
+# Retrieve by language code
+get_stopwords(&quot;yor&quot;)   # → YORUBA_STOPWORDS  (also accepts &quot;yo&quot;)
+get_stopwords(&quot;ibo&quot;)   # → IGBO_STOPWORDS    (also accepts &quot;ig&quot;)
+get_stopwords(&quot;hau&quot;)   # → HAUSA_STOPWORDS   (also accepts &quot;ha&quot;)
+get_stopwords(&quot;pcm&quot;)   # → PIDGIN_STOPWORDS
+get_stopwords(&quot;eng&quot;)   # → frozenset of common English stopwords
+
+# Filter a tokenized sentence
+tokens = [&quot;Bawo&quot;, &quot;ni&quot;, &quot;Ade&quot;, &quot;ati&quot;, &quot;Sade&quot;, &quot;dara&quot;]
+filter_stopwords(tokens, &quot;yor&quot;)
+# → ['Bawo', 'Ade', 'Sade', 'dara']
+
+# Works with any iterable
+filter_stopwords(iter([&quot;dem&quot;, &quot;dey&quot;, &quot;Lagos&quot;, &quot;for&quot;, &quot;here&quot;]), &quot;pcm&quot;)
+# → ['Lagos']
+</code></pre>
+<h3 id="using-with-scikit-learn">Using with scikit-learn</h3>
+<pre><code class="language-python">from olaverse import get_stopwords
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+yoruba_docs = [&quot;Bawo ni Ade?&quot;, &quot;Sade dara pupo&quot;, &quot;Mo feran onje Yoruba&quot;]
+stop = list(get_stopwords(&quot;yor&quot;))
+
+vec = TfidfVectorizer(stop_words=stop)
+X = vec.fit_transform(yoruba_docs)
+</code></pre>
+<hr />
+<h2 id="text-preprocessing-cleaning">Text Preprocessing &amp; Cleaning</h2>
+<h3 id="pii-masking">PII Masking</h3>
+<pre><code class="language-python">from olaverse import mask_pii
+
+mask_pii(&quot;Contact me at support@olaverse.co.uk or call +1-800-555-0199&quot;)
+# → 'Contact me at [EMAIL] or call [PHONE]'
+
+mask_pii(&quot;My card is 4111-1111-1111-1111 and SSN 123-45-6789&quot;)
+# → 'My card is [CREDIT_CARD] and SSN [SSN]'
+</code></pre>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.nlp.mask_pii" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.mask_pii</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">mask_pii</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Mask general Personally Identifiable Information (PII) globally.
+Replaces Emails, Credit Cards, Social Security Numbers (SSN), and Phone numbers.</p>
+
+
+    </div>
+
+</div><hr />
+<h3 id="text-cleaning">Text Cleaning</h3>
+<pre><code class="language-python">from olaverse import clean_text
+
+clean_text(&quot;Visit &lt;a href='https://olaverse.co.uk'&gt;our site&lt;/a&gt;  today!&quot;)
+# → 'Visit our site today!'
+
+clean_text(&quot;Check https://example.com for details.  Multiple   spaces.&quot;)
+# → 'Check  for details. Multiple spaces.'
+
+# Keep URLs
+clean_text(&quot;Visit https://olaverse.co.uk&quot;, remove_urls=False)
+# → 'Visit https://olaverse.co.uk'
+</code></pre>
+
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.nlp.clean_text" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.nlp.clean_text</span>
+
+
+</h2>
+<div class="doc-signature highlight"><pre><span></span><code><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remove_urls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">remove_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>General text cleaning utility.
+Strips extra whitespaces, and optionally removes URLs and HTML tags.</p>
+
 
     </div>
 
@@ -1963,6 +3818,8 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
             </div>
           
           
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
 <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
         </div>
         
@@ -2007,7 +3864,7 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "search.highlight", "search.suggest", "content.code.copy", "content.code.annotate", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
       <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>

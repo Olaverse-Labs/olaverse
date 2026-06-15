@@ -2154,9 +2154,9 @@
 
 <h1 id="nlp-tokenization">NLP &amp; Tokenization<a class="headerlink" href="#nlp-tokenization" title="Permanent link">&para;</a></h1>
 <p>The <code>olaverse.nlp</code> module is the core of the SDK — production-ready tools for African language text processing, detection, diacritization, tokenization, and preprocessing.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="w">          </span><span class="c1"># all NLP tools included (no GPU required)</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">  </span><span class="c1"># adds LIDNeural5 neural detection</span>
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="w">          </span><span class="c1"># all NLP tools included (no GPU required)</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">  </span><span class="c1"># adds LIDNeural5 neural detection</span>
+</span></code></pre></div>
 <hr />
 <h2 id="language-detection">Language Detection<a class="headerlink" href="#language-detection" title="Permanent link">&para;</a></h2>
 <p>Two models cover the same 5 languages at very different scales. Pick based on your latency and accuracy requirements.</p>
@@ -2190,21 +2190,21 @@
 
 <h3 id="lidlite5">LIDLite5<a class="headerlink" href="#lidlite5" title="Permanent link">&para;</a></h3>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-lite-5">olaverse/lid-lite-5</a></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite5</span><span class="p">,</span> <span class="n">detect_language</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Class interface</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDLite5</span><span class="p">()</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Bawo ni, se daadaa ni?&quot;</span><span class="p">)</span>      <span class="c1"># → &#39;yor&#39;</span>
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Sannu, yaya kake?&quot;</span><span class="p">)</span>            <span class="c1"># → &#39;hau&#39;</span>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>   <span class="c1"># → &#39;pcm&#39;</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Probability distribution over all 5 classes</span>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;Kedu, ọ dị mma?&quot;</span><span class="p">)</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># → {&#39;eng&#39;: 0.002, &#39;hau&#39;: 0.001, &#39;ibo&#39;: 0.993, &#39;pcm&#39;: 0.003, &#39;yor&#39;: 0.001}</span>
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Quick one-liner</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">detect_language</span><span class="p">(</span><span class="s2">&quot;E kaaro, bawo ni?&quot;</span><span class="p">)</span>             <span class="c1"># → &#39;yor&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite5</span><span class="p">,</span> <span class="n">detect_language</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Class interface</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDLite5</span><span class="p">()</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Bawo ni, se daadaa ni?&quot;</span><span class="p">)</span>      <span class="c1"># → &#39;yor&#39;</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Sannu, yaya kake?&quot;</span><span class="p">)</span>            <span class="c1"># → &#39;hau&#39;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>   <span class="c1"># → &#39;pcm&#39;</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Probability distribution over all 5 classes</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;Kedu, ọ dị mma?&quot;</span><span class="p">)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># → {&#39;eng&#39;: 0.002, &#39;hau&#39;: 0.001, &#39;ibo&#39;: 0.993, &#39;pcm&#39;: 0.003, &#39;yor&#39;: 0.001}</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Quick one-liner</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="n">detect_language</span><span class="p">(</span><span class="s2">&quot;E kaaro, bawo ni?&quot;</span><span class="p">)</span>             <span class="c1"># → &#39;yor&#39;</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-class">
@@ -2216,8 +2216,8 @@
 
 
 <a href="#olaverse.nlp.LIDLite5" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">LIDLite5</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">LIDLite5</span><span class="p">(</span><span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -2255,8 +2255,8 @@ Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), and English ('eng')
 
 
 <a href="#olaverse.nlp.LIDLite5.predict" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2276,8 +2276,8 @@ Returns: 'yor', 'hau', 'ibo', 'pcm', or 'eng'.</p>
 
 
 <a href="#olaverse.nlp.LIDLite5.predict_proba" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2304,8 +2304,8 @@ Returns: 'yor', 'hau', 'ibo', 'pcm', or 'eng'.</p>
 
 
 <a href="#olaverse.nlp.detect_language" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">detect_language</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">detect_language</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="s1">&#39;lid-lite-5.json&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -2318,34 +2318,34 @@ Returns: 'yor' (Yoruba), 'hau' (Hausa), 'ibo' (Igbo), 'pcm' (Pidgin), or 'eng' (
 </div><hr />
 <h3 id="lidneural5">LIDNeural5<a class="headerlink" href="#lidneural5" title="Permanent link">&para;</a></h3>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-neural-5">olaverse/lid-neural-5</a></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
-</code></pre></div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDNeural5</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
-<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">detector</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># downloads once from Hugging Face, cached after first run</span>
-<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
-<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Kedu ka ị mere today?&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;ibo&#39;</span>
-<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Ẹ káàárọ̀, ẹ káàbọ̀&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;yor&#39;</span>
-<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
-<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">probs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>
-<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># → {&#39;pcm&#39;: 0.991, &#39;eng&#39;: 0.006, &#39;ibo&#39;: 0.001, &#39;hau&#39;: 0.001, &#39;yor&#39;: 0.001}</span>
-</code></pre></div>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDNeural5</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">detector</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># downloads once from Hugging Face, cached after first run</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Kedu ka ị mere today?&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;ibo&#39;</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Ẹ káàárọ̀, ẹ káàbọ̀&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;yor&#39;</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">probs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># → {&#39;pcm&#39;: 0.991, &#39;eng&#39;: 0.006, &#39;ibo&#39;: 0.001, &#39;hau&#39;: 0.001, &#39;yor&#39;: 0.001}</span>
+</span></code></pre></div>
 <h4 id="batch-inference">Batch Inference<a class="headerlink" href="#batch-inference" title="Permanent link">&para;</a></h4>
 <p><code>predict_batch</code> and <code>predict_proba_batch</code> run a <strong>single batched forward pass</strong> — much faster than calling <code>predict()</code> in a loop over a dataset.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu ọ dị?&quot;</span><span class="p">,</span> <span class="s2">&quot;How far?&quot;</span><span class="p">,</span> <span class="s2">&quot;Sannu dai.&quot;</span><span class="p">]</span>
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Returns a list of predicted language codes</span>
-<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">langs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
-<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># → [&#39;yor&#39;, &#39;ibo&#39;, &#39;pcm&#39;, &#39;hau&#39;]</span>
-<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
-<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Returns a list of probability dicts — one per input</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">probs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_proba_batch</span><span class="p">([</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu?&quot;</span><span class="p">])</span>
-<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># → [</span>
-<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#     {&#39;yor&#39;: 0.991, &#39;eng&#39;: 0.005, ...},</span>
-<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">#     {&#39;ibo&#39;: 0.987, &#39;eng&#39;: 0.008, ...},</span>
-<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">#   ]</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">texts</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu ọ dị?&quot;</span><span class="p">,</span> <span class="s2">&quot;How far?&quot;</span><span class="p">,</span> <span class="s2">&quot;Sannu dai.&quot;</span><span class="p">]</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># Returns a list of predicted language codes</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">langs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># → [&#39;yor&#39;, &#39;ibo&#39;, &#39;pcm&#39;, &#39;hau&#39;]</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># Returns a list of probability dicts — one per input</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="n">probs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_proba_batch</span><span class="p">([</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu?&quot;</span><span class="p">])</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="c1"># → [</span>
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="c1">#     {&#39;yor&#39;: 0.991, &#39;eng&#39;: 0.005, ...},</span>
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="c1">#     {&#39;ibo&#39;: 0.987, &#39;eng&#39;: 0.008, ...},</span>
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="c1">#   ]</span>
+</span></code></pre></div>
 <p><strong>Per-language accuracy:</strong></p>
 <table>
 <thead>
@@ -2406,8 +2406,8 @@ Returns: 'yor' (Yoruba), 'hau' (Hausa), 'ibo' (Igbo), 'pcm' (Pidgin), or 'eng' (
 
 
 <a href="#olaverse.nlp.LIDNeural5" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">LIDNeural5</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;olaverse/lid-neural-5&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">LIDNeural5</span><span class="p">(</span><span class="n">model_name</span><span class="o">=</span><span class="s1">&#39;olaverse/lid-neural-5&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -2448,8 +2448,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.LIDNeural5.load" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load</span><span class="p">()</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load</span><span class="p">()</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2468,8 +2468,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.LIDNeural5.predict_proba" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2511,8 +2511,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.LIDNeural5.predict" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2554,8 +2554,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.LIDNeural5.predict_proba_batch" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_proba_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2638,8 +2638,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.LIDNeural5.predict_batch" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">predict_batch</span><span class="p">(</span><span class="n">texts</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2771,47 +2771,47 @@ Validation accuracy: 98.96% macro-F1</p>
 </tbody>
 </table>
 <h3 id="quick-functions">Quick Functions<a class="headerlink" href="#quick-functions" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">diacritize_yoruba</span><span class="p">,</span> <span class="n">diacritize_yoruba_dot_below</span><span class="p">,</span> <span class="n">diacritize_igbo</span>
-<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
-<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Yoruba — full tonal diacritics (Viterbi, fast)</span>
-<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">diacritize_yoruba</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
-<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
-<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Yoruba — dot-below vowels only (KNN)</span>
-<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">diacritize_yoruba_dot_below</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># → &#39;Ọjọ lo si ọja&#39;</span>
-<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
-<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Igbo</span>
-<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">diacritize_igbo</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
-<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">diacritize_yoruba</span><span class="p">,</span> <span class="n">diacritize_yoruba_dot_below</span><span class="p">,</span> <span class="n">diacritize_igbo</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Yoruba — full tonal diacritics (Viterbi, fast)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">diacritize_yoruba</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Yoruba — dot-below vowels only (KNN)</span>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">diacritize_yoruba_dot_below</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja&quot;</span><span class="p">)</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="c1"># → &#39;Ọjọ lo si ọja&#39;</span>
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="c1"># Igbo</span>
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="n">diacritize_igbo</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
+</span></code></pre></div>
 <h3 id="unified-diacritizer-class">Unified Diacritizer Class<a class="headerlink" href="#unified-diacritizer-class" title="Permanent link">&para;</a></h3>
 <p>Use <code>Diacritizer</code> when you need to choose a specific model, switch between neural backends, or process mixed-language input.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Default: fast Viterbi for Yoruba</span>
-<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
-<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
-<a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># High-accuracy neural (requires olaverse[deeplearning])</span>
-<a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">d_neural</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-x&quot;</span><span class="p">)</span>
-<a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">d_neural</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="c1"># Default: fast Viterbi for Yoruba</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># High-accuracy neural (requires olaverse[deeplearning])</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">d_neural</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-x&quot;</span><span class="p">)</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a><span class="n">d_neural</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
+</span></code></pre></div>
 <h4 id="auto-routing-modelauto-new-in-v014">Auto-routing (<code>model="auto"</code>) — <em>New in v0.1.4</em><a class="headerlink" href="#auto-routing-modelauto-new-in-v014" title="Permanent link">&para;</a></h4>
 <p>Set <code>model="auto"</code> to skip manual language selection. LIDLite5 detects the language on each call and routes to the correct backend — Yoruba → <code>diacnet-yor-viterbi</code>, Igbo → <code>diacnet-ig</code>. Both LIDLite5 and the target diacritizer are lazy-loaded on first use.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Yoruba text — routes to diacnet-yor-viterbi</span>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Igbo text — routes to diacnet-ig</span>
-<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
-<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="c1"># Yoruba text — routes to diacnet-yor-viterbi</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="c1"># Igbo text — routes to diacnet-ig</span>
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-class">
@@ -2823,8 +2823,8 @@ Validation accuracy: 98.96% macro-F1</p>
 
 
 <a href="#olaverse.nlp.Diacritizer" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;diacnet-yor-viterbi&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;diacnet-yor-viterbi&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -2902,8 +2902,8 @@ the language automatically and route to the appropriate diacritizer.</p>
 
 
 <a href="#olaverse.nlp.Diacritizer.restore" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">restore</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">restore</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -2984,8 +2984,8 @@ the language automatically and route to the appropriate diacritizer.</p>
 
 
 <a href="#olaverse.nlp.diacritize_yoruba" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_yoruba</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_yoruba</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3002,8 +3002,8 @@ the language automatically and route to the appropriate diacritizer.</p>
 
 
 <a href="#olaverse.nlp.diacritize_yoruba_dot_below" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_yoruba_dot_below</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_yoruba_dot_below</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3020,8 +3020,8 @@ the language automatically and route to the appropriate diacritizer.</p>
 
 
 <a href="#olaverse.nlp.diacritize_igbo" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_igbo</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">diacritize_igbo</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3077,24 +3077,24 @@ the language automatically and route to the appropriate diacritizer.</p>
 </tbody>
 </table>
 <h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
-<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Load by language code</span>
-<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">tok_yo</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>      <span class="c1"># Yoruba</span>
-<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">tok_ig</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;ig&quot;</span><span class="p">)</span>      <span class="c1"># Igbo</span>
-<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">tok_ha</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;ha&quot;</span><span class="p">)</span>      <span class="c1"># Hausa</span>
-<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">tok_pcm</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;pcm&quot;</span><span class="p">)</span>    <span class="c1"># Nigerian Pidgin</span>
-<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">tok_all</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;naija&quot;</span><span class="p">)</span>  <span class="c1"># Unified</span>
-<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
-<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Encode / decode</span>
-<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok_yo</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Ẹ kú àbọ̀&quot;</span><span class="p">)</span>
-<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>                      <span class="c1"># → [124, 381]</span>
-<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">tok_yo</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>       <span class="c1"># → &#39;Ẹ kú àbọ̀&#39;</span>
-<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
-<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="c1"># For fine-tuning / dataset preparation</span>
-<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Se daadaa ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Mo dupe.&quot;</span><span class="p">]</span>
-<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="n">all_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">tok_yo</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="c1"># Load by language code</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">tok_yo</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>      <span class="c1"># Yoruba</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">tok_ig</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;ig&quot;</span><span class="p">)</span>      <span class="c1"># Igbo</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="n">tok_ha</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;ha&quot;</span><span class="p">)</span>      <span class="c1"># Hausa</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="n">tok_pcm</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;pcm&quot;</span><span class="p">)</span>    <span class="c1"># Nigerian Pidgin</span>
+</span><span id="__span-8-8"><a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="n">tok_all</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;naija&quot;</span><span class="p">)</span>  <span class="c1"># Unified</span>
+</span><span id="__span-8-9"><a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a>
+</span><span id="__span-8-10"><a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="c1"># Encode / decode</span>
+</span><span id="__span-8-11"><a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok_yo</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Ẹ kú àbọ̀&quot;</span><span class="p">)</span>
+</span><span id="__span-8-12"><a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="nb">print</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>                      <span class="c1"># → [124, 381]</span>
+</span><span id="__span-8-13"><a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">tok_yo</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">))</span>       <span class="c1"># → &#39;Ẹ kú àbọ̀&#39;</span>
+</span><span id="__span-8-14"><a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a>
+</span><span id="__span-8-15"><a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="c1"># For fine-tuning / dataset preparation</span>
+</span><span id="__span-8-16"><a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="n">sentences</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Se daadaa ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Mo dupe.&quot;</span><span class="p">]</span>
+</span><span id="__span-8-17"><a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="n">all_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">tok_yo</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">sentences</span><span class="p">]</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-class">
@@ -3106,8 +3106,8 @@ the language automatically and route to the appropriate diacritizer.</p>
 
 
 <a href="#olaverse.nlp.Tokenizer" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Tokenizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;naija&#39;</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">Tokenizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s1">&#39;naija&#39;</span><span class="p">,</span> <span class="n">model_path</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3145,8 +3145,8 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
 <a href="#olaverse.nlp.Tokenizer.encode" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3165,8 +3165,8 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
 <a href="#olaverse.nlp.Tokenizer.decode" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3186,21 +3186,21 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 </div><hr />
 <h2 id="text-normalization-tts">Text Normalization (TTS)<a class="headerlink" href="#text-normalization-tts" title="Permanent link">&para;</a></h2>
 <p><code>TTSNormalizer</code> converts raw text into a form suitable for speech synthesis — expanding numbers, abbreviations, and punctuation into their spoken equivalents.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTSNormalizer</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Yoruba normalization</span>
-<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">norm</span> <span class="o">=</span> <span class="n">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Dr. Ade lo si oja lana&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># → &#39;Dọ́kítà Ade lo si oja lana&#39;</span>
-<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
-<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;O san ₦1,200&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># → &#39;O san  ọ̀kan ẹgbẹ̀rún méjì&#39;</span>
-<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
-<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1"># Igbo normalization</span>
-<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">norm_ig</span> <span class="o">=</span> <span class="n">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;ig&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">norm_ig</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Prof. Obi ra ulo&quot;</span><span class="p">)</span>
-<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># → &#39;Purofesọ Obi ra ulo&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTSNormalizer</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Yoruba normalization</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">norm</span> <span class="o">=</span> <span class="n">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Dr. Ade lo si oja lana&quot;</span><span class="p">)</span>
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="c1"># → &#39;Dọ́kítà Ade lo si oja lana&#39;</span>
+</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a>
+</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;O san ₦1,200&quot;</span><span class="p">)</span>
+</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="c1"># → &#39;O san  ọ̀kan ẹgbẹ̀rún méjì&#39;</span>
+</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a>
+</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="c1"># Igbo normalization</span>
+</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="n">norm_ig</span> <span class="o">=</span> <span class="n">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;ig&quot;</span><span class="p">)</span>
+</span><span id="__span-9-13"><a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="n">norm_ig</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Prof. Obi ra ulo&quot;</span><span class="p">)</span>
+</span><span id="__span-9-14"><a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="c1"># → &#39;Purofesọ Obi ra ulo&#39;</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-class">
@@ -3212,8 +3212,8 @@ Supports 'yoruba', 'igbo', 'hausa', 'pidgin', and 'naija' (unified).</p>
 
 
 <a href="#olaverse.nlp.TTSNormalizer" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;yo&#39;</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;yo&#39;</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3283,8 +3283,8 @@ symbols into their spoken equivalents.</p>
 
 
 <a href="#olaverse.nlp.TTSNormalizer.expand_abbreviations" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">expand_abbreviations</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">expand_abbreviations</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3303,8 +3303,8 @@ symbols into their spoken equivalents.</p>
 
 
 <a href="#olaverse.nlp.TTSNormalizer.expand_numbers" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">expand_numbers</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">expand_numbers</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3323,8 +3323,8 @@ symbols into their spoken equivalents.</p>
 
 
 <a href="#olaverse.nlp.TTSNormalizer.normalize" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3398,21 +3398,21 @@ symbols into their spoken equivalents.</p>
 </div><hr />
 <h2 id="nigerian-pidgin-normalization-naijanormalizer">Nigerian Pidgin Normalization — NaijaNormalizer<a class="headerlink" href="#nigerian-pidgin-normalization-naijanormalizer" title="Permanent link">&para;</a></h2>
 <p><strong><code>NaijaNormalizer</code></strong> is a Pidgin-specific TTS normalizer built on top of <code>TTSNormalizer</code>. It adds a pre-processing step that expands informal Pidgin spellings — SMS shorthand, phonetic spellings, loan abbreviations — before running the standard abbreviation and number expansion.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">NaijaNormalizer</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">norm</span> <span class="o">=</span> <span class="n">NaijaNormalizer</span><span class="p">()</span>
-<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
-<a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Informal spellings expanded first, then standard normalization</span>
-<a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Oga, 2moro na Sunday. Call am nd tell am 2 come.&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → &#39;Oga, tomorrow na Sunday. Call am and tell am to come.&#39;</span>
-<a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
-<a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;e don finish. tnx 4 d help, u r d best!&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># → &#39;e don finish. thanks for the help, you are the best!&#39;</span>
-<a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
-<a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># normalize_informal() only — skip abbreviations/number expansion</span>
-<a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize_informal</span><span class="p">(</span><span class="s2">&quot;dis tin dey hard nd i no sabi wetin 2 do&quot;</span><span class="p">)</span>
-<a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1"># → &#39;this tin dey hard and i no sabi wetin to do&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">NaijaNormalizer</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">norm</span> <span class="o">=</span> <span class="n">NaijaNormalizer</span><span class="p">()</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># Informal spellings expanded first, then standard normalization</span>
+</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Oga, 2moro na Sunday. Call am nd tell am 2 come.&quot;</span><span class="p">)</span>
+</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → &#39;Oga, tomorrow na Sunday. Call am and tell am to come.&#39;</span>
+</span><span id="__span-10-8"><a id="__codelineno-10-8" name="__codelineno-10-8" href="#__codelineno-10-8"></a>
+</span><span id="__span-10-9"><a id="__codelineno-10-9" name="__codelineno-10-9" href="#__codelineno-10-9"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;e don finish. tnx 4 d help, u r d best!&quot;</span><span class="p">)</span>
+</span><span id="__span-10-10"><a id="__codelineno-10-10" name="__codelineno-10-10" href="#__codelineno-10-10"></a><span class="c1"># → &#39;e don finish. thanks for the help, you are the best!&#39;</span>
+</span><span id="__span-10-11"><a id="__codelineno-10-11" name="__codelineno-10-11" href="#__codelineno-10-11"></a>
+</span><span id="__span-10-12"><a id="__codelineno-10-12" name="__codelineno-10-12" href="#__codelineno-10-12"></a><span class="c1"># normalize_informal() only — skip abbreviations/number expansion</span>
+</span><span id="__span-10-13"><a id="__codelineno-10-13" name="__codelineno-10-13" href="#__codelineno-10-13"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize_informal</span><span class="p">(</span><span class="s2">&quot;dis tin dey hard nd i no sabi wetin 2 do&quot;</span><span class="p">)</span>
+</span><span id="__span-10-14"><a id="__codelineno-10-14" name="__codelineno-10-14" href="#__codelineno-10-14"></a><span class="c1"># → &#39;this tin dey hard and i no sabi wetin to do&#39;</span>
+</span></code></pre></div>
 <p><strong>Informal expansion map includes</strong> (35+ entries):</p>
 <table>
 <thead>
@@ -3485,8 +3485,8 @@ symbols into their spoken equivalents.</p>
 
 
 <a href="#olaverse.nlp.NaijaNormalizer" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">NaijaNormalizer</span><span class="p">(</span><span class="n">canonical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">NaijaNormalizer</span><span class="p">(</span><span class="n">canonical</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
             <p class="doc doc-class-bases">
@@ -3532,7 +3532,7 @@ to a canonical spoken form before TTS processing.</p>
       </tbody>
     </table>
         <p>Example::</p>
-<div class="highlight"><pre><span></span><code>from olaverse.nlp import NaijaNormalizer
+<div class="language-text highlight"><pre><span></span><code>from olaverse.nlp import NaijaNormalizer
 
 norm = NaijaNormalizer()
 norm.normalize(&quot;Oga, e don finish. Call am 2moro.&quot;)
@@ -3568,8 +3568,8 @@ norm.normalize(&quot;Oga, e don finish. Call am 2moro.&quot;)
 
 
 <a href="#olaverse.nlp.NaijaNormalizer.normalize_informal" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize_informal</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize_informal</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3588,8 +3588,8 @@ norm.normalize(&quot;Oga, e don finish. Call am 2moro.&quot;)
 
 
 <a href="#olaverse.nlp.NaijaNormalizer.normalize" class="headerlink" title="Permanent link">&para;</a></h4>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents ">
 
@@ -3664,11 +3664,11 @@ informal spellings → abbreviations → numbers.</p>
 </div><hr />
 <h2 id="stopwords">Stopwords<a class="headerlink" href="#stopwords" title="Permanent link">&para;</a></h2>
 <p>The stopwords module provides curated stopword sets for all 4 Nigerian languages, ready for use in NLP pipelines, TF-IDF vectorizers, and preprocessing workflows.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">YORUBA_STOPWORDS</span><span class="p">,</span> <span class="n">IGBO_STOPWORDS</span><span class="p">,</span> <span class="n">HAUSA_STOPWORDS</span><span class="p">,</span> <span class="n">PIDGIN_STOPWORDS</span><span class="p">,</span>
-<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">get_stopwords</span><span class="p">,</span> <span class="n">filter_stopwords</span><span class="p">,</span>
-<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">)</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">YORUBA_STOPWORDS</span><span class="p">,</span> <span class="n">IGBO_STOPWORDS</span><span class="p">,</span> <span class="n">HAUSA_STOPWORDS</span><span class="p">,</span> <span class="n">PIDGIN_STOPWORDS</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">get_stopwords</span><span class="p">,</span> <span class="n">filter_stopwords</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="p">)</span>
+</span></code></pre></div>
 <h3 id="available-sets">Available Sets<a class="headerlink" href="#available-sets" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
@@ -3703,47 +3703,47 @@ informal spellings → abbreviations → numbers.</p>
 </table>
 <p>All sets are <code>frozenset</code> — safe to use in <code>in</code> membership tests and <code>set</code> operations.</p>
 <h3 id="usage_1">Usage<a class="headerlink" href="#usage_1" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Direct membership test</span>
-<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="s2">&quot;ni&quot;</span> <span class="ow">in</span> <span class="n">YORUBA_STOPWORDS</span>   <span class="c1"># → True</span>
-<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="s2">&quot;atal&quot;</span> <span class="ow">in</span> <span class="n">IGBO_STOPWORDS</span>   <span class="c1"># → False</span>
-<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
-<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Retrieve by language code</span>
-<a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;yor&quot;</span><span class="p">)</span>   <span class="c1"># → YORUBA_STOPWORDS  (also accepts &quot;yo&quot;)</span>
-<a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;ibo&quot;</span><span class="p">)</span>   <span class="c1"># → IGBO_STOPWORDS    (also accepts &quot;ig&quot;)</span>
-<a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;hau&quot;</span><span class="p">)</span>   <span class="c1"># → HAUSA_STOPWORDS   (also accepts &quot;ha&quot;)</span>
-<a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;pcm&quot;</span><span class="p">)</span>   <span class="c1"># → PIDGIN_STOPWORDS</span>
-<a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;eng&quot;</span><span class="p">)</span>   <span class="c1"># → frozenset of common English stopwords</span>
-<a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
-<a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># Filter a tokenized sentence</span>
-<a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo&quot;</span><span class="p">,</span> <span class="s2">&quot;ni&quot;</span><span class="p">,</span> <span class="s2">&quot;Ade&quot;</span><span class="p">,</span> <span class="s2">&quot;ati&quot;</span><span class="p">,</span> <span class="s2">&quot;Sade&quot;</span><span class="p">,</span> <span class="s2">&quot;dara&quot;</span><span class="p">]</span>
-<a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">filter_stopwords</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="s2">&quot;yor&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># → [&#39;Bawo&#39;, &#39;Ade&#39;, &#39;Sade&#39;, &#39;dara&#39;]</span>
-<a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
-<a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># Works with any iterable</span>
-<a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="n">filter_stopwords</span><span class="p">(</span><span class="nb">iter</span><span class="p">([</span><span class="s2">&quot;dem&quot;</span><span class="p">,</span> <span class="s2">&quot;dey&quot;</span><span class="p">,</span> <span class="s2">&quot;Lagos&quot;</span><span class="p">,</span> <span class="s2">&quot;for&quot;</span><span class="p">,</span> <span class="s2">&quot;here&quot;</span><span class="p">]),</span> <span class="s2">&quot;pcm&quot;</span><span class="p">)</span>
-<a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># → [&#39;Lagos&#39;]</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="c1"># Direct membership test</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="s2">&quot;ni&quot;</span> <span class="ow">in</span> <span class="n">YORUBA_STOPWORDS</span>   <span class="c1"># → True</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="s2">&quot;atal&quot;</span> <span class="ow">in</span> <span class="n">IGBO_STOPWORDS</span>   <span class="c1"># → False</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="c1"># Retrieve by language code</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;yor&quot;</span><span class="p">)</span>   <span class="c1"># → YORUBA_STOPWORDS  (also accepts &quot;yo&quot;)</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;ibo&quot;</span><span class="p">)</span>   <span class="c1"># → IGBO_STOPWORDS    (also accepts &quot;ig&quot;)</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;hau&quot;</span><span class="p">)</span>   <span class="c1"># → HAUSA_STOPWORDS   (also accepts &quot;ha&quot;)</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;pcm&quot;</span><span class="p">)</span>   <span class="c1"># → PIDGIN_STOPWORDS</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;eng&quot;</span><span class="p">)</span>   <span class="c1"># → frozenset of common English stopwords</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a><span class="c1"># Filter a tokenized sentence</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a><span class="n">tokens</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo&quot;</span><span class="p">,</span> <span class="s2">&quot;ni&quot;</span><span class="p">,</span> <span class="s2">&quot;Ade&quot;</span><span class="p">,</span> <span class="s2">&quot;ati&quot;</span><span class="p">,</span> <span class="s2">&quot;Sade&quot;</span><span class="p">,</span> <span class="s2">&quot;dara&quot;</span><span class="p">]</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a><span class="n">filter_stopwords</span><span class="p">(</span><span class="n">tokens</span><span class="p">,</span> <span class="s2">&quot;yor&quot;</span><span class="p">)</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a><span class="c1"># → [&#39;Bawo&#39;, &#39;Ade&#39;, &#39;Sade&#39;, &#39;dara&#39;]</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a><span class="c1"># Works with any iterable</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a><span class="n">filter_stopwords</span><span class="p">(</span><span class="nb">iter</span><span class="p">([</span><span class="s2">&quot;dem&quot;</span><span class="p">,</span> <span class="s2">&quot;dey&quot;</span><span class="p">,</span> <span class="s2">&quot;Lagos&quot;</span><span class="p">,</span> <span class="s2">&quot;for&quot;</span><span class="p">,</span> <span class="s2">&quot;here&quot;</span><span class="p">]),</span> <span class="s2">&quot;pcm&quot;</span><span class="p">)</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a><span class="c1"># → [&#39;Lagos&#39;]</span>
+</span></code></pre></div>
 <h3 id="using-with-scikit-learn">Using with scikit-learn<a class="headerlink" href="#using-with-scikit-learn" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_stopwords</span>
-<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfVectorizer</span>
-<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
-<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">yoruba_docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni Ade?&quot;</span><span class="p">,</span> <span class="s2">&quot;Sade dara pupo&quot;</span><span class="p">,</span> <span class="s2">&quot;Mo feran onje Yoruba&quot;</span><span class="p">]</span>
-<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">stop</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;yor&quot;</span><span class="p">))</span>
-<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
-<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="n">vec</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
-<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">X</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">yoruba_docs</span><span class="p">)</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_stopwords</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.feature_extraction.text</span><span class="w"> </span><span class="kn">import</span> <span class="n">TfidfVectorizer</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">yoruba_docs</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Bawo ni Ade?&quot;</span><span class="p">,</span> <span class="s2">&quot;Sade dara pupo&quot;</span><span class="p">,</span> <span class="s2">&quot;Mo feran onje Yoruba&quot;</span><span class="p">]</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">stop</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;yor&quot;</span><span class="p">))</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="n">vec</span> <span class="o">=</span> <span class="n">TfidfVectorizer</span><span class="p">(</span><span class="n">stop_words</span><span class="o">=</span><span class="n">stop</span><span class="p">)</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="n">X</span> <span class="o">=</span> <span class="n">vec</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">yoruba_docs</span><span class="p">)</span>
+</span></code></pre></div>
 <hr />
 <h2 id="text-preprocessing-cleaning">Text Preprocessing &amp; Cleaning<a class="headerlink" href="#text-preprocessing-cleaning" title="Permanent link">&para;</a></h2>
 <h3 id="pii-masking">PII Masking<a class="headerlink" href="#pii-masking" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">mask_pii</span>
-<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">mask_pii</span><span class="p">(</span><span class="s2">&quot;Contact me at support@olaverse.co.uk or call +1-800-555-0199&quot;</span><span class="p">)</span>
-<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># → &#39;Contact me at [EMAIL] or call [PHONE]&#39;</span>
-<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
-<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">mask_pii</span><span class="p">(</span><span class="s2">&quot;My card is 4111-1111-1111-1111 and SSN 123-45-6789&quot;</span><span class="p">)</span>
-<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># → &#39;My card is [CREDIT_CARD] and SSN [SSN]&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">mask_pii</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">mask_pii</span><span class="p">(</span><span class="s2">&quot;Contact me at support@olaverse.co.uk or call +1-800-555-0199&quot;</span><span class="p">)</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># → &#39;Contact me at [EMAIL] or call [PHONE]&#39;</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">mask_pii</span><span class="p">(</span><span class="s2">&quot;My card is 4111-1111-1111-1111 and SSN 123-45-6789&quot;</span><span class="p">)</span>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="c1"># → &#39;My card is [CREDIT_CARD] and SSN [SSN]&#39;</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-function">
@@ -3754,8 +3754,8 @@ informal spellings → abbreviations → numbers.</p>
 
 
 <a href="#olaverse.nlp.mask_pii" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">mask_pii</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">mask_pii</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 
@@ -3767,18 +3767,18 @@ Replaces Emails, Credit Cards, Social Security Numbers (SSN), and Phone numbers.
 
 </div><hr />
 <h3 id="text-cleaning">Text Cleaning<a class="headerlink" href="#text-cleaning" title="Permanent link">&para;</a></h3>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_text</span>
-<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
-<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Visit &lt;a href=&#39;https://olaverse.co.uk&#39;&gt;our site&lt;/a&gt;  today!&quot;</span><span class="p">)</span>
-<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># → &#39;Visit our site today!&#39;</span>
-<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
-<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Check https://example.com for details.  Multiple   spaces.&quot;</span><span class="p">)</span>
-<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># → &#39;Check  for details. Multiple spaces.&#39;</span>
-<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
-<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1"># Keep URLs</span>
-<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Visit https://olaverse.co.uk&quot;</span><span class="p">,</span> <span class="n">remove_urls</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="c1"># → &#39;Visit https://olaverse.co.uk&#39;</span>
-</code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">clean_text</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Visit &lt;a href=&#39;https://olaverse.co.uk&#39;&gt;our site&lt;/a&gt;  today!&quot;</span><span class="p">)</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="c1"># → &#39;Visit our site today!&#39;</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Check https://example.com for details.  Multiple   spaces.&quot;</span><span class="p">)</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="c1"># → &#39;Check  for details. Multiple spaces.&#39;</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="c1"># Keep URLs</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="n">clean_text</span><span class="p">(</span><span class="s2">&quot;Visit https://olaverse.co.uk&quot;</span><span class="p">,</span> <span class="n">remove_urls</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="c1"># → &#39;Visit https://olaverse.co.uk&#39;</span>
+</span></code></pre></div>
 
 
 <div class="doc doc-object doc-function">
@@ -3789,8 +3789,8 @@ Replaces Emails, Credit Cards, Social Security Numbers (SSN), and Phone numbers.
 
 
 <a href="#olaverse.nlp.clean_text" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remove_urls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">remove_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</code></pre></div>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">clean_text</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">remove_urls</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">remove_html</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+</span></code></pre></div>
 
     <div class="doc doc-contents first">
 

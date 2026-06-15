@@ -980,21 +980,21 @@
   
 
 
-<h1 id="utilities">Utilities</h1>
+<h1 id="utilities">Utilities<a class="headerlink" href="#utilities" title="Permanent link">&para;</a></h1>
 <p>The <code>olaverse.utils</code> module provides global constants, currency formatting, and audio I/O helpers used throughout the library and available for your own use.</p>
-<pre><code class="language-python">from olaverse.utils import format_currency, CURRENCIES, CONTINENTS, save_audio, load_audio
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_currency</span><span class="p">,</span> <span class="n">CURRENCIES</span><span class="p">,</span> <span class="n">CONTINENTS</span><span class="p">,</span> <span class="n">save_audio</span><span class="p">,</span> <span class="n">load_audio</span>
+</code></pre></div>
 <hr />
-<h2 id="currency-formatting">Currency Formatting</h2>
-<h3 id="format_currency"><code>format_currency</code></h3>
+<h2 id="currency-formatting">Currency Formatting<a class="headerlink" href="#currency-formatting" title="Permanent link">&para;</a></h2>
+<h3 id="format_currency"><code>format_currency</code><a class="headerlink" href="#format_currency" title="Permanent link">&para;</a></h3>
 <p>Format any numeric value as a currency string with the correct symbol.</p>
-<pre><code class="language-python">from olaverse.utils import format_currency
-
-format_currency(1500, &quot;₦&quot;)       # → '₦1,500.00'
-format_currency(3_750_000, &quot;₦&quot;)  # → '₦3,750,000.00'
-format_currency(99.9, &quot;$&quot;)        # → '$99.90'
-format_currency(&quot;invalid&quot;, &quot;£&quot;)  # → '£invalid'
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_currency</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">format_currency</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="s2">&quot;₦&quot;</span><span class="p">)</span>       <span class="c1"># → &#39;₦1,500.00&#39;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">format_currency</span><span class="p">(</span><span class="mi">3_750_000</span><span class="p">,</span> <span class="s2">&quot;₦&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;₦3,750,000.00&#39;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">format_currency</span><span class="p">(</span><span class="mf">99.9</span><span class="p">,</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;$99.90&#39;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">format_currency</span><span class="p">(</span><span class="s2">&quot;invalid&quot;</span><span class="p">,</span> <span class="s2">&quot;£&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;£invalid&#39;</span>
+</code></pre></div>
 
 
 <div class="doc doc-object doc-function">
@@ -1004,8 +1004,8 @@ format_currency(&quot;invalid&quot;, &quot;£&quot;)  # → '£invalid'
             <span class="doc doc-object-name doc-function-name">olaverse.utils.format_currency</span>
 
 
-</h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
+<a href="#olaverse.utils.format_currency" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -1017,20 +1017,20 @@ e.g. format_currency(1500, "$") -&gt; $1,500.00</p>
     </div>
 
 </div><hr />
-<h3 id="currencies"><code>CURRENCIES</code></h3>
+<h3 id="currencies"><code>CURRENCIES</code><a class="headerlink" href="#currencies" title="Permanent link">&para;</a></h3>
 <p>A dictionary mapping ISO 4217 currency codes to their symbols. Includes the Nigerian Naira and major world currencies.</p>
-<pre><code class="language-python">from olaverse.utils import CURRENCIES
-
-CURRENCIES[&quot;NGN&quot;]   # → '₦'
-CURRENCIES[&quot;USD&quot;]   # → '$'
-CURRENCIES[&quot;GBP&quot;]   # → '£'
-CURRENCIES[&quot;EUR&quot;]   # → '€'
-
-# Use with format_currency
-amount = 5_000
-symbol = CURRENCIES[&quot;NGN&quot;]
-format_currency(amount, symbol)  # → '₦5,000.00'
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURRENCIES</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;NGN&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;₦&#39;</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;USD&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;$&#39;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;GBP&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;£&#39;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;EUR&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;€&#39;</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Use with format_currency</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">amount</span> <span class="o">=</span> <span class="mi">5_000</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">symbol</span> <span class="o">=</span> <span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;NGN&quot;</span><span class="p">]</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">symbol</span><span class="p">)</span>  <span class="c1"># → &#39;₦5,000.00&#39;</span>
+</code></pre></div>
 <table>
 <thead>
 <tr>
@@ -1083,27 +1083,27 @@ format_currency(amount, symbol)  # → '₦5,000.00'
 </tbody>
 </table>
 <hr />
-<h3 id="continents"><code>CONTINENTS</code></h3>
+<h3 id="continents"><code>CONTINENTS</code><a class="headerlink" href="#continents" title="Permanent link">&para;</a></h3>
 <p>ISO continent codes mapped to full names.</p>
-<pre><code class="language-python">from olaverse.utils import CONTINENTS
-
-CONTINENTS[&quot;AF&quot;]   # → 'Africa'
-CONTINENTS[&quot;EU&quot;]   # → 'Europe'
-CONTINENTS[&quot;NA&quot;]   # → 'North America'
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONTINENTS</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;AF&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;Africa&#39;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;EU&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;Europe&#39;</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;NA&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;North America&#39;</span>
+</code></pre></div>
 <hr />
-<h2 id="audio-io">Audio I/O</h2>
+<h2 id="audio-io">Audio I/O<a class="headerlink" href="#audio-io" title="Permanent link">&para;</a></h2>
 <p>Standard read/write helpers for <code>.wav</code> files. Useful when working with the speech pipeline or external TTS models.</p>
-<pre><code class="language-bash">pip install scipy   # required for audio I/O
-</code></pre>
-<h3 id="save_audio"><code>save_audio</code></h3>
-<pre><code class="language-python">import numpy as np
-from olaverse.utils import save_audio
-
-# Save a generated waveform (e.g. from a vocoder)
-waveform = np.zeros(22050, dtype=np.float32)  # 1 second of silence
-save_audio(waveform, sample_rate=22050, output_path=&quot;output/test.wav&quot;)
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>scipy<span class="w">   </span><span class="c1"># required for audio I/O</span>
+</code></pre></div>
+<h3 id="save_audio"><code>save_audio</code><a class="headerlink" href="#save_audio" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_audio</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Save a generated waveform (e.g. from a vocoder)</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">waveform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">22050</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># 1 second of silence</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">save_audio</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;output/test.wav&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 
 <div class="doc doc-object doc-function">
@@ -1113,8 +1113,8 @@ save_audio(waveform, sample_rate=22050, output_path=&quot;output/test.wav&quot;)
             <span class="doc doc-object-name doc-function-name">olaverse.utils.save_audio</span>
 
 
-</h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">save_audio</span><span class="p">(</span><span class="n">waveform</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<a href="#olaverse.utils.save_audio" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">save_audio</span><span class="p">(</span><span class="n">waveform</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -1188,14 +1188,14 @@ save_audio(waveform, sample_rate=22050, output_path=&quot;output/test.wav&quot;)
     </div>
 
 </div><hr />
-<h3 id="load_audio"><code>load_audio</code></h3>
-<pre><code class="language-python">from olaverse.utils import load_audio
-
-sample_rate, waveform = load_audio(&quot;path/to/audio.wav&quot;)
-print(f&quot;Sample rate: {sample_rate} Hz&quot;)
-print(f&quot;Duration: {len(waveform) / sample_rate:.2f}s&quot;)
-print(f&quot;Shape: {waveform.shape}&quot;)
-</code></pre>
+<h3 id="load_audio"><code>load_audio</code><a class="headerlink" href="#load_audio" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_audio</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">sample_rate</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">=</span> <span class="n">load_audio</span><span class="p">(</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample rate: </span><span class="si">{</span><span class="n">sample_rate</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duration: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">waveform</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sample_rate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape: </span><span class="si">{</span><span class="n">waveform</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 
 <div class="doc doc-object doc-function">
@@ -1205,8 +1205,8 @@ print(f&quot;Shape: {waveform.shape}&quot;)
             <span class="doc doc-object-name doc-function-name">olaverse.utils.load_audio</span>
 
 
-</h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load_audio</span><span class="p">(</span><span class="n">input_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
+<a href="#olaverse.utils.load_audio" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_audio</span><span class="p">(</span><span class="n">input_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">

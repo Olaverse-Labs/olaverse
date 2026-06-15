@@ -973,7 +973,7 @@
 </div>
 
 <hr />
-<h2 id="what-is-olaverse">What is Olaverse?</h2>
+<h2 id="what-is-olaverse">What is Olaverse?<a class="headerlink" href="#what-is-olaverse" title="Permanent link">&para;</a></h2>
 <p><strong>Olaverse</strong> is a unified Python SDK for African language AI. It gives you production-ready NLP tools, a clean interface to the MIST model family, domain-specific LLMs, and a TTS pipeline architecture — all in one package.</p>
 <div class="ov-grid">
 
@@ -1008,74 +1008,83 @@
 </div>
 
 <hr />
-<h2 id="install">Install</h2>
-<p>=== "Core"
-    <code>bash
-    pip install olaverse</code>
-    Includes: NLP tools, diacritizers, tokenizers, lightweight LID, PII masking.</p>
-<p>=== "Neural Models"
-    <code>bash
-    pip install olaverse[deeplearning]</code>
-    Adds: <code>LIDNeural5</code>, MIST local inference (requires GPU).</p>
-<p>=== "Hosted Inference"
-    <code>bash
-    pip install olaverse[hosted]</code>
-    Adds: MIST via Featherless, Modal, or any OpenAI-compatible endpoint.</p>
-<p>=== "Legal"
-    <code>bash
-    pip install olaverse[legal]</code>
-    Adds: <code>LegalPeace</code> contract analysis model (requires GPU + unsloth).</p>
-<p>=== "Everything"
-    <code>bash
-    pip install olaverse[deeplearning,hosted,legal]</code></p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:5"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Core</label><label for="__tabbed_1_2">Neural Models</label><label for="__tabbed_1_3">Hosted Inference</label><label for="__tabbed_1_4">Legal</label><label for="__tabbed_1_5">Everything</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse
+</code></pre></div>
+Includes: NLP tools, diacritizers, tokenizers, lightweight LID, PII masking.</p>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
+</code></pre></div>
+Adds: <code>LIDNeural5</code>, MIST local inference (requires GPU).</p>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>
+</code></pre></div>
+Adds: MIST via Featherless, Modal, or any OpenAI-compatible endpoint.</p>
+</div>
+<div class="tabbed-block">
+<p><div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>legal<span class="o">]</span>
+</code></pre></div>
+Adds: <code>LegalPeace</code> contract analysis model (requires GPU + unsloth).</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning,hosted,legal<span class="o">]</span>
+</code></pre></div>
+</div>
+</div>
+</div>
 <hr />
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="language-detection">Language Detection</h3>
-<pre><code class="language-python">from olaverse import LIDLite5, LIDNeural5
-
-# Lightweight — zero GPU, instant (0.014 ms/sentence)
-detector = LIDLite5()
-detector.predict(&quot;Bawo ni, se daadaa ni?&quot;)  # → 'yor'
-
-# Neural — 98.96% macro accuracy
-neural = LIDNeural5()
-neural.load()  # downloads olaverse/lid-neural-5 once
-neural.predict(&quot;Kedu ka ị mere today?&quot;)  # → 'ibo'
-neural.predict_proba(&quot;How far, wetin dey happen?&quot;)
-# → {'pcm': 0.991, 'eng': 0.002, ...}
-</code></pre>
-<h3 id="diacritization">Diacritization</h3>
-<pre><code class="language-python">from olaverse import diacritize_yoruba, diacritize_igbo
-
-diacritize_yoruba(&quot;Ojo lo si oja lana&quot;)
-# → 'Ọjọ́ ló sí ọjà lànà'
-
-diacritize_igbo(&quot;Kedu ka i mere&quot;)
-# → 'Kedụ ka ị mere'
-</code></pre>
-<h3 id="mist-fast-8b-local">MIST — Fast (8B, local)</h3>
-<pre><code class="language-python">from olaverse import MIST
-
-model = MIST(size=&quot;8b&quot;)
-model.load()
-print(model.generate(&quot;Explain what makes Yoruba a tonal language.&quot;))
-</code></pre>
-<h3 id="mist-hosted-70b-via-featherless">MIST — Hosted (70B via Featherless)</h3>
-<pre><code class="language-python">import os
-from olaverse import MIST
-
-model = MIST(size=&quot;70b&quot;, endpoint=&quot;featherless&quot;, api_key=os.environ[&quot;FEATHERLESS_API_KEY&quot;])
-print(model.generate(&quot;Write a Python retry decorator with exponential backoff.&quot;))
-</code></pre>
-<h3 id="tokenization">Tokenization</h3>
-<pre><code class="language-python">from olaverse import Tokenizer
-
-tok = Tokenizer(&quot;yo&quot;)  # Yoruba — 63% fewer tokens than GPT-4
-ids = tok.encode(&quot;Ẹ kú àbọ̀&quot;)
-tok.decode(ids)  # → 'Ẹ kú àbọ̀'
-</code></pre>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<h3 id="language-detection">Language Detection<a class="headerlink" href="#language-detection" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite5</span><span class="p">,</span> <span class="n">LIDNeural5</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># Lightweight — zero GPU, instant (0.014 ms/sentence)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDLite5</span><span class="p">()</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Bawo ni, se daadaa ni?&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;yor&#39;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="c1"># Neural — 98.96% macro accuracy</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="n">neural</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">neural</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># downloads olaverse/lid-neural-5 once</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Kedu ka ị mere today?&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;ibo&#39;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="c1"># → {&#39;pcm&#39;: 0.991, &#39;eng&#39;: 0.002, ...}</span>
+</code></pre></div>
+<h3 id="diacritization">Diacritization<a class="headerlink" href="#diacritization" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">diacritize_yoruba</span><span class="p">,</span> <span class="n">diacritize_igbo</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">diacritize_yoruba</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>
+<a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">diacritize_igbo</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
+<a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
+</code></pre></div>
+<h3 id="mist-fast-8b-local">MIST — Fast (8B, local)<a class="headerlink" href="#mist-fast-8b-local" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">)</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Explain what makes Yoruba a tonal language.&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="mist-hosted-70b-via-featherless">MIST — Hosted (70B via Featherless)<a class="headerlink" href="#mist-hosted-70b-via-featherless" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;70b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FEATHERLESS_API_KEY&quot;</span><span class="p">])</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Write a Python retry decorator with exponential backoff.&quot;</span><span class="p">))</span>
+</code></pre></div>
+<h3 id="tokenization">Tokenization<a class="headerlink" href="#tokenization" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">tok</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>  <span class="c1"># Yoruba — 63% fewer tokens than GPT-4</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Ẹ kú àbọ̀&quot;</span><span class="p">)</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">tok</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>  <span class="c1"># → &#39;Ẹ kú àbọ̀&#39;</span>
+</code></pre></div>
 <hr />
-<h2 id="supported-languages">Supported Languages</h2>
+<h2 id="supported-languages">Supported Languages<a class="headerlink" href="#supported-languages" title="Permanent link">&para;</a></h2>
 <div class="ov-lang-row">
   <span class="ov-lang-badge ov-lang-yor">Yoruba <code>yor</code></span>
   <span class="ov-lang-badge ov-lang-ibo">Igbo <code>ibo</code></span>
@@ -1131,7 +1140,7 @@ tok.decode(ids)  # → 'Ẹ kú àbọ̀'
 </tbody>
 </table>
 <hr />
-<h2 id="model-index">Model Index</h2>
+<h2 id="model-index">Model Index<a class="headerlink" href="#model-index" title="Permanent link">&para;</a></h2>
 <div class="ov-model-table">
 
 | Model | Task | Size | Speed | Install |
@@ -1149,7 +1158,7 @@ tok.decode(ids)  # → 'Ẹ kú àbọ̀'
 </div>
 
 <hr />
-<h2 id="whats-new-in-v014">What's New in v0.1.4</h2>
+<h2 id="whats-new-in-v014">What's New in v0.1.4<a class="headerlink" href="#whats-new-in-v014" title="Permanent link">&para;</a></h2>
 <ul>
 <li><strong><code>MIST</code> wrapper</strong> — unified interface for all MIST variants with correct stop tokens, sampling defaults, and local/hosted endpoint switching</li>
 <li><strong><code>LIDNeural5</code> moved to <code>olaverse.nlp</code></strong> — its correct home alongside <code>LIDLite5</code> (backward-compat import from <code>olaverse.llm</code> preserved)</li>

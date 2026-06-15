@@ -1032,78 +1032,78 @@
   
 
 
-<h1 id="changelog">Changelog</h1>
+<h1 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">&para;</a></h1>
 <p>All notable changes to the Olaverse SDK are documented here.</p>
 <hr />
-<h2 id="v014-current">v0.1.4 — <em>Current</em></h2>
+<h2 id="v014-current">v0.1.4 — <em>Current</em><a class="headerlink" href="#v014-current" title="Permanent link">&para;</a></h2>
 <p><strong>Released</strong>: 2026-06-15</p>
-<h3 id="new-features">New Features</h3>
-<h4 id="mist-model-family-olaversellmmist">MIST Model Family (<code>olaverse.llm.MIST</code>)</h4>
+<h3 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h3>
+<h4 id="mist-model-family-olaversellmmist">MIST Model Family (<code>olaverse.llm.MIST</code>)<a class="headerlink" href="#mist-model-family-olaversellmmist" title="Permanent link">&para;</a></h4>
 <p>Unified interface for all MIST variants — correct stop tokens, verified sampling defaults, and a local/hosted endpoint switch in one class.</p>
-<pre><code class="language-python">from olaverse import MIST
-
-# Local (transformers)
-model = MIST(size=&quot;8b&quot;)
-model.load()
-print(model.generate(&quot;What makes Yoruba a tonal language?&quot;))
-
-# Hosted (Featherless, Modal, or any OpenAI-compatible endpoint)
-model = MIST(size=&quot;70b&quot;, endpoint=&quot;featherless&quot;, api_key=&quot;...&quot;)
-print(model.generate(&quot;Write a Python retry decorator.&quot;))
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># Local (transformers)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;What makes Yoruba a tonal language?&quot;</span><span class="p">))</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="c1"># Hosted (Featherless, Modal, or any OpenAI-compatible endpoint)</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;70b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Write a Python retry decorator.&quot;</span><span class="p">))</span>
+</code></pre></div>
 <p>Supported variants: <code>"8b"</code> / <code>"mini"</code>, <code>"70b"</code>, <code>"140b"</code>, <code>"140b-4bit"</code>, <code>"thinking"</code>.</p>
-<h4 id="batch-inference-lidneural5predict_batch-predict_proba_batch">Batch inference — <code>LIDNeural5.predict_batch</code> / <code>predict_proba_batch</code></h4>
+<h4 id="batch-inference-lidneural5predict_batch-predict_proba_batch">Batch inference — <code>LIDNeural5.predict_batch</code> / <code>predict_proba_batch</code><a class="headerlink" href="#batch-inference-lidneural5predict_batch-predict_proba_batch" title="Permanent link">&para;</a></h4>
 <p>Single batched forward pass instead of per-text loops — significantly faster for dataset processing.</p>
-<pre><code class="language-python">detector = LIDNeural5()
-detector.load()
-
-langs = detector.predict_batch([&quot;Bawo ni?&quot;, &quot;Kedu?&quot;, &quot;How far?&quot;])
-# → ['yor', 'ibo', 'pcm']
-
-probs = detector.predict_proba_batch([&quot;Bawo ni?&quot;, &quot;Kedu?&quot;])
-# → [{'yor': 0.99, ...}, {'ibo': 0.98, ...}]
-</code></pre>
-<h4 id="auto-routing-diacritizer-modelauto">Auto-routing Diacritizer (<code>model="auto"</code>)</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="n">detector</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">langs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">([</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu?&quot;</span><span class="p">,</span> <span class="s2">&quot;How far?&quot;</span><span class="p">])</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># → [&#39;yor&#39;, &#39;ibo&#39;, &#39;pcm&#39;]</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">probs</span> <span class="o">=</span> <span class="n">detector</span><span class="o">.</span><span class="n">predict_proba_batch</span><span class="p">([</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu?&quot;</span><span class="p">])</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># → [{&#39;yor&#39;: 0.99, ...}, {&#39;ibo&#39;: 0.98, ...}]</span>
+</code></pre></div>
+<h4 id="auto-routing-diacritizer-modelauto">Auto-routing Diacritizer (<code>model="auto"</code>)<a class="headerlink" href="#auto-routing-diacritizer-modelauto" title="Permanent link">&para;</a></h4>
 <p>Detects language automatically via LIDLite5 and routes to the correct diacritizer — no need to specify the language.</p>
-<pre><code class="language-python">from olaverse.nlp import Diacritizer
-
-d = Diacritizer(model=&quot;auto&quot;)
-d.restore(&quot;Ojo lo si oja lana&quot;)   # detected: Yoruba → 'Ọjọ́ ló sí ọjà lànà'
-d.restore(&quot;Kedu ka i mere&quot;)       # detected: Igbo   → 'Kedụ ka ị mere'
-</code></pre>
-<h4 id="stopwords-olaversenlpstopwords">Stopwords (<code>olaverse.nlp.stopwords</code>)</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>   <span class="c1"># detected: Yoruba → &#39;Ọjọ́ ló sí ọjà lànà&#39;</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>       <span class="c1"># detected: Igbo   → &#39;Kedụ ka ị mere&#39;</span>
+</code></pre></div>
+<h4 id="stopwords-olaversenlpstopwords">Stopwords (<code>olaverse.nlp.stopwords</code>)<a class="headerlink" href="#stopwords-olaversenlpstopwords" title="Permanent link">&para;</a></h4>
 <p>Linguistic stopword sets for all 4 Nigerian languages plus convenience utilities.</p>
-<pre><code class="language-python">from olaverse import YORUBA_STOPWORDS, get_stopwords, filter_stopwords
-
-# Direct set access
-&quot;ni&quot; in YORUBA_STOPWORDS        # → True
-
-# By language code
-sw = get_stopwords(&quot;pcm&quot;)       # → PIDGIN_STOPWORDS
-
-# Filter a token list
-filter_stopwords([&quot;bawo&quot;, &quot;ni&quot;, &quot;Ade&quot;, &quot;dara&quot;], &quot;yor&quot;)
-# → ['Ade', 'dara']
-</code></pre>
-<h4 id="naijanormalizer-olaversenlpnaijanormalizer">NaijaNormalizer (<code>olaverse.nlp.NaijaNormalizer</code>)</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">YORUBA_STOPWORDS</span><span class="p">,</span> <span class="n">get_stopwords</span><span class="p">,</span> <span class="n">filter_stopwords</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="c1"># Direct set access</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="s2">&quot;ni&quot;</span> <span class="ow">in</span> <span class="n">YORUBA_STOPWORDS</span>        <span class="c1"># → True</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># By language code</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">sw</span> <span class="o">=</span> <span class="n">get_stopwords</span><span class="p">(</span><span class="s2">&quot;pcm&quot;</span><span class="p">)</span>       <span class="c1"># → PIDGIN_STOPWORDS</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># Filter a token list</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="n">filter_stopwords</span><span class="p">([</span><span class="s2">&quot;bawo&quot;</span><span class="p">,</span> <span class="s2">&quot;ni&quot;</span><span class="p">,</span> <span class="s2">&quot;Ade&quot;</span><span class="p">,</span> <span class="s2">&quot;dara&quot;</span><span class="p">],</span> <span class="s2">&quot;yor&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a><span class="c1"># → [&#39;Ade&#39;, &#39;dara&#39;]</span>
+</code></pre></div>
+<h4 id="naijanormalizer-olaversenlpnaijanormalizer">NaijaNormalizer (<code>olaverse.nlp.NaijaNormalizer</code>)<a class="headerlink" href="#naijanormalizer-olaversenlpnaijanormalizer" title="Permanent link">&para;</a></h4>
 <p>Pidgin-specific TTS normalizer extending <code>TTSNormalizer</code>. Adds informal spelling normalization (e.g. <code>"2moro"</code> → <code>"tomorrow"</code>, <code>"nd"</code> → <code>"and"</code>) on top of the standard abbreviation + number pipeline.</p>
-<pre><code class="language-python">from olaverse import NaijaNormalizer
-
-norm = NaijaNormalizer()
-norm.normalize(&quot;Oga, e don finish. Call am 2moro pls.&quot;)
-# → 'Oga, e don finish. Call am tomorrow please.'
-</code></pre>
-<h4 id="mist-retry-logic-for-hosted-inference"><code>MIST</code> retry logic for hosted inference</h4>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">NaijaNormalizer</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">norm</span> <span class="o">=</span> <span class="n">NaijaNormalizer</span><span class="p">()</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">norm</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s2">&quot;Oga, e don finish. Call am 2moro pls.&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="c1"># → &#39;Oga, e don finish. Call am tomorrow please.&#39;</span>
+</code></pre></div>
+<h4 id="mist-retry-logic-for-hosted-inference"><code>MIST</code> retry logic for hosted inference<a class="headerlink" href="#mist-retry-logic-for-hosted-inference" title="Permanent link">&para;</a></h4>
 <p>Automatic retry on capacity/overload errors with configurable attempts and delay.</p>
-<pre><code class="language-python">model = MIST(
-    size=&quot;70b&quot;,
-    endpoint=&quot;featherless&quot;,
-    api_key=&quot;...&quot;,
-    max_retries=3,      # default: 3
-    retry_delay=5.0,    # seconds; each attempt waits delay × attempt_number
-)
-</code></pre>
-<h3 id="changes">Changes</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">size</span><span class="o">=</span><span class="s2">&quot;70b&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">,</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>    <span class="n">max_retries</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>      <span class="c1"># default: 3</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a>    <span class="n">retry_delay</span><span class="o">=</span><span class="mf">5.0</span><span class="p">,</span>    <span class="c1"># seconds; each attempt waits delay × attempt_number</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="p">)</span>
+</code></pre></div>
+<h3 id="changes">Changes<a class="headerlink" href="#changes" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>LIDNeural5</code> moved to <code>olaverse.nlp</code></strong> — its correct home alongside <code>LIDLite5</code>. <code>from olaverse.llm import LIDNeural5</code> continues to work (backward-compat re-export in <code>llm/detector.py</code>).</li>
 <li><strong><code>LIDNeural5</code> now exported from <code>olaverse.nlp</code></strong> — <code>from olaverse.nlp import LIDNeural5</code> is now the canonical import path.</li>
@@ -1112,16 +1112,16 @@ norm.normalize(&quot;Oga, e don finish. Call am 2moro pls.&quot;)
 <li><strong>New <code>olaverse[hosted]</code> extra</strong> — <code>pip install olaverse[hosted]</code> installs <code>openai&gt;=1.0.0</code> for MIST hosted inference.</li>
 <li><strong><code>ExperimentalWarning</code></strong> exported from <code>olaverse</code> and <code>olaverse.speech</code> for easy suppression.</li>
 </ul>
-<h3 id="install">Install</h3>
-<pre><code class="language-bash">pip install olaverse           # core NLP (no GPU required)
-pip install olaverse[deeplearning]  # + LIDNeural5, MIST local
-pip install olaverse[hosted]        # + MIST via Featherless/Modal
-pip install olaverse[legal]         # + LegalPeace
-</code></pre>
+<h3 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="w">           </span><span class="c1"># core NLP (no GPU required)</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">  </span><span class="c1"># + LIDNeural5, MIST local</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span><span class="w">        </span><span class="c1"># + MIST via Featherless/Modal</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>legal<span class="o">]</span><span class="w">         </span><span class="c1"># + LegalPeace</span>
+</code></pre></div>
 <hr />
-<h2 id="v013">v0.1.3</h2>
+<h2 id="v013">v0.1.3<a class="headerlink" href="#v013" title="Permanent link">&para;</a></h2>
 <p><strong>Released</strong>: 2026-05-01 <em>(approximate)</em></p>
-<h3 id="features">Features</h3>
+<h3 id="features">Features<a class="headerlink" href="#features" title="Permanent link">&para;</a></h3>
 <ul>
 <li><strong><code>LegalPeace</code></strong> — Fine-tuned Mistral-7B-v0.3 for contract analysis and legal reasoning. 4-bit quantized inference via unsloth. Achieves 10.3% faster inference and 32.6% faster contract analysis vs. base Mistral-7B.</li>
 <li><strong><code>LIDNeural5</code></strong> <em>(initially in <code>olaverse.llm</code>)</em> — XLM-RoBERTa sequence classifier fine-tuned on 5 Nigerian languages, 98.96% macro-F1. Available via <code>pip install olaverse[deeplearning]</code>.</li>
@@ -1134,14 +1134,18 @@ pip install olaverse[legal]         # + LegalPeace
 <li><strong><code>olaverse.utils</code></strong> — Nigerian currency formatting, continent codes, <code>.wav</code> audio I/O.</li>
 </ul>
 <hr />
-<h2 id="roadmap">Roadmap</h2>
-<p>!!! note "Coming in future releases"
-    - <strong>Acoustic model + vocoder</strong> for end-to-end Yoruba TTS (completes the speech pipeline)
-    - <strong><code>Diacritizer</code> for Hausa</strong> (<code>diacnet-ha</code>)
-    - <strong><code>LIDNeural5</code> expanded to 10+ languages</strong> (including Efik, Tiv, Nupe)
-    - <strong><code>MIST</code> embedding endpoint</strong> for semantic search over Nigerian language content
-    - <strong>ASR (Automatic Speech Recognition)</strong> for Nigerian languages
-    - <strong>Hausa / Pidgin TTS normalizer expansion</strong></p>
+<h2 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Coming in future releases</p>
+<ul>
+<li><strong>Acoustic model + vocoder</strong> for end-to-end Yoruba TTS (completes the speech pipeline)</li>
+<li><strong><code>Diacritizer</code> for Hausa</strong> (<code>diacnet-ha</code>)</li>
+<li><strong><code>LIDNeural5</code> expanded to 10+ languages</strong> (including Efik, Tiv, Nupe)</li>
+<li><strong><code>MIST</code> embedding endpoint</strong> for semantic search over Nigerian language content</li>
+<li><strong>ASR (Automatic Speech Recognition)</strong> for Nigerian languages</li>
+<li><strong>Hausa / Pidgin TTS normalizer expansion</strong></li>
+</ul>
+</div>
 
 
 

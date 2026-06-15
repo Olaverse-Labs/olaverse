@@ -1126,77 +1126,78 @@
   
 
 
-<h1 id="speech-synthesis-roadmap-experimental">Speech Synthesis (Roadmap / Experimental)</h1>
-<p>!!! warning "Experimental — No Trained Model Available Yet"
-    The <code>olaverse.speech</code> module provides a <strong>TTS pipeline architecture</strong>, but olaverse does not
-    yet ship a trained acoustic model or vocoder.</p>
-<pre><code>- **Production-ready**: text normalisation (`TTSNormalizer`) and diacritisation (`Diacritizer`)
-  — these are fully functional and available in `olaverse.nlp`.
-- **Experimental**: acoustic synthesis (text → Mel-spectrogram → audio waveform).
-  The architecture is here; trained weights are on the roadmap.
-
-Using speech classes will emit an `ExperimentalWarning`. To silence it:
-```python
-import warnings
-from olaverse import ExperimentalWarning
-warnings.filterwarnings("ignore", category=ExperimentalWarning)
-```
-</code></pre>
+<h1 id="speech-synthesis-roadmap-experimental">Speech Synthesis (Roadmap / Experimental)<a class="headerlink" href="#speech-synthesis-roadmap-experimental" title="Permanent link">&para;</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Experimental — No Trained Model Available Yet</p>
+<p>The <code>olaverse.speech</code> module provides a <strong>TTS pipeline architecture</strong>, but olaverse does not
+yet ship a trained acoustic model or vocoder.</p>
+<ul>
+<li><strong>Production-ready</strong>: text normalisation (<code>TTSNormalizer</code>) and diacritisation (<code>Diacritizer</code>)
+  — these are fully functional and available in <code>olaverse.nlp</code>.</li>
+<li><strong>Experimental</strong>: acoustic synthesis (text → Mel-spectrogram → audio waveform).
+  The architecture is here; trained weights are on the roadmap.</li>
+</ul>
+<p>Using speech classes will emit an <code>ExperimentalWarning</code>. To silence it:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExperimentalWarning</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">ExperimentalWarning</span><span class="p">)</span>
+</code></pre></div></p>
+</div>
 <p>The diacritizers are the most valuable unfinished asset here — restoring tones from plain
 Yoruba text is the hardest front-end step of any Yoruba TTS system, and that part is done.</p>
 <hr />
-<h2 id="what-works-today">What works today</h2>
+<h2 id="what-works-today">What works today<a class="headerlink" href="#what-works-today" title="Permanent link">&para;</a></h2>
 <p>Use <code>TTSNormalizer</code> and <code>Diacritizer</code> directly for the NLP front-end of a TTS pipeline:</p>
-<pre><code class="language-python">from olaverse.nlp import TTSNormalizer, Diacritizer
-
-normalizer = TTSNormalizer(lang=&quot;yo&quot;)
-diacritizer = Diacritizer(model=&quot;diacnet-yor-viterbi&quot;)
-
-text = &quot;Dr. Ade lo si oja lana&quot;
-normalized = normalizer.normalize(text)      # &quot;Dọ́kítà Ade lo si oja lana&quot;
-diacritized = diacritizer.restore(normalized) # &quot;Dọ́kítà Adé ló sí ọjà lànà&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTSNormalizer</span><span class="p">,</span> <span class="n">Diacritizer</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">normalizer</span> <span class="o">=</span> <span class="n">TTSNormalizer</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">diacritizer</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">text</span> <span class="o">=</span> <span class="s2">&quot;Dr. Ade lo si oja lana&quot;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="n">normalized</span> <span class="o">=</span> <span class="n">normalizer</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>      <span class="c1"># &quot;Dọ́kítà Ade lo si oja lana&quot;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">diacritized</span> <span class="o">=</span> <span class="n">diacritizer</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">normalized</span><span class="p">)</span> <span class="c1"># &quot;Dọ́kítà Adé ló sí ọjà lànà&quot;</span>
+</code></pre></div>
 <hr />
-<h2 id="tts-pipeline-architecture">TTS Pipeline Architecture</h2>
+<h2 id="tts-pipeline-architecture">TTS Pipeline Architecture<a class="headerlink" href="#tts-pipeline-architecture" title="Permanent link">&para;</a></h2>
 <p><code>TTSPipeline</code> wires together all four steps and is ready to use once you supply an
 acoustic model and vocoder. Steps 1–2 work now; steps 3–4 require your own models.</p>
-<pre><code class="language-python">from olaverse import TTSPipeline
-
-# Steps 1 &amp; 2 (normalisation + diacritisation) work without custom models
-pipeline = TTSPipeline(lang=&quot;yo&quot;)
-result = pipeline.synthesize(&quot;Mr. Ade lo si oja lana&quot;)
-
-print(result[&quot;normalized_text&quot;])   # &quot;Míṣìtà Ade lo si oja lana&quot;
-print(result[&quot;diacritized_text&quot;])  # &quot;Míṣìtà Adé ló sí ọjà lànà&quot;
-print(result[&quot;audio&quot;])             # None — no acoustic model provided
-print(result[&quot;status&quot;])            # &quot;Acoustic model or Vocoder not provided.&quot;
-</code></pre>
-<h3 id="injecting-your-own-models">Injecting your own models</h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTSPipeline</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># Steps 1 &amp; 2 (normalisation + diacritisation) work without custom models</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">pipeline</span> <span class="o">=</span> <span class="n">TTSPipeline</span><span class="p">(</span><span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">synthesize</span><span class="p">(</span><span class="s2">&quot;Mr. Ade lo si oja lana&quot;</span><span class="p">)</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;normalized_text&quot;</span><span class="p">])</span>   <span class="c1"># &quot;Míṣìtà Ade lo si oja lana&quot;</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;diacritized_text&quot;</span><span class="p">])</span>  <span class="c1"># &quot;Míṣìtà Adé ló sí ọjà lànà&quot;</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;audio&quot;</span><span class="p">])</span>             <span class="c1"># None — no acoustic model provided</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">[</span><span class="s2">&quot;status&quot;</span><span class="p">])</span>            <span class="c1"># &quot;Acoustic model or Vocoder not provided.&quot;</span>
+</code></pre></div>
+<h3 id="injecting-your-own-models">Injecting your own models<a class="headerlink" href="#injecting-your-own-models" title="Permanent link">&para;</a></h3>
 <p>If you have a trained acoustic model and vocoder, implement the base classes and inject them:</p>
-<pre><code class="language-python">from olaverse import TTSPipeline, BaseAcousticModel, BaseVocoder
-
-class MyAcousticModel(BaseAcousticModel):
-    def load_weights(self, path):
-        ...
-    def forward(self, text):
-        ...  # returns Mel-spectrogram
-
-class MyVocoder(BaseVocoder):
-    def load_weights(self, path):
-        ...
-    def generate(self, mel):
-        ...  # returns audio waveform
-
-pipeline = TTSPipeline(
-    lang=&quot;yo&quot;,
-    acoustic_model=MyAcousticModel(),
-    vocoder=MyVocoder(),
-)
-result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
-# result[&quot;audio&quot;] now contains the waveform
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">TTSPipeline</span><span class="p">,</span> <span class="n">BaseAcousticModel</span><span class="p">,</span> <span class="n">BaseVocoder</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyAcousticModel</span><span class="p">(</span><span class="n">BaseAcousticModel</span><span class="p">):</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>        <span class="o">...</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>        <span class="o">...</span>  <span class="c1"># returns Mel-spectrogram</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="k">class</span><span class="w"> </span><span class="nc">MyVocoder</span><span class="p">(</span><span class="n">BaseVocoder</span><span class="p">):</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>        <span class="o">...</span>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">generate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mel</span><span class="p">):</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>        <span class="o">...</span>  <span class="c1"># returns audio waveform</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="n">pipeline</span> <span class="o">=</span> <span class="n">TTSPipeline</span><span class="p">(</span>
+<a id="__codelineno-3-16" name="__codelineno-3-16" href="#__codelineno-3-16"></a>    <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">,</span>
+<a id="__codelineno-3-17" name="__codelineno-3-17" href="#__codelineno-3-17"></a>    <span class="n">acoustic_model</span><span class="o">=</span><span class="n">MyAcousticModel</span><span class="p">(),</span>
+<a id="__codelineno-3-18" name="__codelineno-3-18" href="#__codelineno-3-18"></a>    <span class="n">vocoder</span><span class="o">=</span><span class="n">MyVocoder</span><span class="p">(),</span>
+<a id="__codelineno-3-19" name="__codelineno-3-19" href="#__codelineno-3-19"></a><span class="p">)</span>
+<a id="__codelineno-3-20" name="__codelineno-3-20" href="#__codelineno-3-20"></a><span class="n">result</span> <span class="o">=</span> <span class="n">pipeline</span><span class="o">.</span><span class="n">synthesize</span><span class="p">(</span><span class="s2">&quot;Ẹ káàárọ̀&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-21" name="__codelineno-3-21" href="#__codelineno-3-21"></a><span class="c1"># result[&quot;audio&quot;] now contains the waveform</span>
+</code></pre></div>
 <hr />
-<h2 id="model-interfaces">Model Interfaces</h2>
+<h2 id="model-interfaces">Model Interfaces<a class="headerlink" href="#model-interfaces" title="Permanent link">&para;</a></h2>
 
 
 <div class="doc doc-object doc-class">
@@ -1207,8 +1208,8 @@ result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
             <span class="doc doc-object-name doc-class-name">olaverse.speech.TTSPipeline</span>
 
 
-</h2>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">TTSPipeline</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;yo&#39;</span><span class="p">,</span> <span class="n">acoustic_model</span><span class="p">:</span> <span class="n">BaseAcousticModel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vocoder</span><span class="p">:</span> <span class="n">BaseVocoder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">diacritizer_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;diacnet-yor-viterbi&#39;</span><span class="p">)</span>
+<a href="#olaverse.speech.TTSPipeline" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">TTSPipeline</span><span class="p">(</span><span class="n">lang</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;yo&#39;</span><span class="p">,</span> <span class="n">acoustic_model</span><span class="p">:</span> <span class="n">BaseAcousticModel</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">vocoder</span><span class="p">:</span> <span class="n">BaseVocoder</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">diacritizer_model</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;diacnet-yor-viterbi&#39;</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents first">
@@ -1221,10 +1222,10 @@ result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
     Steps 1 (normalisation) and 2 (diacritisation) are fully functional.
     Steps 3 and 4 require you to inject your own acoustic model and vocoder.
     End-to-end audio synthesis from olaverse is on the roadmap.</p>
-<pre><code>To silence this warning:
+<div class="highlight"><pre><span></span><code>To silence this warning:
     import warnings
-    warnings.filterwarnings("ignore", category=ExperimentalWarning)
-</code></pre>
+    warnings.filterwarnings(&quot;ignore&quot;, category=ExperimentalWarning)
+</code></pre></div>
 
 
 
@@ -1245,7 +1246,7 @@ result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
 
 
 
-<h3 id="olaverse.speech.TTSPipeline-functions">Functions</h3>
+<h3 id="olaverse.speech.TTSPipeline-functions">Functions<a href="#olaverse.speech.TTSPipeline-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -1254,8 +1255,8 @@ result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
             <span class="doc doc-object-name doc-function-name">synthesize</span>
 
 
-</h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">synthesize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
+<a href="#olaverse.speech.TTSPipeline.synthesize" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">synthesize</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -1293,7 +1294,7 @@ result = pipeline.synthesize(&quot;Ẹ káàárọ̀&quot;)
             <span class="doc doc-object-name doc-class-name">olaverse.speech.BaseAcousticModel</span>
 
 
-</h2>
+<a href="#olaverse.speech.BaseAcousticModel" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents first">
@@ -1327,7 +1328,7 @@ Converts normalised/diacritised phonetic text into Mel-spectrograms.</p>
 
 
 
-<h3 id="olaverse.speech.BaseAcousticModel-functions">Functions</h3>
+<h3 id="olaverse.speech.BaseAcousticModel-functions">Functions<a href="#olaverse.speech.BaseAcousticModel-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -1340,8 +1341,8 @@ Converts normalised/diacritised phonetic text into Mel-spectrograms.</p>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
-</h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load_weights</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
+<a href="#olaverse.speech.BaseAcousticModel.load_weights" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_weights</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -1364,8 +1365,8 @@ Converts normalised/diacritised phonetic text into Mel-spectrograms.</p>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
-</h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">forward</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
+<a href="#olaverse.speech.BaseAcousticModel.forward" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">forward</span><span class="p">(</span><span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -1426,7 +1427,7 @@ Converts normalised/diacritised phonetic text into Mel-spectrograms.</p>
             <span class="doc doc-object-name doc-class-name">olaverse.speech.BaseVocoder</span>
 
 
-</h2>
+<a href="#olaverse.speech.BaseVocoder" class="headerlink" title="Permanent link">&para;</a></h2>
 
 
     <div class="doc doc-contents first">
@@ -1460,7 +1461,7 @@ Converts Mel-spectrograms into raw audio waveforms.</p>
 
 
 
-<h3 id="olaverse.speech.BaseVocoder-functions">Functions</h3>
+<h3 id="olaverse.speech.BaseVocoder-functions">Functions<a href="#olaverse.speech.BaseVocoder-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -1473,8 +1474,8 @@ Converts Mel-spectrograms into raw audio waveforms.</p>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
-</h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">load_weights</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
+<a href="#olaverse.speech.BaseVocoder.load_weights" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_weights</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">
@@ -1497,8 +1498,8 @@ Converts Mel-spectrograms into raw audio waveforms.</p>
       <small class="doc doc-label doc-label-abstractmethod"><code>abstractmethod</code></small>
   </span>
 
-</h4>
-<div class="doc-signature highlight"><pre><span></span><code><span class="nf">generate</span><span class="p">(</span><span class="n">acoustic_features</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span>
+<a href="#olaverse.speech.BaseVocoder.generate" class="headerlink" title="Permanent link">&para;</a></h4>
+<div class="doc-signature highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">generate</span><span class="p">(</span><span class="n">acoustic_features</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span>
 </code></pre></div>
 
     <div class="doc doc-contents ">

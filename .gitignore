@@ -67,3 +67,10 @@ projects/**/*.json
 projects/**/*.bin
 projects/**/*.safetensors
 projects/
+
+# MkDocs build output
+site/
+
+# Scratch / ad-hoc test files
+test_download.py
+text.txt

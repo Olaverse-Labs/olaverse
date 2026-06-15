@@ -43,7 +43,7 @@ class LegalPeace:
         FastLanguageModel.for_inference(self.model)
         self._loaded = True
         
-    def generate(self, prompt, max_new_tokens=300, temperature=0.7, **kwargs):
+    def generate(self, prompt: str, max_new_tokens: int = 300, temperature: float = 0.7, **kwargs) -> str:
         """
         Generate legal analysis or reasoning for a prompt.
         

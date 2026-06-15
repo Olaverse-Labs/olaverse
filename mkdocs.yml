@@ -1,5 +1,5 @@
 site_name: Olaverse
-site_description: Advanced ML infrastructure and interface for Olaverse models
+site_description: African NLP, MIST language models, and Text-to-Speech architecture — one Python SDK
 site_url: https://olaverse-labs.github.io/olaverse/
 repo_url: https://github.com/Olaverse-Labs/olaverse
 repo_name: Olaverse-Labs/olaverse
@@ -7,7 +7,7 @@ repo_name: Olaverse-Labs/olaverse
 theme:
   name: material
   custom_dir: docs/overrides
-  logo: assets/logo.png        # drop your logo here when ready
+  logo: assets/logo.png
   favicon: assets/logo.png
 
   font:
@@ -20,14 +20,17 @@ theme:
     - navigation.top
     - navigation.instant
     - navigation.footer
+    - navigation.indexes
     - search.highlight
     - search.suggest
+    - search.share
     - content.code.copy
     - content.code.annotate
+    - content.tabs.link
     - toc.follow
+    - announce.dismiss
 
   palette:
-    # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: default
       primary: white
@@ -36,7 +39,6 @@ theme:
         icon: material/weather-sunny
         name: Switch to dark mode
 
-    # Dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
@@ -47,11 +49,17 @@ theme:
 
   icon:
     repo: fontawesome/brands/github
+    admonition:
+      warning: octicons/alert-16
+      tip: octicons/light-bulb-16
+      note: octicons/info-16
 
 extra_css:
   - stylesheets/extra.css
 
 extra:
+  version:
+    provider: mike
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/Olaverse-Labs
@@ -63,10 +71,11 @@ extra:
       link: https://pypi.org/project/olaverse/
       name: olaverse on PyPI
 
-  generator: false   # hides "Made with MkDocs Material" in footer
+  generator: false
 
 plugins:
-  - search
+  - search:
+      lang: en
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -75,14 +84,17 @@ plugins:
             show_source: false
             show_root_heading: true
             show_category_heading: true
+            show_signature_annotations: true
             members_order: source
             docstring_style: google
+            merge_init_into_class: true
+            separate_signature: true
 
 nav:
   - 🏠 Main Site: https://www.olaverse.co.uk/
   - Home: index.md
-  - Core Modules:
-    - NLP & Tokenization: nlp.md
-    - Speech Synthesis: speech.md
-    - Language Models: llm.md
-    - Global Utilities: utils.md
+  - NLP & Tokenization: nlp.md
+  - Language Models: llm.md
+  - Speech (Roadmap): speech.md
+  - Utilities: utils.md
+  - Changelog: changelog.md

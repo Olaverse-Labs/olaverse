@@ -2,23 +2,44 @@ from olaverse.nlp.diacritizer import (
     Diacritizer,
     diacritize_yoruba,
     diacritize_yoruba_dot_below,
-    diacritize_igbo
+    diacritize_igbo,
 )
-from olaverse.nlp.language_detection import detect_language, LIDLite5
-
+from olaverse.nlp.language_detection import detect_language, LIDLite5, LIDNeural5
 from olaverse.nlp.preprocessing import mask_pii, clean_text
 from olaverse.nlp.tokenizer import Tokenizer
-from olaverse.nlp.normalization import TTSNormalizer
+from olaverse.nlp.normalization import TTSNormalizer, NaijaNormalizer
+from olaverse.nlp.stopwords import (
+    YORUBA_STOPWORDS,
+    IGBO_STOPWORDS,
+    HAUSA_STOPWORDS,
+    PIDGIN_STOPWORDS,
+    get_stopwords,
+    filter_stopwords,
+)
 
 __all__ = [
+    # Diacritization
     "Diacritizer",
     "diacritize_yoruba",
     "diacritize_yoruba_dot_below",
     "diacritize_igbo",
+    # Language detection
     "detect_language",
     "LIDLite5",
+    "LIDNeural5",
+    # Text preprocessing
     "mask_pii",
     "clean_text",
+    # Tokenization
     "Tokenizer",
-    "TTSNormalizer"
+    # Normalization
+    "TTSNormalizer",
+    "NaijaNormalizer",
+    # Stopwords
+    "YORUBA_STOPWORDS",
+    "IGBO_STOPWORDS",
+    "HAUSA_STOPWORDS",
+    "PIDGIN_STOPWORDS",
+    "get_stopwords",
+    "filter_stopwords",
 ]

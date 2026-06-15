@@ -74,13 +74,18 @@ class TestLegalPeaceInit:
             model.tokenizer = mock_tokenizer
 
         model.load.side_effect = side_effect_load
-
-        with patch("torch.cuda.is_available", return_value=False):
-            with patch("torch", MagicMock()):
-                try:
-                    model.generate("Test prompt")
-                except Exception:
-                    pass  # We only care that load() was called
+    
+        import sys
+        if "torch" not in sys.modules:
+            sys.modules["torch"] = MagicMock()
+            
+        sys.modules["torch"].cuda.is_available.return_value = False
+        
+        with patch.object(model, 'model', mock_model):
+            try:
+                output = model.generate("Test prompt")
+            except Exception:
+                pass  # We only care that load() was called
 
         model.load.assert_called_once()
 
@@ -104,10 +109,11 @@ class TestLegalPeaceInit:
 
 @pytest.mark.gpu
 class TestLegalPeaceInference:
-    """Full inference tests — require GPU and unsloth installed."""
-
+    """Tests requiring model weights and GPU (skipped if unsloth not installed)."""
+    
     @pytest.fixture(scope="class")
     def loaded_model(self):
+        pytest.importorskip("unsloth")
         from olaverse.llm import LegalPeace
         model = LegalPeace()
         model.load()

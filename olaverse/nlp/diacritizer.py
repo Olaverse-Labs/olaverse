@@ -372,43 +372,97 @@ def diacritize_igbo(text, model_path=None):
 # ─── Unified Wrapper Class ───
 MODEL_REGISTRY = {
     "diacnet-yor-viterbi": {"lang": "yo", "method": "viterbi"},
-    "diacnet-yor-db": {"lang": "yo", "method": "knn"},
-    "diacnet-ig": {"lang": "ig", "method": "knn"},
-    "diacnet-yor": {"lang": "yo", "method": "bilstm"},
-    "diacnet-yor-x": {"lang": "yo", "method": "transformer"},
+    "diacnet-yor-db":      {"lang": "yo", "method": "knn"},
+    "diacnet-ig":          {"lang": "ig", "method": "knn"},
+    "diacnet-yor":         {"lang": "yo", "method": "bilstm"},
+    "diacnet-yor-x":       {"lang": "yo", "method": "transformer"},
+    "auto":                {"lang": "auto", "method": "auto"},
 }
 
 class Diacritizer:
     """
-    Unified interface for restoring diacritics in African languages using model IDs.
+    Unified interface for restoring diacritics in African languages.
+
+    Pass a model ID to use a specific backend, or ``model="auto"`` to detect
+    the language automatically and route to the appropriate diacritizer.
+
+    Args:
+        model: One of:
+
+            * ``"diacnet-yor-viterbi"`` — Yoruba, fast Viterbi n-gram (default)
+            * ``"diacnet-yor-db"``      — Yoruba dot-below only, KNN
+            * ``"diacnet-ig"``          — Igbo, KNN
+            * ``"diacnet-yor"``         — Yoruba BiLSTM (requires ``olaverse[deeplearning]``)
+            * ``"diacnet-yor-x"``       — Yoruba XLM-RoBERTa (requires ``olaverse[deeplearning]``)
+            * ``"auto"``                — detect language via LIDLite5, then route automatically
     """
-    def __init__(self, model="diacnet-yor-viterbi"):
+
+    def __init__(self, model: str = "diacnet-yor-viterbi"):
         if model not in MODEL_REGISTRY:
-            raise ValueError(f"Model '{model}' is not recognized in the registry. Available models: {list(MODEL_REGISTRY.keys())}")
-            
+            raise ValueError(
+                f"Model '{model}' is not recognised. "
+                f"Available: {list(MODEL_REGISTRY.keys())}"
+            )
+
         config = MODEL_REGISTRY[model]
         self.lang = config["lang"]
         self.method = config["method"]
         self.neural_decoder = None
 
+        # Auto-routing: lazy-load LIDLite5 + sub-diacritizers at restore() time
+        if self.method == "auto":
+            self._lid = None
+            self._sub: dict = {}
+            return
+
         if self.method == "bilstm":
             if "bilstm" not in _NEURAL_CACHE:
-                pt = get_model_path("diacnet_yor.pt", repo_id="olaverse/diacnet-yor")
+                pt    = get_model_path("diacnet_yor.pt",       repo_id="olaverse/diacnet-yor")
                 vocab = get_model_path("diacnet_yor_vocab.json", repo_id="olaverse/diacnet-yor")
                 _NEURAL_CACHE["bilstm"] = BiLSTMDecoder(pt, vocab)
             self.neural_decoder = _NEURAL_CACHE["bilstm"]
 
         elif self.method == "transformer":
             if "transformer" not in _NEURAL_CACHE:
-                pt = get_model_path("diacnet_yor_x.pt", repo_id="olaverse/diacnet-yor-x")
+                pt    = get_model_path("diacnet_yor_x.pt",       repo_id="olaverse/diacnet-yor-x")
                 vocab = get_model_path("diacnet_yor_x_vocab.json", repo_id="olaverse/diacnet-yor-x")
                 _NEURAL_CACHE["transformer"] = TransformerDecoder(pt, vocab)
             self.neural_decoder = _NEURAL_CACHE["transformer"]
 
-    def restore(self, text):
+    def _auto_restore(self, text: str) -> str:
+        """Detect language then delegate to the correct diacritizer."""
+        if self._lid is None:
+            from olaverse.nlp.language_detection import LIDLite5
+            self._lid = LIDLite5()
+
+        lang = self._lid.predict(text)
+
+        if lang == "ibo":
+            if "ig" not in self._sub:
+                self._sub["ig"] = Diacritizer(model="diacnet-ig")
+            return self._sub["ig"].restore(text)
+
+        # Default to Yoruba for 'yor' and any other detected language
+        if "yo" not in self._sub:
+            self._sub["yo"] = Diacritizer(model="diacnet-yor-viterbi")
+        return self._sub["yo"].restore(text)
+
+    def restore(self, text: str) -> str:
+        """
+        Restore diacritics in the given text.
+
+        Args:
+            text: Plain text (tones/diacritics stripped or missing).
+
+        Returns:
+            Text with diacritics restored.
+        """
+        if self.method == "auto":
+            return self._auto_restore(text)
+
         if self.neural_decoder:
             return self.neural_decoder.decode(text)
-            
+
         if self.lang == "yo":
             if self.method == "viterbi":
                 return diacritize_yoruba(text)
@@ -416,5 +470,8 @@ class Diacritizer:
                 return diacritize_yoruba_dot_below(text)
             else:
                 raise ValueError(f"Unsupported method '{self.method}' for Yoruba.")
-        elif self.lang == "ig":
+
+        if self.lang == "ig":
             return diacritize_igbo(text)
+
+        raise ValueError(f"Unsupported language '{self.lang}'.")

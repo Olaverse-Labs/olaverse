@@ -6,7 +6,7 @@ try:
 except ImportError:
     SCIPY_AVAILABLE = False
 
-def save_audio(waveform, sample_rate: int, output_path: str):
+def save_audio(waveform: object, sample_rate: int, output_path: str) -> None:
     """
     Save a generated audio waveform to a .wav file.
     
@@ -21,7 +21,7 @@ def save_audio(waveform, sample_rate: int, output_path: str):
     os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
     wavfile.write(output_path, sample_rate, waveform)
 
-def load_audio(input_path: str):
+def load_audio(input_path: str) -> tuple:
     """
     Load an audio waveform from a .wav file.
     

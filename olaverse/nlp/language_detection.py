@@ -117,5 +117,126 @@ def detect_language(text, model_path="lid-lite-5.json"):
             detector = LIDLite5("language_detector.json")
         except (FileNotFoundError, KeyError):
             raise FileNotFoundError(f"LIDLite5 model not found at: {model_path}")
-            
+
     return detector.predict(text)
+
+
+class LIDNeural5:
+    """
+    High-accuracy transformer-based language identifier for 5 Nigerian languages.
+
+    Base Model: castorini/afriberta_large (XLM-RoBERTa, 125M parameters)
+    Fine-tuned on: Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), English ('eng')
+    Validation accuracy: 98.96% macro-F1
+
+    Requires: pip install olaverse[deeplearning]
+    """
+
+    def __init__(self, model_name="olaverse/lid-neural-5"):
+        self.model_name = model_name
+        self.model = None
+        self.tokenizer = None
+        self._loaded = False
+        self.classes = ['eng', 'hau', 'ibo', 'pcm', 'yor']
+
+    def load(self):
+        """Download and load the model from Hugging Face (runs once; cached after first call)."""
+        if self._loaded:
+            return
+
+        try:
+            from transformers import AutoTokenizer, AutoModelForSequenceClassification
+        except ImportError:
+            raise ImportError(
+                "The 'transformers' and 'torch' libraries are required to load LIDNeural5. "
+                "Install with: pip install olaverse[deeplearning]"
+            )
+
+        self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
+
+        if hasattr(self.model.config, "id2label") and self.model.config.id2label:
+            id2lbl = self.model.config.id2label
+            self.classes = [id2lbl[i] if i in id2lbl else id2lbl[str(i)] for i in range(len(id2lbl))]
+
+        self.model.eval()
+        self._loaded = True
+
+    def predict_proba(self, text: str) -> dict:
+        """
+        Return probability distribution over all 5 languages.
+
+        Returns:
+            dict: {'eng': 0.02, 'hau': 0.01, 'ibo': 0.95, 'pcm': 0.01, 'yor': 0.01}
+        """
+        if not self._loaded:
+            self.load()
+
+        import torch
+
+        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+
+        with torch.no_grad():
+            logits = self.model(**inputs).logits
+            probs = torch.softmax(logits, dim=-1).squeeze().tolist()
+
+        if not isinstance(probs, list):
+            probs = [probs]
+
+        return {self.classes[i]: probs[i] for i in range(len(self.classes))}
+
+    def predict(self, text: str) -> str:
+        """
+        Predict the dominant language of the text.
+
+        Returns:
+            str: One of 'yor', 'hau', 'ibo', 'pcm', 'eng'.
+        """
+        probs = self.predict_proba(text)
+        return max(probs, key=probs.get)
+
+    def predict_proba_batch(self, texts: list) -> list:
+        """
+        Predict language probabilities for a list of texts in a single forward pass.
+
+        Args:
+            texts: List of text strings.
+
+        Returns:
+            List of dicts, one per input text:
+            [{'eng': 0.02, 'ibo': 0.95, ...}, ...]
+        """
+        if not self._loaded:
+            self.load()
+
+        import torch
+
+        inputs = self.tokenizer(
+            texts,
+            return_tensors="pt",
+            truncation=True,
+            max_length=128,
+            padding=True,
+        )
+
+        with torch.no_grad():
+            logits = self.model(**inputs).logits
+            probs = torch.softmax(logits, dim=-1).tolist()
+
+        return [{self.classes[i]: row[i] for i in range(len(self.classes))} for row in probs]
+
+    def predict_batch(self, texts: list) -> list:
+        """
+        Predict the dominant language for a list of texts.
+
+        Uses a single batched forward pass — much faster than calling
+        ``predict()`` in a loop for large inputs.
+
+        Args:
+            texts: List of text strings.
+
+        Returns:
+            List of language codes, e.g. ``['yor', 'ibo', 'pcm']``.
+        """
+        proba_list = self.predict_proba_batch(texts)
+        return [max(p, key=p.get) for p in proba_list]

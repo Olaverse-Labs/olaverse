@@ -74,3 +74,6 @@ site/
 # Scratch / ad-hoc test files
 test_download.py
 text.txt
+
+# olaverse-foundry is a separate git repo — tracked independently
+olaverse-foundry/

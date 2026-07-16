@@ -1307,31 +1307,153 @@ Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Fac
 <hr />
 <h2 id="model-index">Model Index<a class="headerlink" href="#model-index" title="Permanent link">&para;</a></h2>
 <div class="ov-model-table">
-
-| Model | Task | Size | Speed | Install |
-|---|---|---|---|---|
-| `LIDLite5` | Language ID (5 langs) | 1.1 MB JSON | 0.014 ms | `olaverse` |
-| `LIDNeural5` | Language ID (5 langs) | 484 MB | 13 ms | `olaverse[deeplearning]` |
-| `LIDLite25` | Language ID (25 langs) | ~5-10 MB | <1 ms | `olaverse[lid]` |
-| `LIDNeural25` | Language ID (25 langs) | ~500 MB | — | `olaverse[deeplearning]` |
-| `LIDNeural5_1` | Language ID (4 Nigerian langs, no English) | ~120 MB | — | `olaverse[deeplearning]` |
-| `MIST-Mini-8B` | General LLM | 15 GB | ~63 tok/s | `olaverse[deeplearning]` |
-| `MIST-1-70B` | General LLM | 132 GB | ~23 tok/s | hosted or multi-GPU |
-| `MIST-1-140B` | General LLM | 256 GB | ~8 tok/s | hosted or 2× H200 |
-| `MIST-Mini-8B-Thinking` | Reasoning LLM | 15 GB | ~55 tok/s | `olaverse[deeplearning]` |
-| `LegalPeace` | Legal reasoning | 7B (4-bit) | — | `olaverse[legal]` |
-| `DiacNet` (5 Yoruba/Igbo variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
-| `diacnet-1.0` | Diacritization (10 langs) | ~300 MB | Slow | `olaverse[deeplearning]` |
-| `OTK-BPE-50k` (5 Nigerian variants) | Tokenization | ~3 MB each | — | `olaverse` |
-| `OTK-BPE` (9 Swahili/Kinyarwanda/merged variants) | Tokenization | varies | — | `olaverse` |
-| `Reranker` (2 sizes) | Reranking | 23 MB – 150M params | — | `olaverse[retrieval]` |
-| `Embedder` | Sentence embeddings (ha/yo/ig) | ~120 MB | — | `olaverse[retrieval]` |
-| `PrismUpscaler` (3 sizes) | Image super-resolution | ~25K params – small | — | `olaverse[vision]` |
-| `PrismDenoiser` | Image denoising | Small U-Net | — | `olaverse[vision]` |
-| `PrismSteganography` | Image steganography | Small U-Net | — | `olaverse[vision]` |
-
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Task</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Install</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIDLite5</code></td>
+<td>Language ID (5 langs)</td>
+<td>1.1 MB JSON</td>
+<td>0.014 ms</td>
+<td><code>olaverse</code></td>
+</tr>
+<tr>
+<td><code>LIDNeural5</code></td>
+<td>Language ID (5 langs)</td>
+<td>484 MB</td>
+<td>13 ms</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>LIDLite25</code></td>
+<td>Language ID (25 langs)</td>
+<td>~5-10 MB</td>
+<td>&lt;1 ms</td>
+<td><code>olaverse[lid]</code></td>
+</tr>
+<tr>
+<td><code>LIDNeural25</code></td>
+<td>Language ID (25 langs)</td>
+<td>~500 MB</td>
+<td>—</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>LIDNeural5_1</code></td>
+<td>Language ID (4 Nigerian langs, no English)</td>
+<td>~120 MB</td>
+<td>—</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>MIST-Mini-8B</code></td>
+<td>General LLM</td>
+<td>15 GB</td>
+<td>~63 tok/s</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>MIST-1-70B</code></td>
+<td>General LLM</td>
+<td>132 GB</td>
+<td>~23 tok/s</td>
+<td>hosted or multi-GPU</td>
+</tr>
+<tr>
+<td><code>MIST-1-140B</code></td>
+<td>General LLM</td>
+<td>256 GB</td>
+<td>~8 tok/s</td>
+<td>hosted or 2× H200</td>
+</tr>
+<tr>
+<td><code>MIST-Mini-8B-Thinking</code></td>
+<td>Reasoning LLM</td>
+<td>15 GB</td>
+<td>~55 tok/s</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>LegalPeace</code></td>
+<td>Legal reasoning</td>
+<td>7B (4-bit)</td>
+<td>—</td>
+<td><code>olaverse[legal]</code></td>
+</tr>
+<tr>
+<td><code>DiacNet</code> (5 Yoruba/Igbo variants)</td>
+<td>Diacritization</td>
+<td>1 MB – 503 MB</td>
+<td>—</td>
+<td><code>olaverse</code> / <code>[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>diacnet-1.0</code></td>
+<td>Diacritization (10 langs)</td>
+<td>~300 MB</td>
+<td>Slow</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>OTK-BPE-50k</code> (5 Nigerian variants)</td>
+<td>Tokenization</td>
+<td>~3 MB each</td>
+<td>—</td>
+<td><code>olaverse</code></td>
+</tr>
+<tr>
+<td><code>OTK-BPE</code> (9 Swahili/Kinyarwanda/merged variants)</td>
+<td>Tokenization</td>
+<td>varies</td>
+<td>—</td>
+<td><code>olaverse</code></td>
+</tr>
+<tr>
+<td><code>Reranker</code> (2 sizes)</td>
+<td>Reranking</td>
+<td>23 MB – 150M params</td>
+<td>—</td>
+<td><code>olaverse[retrieval]</code></td>
+</tr>
+<tr>
+<td><code>Embedder</code></td>
+<td>Sentence embeddings (ha/yo/ig)</td>
+<td>~120 MB</td>
+<td>—</td>
+<td><code>olaverse[retrieval]</code></td>
+</tr>
+<tr>
+<td><code>PrismUpscaler</code> (3 sizes)</td>
+<td>Image super-resolution</td>
+<td>~25K params – small</td>
+<td>—</td>
+<td><code>olaverse[vision]</code></td>
+</tr>
+<tr>
+<td><code>PrismDenoiser</code></td>
+<td>Image denoising</td>
+<td>Small U-Net</td>
+<td>—</td>
+<td><code>olaverse[vision]</code></td>
+</tr>
+<tr>
+<td><code>PrismSteganography</code></td>
+<td>Image steganography</td>
+<td>Small U-Net</td>
+<td>—</td>
+<td><code>olaverse[vision]</code></td>
+</tr>
+</tbody>
+</table>
 </div>
-
 <hr />
 <h2 id="whats-new-in-v015">What's New in v0.1.5<a class="headerlink" href="#whats-new-in-v015" title="Permanent link">&para;</a></h2>
 <ul>

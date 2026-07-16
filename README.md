@@ -1,3 +1,5 @@
+![Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism](docs/assets/banner.png)
+
 # Olaverse Documentation
 
 [![PyPI Version](https://img.shields.io/pypi/v/olaverse.svg)](https://pypi.org/project/olaverse/)

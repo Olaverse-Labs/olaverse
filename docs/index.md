@@ -1,3 +1,5 @@
+<img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;">
+
 <div class="ov-hero">
   <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>

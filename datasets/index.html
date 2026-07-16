@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/utils/">
+        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/datasets/">
       
       
-        <link rel="prev" href="../speech/">
+        <link rel="prev" href="../vision/">
       
       
-        <link rel="next" href="../changelog/">
+        <link rel="next" href="../speech/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Utilities - Olaverse</title>
+        <title>Datasets - Olaverse</title>
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#utilities" class="md-skip">
+        <a href="#datasets" class="md-skip">
           Skip to content
         </a>
       
@@ -139,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Utilities
+              Datasets
             
           </span>
         </div>
@@ -350,9 +350,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../datasets/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -388,11 +390,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="./" class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../utils/" class="md-tabs__link">
         
   
   
@@ -607,10 +607,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../datasets/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Datasets
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -626,6 +653,164 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#install" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#train-a-reranker-graded-pairs-or-triplets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Train a reranker — graded pairs or triplets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-a-diacritizer-on-diacbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark a diacritizer on DiacBench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-a-large-multilingual-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream a large multilingual dataset
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#errors-you-might-see" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Errors you might see
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.data.load_dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        load_dataset
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.data.list_datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        list_datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.data.dataset_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataset_info
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -661,37 +846,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Utilities
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../utils/" class="md-nav__link">
         
   
   
@@ -707,160 +865,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#currency-formatting" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Currency Formatting
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Currency Formatting">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#format_currency" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        format_currency
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.utils.format_currency" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        format_currency
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="format_currency">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#currencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CURRENCIES
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#continents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CONTINENTS
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#audio-io" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Audio I/O
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Audio I/O">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#save_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        save_audio
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.utils.save_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        save_audio
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="save_audio">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#load_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_audio
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.utils.load_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_audio
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -919,22 +923,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#currency-formatting" class="md-nav__link">
+  <a href="#install" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Currency Formatting
+        Install
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Currency Formatting">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-datasets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available Datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#examples" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Examples
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Examples">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#format_currency" class="md-nav__link">
+  <a href="#train-a-reranker-graded-pairs-or-triplets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        format_currency
+        Train a reranker — graded pairs or triplets
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#benchmark-a-diacritizer-on-diacbench" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmark a diacritizer on DiacBench
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#stream-a-large-multilingual-dataset" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Stream a large multilingual dataset
       
     </span>
   </a>
@@ -947,105 +1006,54 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#olaverse.utils.format_currency" class="md-nav__link">
+  <a href="#errors-you-might-see" class="md-nav__link">
     <span class="md-ellipsis">
       
-        format_currency
+        Errors you might see
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="format_currency">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#currencies" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CURRENCIES
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#continents" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        CONTINENTS
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#audio-io" class="md-nav__link">
+  <a href="#api-reference" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Audio I/O
+        API Reference
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="Audio I/O">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#save_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        save_audio
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#olaverse.utils.save_audio" class="md-nav__link">
+  <a href="#olaverse.data.load_dataset" class="md-nav__link">
     <span class="md-ellipsis">
       
-        save_audio
+        load_dataset
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="save_audio">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#load_audio" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_audio
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#olaverse.utils.load_audio" class="md-nav__link">
+  <a href="#olaverse.data.list_datasets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_audio
+        list_datasets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#olaverse.data.dataset_info" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataset_info
       
     </span>
   </a>
@@ -1072,146 +1080,142 @@
   
 
 
-<h1 id="utilities">Utilities<a class="headerlink" href="#utilities" title="Permanent link">&para;</a></h1>
-<p>The <code>olaverse.utils</code> module provides global constants, currency formatting, and audio I/O helpers used throughout the library and available for your own use.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_currency</span><span class="p">,</span> <span class="n">CURRENCIES</span><span class="p">,</span> <span class="n">CONTINENTS</span><span class="p">,</span> <span class="n">save_audio</span><span class="p">,</span> <span class="n">load_audio</span>
+<h1 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Permanent link">&para;</a></h1>
+<p>The Olaverse SDK gives you direct access to every public <a href="https://huggingface.co/olaverse">olaverse dataset on Hugging Face</a> — the training and evaluation data behind the MIST rerankers, <code>mist-qg-1.5b</code>, <code>lid-lite-25</code>, and <code>diacnet-1.0</code>.</p>
+<p>Dataset loading is a thin wrapper around the Hugging Face <code>datasets</code> library, with short names, config validation, and helpful errors.</p>
+<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>data<span class="o">]</span>
 </span></code></pre></div>
-<hr />
-<h2 id="currency-formatting">Currency Formatting<a class="headerlink" href="#currency-formatting" title="Permanent link">&para;</a></h2>
-<h3 id="format_currency"><code>format_currency</code><a class="headerlink" href="#format_currency" title="Permanent link">&para;</a></h3>
-<p>Format any numeric value as a currency string with the correct symbol.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">format_currency</span>
+<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">list_datasets</span><span class="p">,</span> <span class="n">dataset_info</span>
 </span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">format_currency</span><span class="p">(</span><span class="mi">1500</span><span class="p">,</span> <span class="s2">&quot;₦&quot;</span><span class="p">)</span>       <span class="c1"># → &#39;₦1,500.00&#39;</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">format_currency</span><span class="p">(</span><span class="mi">3_750_000</span><span class="p">,</span> <span class="s2">&quot;₦&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;₦3,750,000.00&#39;</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">format_currency</span><span class="p">(</span><span class="mf">99.9</span><span class="p">,</span> <span class="s2">&quot;$&quot;</span><span class="p">)</span>        <span class="c1"># → &#39;$99.90&#39;</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="n">format_currency</span><span class="p">(</span><span class="s2">&quot;invalid&quot;</span><span class="p">,</span> <span class="s2">&quot;£&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;£invalid&#39;</span>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Discover what&#39;s available</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">list_datasets</span><span class="p">()</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># → [&#39;reranker-general-en-llm-judged&#39;, &#39;marco-style-pairs-multi&#39;,</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#    &#39;qg-passages-multi&#39;, &#39;reranker-triples-multi&#39;,</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#    &#39;qg-eval-multi-fresh&#39;, &#39;diacbench&#39;]</span>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Inspect a dataset before loading</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">dataset_info</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">)</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># → {&#39;repo_id&#39;: &#39;olaverse/diacbench&#39;, &#39;configs&#39;: [&#39;es&#39;, &#39;fr&#39;, &#39;ha&#39;, ...],</span>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">#    &#39;splits&#39;: [&#39;test&#39;], ...}</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Load — returns a standard Hugging Face Dataset</span>
+</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1"># → {&#39;input&#39;: &#39;Titi di igba ti o maa fi ko eru re lo patapata, ...&#39;,</span>
+</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1">#    &#39;reference&#39;: &#39;Títí di ìgbà tí ó máa fi kó ẹrù rẹ̀ lọ pátápátá, ...&#39;}</span>
 </span></code></pre></div>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.utils.format_currency" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.utils.format_currency</span>
-
-
-<a href="#olaverse.utils.format_currency" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">symbol</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;$&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents first">
-
-        <p>Format a number or string as a generic currency.
-e.g. format_currency(1500, "$") -&gt; $1,500.00</p>
-
-
-    </div>
-
-</div><hr />
-<h3 id="currencies"><code>CURRENCIES</code><a class="headerlink" href="#currencies" title="Permanent link">&para;</a></h3>
-<p>A dictionary mapping ISO 4217 currency codes to their symbols. Includes the Nigerian Naira and major world currencies.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CURRENCIES</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;NGN&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;₦&#39;</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;USD&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;$&#39;</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;GBP&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;£&#39;</span>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;EUR&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;€&#39;</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># Use with format_currency</span>
-</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="n">amount</span> <span class="o">=</span> <span class="mi">5_000</span>
-</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="n">symbol</span> <span class="o">=</span> <span class="n">CURRENCIES</span><span class="p">[</span><span class="s2">&quot;NGN&quot;</span><span class="p">]</span>
-</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">format_currency</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">symbol</span><span class="p">)</span>  <span class="c1"># → &#39;₦5,000.00&#39;</span>
-</span></code></pre></div>
+<p><code>load_dataset</code> accepts either the short name (<code>"diacbench"</code>) or the full repo ID (<code>"olaverse/diacbench"</code>), and passes extra keyword arguments straight through to <code>datasets.load_dataset</code> — e.g. <code>streaming=True</code> for large datasets.</p>
+<h2 id="available-datasets">Available Datasets<a class="headerlink" href="#available-datasets" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Code</th>
-<th>Currency</th>
-<th>Symbol</th>
+<th>Dataset</th>
+<th>Task</th>
+<th>Languages</th>
+<th>Configs</th>
+<th>Splits</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>NGN</td>
-<td>Nigerian Naira</td>
-<td>₦</td>
+<td><a href="https://huggingface.co/datasets/olaverse/reranker-general-en-llm-judged"><code>reranker-general-en-llm-judged</code></a></td>
+<td>Reranker / retriever training (LLM-judged graded relevance)</td>
+<td>English</td>
+<td><code>pairs-graded</code> (default), <code>triplets</code></td>
+<td><code>train</code>, <code>test</code></td>
 </tr>
 <tr>
-<td>USD</td>
-<td>US Dollar</td>
-<td>$</td>
+<td><a href="https://huggingface.co/datasets/olaverse/marco-style-pairs-multi"><code>marco-style-pairs-multi</code></a></td>
+<td>(query, positive) pairs for embedding training</td>
+<td>25 languages</td>
+<td>—</td>
+<td><code>train</code></td>
 </tr>
 <tr>
-<td>GBP</td>
-<td>British Pound</td>
-<td>£</td>
+<td><a href="https://huggingface.co/datasets/olaverse/qg-passages-multi"><code>qg-passages-multi</code></a></td>
+<td>Passages + search-style questions (behind <code>mist-qg-1.5b</code>)</td>
+<td>25 languages</td>
+<td>—</td>
+<td><code>train</code></td>
 </tr>
 <tr>
-<td>EUR</td>
-<td>Euro</td>
-<td>€</td>
+<td><a href="https://huggingface.co/datasets/olaverse/reranker-triples-multi"><code>reranker-triples-multi</code></a></td>
+<td>Reranker triples with hard negatives</td>
+<td>25 languages</td>
+<td>—</td>
+<td><code>train</code></td>
 </tr>
 <tr>
-<td>JPY</td>
-<td>Japanese Yen</td>
-<td>¥</td>
+<td><a href="https://huggingface.co/datasets/olaverse/qg-eval-multi-fresh"><code>qg-eval-multi-fresh</code></a></td>
+<td>Held-out question-generation eval (625 passages)</td>
+<td>25 languages</td>
+<td>—</td>
+<td><code>train</code></td>
 </tr>
 <tr>
-<td>ZAR</td>
-<td>South African Rand</td>
-<td>R</td>
-</tr>
-<tr>
-<td>INR</td>
-<td>Indian Rupee</td>
-<td>₹</td>
-</tr>
-<tr>
-<td>BRL</td>
-<td>Brazilian Real</td>
-<td>R$</td>
+<td><a href="https://huggingface.co/datasets/olaverse/diacbench"><code>diacbench</code></a></td>
+<td>DiacBench — diacritization benchmark (~1,000 pairs/language)</td>
+<td>10 languages</td>
+<td>one per language: <code>es fr ha ig it pl pt tr vi yo</code></td>
+<td><code>test</code></td>
 </tr>
 </tbody>
 </table>
+<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
+<h3 id="train-a-reranker-graded-pairs-or-triplets">Train a reranker — graded pairs or triplets<a class="headerlink" href="#train-a-reranker-graded-pairs-or-triplets" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 844k LLM-judged (query, passage, grade) pairs — cross-encoder training</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">pairs</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;pairs-graded&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 82k (query, positive, negative_1..5) triplets — bi-encoder / ColBERT training</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">triplets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="benchmark-a-diacritizer-on-diacbench">Benchmark a diacritizer on DiacBench<a class="headerlink" href="#benchmark-a-diacritizer-on-diacbench" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">reference</span> <span class="o">=</span> <span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span>
+</span></code></pre></div>
+<h3 id="stream-a-large-multilingual-dataset">Stream a large multilingual dataset<a class="headerlink" href="#stream-a-large-multilingual-dataset" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">stream</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;qg-passages-multi&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">streaming</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">break</span>
+</span></code></pre></div>
+<h2 id="errors-you-might-see">Errors you might see<a class="headerlink" href="#errors-you-might-see" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>ValueError: Dataset 'diacbench' requires a config</code></strong> — multi-config datasets like DiacBench need an explicit config, e.g. <code>load_dataset("diacbench", "yo")</code>.</li>
+<li><strong><code>ImportError: The 'datasets' library is required</code></strong> — install the extra: <code>pip install olaverse[data]</code>.</li>
+</ul>
 <hr />
-<h3 id="continents"><code>CONTINENTS</code><a class="headerlink" href="#continents" title="Permanent link">&para;</a></h3>
-<p>ISO continent codes mapped to full names.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">CONTINENTS</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;AF&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;Africa&#39;</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;EU&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;Europe&#39;</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">CONTINENTS</span><span class="p">[</span><span class="s2">&quot;NA&quot;</span><span class="p">]</span>   <span class="c1"># → &#39;North America&#39;</span>
-</span></code></pre></div>
-<hr />
-<h2 id="audio-io">Audio I/O<a class="headerlink" href="#audio-io" title="Permanent link">&para;</a></h2>
-<p>Standard read/write helpers for <code>.wav</code> files. Useful when working with the speech pipeline or external TTS models.</p>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>scipy<span class="w">   </span><span class="c1"># required for audio I/O</span>
-</span></code></pre></div>
-<h3 id="save_audio"><code>save_audio</code><a class="headerlink" href="#save_audio" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">save_audio</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># Save a generated waveform (e.g. from a vocoder)</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">waveform</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">22050</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>  <span class="c1"># 1 second of silence</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">save_audio</span><span class="p">(</span><span class="n">waveform</span><span class="p">,</span> <span class="n">sample_rate</span><span class="o">=</span><span class="mi">22050</span><span class="p">,</span> <span class="n">output_path</span><span class="o">=</span><span class="s2">&quot;output/test.wav&quot;</span><span class="p">)</span>
-</span></code></pre></div>
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
 
 
 <div class="doc doc-object doc-function">
 
 
-<h2 id="olaverse.utils.save_audio" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.utils.save_audio</span>
+<h2 id="olaverse.data.load_dataset" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.data.load_dataset</span>
 
 
-<a href="#olaverse.utils.save_audio" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">save_audio</span><span class="p">(</span><span class="n">waveform</span><span class="p">:</span> <span class="nb">object</span><span class="p">,</span> <span class="n">sample_rate</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+<a href="#olaverse.data.load_dataset" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_dataset</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span>
 </span></code></pre></div>
 
     <div class="doc doc-contents first">
 
-        <p>Save a generated audio waveform to a .wav file.</p>
+        <p>Load an olaverse dataset from Hugging Face.</p>
+<p>Thin wrapper around <code>datasets.load_dataset</code> that resolves short names,
+validates configs, and gives actionable errors.</p>
 
 
 <p><span class="doc-section-title">Parameters:</span></p>
@@ -1227,46 +1231,221 @@ e.g. format_currency(1500, "$") -&gt; $1,500.00</p>
       <tbody>
           <tr class="doc-section-item">
             <td>
-                <code>waveform</code>
-            </td>
-            <td>
-                  <code><span title="object">object</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>1D numpy array representing the audio signal.</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>sample_rate</code>
-            </td>
-            <td>
-                  <code><span title="int">int</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>The sampling rate (e.g., 22050 or 24000).</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>output_path</code>
+                <code>name</code>
             </td>
             <td>
                   <code><span title="str">str</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to save the audio file.</p>
+                <p>Short name (e.g. "diacbench") or full repo ID ("olaverse/diacbench").</p>
+              </div>
+            </td>
+            <td>
+                <em>required</em>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>config</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Config name for multi-config datasets
+    (e.g. "yo" for diacbench, "triplets" for reranker-general-en-llm-judged).</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>split</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Optional split, e.g. "train" or "test". When omitted, returns a
+   DatasetDict with every available split.</p>
+              </div>
+            </td>
+            <td>
+                  <code>None</code>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                <code>**kwargs</code>
+            </td>
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Passed through to <code>datasets.load_dataset</code>
+      (e.g. streaming=True).</p>
+              </div>
+            </td>
+            <td>
+                  <code>{}</code>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>A <code>datasets.Dataset</code> when <code>split</code> is given, otherwise a</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="object">object</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p><code>datasets.DatasetDict</code> with every available split.</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+        <p>Requires: pip install olaverse[data]</p>
+
+
+<details class="quick-start" open>
+  <summary>Quick start</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>from olaverse import load_dataset
+diacbench_yo = load_dataset("diacbench", "yo", split="test")
+pairs = load_dataset("reranker-general-en-llm-judged", split="train")
+qg = load_dataset("qg-passages-multi", split="train")</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.data.list_datasets" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.data.list_datasets</span>
+
+
+<a href="#olaverse.data.list_datasets" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_datasets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>List the short names of all public olaverse datasets.</p>
+
+
+    <p><span class="doc-section-title">Returns:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Description</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                  <code><span title="list">list</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>list[str]: dataset names usable with load_dataset()/dataset_info().</p>
+              </div>
+            </td>
+          </tr>
+      </tbody>
+    </table>
+
+
+<details class="quick-start" open>
+  <summary>Quick start</summary>
+  <blockquote>
+<blockquote>
+<blockquote>
+<p>from olaverse import list_datasets
+list_datasets()
+['reranker-general-en-llm-judged', 'marco-style-pairs-multi', ...]</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</details>
+
+    </div>
+
+</div>
+
+<div class="doc doc-object doc-function">
+
+
+<h2 id="olaverse.data.dataset_info" class="doc doc-heading">
+            <span class="doc doc-object-name doc-function-name">olaverse.data.dataset_info</span>
+
+
+<a href="#olaverse.data.dataset_info" class="headerlink" title="Permanent link">&para;</a></h2>
+<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataset_info</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
+</span></code></pre></div>
+
+    <div class="doc doc-contents first">
+
+        <p>Return registry metadata for one dataset: Hugging Face repo ID,
+description, available configs, and splits.</p>
+
+
+<p><span class="doc-section-title">Parameters:</span></p>
+    <table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Default</th>
+        </tr>
+      </thead>
+      <tbody>
+          <tr class="doc-section-item">
+            <td>
+                <code>name</code>
+            </td>
+            <td>
+                  <code><span title="str">str</span></code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>Short name (e.g. "diacbench") or full repo ID ("olaverse/diacbench").</p>
               </div>
             </td>
             <td>
@@ -1275,35 +1454,6 @@ e.g. format_currency(1500, "$") -&gt; $1,500.00</p>
           </tr>
       </tbody>
     </table>
-
-
-    </div>
-
-</div><hr />
-<h3 id="load_audio"><code>load_audio</code><a class="headerlink" href="#load_audio" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_audio</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">sample_rate</span><span class="p">,</span> <span class="n">waveform</span> <span class="o">=</span> <span class="n">load_audio</span><span class="p">(</span><span class="s2">&quot;path/to/audio.wav&quot;</span><span class="p">)</span>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Sample rate: </span><span class="si">{</span><span class="n">sample_rate</span><span class="si">}</span><span class="s2"> Hz&quot;</span><span class="p">)</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Duration: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">waveform</span><span class="p">)</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">sample_rate</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">s&quot;</span><span class="p">)</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Shape: </span><span class="si">{</span><span class="n">waveform</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.utils.load_audio" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.utils.load_audio</span>
-
-
-<a href="#olaverse.utils.load_audio" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_audio</span><span class="p">(</span><span class="n">input_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents first">
-
-        <p>Load an audio waveform from a .wav file.</p>
 
 
     <p><span class="doc-section-title">Returns:</span></p>
@@ -1316,12 +1466,12 @@ e.g. format_currency(1500, "$") -&gt; $1,500.00</p>
       </thead>
       <tbody>
           <tr class="doc-section-item">
-<td><code>tuple</code></td>            <td>
-                  <code><span title="tuple">tuple</span></code>
+<td><code>dict</code></td>            <td>
+                  <code><span title="dict">dict</span></code>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>(sample_rate, waveform)</p>
+                <p>{'repo_id', 'description', 'configs', 'default_config', 'splits'}</p>
               </div>
             </td>
           </tr>

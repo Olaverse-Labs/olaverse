@@ -61,6 +61,8 @@ vision = [
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["olaverse*"]
+exclude = ["olaverse-foundry*"]
+namespaces = false
 
 [tool.setuptools.exclude-package-data]
 olaverse = ["models/*"]

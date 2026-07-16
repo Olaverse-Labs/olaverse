@@ -1,8 +1,8 @@
 # Olaverse Documentation
 
-[![PyPI Version](https://img.shields.io/badge/pypi-v0.1.5-blue)](https://pypi.org/)
+[![PyPI Version](https://img.shields.io/pypi/v/olaverse.svg)](https://pypi.org/project/olaverse/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
-[![Platform](https://img.shields.io/badge/platform-CPU%20&%20GPU-orange)](https://github.com/)
+[![Platform](https://img.shields.io/badge/platform-CPU%20&%20GPU-orange)](https://github.com/Olaverse-Labs/olaverse)
 [![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://Olaverse-Labs.github.io/olaverse/)
 
 Welcome to the official developer documentation for the **Olaverse SDK**.
@@ -10,6 +10,7 @@ Welcome to the official developer documentation for the **Olaverse SDK**.
 **Olaverse** is a unified Python package and developer interface for African NLP, Large Language Models, and Text-to-Speech architecture.
 
 **📚 Full API Documentation: [https://Olaverse-Labs.github.io/olaverse/](https://Olaverse-Labs.github.io/olaverse/)**
+**📦 PyPI: [https://pypi.org/project/olaverse/](https://pypi.org/project/olaverse/)**
 
 ---
 
@@ -32,7 +33,7 @@ Welcome to the official developer documentation for the **Olaverse SDK**.
 # Core (NLP, tokenizer, lightweight LID)
 pip install olaverse
 
-# Neural models (LIDNeural5/25/51, diacnet-1.0, MIST local inference)
+# Neural models (LIDNeural5/25/5_1, diacnet-1.0, MIST local inference)
 pip install olaverse[deeplearning]
 
 # Lightweight 25-language LID (fastText, CPU-only)

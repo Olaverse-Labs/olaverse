@@ -227,7 +227,7 @@ bench[0]
 
 ## Model Index
 
-<div class="ov-model-table">
+<div class="ov-model-table" markdown>
 
 | Model | Task | Size | Speed | Install |
 |---|---|---|---|---|

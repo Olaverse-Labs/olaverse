@@ -58,6 +58,14 @@ vision = [
     "Pillow",
 ]
 
+[tool.pytest.ini_options]
+addopts = "-m 'not slow'"
+markers = [
+    "integration: real end-to-end tests that download models/datasets from Hugging Face (run by default)",
+    "slow: heavy real-model tests with large checkpoint downloads (opt in: pytest -m slow)",
+    "gpu: tests that require a GPU",
+]
+
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["olaverse*"]

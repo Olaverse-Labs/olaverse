@@ -4,7 +4,124 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.1.4 — *Current*
+## v0.1.5 — *Current*
+
+**Released**: 2026-07-16
+
+### New Features
+
+#### 25-language identification (`LIDLite25`, `LIDNeural25`)
+
+Extends language detection well beyond the original 5 Nigerian languages to 25 languages spanning Africa, Europe, and Asia. Each comes in `"passages"` (long-form) and `"questions"` (short-form) variants.
+
+```python
+from olaverse import LIDLite25, LIDNeural25
+
+lite = LIDLite25(variant="questions")       # fastText, CPU-only
+lite.predict("What causes ocean tides?")    # → 'eng'
+
+neural = LIDNeural25(variant="questions")   # XLM-RoBERTa
+neural.load()
+neural.predict_proba("What causes ocean tides?")
+```
+
+#### `LIDNeural5_1` — compact Nigerian-only classifier
+
+A ~31M parameter classifier built on the new `mist-encoder-base-ng` encoder, covering Hausa/Yoruba/Igbo/Nigerian Pidgin with no English fallback class.
+
+```python
+from olaverse import LIDNeural5_1
+
+detector = LIDNeural5_1()
+detector.predict("Ina kwana?")   # → 'Hausa'
+```
+
+#### `diacnet-1.0` — multilingual diacritization
+
+A single joint ByT5 model restores diacritics across 10 languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian) via a `lang=` argument — no separate per-language model needed.
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diacnet-1.0", lang="fr")
+d.restore("cest fini")   # → "c'est fini"
+```
+
+#### OTK-BPE multilingual tokenizer family
+
+Swahili, Kinyarwanda, and a merged French/Kinyarwanda/English/Swahili tokenizer, each at 50k/100k/150k vocab sizes, through the same `Tokenizer` class used for the Nigerian-language family.
+
+```python
+from olaverse import Tokenizer
+
+tok = Tokenizer("sw-150k")
+ids = tok.encode("Habari yako?")
+```
+
+#### New retrieval toolkit (`olaverse.nlp.retrieval`)
+
+`Reranker` (cross-encoder, 150M/22.7M variants) and `Embedder` (cross-lingual Hausa/Yoruba/Igbo sentence embeddings) for RAG/search pipelines.
+
+```python
+from olaverse import Reranker, Embedder
+
+reranker = Reranker(size="22.7m")
+reranker.rank("who wrote hamlet", ["Hamlet is a tragedy by Shakespeare.", "Paris is in France."])
+
+embedder = Embedder()
+vecs = embedder.encode(["bawo ni", "sannu"])
+```
+
+#### Dataset access (`olaverse.data`)
+
+`load_dataset`, `list_datasets`, and `dataset_info` give one-line access to every public olaverse dataset on Hugging Face — reranker training pairs, multilingual QG passages, and the DiacBench diacritization benchmark. Requires `pip install olaverse[data]`. Replaces the old placeholder `olaverse.data.loaders` module, which returned bundled sample rows instead of real data.
+
+```python
+from olaverse import load_dataset
+
+pairs = load_dataset("reranker-general-en-llm-judged", split="train")
+bench = load_dataset("diacbench", "yo", split="test")
+```
+
+#### New `olaverse.vision` module
+
+`PrismUpscaler` (2x/4x/arbitrary-resolution super-resolution), `PrismDenoiser` (noise/blur/JPEG-artifact removal), and `PrismSteganography` (hide/recover short messages in images) — general-purpose image-to-image models, not African-language-specific.
+
+```python
+from olaverse import PrismUpscaler, PrismDenoiser, PrismSteganography
+
+PrismUpscaler(size="2x").upscale("input.jpg").save("output.jpg")
+PrismDenoiser().denoise("noisy.jpg").save("denoised.jpg")
+
+steg = PrismSteganography()
+stego = steg.hide("cover.jpg", "hi there")
+steg.reveal(stego)   # → 'hi there'
+```
+
+### Changes
+
+- **New extras**: `olaverse[lid]` (fastText for `LIDLite25`), `olaverse[retrieval]` (`sentence-transformers`), `olaverse[vision]` (`torch`, `torchvision`, `Pillow`), `olaverse[data]` (Hugging Face `datasets`).
+- **Fix — `diacritize_yoruba`** previously special-cased the documentation example sentence and returned a hand-written answer for it instead of the model output. The special case is removed; all inputs now go through the Viterbi model, and docs show the model's real output.
+- **`Diacritizer`** gained a `lang=` constructor argument, used only by `model="diacnet-1.0"`.
+- **`Tokenizer`** now resolves multilingual (`sw-*`/`kin-*`/`merged-*`) variants against the `olaverse/otk-bpe` repo, alongside the existing Nigerian-language `olaverse/otk-bpe-50k` repo.
+- **`LIDNeural5`** internals refactored onto a shared base class (`LIDNeural25`, `LIDNeural5_1` reuse the same loading/inference logic) — no change to `LIDNeural5`'s public API.
+
+### Install
+
+```bash
+pip install olaverse                # core NLP (no GPU required)
+pip install olaverse[deeplearning]  # + LIDNeural5/25/51, diacnet-1.0, MIST local
+pip install olaverse[lid]           # + LIDLite25 (fastText)
+pip install olaverse[retrieval]     # + Reranker, Embedder
+pip install olaverse[vision]        # + PrismUpscaler, PrismDenoiser, PrismSteganography
+pip install olaverse[hosted]        # + MIST via Featherless/Modal
+pip install olaverse[legal]         # + LegalPeace
+pip install olaverse[data]          # + load_dataset (olaverse datasets on HF)
+```
+
+---
+
+## v0.1.4
 
 **Released**: 2026-06-15
 
@@ -52,7 +169,7 @@ Detects language automatically via LIDLite5 and routes to the correct diacritize
 from olaverse.nlp import Diacritizer
 
 d = Diacritizer(model="auto")
-d.restore("Ojo lo si oja lana")   # detected: Yoruba → 'Ọjọ́ ló sí ọjà lànà'
+d.restore("Ojo lo si oja lana")   # detected: Yoruba → 'Òjó lọ sí ọjà lana'
 d.restore("Kedu ka i mere")       # detected: Igbo   → 'Kedụ ka ị mere'
 ```
 
@@ -143,7 +260,10 @@ pip install olaverse[legal]         # + LegalPeace
 !!! note "Coming in future releases"
     - **Acoustic model + vocoder** for end-to-end Yoruba TTS (completes the speech pipeline)
     - **`Diacritizer` for Hausa** (`diacnet-ha`)
-    - **`LIDNeural5` expanded to 10+ languages** (including Efik, Tiv, Nupe)
+    - **`LIDNeural5_1` v5.2** — adds an English/"other" class, removing the confident-mislabelling failure mode of v5.1
     - **`MIST` embedding endpoint** for semantic search over Nigerian language content
     - **ASR (Automatic Speech Recognition)** for Nigerian languages
     - **Hausa / Pidgin TTS normalizer expansion**
+
+!!! success "Done — was on the roadmap"
+    - ~~`LIDNeural5` expanded to 10+ languages~~ — shipped in v0.1.5 as `LIDLite25`/`LIDNeural25` (25 languages total: Afrikaans, Amharic, German, English, French, Hausa, Hindi, Igbo, Indonesian, Italian, Japanese, Korean, Dutch, Polish, Portuguese, Russian, Shona, Somali, Spanish, Swahili, Turkish, Vietnamese, Xhosa, Yoruba, Zulu). Note: Efik, Tiv, and Nupe specifically are still not covered by any olaverse LID model.

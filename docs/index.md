@@ -1,5 +1,5 @@
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.1.4 — Now with MIST</div>
+  <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">African NLP · MIST Language Models · Text-to-Speech Architecture</p>
   <div class="ov-hero-install">
@@ -48,6 +48,27 @@
   <a href="speech/" class="ov-card-link">Explore Speech →</a>
 </div>
 
+<div class="ov-card">
+  <div class="ov-card-icon">🔎</div>
+  <div class="ov-card-title">Retrieval</div>
+  <div class="ov-card-body">Cross-encoder <code>Reranker</code> for RAG/search pipelines, and a Nigerian-language <code>Embedder</code> for cross-lingual semantic search over Hausa, Yoruba, and Igbo.</div>
+  <a href="nlp/#retrieval-new-in-v015" class="ov-card-link">Explore Retrieval →</a>
+</div>
+
+<div class="ov-card">
+  <div class="ov-card-icon">🖼️</div>
+  <div class="ov-card-title">Vision — Prism</div>
+  <div class="ov-card-body">Lightweight image-to-image models: <code>PrismUpscaler</code> (2x/4x/arbitrary), <code>PrismDenoiser</code>, and <code>PrismSteganography</code> for hiding recoverable messages in images.</div>
+  <a href="vision/" class="ov-card-link">Explore Vision →</a>
+</div>
+
+<div class="ov-card">
+  <div class="ov-card-icon">📊</div>
+  <div class="ov-card-title">Datasets</div>
+  <div class="ov-card-body">One-line access to every public olaverse dataset: reranker training pairs, multilingual QG passages, and the DiacBench diacritization benchmark.</div>
+  <a href="datasets/" class="ov-card-link">Explore Datasets →</a>
+</div>
+
 </div>
 
 ---
@@ -78,9 +99,33 @@
     ```
     Adds: `LegalPeace` contract analysis model (requires GPU + unsloth).
 
+=== "LID (25 languages)"
+    ```bash
+    pip install olaverse[lid]
+    ```
+    Adds: `LIDLite25` — CPU-only fastText language ID for 25 languages.
+
+=== "Retrieval"
+    ```bash
+    pip install olaverse[retrieval]
+    ```
+    Adds: `Reranker`, `Embedder` (requires `sentence-transformers`).
+
+=== "Vision"
+    ```bash
+    pip install olaverse[vision]
+    ```
+    Adds: `PrismUpscaler`, `PrismDenoiser`, `PrismSteganography` (requires `torch`, `torchvision`, `Pillow`).
+
+=== "Datasets"
+    ```bash
+    pip install olaverse[data]
+    ```
+    Adds: `load_dataset` — every public olaverse dataset on Hugging Face.
+
 === "Everything"
     ```bash
-    pip install olaverse[deeplearning,hosted,legal]
+    pip install olaverse[deeplearning,hosted,legal,lid,retrieval,vision,data]
     ```
 
 ---
@@ -110,7 +155,7 @@ neural.predict_proba("How far, wetin dey happen?")
 from olaverse import diacritize_yoruba, diacritize_igbo
 
 diacritize_yoruba("Ojo lo si oja lana")
-# → 'Ọjọ́ ló sí ọjà lànà'
+# → 'Òjó lọ sí ọjà lana'
 
 diacritize_igbo("Kedu ka i mere")
 # → 'Kedụ ka ị mere'
@@ -146,6 +191,19 @@ ids = tok.encode("Ẹ kú àbọ̀")
 tok.decode(ids)  # → 'Ẹ kú àbọ̀'
 ```
 
+### Datasets
+
+```python
+from olaverse import load_dataset, list_datasets
+
+list_datasets()
+# → ['reranker-general-en-llm-judged', 'marco-style-pairs-multi', ...]
+
+bench = load_dataset("diacbench", "yo", split="test")  # requires olaverse[data]
+bench[0]
+# → {'input': 'Titi di igba ...', 'reference': 'Títí di ìgbà ...'}
+```
+
 ---
 
 ## Supported Languages
@@ -173,21 +231,40 @@ tok.decode(ids)  # → 'Ẹ kú àbọ̀'
 
 | Model | Task | Size | Speed | Install |
 |---|---|---|---|---|
-| `LIDLite5` | Language ID | 1.1 MB JSON | 0.014 ms | `olaverse` |
-| `LIDNeural5` | Language ID | 484 MB | 13 ms | `olaverse[deeplearning]` |
+| `LIDLite5` | Language ID (5 langs) | 1.1 MB JSON | 0.014 ms | `olaverse` |
+| `LIDNeural5` | Language ID (5 langs) | 484 MB | 13 ms | `olaverse[deeplearning]` |
+| `LIDLite25` | Language ID (25 langs) | ~5-10 MB | <1 ms | `olaverse[lid]` |
+| `LIDNeural25` | Language ID (25 langs) | ~500 MB | — | `olaverse[deeplearning]` |
+| `LIDNeural5_1` | Language ID (4 Nigerian langs, no English) | ~120 MB | — | `olaverse[deeplearning]` |
 | `MIST-Mini-8B` | General LLM | 15 GB | ~63 tok/s | `olaverse[deeplearning]` |
 | `MIST-1-70B` | General LLM | 132 GB | ~23 tok/s | hosted or multi-GPU |
 | `MIST-1-140B` | General LLM | 256 GB | ~8 tok/s | hosted or 2× H200 |
 | `MIST-Mini-8B-Thinking` | Reasoning LLM | 15 GB | ~55 tok/s | `olaverse[deeplearning]` |
 | `LegalPeace` | Legal reasoning | 7B (4-bit) | — | `olaverse[legal]` |
-| `DiacNet` (5 variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
-| `OTK-BPE-50k` (5 variants) | Tokenization | ~3 MB each | — | `olaverse` |
+| `DiacNet` (5 Yoruba/Igbo variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
+| `diacnet-1.0` | Diacritization (10 langs) | ~300 MB | Slow | `olaverse[deeplearning]` |
+| `OTK-BPE-50k` (5 Nigerian variants) | Tokenization | ~3 MB each | — | `olaverse` |
+| `OTK-BPE` (9 Swahili/Kinyarwanda/merged variants) | Tokenization | varies | — | `olaverse` |
+| `Reranker` (2 sizes) | Reranking | 23 MB – 150M params | — | `olaverse[retrieval]` |
+| `Embedder` | Sentence embeddings (ha/yo/ig) | ~120 MB | — | `olaverse[retrieval]` |
+| `PrismUpscaler` (3 sizes) | Image super-resolution | ~25K params – small | — | `olaverse[vision]` |
+| `PrismDenoiser` | Image denoising | Small U-Net | — | `olaverse[vision]` |
+| `PrismSteganography` | Image steganography | Small U-Net | — | `olaverse[vision]` |
 
 </div>
 
 ---
 
-## What's New in v0.1.4
+## What's New in v0.1.5
+
+- **25-language identification** — `LIDLite25` (fastText) and `LIDNeural25` (XLM-RoBERTa) extend language detection well beyond the original 5 Nigerian languages; `LIDNeural5_1` adds a compact Nigerian-only classifier built on the new `mist-encoder-base-ng`
+- **`diacnet-1.0`** — a single multilingual ByT5 model restores diacritics across 10 languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian), added to `Diacritizer` via `lang=`
+- **OTK-BPE multilingual tokenizer family** — Swahili, Kinyarwanda, and a merged French/Kinyarwanda/English/Swahili tokenizer, each at 50k/100k/150k vocab, available through the same `Tokenizer` class
+- **New `olaverse.nlp` retrieval toolkit** — `Reranker` (cross-encoder, 2 sizes) and `Embedder` (cross-lingual Hausa/Yoruba/Igbo sentence embeddings) for RAG/search pipelines
+- **New `olaverse.vision` module** — `PrismUpscaler`, `PrismDenoiser`, and `PrismSteganography`, general-purpose image-to-image models
+- **New extras**: `olaverse[lid]`, `olaverse[retrieval]`, `olaverse[vision]`
+
+**Previously, in v0.1.4:**
 
 - **`MIST` wrapper** — unified interface for all MIST variants with correct stop tokens, sampling defaults, and local/hosted endpoint switching
 - **`LIDNeural5` moved to `olaverse.nlp`** — its correct home alongside `LIDLite5` (backward-compat import from `olaverse.llm` preserved)

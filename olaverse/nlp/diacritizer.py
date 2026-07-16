@@ -255,6 +255,35 @@ class BiLSTMDecoder:
             
         return "".join(tokens)
 
+_DIACNET_LANG_TAGS = {
+    "yo": "<yor>", "vi": "<vie>", "ig": "<ibo>", "ha": "<hau>", "pl": "<pol>",
+    "tr": "<tur>", "pt": "<por>", "es": "<spa>", "fr": "<fra>", "it": "<ita>",
+}
+
+class DiacNetDecoder:
+    """diacnet-1.0 diacritic restoration (byte-level seq2seq) — one joint model, 10 languages."""
+
+    def __init__(self, model_name="olaverse/diacnet-1.0"):
+        from transformers import AutoTokenizer, T5ForConditionalGeneration
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = T5ForConditionalGeneration.from_pretrained(model_name)
+        self.model.eval()
+
+    def decode(self, text: str, lang: str = "yo", max_new_tokens: int = 256) -> str:
+        import torch
+
+        tag = _DIACNET_LANG_TAGS.get(lang.lower())
+        if tag is None:
+            raise ValueError(
+                f"Unsupported language '{lang}' for diacnet-1.0. "
+                f"Supported: {sorted(_DIACNET_LANG_TAGS)}"
+            )
+
+        inputs = self.tokenizer(f"{tag} {text}", return_tensors="pt")
+        with torch.no_grad():
+            output_ids = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
+        return self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+
 class TransformerDecoder:
     def __init__(self, pt_path, vocab_path):
         import torch
@@ -324,7 +353,6 @@ class TransformerDecoder:
 
 # ─── Legacy Functions ───
 def diacritize_yoruba(text, model_path=None):
-    if text == "Ojo lo si oja lana": return "Ọjọ́ ló sí ọjà lànà"
     global _YORUBA_MODEL_CACHE
     resolved_path = model_path
     if resolved_path is None:
@@ -376,6 +404,7 @@ MODEL_REGISTRY = {
     "diacnet-ig":          {"lang": "ig", "method": "knn"},
     "diacnet-yor":         {"lang": "yo", "method": "bilstm"},
     "diacnet-yor-x":       {"lang": "yo", "method": "transformer"},
+    "diacnet-1.0":         {"lang": "multi", "method": "diacnet"},
     "auto":                {"lang": "auto", "method": "auto"},
 }
 
@@ -394,10 +423,16 @@ class Diacritizer:
             * ``"diacnet-ig"``          — Igbo, KNN
             * ``"diacnet-yor"``         — Yoruba BiLSTM (requires ``olaverse[deeplearning]``)
             * ``"diacnet-yor-x"``       — Yoruba XLM-RoBERTa (requires ``olaverse[deeplearning]``)
+            * ``"diacnet-1.0"``         — Multilingual DiacNet, 10 languages, see ``lang=``
+                                          (requires ``olaverse[deeplearning]``)
             * ``"auto"``                — detect language via LIDLite5, then route automatically
+
+        lang: Target language for ``"diacnet-1.0"`` only. One of
+              ``"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"``. Ignored
+              by every other model.
     """
 
-    def __init__(self, model: str = "diacnet-yor-viterbi"):
+    def __init__(self, model: str = "diacnet-yor-viterbi", lang: str = None):
         if model not in MODEL_REGISTRY:
             raise ValueError(
                 f"Model '{model}' is not recognised. "
@@ -408,6 +443,7 @@ class Diacritizer:
         self.lang = config["lang"]
         self.method = config["method"]
         self.neural_decoder = None
+        self.diacnet_lang = lang or "yo"
 
         # Auto-routing: lazy-load LIDLite5 + sub-diacritizers at restore() time
         if self.method == "auto":
@@ -428,6 +464,13 @@ class Diacritizer:
                 vocab = get_model_path("diacnet_yor_x_vocab.json", repo_id="olaverse/diacnet-yor-x")
                 _NEURAL_CACHE["transformer"] = TransformerDecoder(pt, vocab)
             self.neural_decoder = _NEURAL_CACHE["transformer"]
+
+        elif self.method == "diacnet":
+            # Cache per version key ("diacnet-1.0", later "diacnet-1.1", ...) so
+            # future DiacNet releases are one registry line, same decoder class.
+            if model not in _NEURAL_CACHE:
+                _NEURAL_CACHE[model] = DiacNetDecoder(f"olaverse/{model}")
+            self.neural_decoder = _NEURAL_CACHE[model]
 
     def _auto_restore(self, text: str) -> str:
         """Detect language then delegate to the correct diacritizer."""
@@ -459,6 +502,9 @@ class Diacritizer:
         """
         if self.method == "auto":
             return self._auto_restore(text)
+
+        if self.method == "diacnet":
+            return self.neural_decoder.decode(text, lang=self.diacnet_lang)
 
         if self.neural_decoder:
             return self.neural_decoder.decode(text)

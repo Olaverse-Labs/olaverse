@@ -32,8 +32,6 @@ def get_model_path(filename, repo_id=None):
     Returns:
         str: Absolute path to the resolved model file.
     """
-    pass
-
     # 1. Check custom models directory specified via environment variable
     custom_dir = os.environ.get("OLAVERSE_MODELS_DIR")
     if custom_dir:
@@ -42,8 +40,11 @@ def get_model_path(filename, repo_id=None):
             return custom_path
 
     # 2. Check the local cache directory
+    # Cache is namespaced by repo_id (when given) so repos that reuse generic
+    # filenames (e.g. every olaverse/prism-* repo ships "model.py") don't
+    # collide with each other in a shared flat cache directory.
     cache_dir = get_cache_dir()
-    cache_path = os.path.join(cache_dir, filename)
+    cache_path = os.path.join(cache_dir, repo_id, filename) if repo_id else os.path.join(cache_dir, filename)
     if os.path.exists(cache_path):
         return cache_path
 
@@ -56,18 +57,27 @@ def get_model_path(filename, repo_id=None):
     # 4. Download from Hugging Face
     if repo_id is None:
         repo_id = os.environ.get("OLAVERSE_HF_REPO", HF_REPO_ID)
-        
-    os.makedirs(cache_dir, exist_ok=True)
+
+    os.makedirs(os.path.dirname(cache_path) or cache_dir, exist_ok=True)
     url = f"https://huggingface.co/{repo_id}/resolve/main/{filename}"
     
     print(f"Downloading {filename} from Hugging Face ({url})...", file=sys.stderr)
     try:
-        # Avoid SSL certificate errors on certain macOS environments
         import ssl
-        ctx = ssl.create_default_context()
-        ctx.check_hostname = False
-        ctx.verify_mode = ssl.CERT_NONE
-        
+        try:
+            # macOS Python builds often ship without root certificates; certifi
+            # (already pulled in via the requests dependency) provides a CA
+            # bundle so verification can stay on.
+            import certifi
+            ctx = ssl.create_default_context(cafile=certifi.where())
+        except ImportError:
+            ctx = ssl.create_default_context()
+        # Escape hatch for environments where verification cannot succeed
+        # (e.g. corporate TLS interception with no CA bundle available).
+        if os.environ.get("OLAVERSE_INSECURE_SSL") == "1":
+            ctx.check_hostname = False
+            ctx.verify_mode = ssl.CERT_NONE
+
         req = urllib.request.Request(url)
         hf_token = os.environ.get("HF_TOKEN")
         if hf_token:
@@ -84,5 +94,8 @@ def get_model_path(filename, repo_id=None):
             f"Please check your internet connection or ensure the file exists. "
             f"To load offline, you can download the model file and place it in '{cache_dir}' or "
             f"set the OLAVERSE_MODELS_DIR environment variable to its folder. "
+            f"If this is an SSL certificate error (common on macOS Python without root "
+            f"certificates installed), fix your certificate store or set "
+            f"OLAVERSE_INSECURE_SSL=1 to skip verification at your own risk. "
             f"Error: {e}"
         ) from e

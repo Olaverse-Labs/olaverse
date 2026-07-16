@@ -121,23 +121,18 @@ def detect_language(text, model_path="lid-lite-5.json"):
     return detector.predict(text)
 
 
-class LIDNeural5:
+class _HFSequenceClassifierLID:
     """
-    High-accuracy transformer-based language identifier for 5 Nigerian languages.
-
-    Base Model: castorini/afriberta_large (XLM-RoBERTa, 125M parameters)
-    Fine-tuned on: Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), English ('eng')
-    Validation accuracy: 98.96% macro-F1
-
-    Requires: pip install olaverse[deeplearning]
+    Shared loading/inference logic for transformer-based LID classifiers.
+    Not meant to be used directly — see LIDNeural5, LIDNeural5_1, LIDNeural25.
     """
 
-    def __init__(self, model_name="olaverse/lid-neural-5"):
+    def __init__(self, model_name: str, default_classes=None):
         self.model_name = model_name
         self.model = None
         self.tokenizer = None
         self._loaded = False
-        self.classes = ['eng', 'hau', 'ibo', 'pcm', 'yor']
+        self.classes = default_classes
 
     def load(self):
         """Download and load the model from Hugging Face (runs once; cached after first call)."""
@@ -148,7 +143,7 @@ class LIDNeural5:
             from transformers import AutoTokenizer, AutoModelForSequenceClassification
         except ImportError:
             raise ImportError(
-                "The 'transformers' and 'torch' libraries are required to load LIDNeural5. "
+                f"The 'transformers' and 'torch' libraries are required to load {type(self).__name__}. "
                 "Install with: pip install olaverse[deeplearning]"
             )
 
@@ -164,10 +159,10 @@ class LIDNeural5:
 
     def predict_proba(self, text: str) -> dict:
         """
-        Return probability distribution over all 5 languages.
+        Return probability distribution over all supported languages.
 
         Returns:
-            dict: {'eng': 0.02, 'hau': 0.01, 'ibo': 0.95, 'pcm': 0.01, 'yor': 0.01}
+            dict: {label: probability, ...}
         """
         if not self._loaded:
             self.load()
@@ -186,12 +181,7 @@ class LIDNeural5:
         return {self.classes[i]: probs[i] for i in range(len(self.classes))}
 
     def predict(self, text: str) -> str:
-        """
-        Predict the dominant language of the text.
-
-        Returns:
-            str: One of 'yor', 'hau', 'ibo', 'pcm', 'eng'.
-        """
+        """Predict the dominant language of the text."""
         probs = self.predict_proba(text)
         return max(probs, key=probs.get)
 
@@ -203,8 +193,7 @@ class LIDNeural5:
             texts: List of text strings.
 
         Returns:
-            List of dicts, one per input text:
-            [{'eng': 0.02, 'ibo': 0.95, ...}, ...]
+            List of dicts, one per input text: [{label: probability, ...}, ...]
         """
         if not self._loaded:
             self.load()
@@ -236,7 +225,123 @@ class LIDNeural5:
             texts: List of text strings.
 
         Returns:
-            List of language codes, e.g. ``['yor', 'ibo', 'pcm']``.
+            List of predicted labels.
         """
         proba_list = self.predict_proba_batch(texts)
         return [max(p, key=p.get) for p in proba_list]
+
+
+class LIDNeural5(_HFSequenceClassifierLID):
+    """
+    High-accuracy transformer-based language identifier for 5 Nigerian languages.
+
+    Base Model: castorini/afriberta_large (XLM-RoBERTa, 125M parameters)
+    Fine-tuned on: Yoruba ('yor'), Hausa ('hau'), Igbo ('ibo'), Pidgin ('pcm'), English ('eng')
+    Validation accuracy: 98.96% macro-F1
+
+    Requires: pip install olaverse[deeplearning]
+    """
+
+    def __init__(self, model_name="olaverse/lid-neural-5"):
+        super().__init__(model_name, default_classes=['eng', 'hau', 'ibo', 'pcm', 'yor'])
+
+
+class LIDNeural5_1(_HFSequenceClassifierLID):
+    """
+    Compact language identifier for the 4 main Nigerian languages, built as a
+    classification head on olaverse/mist-encoder-base-ng (ModernBERT, ~31M parameters).
+
+    Labels: 'Hausa', 'Yoruba', 'Igbo', 'Nigerian Pidgin'.
+
+    No English/'other' class — out-of-set languages (e.g. English) will be
+    confidently mislabelled, most often as Nigerian Pidgin. Use LIDLite25 or
+    LIDNeural25 instead if inputs may include English or other non-Nigerian
+    languages.
+
+    Requires: pip install olaverse[deeplearning]
+    """
+
+    def __init__(self, model_name="olaverse/lid-neural-5.1"):
+        super().__init__(model_name)
+
+
+class LIDNeural25(_HFSequenceClassifierLID):
+    """
+    Transformer-based (XLM-RoBERTa, 125M parameters) language identifier for
+    25 languages — higher accuracy than LIDLite25, especially on short text,
+    at the cost of needing transformers/torch.
+
+    Two checkpoints for two input lengths (variant=):
+        "passages"  — lid-neural-25.1, long-form text (documents, articles)
+        "questions" — lid-neural-25.2, short text (queries, chat messages) [default]
+
+    Requires: pip install olaverse[deeplearning]
+    """
+
+    _MODEL_IDS = {
+        "passages": "olaverse/lid-neural-25.1",
+        "questions": "olaverse/lid-neural-25.2",
+    }
+
+    def __init__(self, variant: str = "questions"):
+        if variant not in self._MODEL_IDS:
+            raise ValueError(f"variant must be one of {list(self._MODEL_IDS)}, got {variant!r}")
+        self.variant = variant
+        super().__init__(self._MODEL_IDS[variant])
+
+
+class LIDLite25:
+    """
+    Lightweight, CPU-only fastText language identifier for 25 languages.
+    Sub-millisecond inference, ~5-10MB per checkpoint, no GPU required.
+
+    Two checkpoints for two input lengths (variant=):
+        "passages"  — long-form text (documents, articles)
+        "questions" — short text (queries, chat messages) [default]
+
+    For higher accuracy at the cost of needing transformers/torch, see LIDNeural25.
+
+    Requires: pip install olaverse[lid]
+    """
+
+    _CHECKPOINTS = {"passages": "passages.bin", "questions": "questions.bin"}
+
+    def __init__(self, variant: str = "questions"):
+        if variant not in self._CHECKPOINTS:
+            raise ValueError(f"variant must be one of {list(self._CHECKPOINTS)}, got {variant!r}")
+        self.variant = variant
+        self._model = None
+
+    def load(self):
+        """Download and load the fastText checkpoint (runs once; cached after first call)."""
+        if self._model is not None:
+            return
+
+        try:
+            import fasttext
+        except ImportError:
+            raise ImportError(
+                "The 'fasttext' library is required to load LIDLite25. "
+                "Install with: pip install olaverse[lid]"
+            )
+
+        model_path = get_model_path(self._CHECKPOINTS[self.variant], repo_id="olaverse/lid-lite-25")
+        self._model = fasttext.load_model(model_path)
+
+    def predict_proba(self, text: str) -> dict:
+        """
+        Return probability distribution over all 25 languages.
+
+        Returns:
+            dict: {'eng': 0.99, 'fra': 0.005, ...} (ISO 639-3 codes)
+        """
+        if self._model is None:
+            self.load()
+
+        labels, probs = self._model.predict(text.replace("\n", " ").strip(), k=-1)
+        return {label.replace("__label__", ""): float(prob) for label, prob in zip(labels, probs)}
+
+    def predict(self, text: str) -> str:
+        """Predict the dominant language of the text (ISO 639-3 code, e.g. 'eng')."""
+        probs = self.predict_proba(text)
+        return max(probs, key=probs.get)

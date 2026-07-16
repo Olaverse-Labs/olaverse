@@ -112,6 +112,8 @@ nav:
   - Home: index.md
   - NLP & Tokenization: nlp.md
   - Language Models: llm.md
+  - Vision: vision.md
+  - Datasets: datasets.md
   - Speech (Roadmap): speech.md
   - Utilities: utils.md
   - Changelog: changelog.md

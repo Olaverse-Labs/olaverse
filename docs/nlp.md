@@ -3,8 +3,10 @@
 The `olaverse.nlp` module is the core of the SDK — production-ready tools for African language text processing, detection, diacritization, tokenization, and preprocessing.
 
 ```bash
-pip install olaverse          # all NLP tools included (no GPU required)
-pip install olaverse[deeplearning]  # adds LIDNeural5 neural detection
+pip install olaverse                # all NLP tools included (no GPU required)
+pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0
+pip install olaverse[lid]           # adds LIDLite25 (fastText, 25 languages)
+pip install olaverse[retrieval]     # adds Reranker, Embedder
 ```
 
 ---
@@ -122,6 +124,67 @@ probs = detector.predict_proba_batch(["Bawo ni?", "Kedu?"])
 
 ---
 
+### LIDLite25 / LIDNeural25 — 25-language identification
+
+!!! tip "New in v0.1.5"
+    Beyond the 5 core Nigerian languages, `LIDLite25` and `LIDNeural25` cover 25 languages spanning Africa, Europe, and Asia — for products that need broader coverage than Yoruba/Hausa/Igbo/Pidgin/English.
+
+**Model Cards**: [olaverse/lid-lite-25](https://huggingface.co/olaverse/lid-lite-25) · [olaverse/lid-neural-25.1](https://huggingface.co/olaverse/lid-neural-25.1) · [olaverse/lid-neural-25.2](https://huggingface.co/olaverse/lid-neural-25.2)
+
+Both come in two checkpoints, tuned for different input lengths — pick the `variant=` that matches your traffic:
+
+| `variant=` | Use for |
+|---|---|
+| `"passages"` | Documents, articles, paragraph-length text |
+| `"questions"` *(default)* | Search queries, chat messages, short user input |
+
+`LIDLite25` is a CPU-only fastText classifier (sub-millisecond, ~5-10MB per checkpoint); `LIDNeural25` is an XLM-RoBERTa-base sequence classifier — higher accuracy on short text (98.2% vs 97.3%), at the cost of needing `transformers`/`torch`.
+
+```bash
+pip install olaverse[lid]           # LIDLite25 (fastText)
+pip install olaverse[deeplearning]  # LIDNeural25 (transformers)
+```
+
+```python
+from olaverse import LIDLite25, LIDNeural25
+
+lite = LIDLite25(variant="questions")
+lite.predict("What causes ocean tides?")   # → 'eng'
+
+neural = LIDNeural25(variant="questions")
+neural.load()
+neural.predict_proba("What causes ocean tides?")
+# → {'eng': 0.999, 'fra': 0.0003, ...}
+```
+
+!!! warning "Zulu/Xhosa confusion on short text"
+    Both models score noticeably lower on Zulu/Xhosa short-text classification (F1 ~0.77-0.79) than every other language (≥0.98) — the two languages are closely related with substantial shared vocabulary. This holds across both architectures, so treat predictions between these two specifically with reduced confidence on short input.
+
+::: olaverse.nlp.LIDLite25
+::: olaverse.nlp.LIDNeural25
+
+---
+
+### LIDNeural5_1 — Nigerian-only, no English fallback
+
+**Model Card**: [olaverse/lid-neural-5.1](https://huggingface.co/olaverse/lid-neural-5.1)
+
+A compact (~31M parameter) classifier built on [`mist-encoder-base-ng`](https://huggingface.co/olaverse/mist-encoder-base-ng), covering only the 4 main Nigerian languages — no English/"other" class.
+
+```python
+from olaverse import LIDNeural5_1
+
+detector = LIDNeural5_1()
+detector.predict("Ina kwana?")   # → 'Hausa'
+```
+
+!!! danger "No English class"
+    Out-of-set input (English or any other language) will be **confidently mislabelled**, most often as Nigerian Pidgin. If your input may include English, use `LIDLite25`/`LIDNeural25`/`LIDNeural5` instead — this model always picks one of the four Nigerian languages.
+
+::: olaverse.nlp.LIDNeural5_1
+
+---
+
 ## Diacritization
 
 DiacNet restores tones and diacritical marks stripped from Yoruba and Igbo text — the critical front-end step for TTS, language learning, and NLP accuracy.
@@ -135,6 +198,7 @@ DiacNet restores tones and diacritical marks stripped from Yoruba and Igbo text 
 | `diacnet-yor` | Yoruba | BiLSTM | Medium | 93.35% char | 2.4 MB |
 | `diacnet-yor-x` | Yoruba (full) | XLM-RoBERTa | Slow | 82.46% word | 503 MB |
 | `diacnet-ig` | Igbo | KNN backoff | ⚡ Fast | Good | ~3 MB |
+| `diacnet-1.0` | 10 languages (see below) | ByT5 seq2seq | Slow | ~0.02 median CER | ~300 MB |
 
 ### Quick Functions
 
@@ -143,7 +207,7 @@ from olaverse import diacritize_yoruba, diacritize_yoruba_dot_below, diacritize_
 
 # Yoruba — full tonal diacritics (Viterbi, fast)
 diacritize_yoruba("Ojo lo si oja lana")
-# → 'Ọjọ́ ló sí ọjà lànà'
+# → 'Òjó lọ sí ọjà lana'
 
 # Yoruba — dot-below vowels only (KNN)
 diacritize_yoruba_dot_below("Ojo lo si oja")
@@ -164,7 +228,7 @@ from olaverse.nlp import Diacritizer
 # Default: fast Viterbi for Yoruba
 d = Diacritizer(model="diacnet-yor-viterbi")
 d.restore("Ojo lo si oja lana")
-# → 'Ọjọ́ ló sí ọjà lànà'
+# → 'Òjó lọ sí ọjà lana'
 
 # High-accuracy neural (requires olaverse[deeplearning])
 d_neural = Diacritizer(model="diacnet-yor-x")
@@ -182,12 +246,39 @@ d = Diacritizer(model="auto")
 
 # Yoruba text — routes to diacnet-yor-viterbi
 d.restore("Ojo lo si oja lana")
-# → 'Ọjọ́ ló sí ọjà lànà'
+# → 'Òjó lọ sí ọjà lana'
 
 # Igbo text — routes to diacnet-ig
 d.restore("Kedu ka i mere")
 # → 'Kedụ ka ị mere'
 ```
+
+#### diacnet-1.0 — multilingual, 10 languages *(New in v0.1.5)*
+
+**Model Card**: [olaverse/diacnet-1.0](https://huggingface.co/olaverse/diacnet-1.0)
+
+A single joint ByT5 model that restores diacritics across 10 languages — Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, and Italian — selected via the `lang=` argument, no separate per-language model or upstream LID step required.
+
+```bash
+pip install olaverse[deeplearning]
+```
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diacnet-1.0", lang="fr")
+d.restore("cest fini")
+# → "c'est fini"
+
+d_yo = Diacritizer(model="diacnet-1.0", lang="yo")
+d_yo.restore("se eranko naa si gbo o?")
+# → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
+
+Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
+
+!!! warning "Yoruba is the hardest language for this model"
+    Yoruba's median CER (0.110) is nearly 3x the next-highest language — genuine tonal ambiguity (the same base letters can carry multiple valid tone patterns), not a model weakness. For Yoruba specifically, the dedicated `diacnet-yor-viterbi`/`diacnet-yor-x` models above may perform better; `diacnet-1.0`'s advantage is breadth (10 languages, one model), not peak Yoruba accuracy.
 
 ::: olaverse.nlp.Diacritizer
 ::: olaverse.nlp.diacritize_yoruba
@@ -237,6 +328,33 @@ all_ids = [tok_yo.encode(s) for s in sentences]
 ```
 
 ::: olaverse.nlp.Tokenizer
+
+---
+
+## Tokenization — OTK-BPE (Multilingual) *(New in v0.1.5)*
+
+**Model Card**: [olaverse/otk-bpe](https://huggingface.co/olaverse/otk-bpe)
+
+A companion tokenizer family for **Swahili**, **Kinyarwanda**, and a **merged French + Kinyarwanda + English + Swahili** vocabulary — each available at three vocab sizes. Same `Tokenizer` class, different `lang=` values.
+
+| `lang=` | Languages | Vocab sizes |
+|---|---|---|
+| `sw-50k` / `sw-100k` / `sw-150k` | Swahili | 50k / 100k / 150k |
+| `kin-50k` / `kin-100k` / `kin-150k` | Kinyarwanda | 50k / 100k / 150k |
+| `merged-50k` / `merged-100k` / `merged-150k` | French + Kinyarwanda + English + Swahili | 50k / 100k / 150k |
+
+**150k is the recommended default** — fertility and entity-handling both improve monotonically from 50k → 100k → 150k in every benchmark on the model card, with no exceptions. Step down only if embedding-table size is a hard constraint.
+
+```python
+from olaverse import Tokenizer
+
+tok = Tokenizer("sw-150k")
+ids = tok.encode("Habari yako? Leo ni siku nzuri sana 😊")
+tok.decode(ids)
+# → 'Habari yako? Leo ni siku nzuri sana 😊'
+
+tok_merged = Tokenizer("merged-150k")  # French + Kinyarwanda + English + Swahili
+```
 
 ---
 
@@ -399,3 +517,64 @@ clean_text("Visit https://olaverse.co.uk", remove_urls=False)
 ```
 
 ::: olaverse.nlp.clean_text
+
+---
+
+## Retrieval *(New in v0.1.5)*
+
+```bash
+pip install olaverse[retrieval]
+```
+
+Two-piece toolkit for building RAG/search pipelines: a cross-encoder `Reranker` for the second stage, and a Nigerian-language `Embedder` for semantic search and cross-lingual retrieval.
+
+### Reranker
+
+**Model Cards**: [olaverse/mist-reranker-150m](https://huggingface.co/olaverse/mist-reranker-150m) · [olaverse/mist-reranker-22.7M](https://huggingface.co/olaverse/mist-reranker-22.7M)
+
+Scores `(query, passage)` pairs to re-sort the top-k candidates from a first-stage retriever (BM25 or a bi-encoder).
+
+| `size=` | Model | Params | Best for |
+|---|---|---|---|
+| `"150m"` | mist-reranker-150m | ~150M | Best QA/fact accuracy (ModernBERT-base) |
+| `"22.7m"` *(default)* | mist-reranker-22.7M | ~22.7M | Smaller/faster, MiniLM-L6 backbone |
+
+```python
+from olaverse import Reranker
+
+reranker = Reranker(size="22.7m")
+
+reranker.rank("who wrote hamlet", [
+    "Hamlet is a tragedy written by William Shakespeare.",
+    "The capital of France is Paris.",
+])
+# → [(0, 0.98...), (1, 0.01...)]   # (original_index, score), best-first
+
+reranker.score("who wrote hamlet", ["Hamlet is a tragedy by Shakespeare."])
+# → [0.98...]
+```
+
+Both models are English-only; `Reranker` auto-handles their different output head shapes (a single relevance score vs. 2-class logits).
+
+::: olaverse.nlp.Reranker
+
+---
+
+### Embedder
+
+**Model Card**: [olaverse/naija-embed-base](https://huggingface.co/olaverse/naija-embed-base)
+
+Cross-lingual sentence embeddings for Hausa, Yoruba, and Igbo — contrastively fine-tuned from [`mist-encoder-base-ng`](https://huggingface.co/olaverse/mist-encoder-base-ng). Useful for cross-lingual retrieval (e.g. Hausa query → Yoruba document), semantic search, clustering, and deduplication.
+
+```python
+from olaverse import Embedder
+
+embedder = Embedder()
+vecs = embedder.encode(["bawo ni", "sannu"])
+embedder.similarity(vecs[0], vecs[1])
+```
+
+!!! note "No Nigerian Pidgin support"
+    The underlying translation model used for training only outputs Hausa/Yoruba/Igbo — Pidgin (`pcm`) is not covered.
+
+::: olaverse.nlp.Embedder

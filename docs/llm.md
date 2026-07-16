@@ -204,3 +204,14 @@ print(model.generate(clause, max_new_tokens=300))
 See the **[NLP & Tokenization](nlp.md#lidneural5)** page for full documentation and examples.
 
 ::: olaverse.llm.LIDNeural5
+
+---
+
+## On the Hub, not yet wrapped by the SDK
+
+Two small [olaverse](https://huggingface.co/olaverse) models don't have a dedicated SDK class yet — use them directly via `transformers` in the meantime:
+
+- **[mist-tg-0.3b](https://huggingface.co/olaverse/mist-tg-0.3b)** — generates short chat titles from a user's first message. ByT5-based (~300M), English-trained, works reasonably on other Latin-script languages.
+- **[mist-qg-1.5b](https://huggingface.co/olaverse/mist-qg-1.5b)** — multilingual question generation from a passage, across 25 languages including several African languages. Qwen2.5-1.5B-based, structured JSON output.
+
+Both follow the standard `AutoTokenizer` / `AutoModelForCausalLM` (or `T5ForConditionalGeneration` for `mist-tg-0.3b`) loading pattern — see each model card for exact usage.

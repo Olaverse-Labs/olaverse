@@ -23,6 +23,14 @@ dependencies = [
 ]
 requires-python = ">=3.8"
 
+[project.urls]
+Homepage = "https://www.olaverse.co.uk/"
+Repository = "https://github.com/Olaverse-Labs/olaverse"
+Documentation = "https://Olaverse-Labs.github.io/olaverse/"
+Changelog = "https://Olaverse-Labs.github.io/olaverse/changelog/"
+"Hugging Face" = "https://huggingface.co/olaverse"
+"Issue Tracker" = "https://github.com/Olaverse-Labs/olaverse/issues"
+
 [project.optional-dependencies]
 dev = [
     "pytest>=7.0.0",

@@ -1,5 +1,5 @@
 site_name: Olaverse
-site_description: African NLP, MIST language models, and Text-to-Speech architecture — one Python SDK
+site_description: Open-source NLP infrastructure for underrepresented languages — language detection, diacritization, tokenization, retrieval, and LLMs in one Python SDK
 site_url: https://olaverse-labs.github.io/olaverse/
 repo_url: https://github.com/Olaverse-Labs/olaverse
 repo_name: Olaverse-Labs/olaverse
@@ -110,10 +110,25 @@ plugins:
 nav:
   - 🏠 Main Site: https://www.olaverse.co.uk/
   - Home: index.md
-  - NLP & Tokenization: nlp.md
-  - Language Models: llm.md
-  - Vision: vision.md
-  - Datasets: datasets.md
-  - Speech (Roadmap): speech.md
-  - Utilities: utils.md
-  - Changelog: changelog.md
+  - Models:
+      - Overview: models/index.md
+      - DiacNet — Diacritization: models/diacnet.md
+      - Language Detection: models/language-detection.md
+      - Tokenizers — OTK-BPE: models/tokenizers.md
+      - Retrieval: models/retrieval.md
+      - MIST — LLM Family: models/mist.md
+      - LegalPeace: models/legalpeace.md
+      - Prism — Vision: models/prism.md
+  - Benchmarks: benchmarks.md
+  - Solutions: solutions.md
+  - API Reference:
+      - NLP & Tokenization: nlp.md
+      - Language Models: llm.md
+      - Vision: vision.md
+      - Datasets: datasets.md
+      - Speech (Roadmap): speech.md
+      - Utilities: utils.md
+  - Enterprise: enterprise.md
+  - Project:
+      - Roadmap: roadmap.md
+      - Changelog: changelog.md

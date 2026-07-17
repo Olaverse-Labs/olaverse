@@ -3,12 +3,12 @@
 <div class="ov-hero">
   <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
-  <p class="ov-hero-sub">African NLP · MIST Language Models · Text-to-Speech Architecture</p>
+  <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
     <span class="ov-hero-install-label">pip install olaverse</span>
   </div>
   <div class="ov-hero-links">
-    <a href="nlp/" class="md-button md-button--primary">Get Started</a>
+    <a href="models/" class="md-button md-button--primary">Explore Models</a>
     <a href="https://github.com/Olaverse-Labs/olaverse" class="md-button" target="_blank">GitHub</a>
     <a href="https://huggingface.co/olaverse" class="md-button" target="_blank">Hugging Face</a>
   </div>
@@ -16,16 +16,87 @@
 
 ---
 
+## 30-Second Quick Start
+
+```bash
+pip install olaverse
+```
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="auto")   # detects the language, routes to the right model
+
+d.restore("Ojo lo si oja lana")     # Yoruba
+# → 'Òjó lọ sí ọjà lana'
+
+d.restore("Kedu ka i mere")         # Igbo
+# → 'Kedụ ka ị mere'
+```
+
+Need more languages? The multilingual [`diacnet-1.0`](models/diacnet.md) model covers 10 — with `pip install olaverse[deeplearning]`:
+
+```python
+d = Diacritizer(model="diacnet-1.0", lang="yo")
+
+d.restore("se eranko naa si gbo o?")
+# → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
+
+---
+
 ## What is Olaverse?
 
-**Olaverse** is a unified Python SDK for African language AI. It gives you production-ready NLP tools, a clean interface to the MIST model family, domain-specific LLMs, and a TTS pipeline architecture — all in one package.
+**Olaverse** is an open-source multilingual AI infrastructure toolkit for building NLP, speech, retrieval, and language systems for underrepresented languages.
+
+It gives you production-ready APIs for language detection, diacritization, tokenization, embeddings, reranking, and speech-text preprocessing — plus the MIST LLM family, domain LLMs, and lightweight vision models — all in one Python package.
+
+---
+
+## Why Olaverse?
+
+### 1. Low-resource language support
+
+Many languages lack high-quality AI tooling. Olaverse ships working models for them today:
+
+- **Language detection** — 5 to 25 languages, from a 1.1 MB CPU model to neural classifiers
+- **Diacritization** — restore tones and accents across 10 languages
+- **Tokenization** — byte-level BPE tokenizers with 0% OOV, up to 63% fewer tokens than GPT-4 on Yoruba
+- **Embeddings & retrieval** — cross-lingual semantic search for Hausa, Yoruba, Igbo
+- **Speech preprocessing** — TTS text normalization for Yoruba, Igbo, and Nigerian Pidgin
+
+### 2. Production-ready APIs
+
+Instead of wrestling with `AutoModel.from_pretrained()`, checkpoints, and generation configs:
+
+```python
+Diacritizer(model="auto").restore(text)
+LIDLite5().predict(text)
+Reranker().rank(query, passages)
+Tokenizer("yo").encode(text)
+```
+
+Correct defaults — stop tokens, sampling parameters, model routing — are baked in.
+
+### 3. Lightweight deployment
+
+Models are sized for real infrastructure, not just research clusters:
+
+- `LIDLite5` — **1.1 MB**, 0.014 ms per sentence, pure Python, zero GPU
+- `diacnet-yor-viterbi` — ~7 MB, fast CPU inference
+- `Reranker` (22.7M) — 23 MB cross-encoder
+- Prism vision models — ~25K-parameter upscalers that run anywhere
+
+---
+
+## Core Capabilities
 
 <div class="ov-grid">
 
 <div class="ov-card">
   <div class="ov-card-icon">🗣️</div>
   <div class="ov-card-title">NLP & Tokenization</div>
-  <div class="ov-card-body">Diacritization for Yoruba and Igbo, language detection for 5 Nigerian languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
+  <div class="ov-card-body">Diacritization for 10 languages, language detection for 5–25 languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
   <a href="nlp/" class="ov-card-link">Explore NLP →</a>
 </div>
 
@@ -33,14 +104,14 @@
   <div class="ov-card-icon">⚡</div>
   <div class="ov-card-title">MIST Model Family</div>
   <div class="ov-card-body">8B, 70B, 140B, and Thinking variants. Correct stop tokens and sampling defaults per variant baked in. Local via <code>transformers</code> or hosted via Featherless/Modal.</div>
-  <a href="llm/" class="ov-card-link">Explore MIST →</a>
+  <a href="models/mist/" class="ov-card-link">Explore MIST →</a>
 </div>
 
 <div class="ov-card">
   <div class="ov-card-icon">🧠</div>
   <div class="ov-card-title">Domain LLMs</div>
   <div class="ov-card-body"><code>LegalPeace</code> — fine-tuned Mistral-7B for contract analysis and legal reasoning. Memory-efficient 4-bit inference via unsloth.</div>
-  <a href="llm/#legalpace-legal-contract-reasoning-beta" class="ov-card-link">Explore LLMs →</a>
+  <a href="models/legalpeace/" class="ov-card-link">Explore LLMs →</a>
 </div>
 
 <div class="ov-card">
@@ -54,14 +125,14 @@
   <div class="ov-card-icon">🔎</div>
   <div class="ov-card-title">Retrieval</div>
   <div class="ov-card-body">Cross-encoder <code>Reranker</code> for RAG/search pipelines, and a Nigerian-language <code>Embedder</code> for cross-lingual semantic search over Hausa, Yoruba, and Igbo.</div>
-  <a href="nlp/#retrieval-new-in-v015" class="ov-card-link">Explore Retrieval →</a>
+  <a href="models/retrieval/" class="ov-card-link">Explore Retrieval →</a>
 </div>
 
 <div class="ov-card">
   <div class="ov-card-icon">🖼️</div>
   <div class="ov-card-title">Vision — Prism</div>
   <div class="ov-card-body">Lightweight image-to-image models: <code>PrismUpscaler</code> (2x/4x/arbitrary), <code>PrismDenoiser</code>, and <code>PrismSteganography</code> for hiding recoverable messages in images.</div>
-  <a href="vision/" class="ov-card-link">Explore Vision →</a>
+  <a href="models/prism/" class="ov-card-link">Explore Vision →</a>
 </div>
 
 <div class="ov-card">
@@ -72,6 +143,47 @@
 </div>
 
 </div>
+
+---
+
+## Featured Models
+
+| Model | What it does | Size | Start here |
+|---|---|---|---|
+| **DiacNet** | Restores accents, tones & special characters in 10 languages | 1 MB – 503 MB | [DiacNet →](models/diacnet.md) |
+| **LID family** | Language detection, 5–25 languages | 1.1 MB – 500 MB | [Language Detection →](models/language-detection.md) |
+| **OTK-BPE** | Tokenizers for 8+ languages, 0% OOV | ~3 MB each | [Tokenizers →](models/tokenizers.md) |
+| **Reranker / Embedder** | RAG & cross-lingual search | 23 MB+ | [Retrieval →](models/retrieval.md) |
+| **MIST** | General LLMs — 8B / 70B / 140B / Thinking | 15 – 256 GB | [MIST →](models/mist.md) |
+| **Prism** | Image upscaling, denoising, steganography | ~25K params+ | [Prism →](models/prism.md) |
+
+Full catalog with comparison tables: **[Model Overview →](models/index.md)**
+
+---
+
+## Use Cases
+
+Olaverse components slot into production pipelines for:
+
+- **Speech AI** — ASR post-processing → normalization → diacritization → TTS front-end
+- **OCR correction** — restore diacritics that scanners drop
+- **Search** — language detection, query normalization, cross-lingual retrieval, reranking
+- **Education** — language-learning tools with correct tone marks
+- **Customer support** — detect and route messages in Nigerian languages and Pidgin
+- **Translation pipelines** — clean, diacritized input for MT systems
+
+See **[Solutions →](solutions.md)** for worked examples.
+
+---
+
+## Benchmarks
+
+| Model | Size | Speed | Macro F1 |
+|---|---|---|---|
+| `LIDLite5` | 1.1 MB | 0.014 ms | 98.12% |
+| `LIDNeural5` | 484 MB | 13.3 ms | 98.96% |
+
+All published numbers — LID, diacritization, tokenizer efficiency — in one place: **[Benchmarks →](benchmarks.md)**
 
 ---
 
@@ -87,7 +199,7 @@
     ```bash
     pip install olaverse[deeplearning]
     ```
-    Adds: `LIDNeural5`, MIST local inference (requires GPU).
+    Adds: `LIDNeural5`, `diacnet-1.0`, MIST local inference (requires GPU).
 
 === "Hosted Inference"
     ```bash
@@ -132,82 +244,6 @@
 
 ---
 
-## Quick Start
-
-### Language Detection
-
-```python
-from olaverse import LIDLite5, LIDNeural5
-
-# Lightweight — zero GPU, instant (0.014 ms/sentence)
-detector = LIDLite5()
-detector.predict("Bawo ni, se daadaa ni?")  # → 'yor'
-
-# Neural — 98.96% macro accuracy
-neural = LIDNeural5()
-neural.load()  # downloads olaverse/lid-neural-5 once
-neural.predict("Kedu ka ị mere today?")  # → 'ibo'
-neural.predict_proba("How far, wetin dey happen?")
-# → {'pcm': 0.991, 'eng': 0.002, ...}
-```
-
-### Diacritization
-
-```python
-from olaverse import diacritize_yoruba, diacritize_igbo
-
-diacritize_yoruba("Ojo lo si oja lana")
-# → 'Òjó lọ sí ọjà lana'
-
-diacritize_igbo("Kedu ka i mere")
-# → 'Kedụ ka ị mere'
-```
-
-### MIST — Fast (8B, local)
-
-```python
-from olaverse import MIST
-
-model = MIST(size="8b")
-model.load()
-print(model.generate("Explain what makes Yoruba a tonal language."))
-```
-
-### MIST — Hosted (70B via Featherless)
-
-```python
-import os
-from olaverse import MIST
-
-model = MIST(size="70b", endpoint="featherless", api_key=os.environ["FEATHERLESS_API_KEY"])
-print(model.generate("Write a Python retry decorator with exponential backoff."))
-```
-
-### Tokenization
-
-```python
-from olaverse import Tokenizer
-
-tok = Tokenizer("yo")  # Yoruba — 63% fewer tokens than GPT-4
-ids = tok.encode("Ẹ kú àbọ̀")
-tok.decode(ids)  # → 'Ẹ kú àbọ̀'
-```
-
-### Datasets
-
-```python
-from olaverse import load_dataset, list_datasets
-
-list_datasets()
-# → ['reranker-general-en-llm-judged', 'marco-style-pairs-multi', ...]
-
-bench = load_dataset("diacbench", "yo", split="test")  # requires olaverse[data]
-bench[0]
-# → {'input': 'Titi di igba ...', 'reference': 'Títí di ìgbà ...'}
-```
-
----
-
 ## Supported Languages
 
 <div class="ov-lang-row">
@@ -221,39 +257,11 @@ bench[0]
 | Feature | yor | ibo | hau | pcm | eng |
 |---|:---:|:---:|:---:|:---:|:---:|
 | Language Detection (LIDLite5 / LIDNeural5) | ✅ | ✅ | ✅ | ✅ | ✅ |
-| Diacritization | ✅ | ✅ | — | — | — |
+| Diacritization | ✅ | ✅ | ✅ (diacnet-1.0) | — | — |
 | BPE Tokenizer | ✅ | ✅ | ✅ | ✅ | via naija |
-| TTS Normalization | ✅ | ✅ | — | — | — |
+| TTS Normalization | ✅ | ✅ | — | ✅ | — |
 
----
-
-## Model Index
-
-<div class="ov-model-table" markdown>
-
-| Model | Task | Size | Speed | Install |
-|---|---|---|---|---|
-| `LIDLite5` | Language ID (5 langs) | 1.1 MB JSON | 0.014 ms | `olaverse` |
-| `LIDNeural5` | Language ID (5 langs) | 484 MB | 13 ms | `olaverse[deeplearning]` |
-| `LIDLite25` | Language ID (25 langs) | ~5-10 MB | <1 ms | `olaverse[lid]` |
-| `LIDNeural25` | Language ID (25 langs) | ~500 MB | — | `olaverse[deeplearning]` |
-| `LIDNeural5_1` | Language ID (4 Nigerian langs, no English) | ~120 MB | — | `olaverse[deeplearning]` |
-| `MIST-Mini-8B` | General LLM | 15 GB | ~63 tok/s | `olaverse[deeplearning]` |
-| `MIST-1-70B` | General LLM | 132 GB | ~23 tok/s | hosted or multi-GPU |
-| `MIST-1-140B` | General LLM | 256 GB | ~8 tok/s | hosted or 2× H200 |
-| `MIST-Mini-8B-Thinking` | Reasoning LLM | 15 GB | ~55 tok/s | `olaverse[deeplearning]` |
-| `LegalPeace` | Legal reasoning | 7B (4-bit) | — | `olaverse[legal]` |
-| `DiacNet` (5 Yoruba/Igbo variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
-| `diacnet-1.0` | Diacritization (10 langs) | ~300 MB | Slow | `olaverse[deeplearning]` |
-| `OTK-BPE-50k` (5 Nigerian variants) | Tokenization | ~3 MB each | — | `olaverse` |
-| `OTK-BPE` (9 Swahili/Kinyarwanda/merged variants) | Tokenization | varies | — | `olaverse` |
-| `Reranker` (2 sizes) | Reranking | 23 MB – 150M params | — | `olaverse[retrieval]` |
-| `Embedder` | Sentence embeddings (ha/yo/ig) | ~120 MB | — | `olaverse[retrieval]` |
-| `PrismUpscaler` (3 sizes) | Image super-resolution | ~25K params – small | — | `olaverse[vision]` |
-| `PrismDenoiser` | Image denoising | Small U-Net | — | `olaverse[vision]` |
-| `PrismSteganography` | Image steganography | Small U-Net | — | `olaverse[vision]` |
-
-</div>
+Beyond Nigerian languages: `LIDLite25`/`LIDNeural25` detect **25 languages**; `diacnet-1.0` diacritizes **10** (incl. Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian); OTK-BPE tokenizers cover **Swahili and Kinyarwanda**.
 
 ---
 
@@ -272,3 +280,9 @@ bench[0]
 - **`LIDNeural5` moved to `olaverse.nlp`** — its correct home alongside `LIDLite5` (backward-compat import from `olaverse.llm` preserved)
 - **`ExperimentalWarning`** on speech classes — honest signalling that acoustic synthesis is not yet available
 - **`olaverse[hosted]`** extra — `pip install olaverse[hosted]` for Featherless/Modal inference
+
+---
+
+## Commercial Support
+
+Need custom language support, fine-tuning, or deployment help? We work with teams adding underrepresented-language capability to their products. **[Learn more →](enterprise.md)**

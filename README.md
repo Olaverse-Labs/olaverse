@@ -3,13 +3,33 @@
 # Olaverse Documentation
 
 [![PyPI Version](https://img.shields.io/pypi/v/olaverse.svg)](https://pypi.org/project/olaverse/)
+[![Downloads](https://img.shields.io/pypi/dm/olaverse.svg)](https://pypi.org/project/olaverse/)
+[![Python Version](https://img.shields.io/pypi/pyversions/olaverse.svg)](https://pypi.org/project/olaverse/)
 [![License](https://img.shields.io/badge/license-Apache%202.0-green)](LICENSE)
+[![Hugging Face](https://img.shields.io/badge/🤗%20Hugging%20Face-olaverse-yellow)](https://huggingface.co/olaverse)
 [![Platform](https://img.shields.io/badge/platform-CPU%20&%20GPU-orange)](https://github.com/Olaverse-Labs/olaverse)
 [![Docs](https://img.shields.io/badge/docs-GitHub_Pages-blue)](https://Olaverse-Labs.github.io/olaverse/)
 
 Welcome to the official developer documentation for the **Olaverse SDK**.
 
-**Olaverse** is a unified Python package and developer interface for African NLP, Large Language Models, and Text-to-Speech architecture.
+**Olaverse** is an open-source multilingual AI infrastructure toolkit for building NLP, speech, retrieval, and language systems for underrepresented languages.
+
+## 30-Second Quick Start
+
+```bash
+pip install olaverse
+```
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="auto")       # detects the language, routes to the right model
+d.restore("Ojo lo si oja lana")     # → 'Òjó lọ sí ọjà lana'
+
+# 10 languages via the multilingual model (pip install olaverse[deeplearning]):
+d = Diacritizer(model="diacnet-1.0", lang="yo")
+d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
 
 **📚 Full API Documentation: [https://Olaverse-Labs.github.io/olaverse/](https://Olaverse-Labs.github.io/olaverse/)**
 **📦 PyPI: [https://pypi.org/project/olaverse/](https://pypi.org/project/olaverse/)**
@@ -61,9 +81,14 @@ pip install olaverse[data]
 
 ## Navigation
 
+- **[Models](https://Olaverse-Labs.github.io/olaverse/models/)**: Product pages for every model family — DiacNet, LID, OTK-BPE, Retrieval, MIST, LegalPeace, Prism — with comparison tables.
+- **[Benchmarks](https://Olaverse-Labs.github.io/olaverse/benchmarks/)**: All published numbers in one place.
+- **[Solutions](https://Olaverse-Labs.github.io/olaverse/solutions/)**: Worked pipelines — Speech AI, OCR, search, education, support, translation.
 - **[NLP & Tokenization](https://Olaverse-Labs.github.io/olaverse/nlp/)**: `Tokenizer`, Language Detection, Diacritization, Retrieval (`Reranker`/`Embedder`), PII masking, TTS normalizer.
 - **[Language Models](https://Olaverse-Labs.github.io/olaverse/llm/)**: `MIST` model family, `LegalPeace`, `LIDNeural5`.
 - **[Vision](https://Olaverse-Labs.github.io/olaverse/vision/)**: `PrismUpscaler`, `PrismDenoiser`, `PrismSteganography`.
 - **[Datasets](https://Olaverse-Labs.github.io/olaverse/datasets/)**: `load_dataset`, `list_datasets`, `dataset_info` — all public olaverse datasets.
 - **[Speech Architecture](https://Olaverse-Labs.github.io/olaverse/speech/)**: `TTSPipeline` and base classes (experimental — roadmap).
 - **[Global Utilities](https://Olaverse-Labs.github.io/olaverse/utils/)**: Constants and audio utilities.
+- **[Enterprise](https://Olaverse-Labs.github.io/olaverse/enterprise/)**: Commercial support — fine-tuning, custom datasets, deployment.
+- **[Roadmap](https://Olaverse-Labs.github.io/olaverse/roadmap/)**: What's shipped and what's next.

@@ -10,25 +10,31 @@
       
       
       
+        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/models/language-detection/">
       
+      
+        <link rel="prev" href="../diacnet/">
+      
+      
+        <link rel="next" href="../tokenizers/">
       
       
         
       
       
-      <link rel="icon" href="/olaverse/assets/logo.png">
+      <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Olaverse</title>
+        <title>Language Detection - Olaverse</title>
       
     
     
-      <link rel="stylesheet" href="/olaverse/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="/olaverse/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
   
@@ -67,11 +73,11 @@
       
     
     
-      <link rel="stylesheet" href="/olaverse/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/olaverse/stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("/olaverse/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -95,6 +101,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#language-detection-lid" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -109,9 +120,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/olaverse/." title="Olaverse" class="md-header__button md-logo" aria-label="Olaverse" data-md-component="logo">
+    <a href="../.." title="Olaverse" class="md-header__button md-logo" aria-label="Olaverse" data-md-component="logo">
       
-  <img src="/olaverse/assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -128,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Language Detection
             
           </span>
         </div>
@@ -265,7 +276,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -282,11 +293,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/olaverse/models/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -306,7 +319,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/benchmarks/" class="md-tabs__link">
+      <a href="../../benchmarks/" class="md-tabs__link">
         
   
   
@@ -325,7 +338,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/solutions/" class="md-tabs__link">
+      <a href="../../solutions/" class="md-tabs__link">
         
   
   
@@ -346,7 +359,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/olaverse/nlp/" class="md-tabs__link">
+        <a href="../../nlp/" class="md-tabs__link">
           
   
   
@@ -366,7 +379,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/enterprise/" class="md-tabs__link">
+      <a href="../../enterprise/" class="md-tabs__link">
         
   
   
@@ -387,7 +400,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/olaverse/roadmap/" class="md-tabs__link">
+        <a href="../../roadmap/" class="md-tabs__link">
           
   
   
@@ -423,9 +436,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/olaverse/." title="Olaverse" class="md-nav__button md-logo" aria-label="Olaverse" data-md-component="logo">
+    <a href="../.." title="Olaverse" class="md-nav__button md-logo" aria-label="Olaverse" data-md-component="logo">
       
-  <img src="/olaverse/assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     Olaverse
@@ -479,7 +492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -503,6 +516,8 @@
       
   
   
+    
+  
   
   
     
@@ -530,20 +545,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="/olaverse/models/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -561,13 +579,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -587,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/diacnet/" class="md-nav__link">
+      <a href="../diacnet/" class="md-nav__link">
         
   
   
@@ -612,10 +630,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/olaverse/models/language-detection/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language Detection
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -631,6 +676,114 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-is-this-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who is this for?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-model-should-i-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which model should I use?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidlite5-vs-lidneural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite5 vs LIDNeural5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidlite25-lidneural25-25-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite25 / LIDNeural25 — 25 languages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidneural5_1-nigerian-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5_1 — Nigerian-only
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -643,7 +796,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/tokenizers/" class="md-nav__link">
+      <a href="../tokenizers/" class="md-nav__link">
         
   
   
@@ -671,7 +824,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/retrieval/" class="md-nav__link">
+      <a href="../retrieval/" class="md-nav__link">
         
   
   
@@ -699,7 +852,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/mist/" class="md-nav__link">
+      <a href="../mist/" class="md-nav__link">
         
   
   
@@ -727,7 +880,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/legalpeace/" class="md-nav__link">
+      <a href="../legalpeace/" class="md-nav__link">
         
   
   
@@ -755,7 +908,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/prism/" class="md-nav__link">
+      <a href="../prism/" class="md-nav__link">
         
   
   
@@ -790,7 +943,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/benchmarks/" class="md-nav__link">
+      <a href="../../benchmarks/" class="md-nav__link">
         
   
   
@@ -817,7 +970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/solutions/" class="md-nav__link">
+      <a href="../../solutions/" class="md-nav__link">
         
   
   
@@ -910,7 +1063,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/nlp/" class="md-nav__link">
+      <a href="../../nlp/" class="md-nav__link">
         
   
   
@@ -938,7 +1091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/llm/" class="md-nav__link">
+      <a href="../../llm/" class="md-nav__link">
         
   
   
@@ -966,7 +1119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/vision/" class="md-nav__link">
+      <a href="../../vision/" class="md-nav__link">
         
   
   
@@ -994,7 +1147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/datasets/" class="md-nav__link">
+      <a href="../../datasets/" class="md-nav__link">
         
   
   
@@ -1022,7 +1175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/speech/" class="md-nav__link">
+      <a href="../../speech/" class="md-nav__link">
         
   
   
@@ -1050,7 +1203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/utils/" class="md-nav__link">
+      <a href="../../utils/" class="md-nav__link">
         
   
   
@@ -1085,7 +1238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/enterprise/" class="md-nav__link">
+      <a href="../../enterprise/" class="md-nav__link">
         
   
   
@@ -1170,7 +1323,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/roadmap/" class="md-nav__link">
+      <a href="../../roadmap/" class="md-nav__link">
         
   
   
@@ -1198,7 +1351,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -1243,6 +1396,104 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#who-is-this-for" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Who is this for?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-model-should-i-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which model should I use?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidlite5-vs-lidneural5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite5 vs LIDNeural5
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidlite25-lidneural25-25-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite25 / LIDNeural25 — 25 languages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lidneural5_1-nigerian-only" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5_1 — Nigerian-only
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmarks
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1255,8 +1506,221 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="language-detection-lid">Language Detection (LID)<a class="headerlink" href="#language-detection-lid" title="Permanent link">&para;</a></h1>
+<p><strong>Five language-identification models, from a 1.1 MB pure-Python classifier to 25-language neural models — pick by coverage, latency, and accuracy.</strong></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_language</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">detect_language</span><span class="p">(</span><span class="s2">&quot;Bawo ni, se daadaa ni?&quot;</span><span class="p">)</span>   <span class="c1"># → &#39;yor&#39;</span>
+</span></code></pre></div>
+<hr />
+<h2 id="who-is-this-for">Who is this for?<a class="headerlink" href="#who-is-this-for" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Routing user messages to the right model, translator, or support queue</li>
+<li>Filtering or labelling multilingual corpora at scale</li>
+<li>The first stage of pipelines (e.g. <code>Diacritizer(model="auto")</code> uses <code>LIDLite5</code> internally)</li>
+</ul>
+<hr />
+<h2 id="which-model-should-i-use">Which model should I use?<a class="headerlink" href="#which-model-should-i-use" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Model</th>
+<th>Install</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nigerian languages + English, zero GPU, instant</td>
+<td><code>LIDLite5</code></td>
+<td><code>olaverse</code></td>
+</tr>
+<tr>
+<td>Nigerian languages + English, best accuracy</td>
+<td><code>LIDNeural5</code></td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td>25 languages, CPU-only, sub-millisecond</td>
+<td><code>LIDLite25</code></td>
+<td><code>olaverse[lid]</code></td>
+</tr>
+<tr>
+<td>25 languages, best short-text accuracy</td>
+<td><code>LIDNeural25</code></td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td>Only the 4 Nigerian languages — input never contains English</td>
+<td><code>LIDNeural5_1</code></td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="lidlite5-vs-lidneural5">LIDLite5 vs LIDNeural5<a class="headerlink" href="#lidlite5-vs-lidneural5" title="Permanent link">&para;</a></h2>
+<p>Both cover Yoruba, Igbo, Hausa, Nigerian Pidgin, and English.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>LIDLite5</th>
+<th>LIDNeural5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size</td>
+<td><strong>1.1 MB</strong> JSON</td>
+<td>484 MB (XLM-RoBERTa 125M)</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td><strong>0.014 ms</strong>/sentence</td>
+<td>13.3 ms/sentence</td>
+</tr>
+<tr>
+<td>Macro accuracy</td>
+<td>98.12%</td>
+<td><strong>98.96%</strong></td>
+</tr>
+<tr>
+<td>Architecture</td>
+<td>TF-IDF + Logistic Regression</td>
+<td>Fine-tuned afriberta_large</td>
+</tr>
+<tr>
+<td>Dependencies</td>
+<td>Pure Python</td>
+<td><code>transformers</code> + <code>torch</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/lid-lite-5">olaverse/lid-lite-5</a> · <a href="https://huggingface.co/olaverse/lid-neural-5">olaverse/lid-neural-5</a></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite5</span><span class="p">,</span> <span class="n">LIDNeural5</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">lite</span> <span class="o">=</span> <span class="n">LIDLite5</span><span class="p">()</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">lite</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Sannu, yaya kake?&quot;</span><span class="p">)</span>            <span class="c1"># → &#39;hau&#39;</span>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">lite</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;Kedu, ọ dị mma?&quot;</span><span class="p">)</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># → {&#39;ibo&#39;: 0.993, &#39;pcm&#39;: 0.003, &#39;eng&#39;: 0.002, ...}</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">neural</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="n">neural</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>   <span class="c1"># one-time download, cached</span>
+</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Kedu ka ị mere today?&quot;</span><span class="p">)</span>      <span class="c1"># → &#39;ibo&#39;</span>
+</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>
+</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1"># Batched — single forward pass, much faster on datasets</span>
+</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">([</span><span class="s2">&quot;Bawo ni?&quot;</span><span class="p">,</span> <span class="s2">&quot;Kedu ọ dị?&quot;</span><span class="p">,</span> <span class="s2">&quot;How far?&quot;</span><span class="p">,</span> <span class="s2">&quot;Sannu dai.&quot;</span><span class="p">])</span>
+</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># → [&#39;yor&#39;, &#39;ibo&#39;, &#39;pcm&#39;, &#39;hau&#39;]</span>
+</span></code></pre></div>
+<hr />
+<h2 id="lidlite25-lidneural25-25-languages">LIDLite25 / LIDNeural25 — 25 languages<a class="headerlink" href="#lidlite25-lidneural25-25-languages" title="Permanent link">&para;</a></h2>
+<p>Coverage across Africa, Europe, and Asia. Both come in two checkpoints tuned for input length — pick <code>variant=</code> to match your traffic:</p>
+<table>
+<thead>
+<tr>
+<th><code>variant=</code></th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"passages"</code></td>
+<td>Documents, articles, paragraph-length text</td>
+</tr>
+<tr>
+<td><code>"questions"</code> <em>(default)</em></td>
+<td>Search queries, chat messages, short user input</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/lid-lite-25">olaverse/lid-lite-25</a> · <a href="https://huggingface.co/olaverse/lid-neural-25.1">olaverse/lid-neural-25.1</a> · <a href="https://huggingface.co/olaverse/lid-neural-25.2">olaverse/lid-neural-25.2</a></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite25</span><span class="p">,</span> <span class="n">LIDNeural25</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">lite</span> <span class="o">=</span> <span class="n">LIDLite25</span><span class="p">(</span><span class="n">variant</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>    <span class="c1"># fastText, CPU, ~5-10 MB</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">lite</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;What causes ocean tides?&quot;</span><span class="p">)</span>   <span class="c1"># → &#39;eng&#39;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="n">neural</span> <span class="o">=</span> <span class="n">LIDNeural25</span><span class="p">(</span><span class="n">variant</span><span class="o">=</span><span class="s2">&quot;questions&quot;</span><span class="p">)</span>  <span class="c1"># XLM-RoBERTa-base</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">neural</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;What causes ocean tides?&quot;</span><span class="p">)</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># → {&#39;eng&#39;: 0.999, &#39;fra&#39;: 0.0003, ...}</span>
+</span></code></pre></div>
+<p><code>LIDNeural25</code> is more accurate on short text (98.2% vs 97.3%) at the cost of needing <code>transformers</code>/<code>torch</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Zulu/Xhosa confusion on short text</p>
+<p>Both models score noticeably lower on Zulu/Xhosa short-text classification (F1 ~0.77-0.79) than every other language (≥0.98) — the two languages are closely related with substantial shared vocabulary. Treat predictions between these two with reduced confidence on short input.</p>
+</div>
+<hr />
+<h2 id="lidneural5_1-nigerian-only">LIDNeural5_1 — Nigerian-only<a class="headerlink" href="#lidneural5_1-nigerian-only" title="Permanent link">&para;</a></h2>
+<p>A compact (~31M parameter) classifier built on <a href="https://huggingface.co/olaverse/mist-encoder-base-ng"><code>mist-encoder-base-ng</code></a>, covering only Yoruba, Igbo, Hausa, and Nigerian Pidgin.</p>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-neural-5.1">olaverse/lid-neural-5.1</a></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDNeural5_1</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5_1</span><span class="p">()</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Ina kwana?&quot;</span><span class="p">)</span>   <span class="c1"># → &#39;Hausa&#39;</span>
+</span></code></pre></div>
+<div class="admonition danger">
+<p class="admonition-title">No English class</p>
+<p>Out-of-set input (English or any other language) will be <strong>confidently mislabelled</strong>, most often as Nigerian Pidgin. If your input may include English, use <code>LIDNeural5</code> or the 25-language models instead.</p>
+</div>
+<hr />
+<h2 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Macro F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIDLite5</code></td>
+<td>1.1 MB</td>
+<td>0.014 ms</td>
+<td>98.12%</td>
+</tr>
+<tr>
+<td><code>LIDNeural5</code></td>
+<td>484 MB</td>
+<td>13.3 ms</td>
+<td>98.96%</td>
+</tr>
+</tbody>
+</table>
+<p>Per-language precision/recall and the 25-language numbers: <strong><a href="../../benchmarks/">Benchmarks →</a></strong></p>
+<hr />
+<h2 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h2>
+<ul>
+<li>✅ <strong>Chat &amp; support routing</strong> — send Hausa messages to Hausa-speaking agents</li>
+<li>✅ <strong>Corpus building</strong> — label scraped text by language before training</li>
+<li>✅ <strong>Pipeline routing</strong> — <code>Diacritizer(model="auto")</code> and other language-conditional steps</li>
+<li>✅ <strong>Content moderation</strong> — apply the right language-specific rules</li>
+<li>✅ <strong>Search</strong> — pick per-language analyzers and tokenizers at query time</li>
+</ul>
+<hr />
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<p>Full class reference: <a href="../../nlp/#language-detection">NLP &amp; Tokenization → Language Detection</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1279,7 +1743,7 @@
   <div class="ov-footer-brand">
     <span>Built by</span>
     <a href="https://github.com/Olaverse-Labs" target="_blank" class="ov-logo-pill">
-      <img src="/olaverse//assets/logo.png" alt="Olaverse Logo" style="width: 18px; height: 18px; object-fit: contain;">
+      <img src="../../assets/logo.png" alt="Olaverse Logo" style="width: 18px; height: 18px; object-fit: contain;">
       Olaverse Labs
     </a>
     <span style="opacity:0.3">·</span>
@@ -1307,10 +1771,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/olaverse/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "/olaverse/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="/olaverse/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

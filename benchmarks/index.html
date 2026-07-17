@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/datasets/">
+        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/benchmarks/">
       
       
-        <link rel="prev" href="../vision/">
+        <link rel="prev" href="../models/prism/">
       
       
-        <link rel="next" href="../speech/">
+        <link rel="next" href="../solutions/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Datasets - Olaverse</title>
+        <title>Benchmarks - Olaverse</title>
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#datasets" class="md-skip">
+        <a href="#benchmarks" class="md-skip">
           Skip to content
         </a>
       
@@ -139,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Datasets
+              Benchmarks
             
           </span>
         </div>
@@ -315,9 +315,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="../benchmarks/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -353,12 +355,10 @@
   
   
   
-    
-  
   
     
     
-      <li class="md-tabs__item md-tabs__item--active">
+      <li class="md-tabs__item">
         <a href="../nlp/" class="md-tabs__link">
           
   
@@ -800,10 +800,37 @@
       
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../benchmarks/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -819,6 +846,170 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#language-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Language Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Language Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5-language-models-yoruba-igbo-hausa-pidgin-english" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5-language models (Yoruba, Igbo, Hausa, Pidgin, English)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lidneural5-per-language-breakdown" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDNeural5 — per-language breakdown
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        25-language models
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#diacritization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Diacritization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diacritization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dedicated-yorubaigbo-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dedicated Yoruba/Igbo models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diacnet-10-multilingual-10-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacnet-1.0 (multilingual, 10 languages)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduce-it-yourself" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduce it yourself
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokenization-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokenization Efficiency
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mist-inference-speed" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MIST Inference Speed
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#legalpeace-vs-base-mistral-7b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LegalPeace vs Base Mistral-7B
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#vision-prism" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vision (Prism)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -854,10 +1045,8 @@
       
   
   
-    
   
   
-  
     
     
       
@@ -877,22 +1066,19 @@
     
     
       
-        
-        
-      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
         
           
-          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
             
   
   
@@ -910,7 +1096,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1009,37 +1195,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Datasets
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../datasets/" class="md-nav__link">
         
   
   
@@ -1055,164 +1214,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Available Datasets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#train-a-reranker-graded-pairs-or-triplets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Train a reranker — graded pairs or triplets
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#benchmark-a-diacritizer-on-diacbench" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Benchmark a diacritizer on DiacBench
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#stream-a-large-multilingual-dataset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Stream a large multilingual dataset
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#errors-you-might-see" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Errors you might see
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.data.load_dataset" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        load_dataset
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.data.list_datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        list_datasets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.data.dataset_info" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dataset_info
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1456,55 +1457,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install" class="md-nav__link">
+  <a href="#language-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install
+        Language Detection
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#available-datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Available Datasets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#examples" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Examples
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Examples">
+    <nav class="md-nav" aria-label="Language Detection">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#train-a-reranker-graded-pairs-or-triplets" class="md-nav__link">
+  <a href="#5-language-models-yoruba-igbo-hausa-pidgin-english" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Train a reranker — graded pairs or triplets
+        5-language models (Yoruba, Igbo, Hausa, Pidgin, English)
       
     </span>
   </a>
@@ -1512,10 +1480,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#benchmark-a-diacritizer-on-diacbench" class="md-nav__link">
+  <a href="#lidneural5-per-language-breakdown" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Benchmark a diacritizer on DiacBench
+        LIDNeural5 — per-language breakdown
       
     </span>
   </a>
@@ -1523,10 +1491,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#stream-a-large-multilingual-dataset" class="md-nav__link">
+  <a href="#25-language-models" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Stream a large multilingual dataset
+        25-language models
       
     </span>
   </a>
@@ -1539,10 +1507,60 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#errors-you-might-see" class="md-nav__link">
+  <a href="#diacritization" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Errors you might see
+        Diacritization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Diacritization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dedicated-yorubaigbo-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Dedicated Yoruba/Igbo models
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diacnet-10-multilingual-10-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacnet-1.0 (multilingual, 10 languages)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reproduce-it-yourself" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproduce it yourself
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#tokenization-efficiency" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Tokenization Efficiency
       
     </span>
   </a>
@@ -1550,10 +1568,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#api-reference" class="md-nav__link">
+  <a href="#mist-inference-speed" class="md-nav__link">
     <span class="md-ellipsis">
       
-        API Reference
+        MIST Inference Speed
       
     </span>
   </a>
@@ -1561,10 +1579,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#olaverse.data.load_dataset" class="md-nav__link">
+  <a href="#legalpeace-vs-base-mistral-7b" class="md-nav__link">
     <span class="md-ellipsis">
       
-        load_dataset
+        LegalPeace vs Base Mistral-7B
       
     </span>
   </a>
@@ -1572,21 +1590,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#olaverse.data.list_datasets" class="md-nav__link">
+  <a href="#vision-prism" class="md-nav__link">
     <span class="md-ellipsis">
       
-        list_datasets
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#olaverse.data.dataset_info" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dataset_info
+        Vision (Prism)
       
     </span>
   </a>
@@ -1613,408 +1620,265 @@
   
 
 
-<h1 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Permanent link">&para;</a></h1>
-<p>The Olaverse SDK gives you direct access to every public <a href="https://huggingface.co/olaverse">olaverse dataset on Hugging Face</a> — the training and evaluation data behind the MIST rerankers, <code>mist-qg-1.5b</code>, <code>lid-lite-25</code>, and <code>diacnet-1.0</code>.</p>
-<p>Dataset loading is a thin wrapper around the Hugging Face <code>datasets</code> library, with short names, config validation, and helpful errors.</p>
-<h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>data<span class="o">]</span>
-</span></code></pre></div>
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">list_datasets</span><span class="p">,</span> <span class="n">dataset_info</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
-</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="c1"># Discover what&#39;s available</span>
-</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">list_datasets</span><span class="p">()</span>
-</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="c1"># → [&#39;reranker-general-en-llm-judged&#39;, &#39;marco-style-pairs-multi&#39;,</span>
-</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1">#    &#39;qg-passages-multi&#39;, &#39;reranker-triples-multi&#39;,</span>
-</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">#    &#39;qg-eval-multi-fresh&#39;, &#39;diacbench&#39;]</span>
-</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>
-</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># Inspect a dataset before loading</span>
-</span><span id="__span-1-10"><a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="n">dataset_info</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">)</span>
-</span><span id="__span-1-11"><a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># → {&#39;repo_id&#39;: &#39;olaverse/diacbench&#39;, &#39;configs&#39;: [&#39;es&#39;, &#39;fr&#39;, &#39;ha&#39;, ...],</span>
-</span><span id="__span-1-12"><a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="c1">#    &#39;splits&#39;: [&#39;test&#39;], ...}</span>
-</span><span id="__span-1-13"><a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>
-</span><span id="__span-1-14"><a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="c1"># Load — returns a standard Hugging Face Dataset</span>
-</span><span id="__span-1-15"><a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="n">ds</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
-</span><span id="__span-1-16"><a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a><span class="n">ds</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="__span-1-17"><a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="c1"># → {&#39;input&#39;: &#39;Titi di igba ti o maa fi ko eru re lo patapata, ...&#39;,</span>
-</span><span id="__span-1-18"><a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="c1">#    &#39;reference&#39;: &#39;Títí di ìgbà tí ó máa fi kó ẹrù rẹ̀ lọ pátápátá, ...&#39;}</span>
-</span></code></pre></div>
-<p><code>load_dataset</code> accepts either the short name (<code>"diacbench"</code>) or the full repo ID (<code>"olaverse/diacbench"</code>), and passes extra keyword arguments straight through to <code>datasets.load_dataset</code> — e.g. <code>streaming=True</code> for large datasets.</p>
-<h2 id="available-datasets">Available Datasets<a class="headerlink" href="#available-datasets" title="Permanent link">&para;</a></h2>
+<h1 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h1>
+<p>All published Olaverse model numbers in one place. Where a figure isn't listed here, it hasn't been formally measured — we don't publish estimates.</p>
+<hr />
+<h2 id="language-detection">Language Detection<a class="headerlink" href="#language-detection" title="Permanent link">&para;</a></h2>
+<h3 id="5-language-models-yoruba-igbo-hausa-pidgin-english">5-language models (Yoruba, Igbo, Hausa, Pidgin, English)<a class="headerlink" href="#5-language-models-yoruba-igbo-hausa-pidgin-english" title="Permanent link">&para;</a></h3>
 <table>
 <thead>
 <tr>
-<th>Dataset</th>
-<th>Task</th>
-<th>Languages</th>
-<th>Configs</th>
-<th>Splits</th>
+<th>Model</th>
+<th>Size</th>
+<th>Speed / sentence</th>
+<th>Macro F1</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><a href="https://huggingface.co/datasets/olaverse/reranker-general-en-llm-judged"><code>reranker-general-en-llm-judged</code></a></td>
-<td>Reranker / retriever training (LLM-judged graded relevance)</td>
-<td>English</td>
-<td><code>pairs-graded</code> (default), <code>triplets</code></td>
-<td><code>train</code>, <code>test</code></td>
+<td><code>LIDLite5</code></td>
+<td>1.1 MB</td>
+<td><strong>0.014 ms</strong></td>
+<td>98.12%</td>
 </tr>
 <tr>
-<td><a href="https://huggingface.co/datasets/olaverse/marco-style-pairs-multi"><code>marco-style-pairs-multi</code></a></td>
-<td>(query, positive) pairs for embedding training</td>
-<td>25 languages</td>
-<td>—</td>
-<td><code>train</code></td>
-</tr>
-<tr>
-<td><a href="https://huggingface.co/datasets/olaverse/qg-passages-multi"><code>qg-passages-multi</code></a></td>
-<td>Passages + search-style questions (behind <code>mist-qg-1.5b</code>)</td>
-<td>25 languages</td>
-<td>—</td>
-<td><code>train</code></td>
-</tr>
-<tr>
-<td><a href="https://huggingface.co/datasets/olaverse/reranker-triples-multi"><code>reranker-triples-multi</code></a></td>
-<td>Reranker triples with hard negatives</td>
-<td>25 languages</td>
-<td>—</td>
-<td><code>train</code></td>
-</tr>
-<tr>
-<td><a href="https://huggingface.co/datasets/olaverse/qg-eval-multi-fresh"><code>qg-eval-multi-fresh</code></a></td>
-<td>Held-out question-generation eval (625 passages)</td>
-<td>25 languages</td>
-<td>—</td>
-<td><code>train</code></td>
-</tr>
-<tr>
-<td><a href="https://huggingface.co/datasets/olaverse/diacbench"><code>diacbench</code></a></td>
-<td>DiacBench — diacritization benchmark (~1,000 pairs/language)</td>
-<td>10 languages</td>
-<td>one per language: <code>es fr ha ig it pl pt tr vi yo</code></td>
-<td><code>test</code></td>
+<td><code>LIDNeural5</code></td>
+<td>484 MB</td>
+<td>13.3 ms</td>
+<td><strong>98.96%</strong></td>
 </tr>
 </tbody>
 </table>
-<h2 id="examples">Examples<a class="headerlink" href="#examples" title="Permanent link">&para;</a></h2>
-<h3 id="train-a-reranker-graded-pairs-or-triplets">Train a reranker — graded pairs or triplets<a class="headerlink" href="#train-a-reranker-graded-pairs-or-triplets" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="c1"># 844k LLM-judged (query, passage, grade) pairs — cross-encoder training</span>
-</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="n">pairs</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;pairs-graded&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
-</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
-</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># 82k (query, positive, negative_1..5) triplets — bi-encoder / ColBERT training</span>
-</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">triplets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="benchmark-a-diacritizer-on-diacbench">Benchmark a diacritizer on DiacBench<a class="headerlink" href="#benchmark-a-diacritizer-on-diacbench" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>
-</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
-</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">reference</span> <span class="o">=</span> <span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span>
-</span></code></pre></div>
-<h3 id="stream-a-large-multilingual-dataset">Stream a large multilingual dataset<a class="headerlink" href="#stream-a-large-multilingual-dataset" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">stream</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;qg-passages-multi&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="n">streaming</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">stream</span><span class="p">:</span>
-</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="k">break</span>
-</span></code></pre></div>
-<h2 id="errors-you-might-see">Errors you might see<a class="headerlink" href="#errors-you-might-see" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong><code>ValueError: Dataset 'diacbench' requires a config</code></strong> — multi-config datasets like DiacBench need an explicit config, e.g. <code>load_dataset("diacbench", "yo")</code>.</li>
-<li><strong><code>ImportError: The 'datasets' library is required</code></strong> — install the extra: <code>pip install olaverse[data]</code>.</li>
-</ul>
+<h3 id="lidneural5-per-language-breakdown">LIDNeural5 — per-language breakdown<a class="headerlink" href="#lidneural5-per-language-breakdown" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Language</th>
+<th>Precision</th>
+<th>Recall</th>
+<th>F1-Score</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Yoruba (<code>yor</code>)</td>
+<td>99.60%</td>
+<td>99.60%</td>
+<td>99.60%</td>
+</tr>
+<tr>
+<td>Hausa (<code>hau</code>)</td>
+<td>99.60%</td>
+<td>99.20%</td>
+<td>99.40%</td>
+</tr>
+<tr>
+<td>Igbo (<code>ibo</code>)</td>
+<td>98.79%</td>
+<td>98.20%</td>
+<td>98.50%</td>
+</tr>
+<tr>
+<td>Nigerian Pidgin (<code>pcm</code>)</td>
+<td>99.20%</td>
+<td>98.80%</td>
+<td>99.00%</td>
+</tr>
+<tr>
+<td>English (<code>eng</code>)</td>
+<td>97.63%</td>
+<td>99.00%</td>
+<td>98.31%</td>
+</tr>
+<tr>
+<td><strong>Overall (Macro)</strong></td>
+<td></td>
+<td></td>
+<td><strong>98.96%</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="25-language-models">25-language models<a class="headerlink" href="#25-language-models" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Type</th>
+<th>Short-text accuracy</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIDLite25</code></td>
+<td>fastText, CPU</td>
+<td>97.3%</td>
+<td>Sub-millisecond, ~5-10 MB per checkpoint</td>
+</tr>
+<tr>
+<td><code>LIDNeural25</code></td>
+<td>XLM-RoBERTa-base</td>
+<td><strong>98.2%</strong></td>
+<td>Requires <code>transformers</code>/<code>torch</code></td>
+</tr>
+</tbody>
+</table>
+<p>Known weak spot: Zulu/Xhosa confusion on short text (F1 ~0.77-0.79 for that pair vs ≥0.98 everywhere else) — the languages share substantial vocabulary. Full per-language tables are on the model cards: <a href="https://huggingface.co/olaverse/lid-lite-25">lid-lite-25</a> · <a href="https://huggingface.co/olaverse/lid-neural-25.1">lid-neural-25.1</a> · <a href="https://huggingface.co/olaverse/lid-neural-25.2">lid-neural-25.2</a>.</p>
 <hr />
-<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
-
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.data.load_dataset" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.data.load_dataset</span>
-
-
-<a href="#olaverse.data.load_dataset" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">load_dataset</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">:</span> <span class="nb">object</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span>
+<h2 id="diacritization">Diacritization<a class="headerlink" href="#diacritization" title="Permanent link">&para;</a></h2>
+<h3 id="dedicated-yorubaigbo-models">Dedicated Yoruba/Igbo models<a class="headerlink" href="#dedicated-yorubaigbo-models" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Method</th>
+<th>Reported accuracy</th>
+<th>Size</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diacnet-yor-viterbi</code></td>
+<td>Viterbi n-gram</td>
+<td>Good (fast baseline)</td>
+<td>~7 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-yor</code></td>
+<td>BiLSTM</td>
+<td><strong>93.35% character accuracy</strong></td>
+<td>2.4 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-yor-x</code></td>
+<td>XLM-RoBERTa</td>
+<td><strong>82.46% word accuracy</strong></td>
+<td>503 MB</td>
+</tr>
+<tr>
+<td><code>diacnet-ig</code></td>
+<td>KNN backoff</td>
+<td>Good (fast baseline)</td>
+<td>~3 MB</td>
+</tr>
+</tbody>
+</table>
+<h3 id="diacnet-10-multilingual-10-languages">diacnet-1.0 (multilingual, 10 languages)<a class="headerlink" href="#diacnet-10-multilingual-10-languages" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Median CER ~0.02</strong> across the 10 supported languages on <a href="../datasets/">DiacBench</a></li>
+<li><strong>Yoruba is the outlier</strong>: median CER 0.110, nearly 3x the next-highest language — genuine tonal ambiguity rather than a model weakness</li>
+<li>Full per-language CER table: <a href="https://huggingface.co/olaverse/diacnet-1.0">olaverse/diacnet-1.0 model card</a></li>
+</ul>
+<h3 id="reproduce-it-yourself">Reproduce it yourself<a class="headerlink" href="#reproduce-it-yourself" title="Permanent link">&para;</a></h3>
+<p>DiacBench ships ~1,000 test pairs per language, one config per language (<code>es fr ha ig it pl pt tr vi yo</code>):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>   <span class="c1"># olaverse[data]</span>
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
+</span><span id="__span-0-8"><a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="n">reference</span> <span class="o">=</span> <span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;reference&quot;</span><span class="p">]</span>
 </span></code></pre></div>
-
-    <div class="doc doc-contents first">
-
-        <p>Load an olaverse dataset from Hugging Face.</p>
-<p>Thin wrapper around <code>datasets.load_dataset</code> that resolves short names,
-validates configs, and gives actionable errors.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>name</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Short name (e.g. "diacbench") or full repo ID ("olaverse/diacbench").</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>config</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Config name for multi-config datasets
-    (e.g. "yo" for diacbench, "triplets" for reranker-general-en-llm-judged).</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>split</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Optional split, e.g. "train" or "test". When omitted, returns a
-   DatasetDict with every available split.</p>
-              </div>
-            </td>
-            <td>
-                  <code>None</code>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                <code>**kwargs</code>
-            </td>
-            <td>
-                  <code><span title="object">object</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Passed through to <code>datasets.load_dataset</code>
-      (e.g. streaming=True).</p>
-              </div>
-            </td>
-            <td>
-                  <code>{}</code>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="object">object</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>A <code>datasets.Dataset</code> when <code>split</code> is given, otherwise a</p>
-              </div>
-            </td>
-          </tr>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="object">object</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p><code>datasets.DatasetDict</code> with every available split.</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-        <p>Requires: pip install olaverse[data]</p>
-
-
-<details class="quick-start" open>
-  <summary>Quick start</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>from olaverse import load_dataset
-diacbench_yo = load_dataset("diacbench", "yo", split="test")
-pairs = load_dataset("reranker-general-en-llm-judged", split="train")
-qg = load_dataset("qg-passages-multi", split="train")</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.data.list_datasets" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.data.list_datasets</span>
-
-
-<a href="#olaverse.data.list_datasets" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">list_datasets</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents first">
-
-        <p>List the short names of all public olaverse datasets.</p>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                  <code><span title="list">list</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>list[str]: dataset names usable with load_dataset()/dataset_info().</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-<details class="quick-start" open>
-  <summary>Quick start</summary>
-  <blockquote>
-<blockquote>
-<blockquote>
-<p>from olaverse import list_datasets
-list_datasets()
-['reranker-general-en-llm-judged', 'marco-style-pairs-multi', ...]</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</details>
-
-    </div>
-
-</div>
-
-<div class="doc doc-object doc-function">
-
-
-<h2 id="olaverse.data.dataset_info" class="doc doc-heading">
-            <span class="doc doc-object-name doc-function-name">olaverse.data.dataset_info</span>
-
-
-<a href="#olaverse.data.dataset_info" class="headerlink" title="Permanent link">&para;</a></h2>
-<div class="language-python doc-signature highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nf">dataset_info</span><span class="p">(</span><span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span>
-</span></code></pre></div>
-
-    <div class="doc doc-contents first">
-
-        <p>Return registry metadata for one dataset: Hugging Face repo ID,
-description, available configs, and splits.</p>
-
-
-<p><span class="doc-section-title">Parameters:</span></p>
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Description</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-            <td>
-                <code>name</code>
-            </td>
-            <td>
-                  <code><span title="str">str</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>Short name (e.g. "diacbench") or full repo ID ("olaverse/diacbench").</p>
-              </div>
-            </td>
-            <td>
-                <em>required</em>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    <p><span class="doc-section-title">Returns:</span></p>
-    <table>
-      <thead>
-        <tr>
-<th>Name</th>          <th>Type</th>
-          <th>Description</th>
-        </tr>
-      </thead>
-      <tbody>
-          <tr class="doc-section-item">
-<td><code>dict</code></td>            <td>
-                  <code><span title="dict">dict</span></code>
-            </td>
-            <td>
-              <div class="doc-md-description">
-                <p>{'repo_id', 'description', 'configs', 'default_config', 'splits'}</p>
-              </div>
-            </td>
-          </tr>
-      </tbody>
-    </table>
-
-
-    </div>
-
-</div>
+<hr />
+<h2 id="tokenization-efficiency">Tokenization Efficiency<a class="headerlink" href="#tokenization-efficiency" title="Permanent link">&para;</a></h2>
+<p>Token count reduction vs GPT-4's cl100k tokenizer on native text:</p>
+<table>
+<thead>
+<tr>
+<th>Tokenizer</th>
+<th>Language</th>
+<th>Efficiency</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>otk-bpe-50k-yo</code></td>
+<td>Yoruba</td>
+<td><strong>63% fewer tokens</strong></td>
+</tr>
+<tr>
+<td><code>otk-bpe-50k-ig</code></td>
+<td>Igbo</td>
+<td>~60% fewer tokens</td>
+</tr>
+<tr>
+<td><code>otk-bpe-50k-ha</code></td>
+<td>Hausa</td>
+<td>~58% fewer tokens</td>
+</tr>
+<tr>
+<td><code>otk-bpe-50k-pcm</code></td>
+<td>Nigerian Pidgin</td>
+<td>~55% fewer tokens</td>
+</tr>
+</tbody>
+</table>
+<p>All OTK-BPE tokenizers guarantee <strong>0% out-of-vocabulary</strong> via raw UTF-8 byte fallback. For the multilingual family (Swahili/Kinyarwanda/merged), fertility and entity-handling benchmarks are on the <a href="https://huggingface.co/olaverse/otk-bpe">otk-bpe model card</a> — both improve monotonically with vocab size, making 150k the recommended default.</p>
+<hr />
+<h2 id="mist-inference-speed">MIST Inference Speed<a class="headerlink" href="#mist-inference-speed" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Variant</th>
+<th>Params</th>
+<th>Throughput</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MIST-Mini-8B</td>
+<td>8B</td>
+<td>~63 tok/s</td>
+</tr>
+<tr>
+<td>MIST-Mini-8B-Thinking</td>
+<td>8B</td>
+<td>~55 tok/s</td>
+</tr>
+<tr>
+<td>MIST-1-70B</td>
+<td>70B</td>
+<td>~23 tok/s</td>
+</tr>
+<tr>
+<td>MIST-1-140B</td>
+<td>140B</td>
+<td>~8 tok/s</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="legalpeace-vs-base-mistral-7b">LegalPeace vs Base Mistral-7B<a class="headerlink" href="#legalpeace-vs-base-mistral-7b" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Benchmark</th>
+<th>Improvement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inference Speed</td>
+<td>10.3% faster</td>
+</tr>
+<tr>
+<td>Contract Analysis</td>
+<td>32.6% faster</td>
+</tr>
+<tr>
+<td>Case Predictions</td>
+<td>14.0% faster</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="vision-prism">Vision (Prism)<a class="headerlink" href="#vision-prism" title="Permanent link">&para;</a></h2>
+<ul>
+<li><code>PrismDenoiser</code>: <strong>+3-4 dB PSNR</strong> on complex scenes (model-card benchmarks)</li>
+<li><code>PrismSteganography</code>: <strong>99.9%</strong> clean bit-accuracy; <strong>93.7%</strong> average under distortion (worst case 62.5%)</li>
+<li><code>PrismUpscaler</code>: not yet evaluated against standard academic benchmarks (Set5/Set14/BSD100/Urban100) — model-card comparisons are informal checks against a bicubic baseline</li>
+</ul>
 
 
 

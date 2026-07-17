@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="African NLP, MIST language models, and Text-to-Speech architecture — one Python SDK">
+        <meta name="description" content="Open-source NLP infrastructure for underrepresented languages — language detection, diacritization, tokenization, retrieval, and LLMs in one Python SDK">
       
       
       
@@ -14,7 +14,7 @@
       
       
       
-        <link rel="next" href="nlp/">
+        <link rel="next" href="models/">
       
       
         
@@ -100,7 +100,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#what-is-olaverse" class="md-skip">
+        <a href="#30-second-quick-start" class="md-skip">
           Skip to content
         </a>
       
@@ -294,14 +294,36 @@
   
   
   
+    
+    
+      <li class="md-tabs__item">
+        <a href="models/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Models
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
     <li class="md-tabs__item">
-      <a href="nlp/" class="md-tabs__link">
+      <a href="benchmarks/" class="md-tabs__link">
         
   
   
     
   
-  NLP & Tokenization
+  Benchmarks
 
       </a>
     </li>
@@ -314,13 +336,13 @@
   
   
     <li class="md-tabs__item">
-      <a href="llm/" class="md-tabs__link">
+      <a href="solutions/" class="md-tabs__link">
         
   
   
     
   
-  Language Models
+  Solutions
 
       </a>
     </li>
@@ -332,14 +354,36 @@
   
   
   
+    
+    
+      <li class="md-tabs__item">
+        <a href="nlp/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
     <li class="md-tabs__item">
-      <a href="vision/" class="md-tabs__link">
+      <a href="enterprise/" class="md-tabs__link">
         
   
   
     
   
-  Vision
+  Enterprise
 
       </a>
     </li>
@@ -351,74 +395,20 @@
   
   
   
-    <li class="md-tabs__item">
-      <a href="datasets/" class="md-tabs__link">
-        
+    
+    
+      <li class="md-tabs__item">
+        <a href="roadmap/" class="md-tabs__link">
+          
   
   
     
   
-  Datasets
+  Project
 
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="speech/" class="md-tabs__link">
-        
-  
-  
+        </a>
+      </li>
     
-  
-  Speech (Roadmap)
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="utils/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Utilities
-
-      </a>
-    </li>
-  
-
-      
-        
-  
-  
-  
-  
-    <li class="md-tabs__item">
-      <a href="changelog/" class="md-tabs__link">
-        
-  
-  
-    
-  
-  Changelog
-
-      </a>
-    </li>
   
 
       
@@ -556,10 +546,115 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#30-second-quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        30-Second Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-olaverse" class="md-nav__link">
     <span class="md-ellipsis">
       
         What is Olaverse?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-olaverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Olaverse?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Olaverse?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-low-resource-language-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Low-resource language support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-production-ready-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Production-ready APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-lightweight-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Lightweight deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featured-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Featured Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmarks
       
     </span>
   </a>
@@ -578,104 +673,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Start">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#language-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Language Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diacritization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Diacritization
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mist-fast-8b-local" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MIST — Fast (8B, local)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mist-hosted-70b-via-featherless" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MIST — Hosted (70B via Featherless)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tokenization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tokenization
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Datasets
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#supported-languages" class="md-nav__link">
     <span class="md-ellipsis">
       
         Supported Languages
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#model-index" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Model Index
       
     </span>
   </a>
@@ -693,6 +694,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#commercial-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Commercial Support
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -703,6 +715,410 @@
     
       
       
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="models/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Models
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Models
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/diacnet/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacNet — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/language-detection/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Language Detection
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/tokenizers/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Tokenizers — OTK-BPE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/retrieval/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/mist/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MIST — LLM Family
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/legalpeace/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LegalPeace
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/prism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prism — Vision
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="benchmarks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Benchmarks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="solutions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Solutions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
   
   
   
@@ -727,9 +1143,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -754,9 +1171,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -781,9 +1199,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -808,9 +1227,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -835,9 +1255,10 @@
     </li>
   
 
-    
-      
-      
+              
+            
+              
+                
   
   
   
@@ -862,9 +1283,130 @@
     </li>
   
 
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
     
       
       
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="enterprise/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Enterprise
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Project
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="roadmap/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Roadmap
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
   
   
   
@@ -886,6 +1428,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -915,10 +1465,115 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#30-second-quick-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        30-Second Quick Start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-olaverse" class="md-nav__link">
     <span class="md-ellipsis">
       
         What is Olaverse?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-olaverse" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why Olaverse?
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Why Olaverse?">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1-low-resource-language-support" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Low-resource language support
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2-production-ready-apis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Production-ready APIs
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3-lightweight-deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Lightweight deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#core-capabilities" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Core Capabilities
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#featured-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Featured Models
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-cases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Cases
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#benchmarks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Benchmarks
       
     </span>
   </a>
@@ -937,89 +1592,6 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#quick-start" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Quick Start
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Quick Start">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#language-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Language Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#diacritization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Diacritization
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mist-fast-8b-local" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MIST — Fast (8B, local)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mist-hosted-70b-via-featherless" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MIST — Hosted (70B via Featherless)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#tokenization" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Tokenization
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#datasets" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Datasets
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#supported-languages" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1031,10 +1603,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#model-index" class="md-nav__link">
+  <a href="#whats-new-in-v015" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Model Index
+        What's New in v0.1.5
       
     </span>
   </a>
@@ -1042,10 +1614,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-v015" class="md-nav__link">
+  <a href="#commercial-support" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's New in v0.1.5
+        Commercial Support
       
     </span>
   </a>
@@ -1076,26 +1648,76 @@
 <div class="ov-hero">
   <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
-  <p class="ov-hero-sub">African NLP · MIST Language Models · Text-to-Speech Architecture</p>
+  <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
     <span class="ov-hero-install-label">pip install olaverse</span>
   </div>
   <div class="ov-hero-links">
-    <a href="nlp/" class="md-button md-button--primary">Get Started</a>
+    <a href="models/" class="md-button md-button--primary">Explore Models</a>
     <a href="https://github.com/Olaverse-Labs/olaverse" class="md-button" target="_blank">GitHub</a>
     <a href="https://huggingface.co/olaverse" class="md-button" target="_blank">Hugging Face</a>
   </div>
 </div>
 
 <hr />
+<h2 id="30-second-quick-start">30-Second Quick Start<a class="headerlink" href="#30-second-quick-start" title="Permanent link">&para;</a></h2>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span>   <span class="c1"># detects the language, routes to the right model</span>
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>     <span class="c1"># Yoruba</span>
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="c1"># → &#39;Òjó lọ sí ọjà lana&#39;</span>
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>         <span class="c1"># Igbo</span>
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
+</span></code></pre></div>
+<p>Need more languages? The multilingual <a href="models/diacnet/"><code>diacnet-1.0</code></a> model covers 10 — with <code>pip install olaverse[deeplearning]</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># → &#39;ṣé ẹranko náà sì gbọ́ ọ?&#39;</span>
+</span></code></pre></div>
+<hr />
 <h2 id="what-is-olaverse">What is Olaverse?<a class="headerlink" href="#what-is-olaverse" title="Permanent link">&para;</a></h2>
-<p><strong>Olaverse</strong> is a unified Python SDK for African language AI. It gives you production-ready NLP tools, a clean interface to the MIST model family, domain-specific LLMs, and a TTS pipeline architecture — all in one package.</p>
+<p><strong>Olaverse</strong> is an open-source multilingual AI infrastructure toolkit for building NLP, speech, retrieval, and language systems for underrepresented languages.</p>
+<p>It gives you production-ready APIs for language detection, diacritization, tokenization, embeddings, reranking, and speech-text preprocessing — plus the MIST LLM family, domain LLMs, and lightweight vision models — all in one Python package.</p>
+<hr />
+<h2 id="why-olaverse">Why Olaverse?<a class="headerlink" href="#why-olaverse" title="Permanent link">&para;</a></h2>
+<h3 id="1-low-resource-language-support">1. Low-resource language support<a class="headerlink" href="#1-low-resource-language-support" title="Permanent link">&para;</a></h3>
+<p>Many languages lack high-quality AI tooling. Olaverse ships working models for them today:</p>
+<ul>
+<li><strong>Language detection</strong> — 5 to 25 languages, from a 1.1 MB CPU model to neural classifiers</li>
+<li><strong>Diacritization</strong> — restore tones and accents across 10 languages</li>
+<li><strong>Tokenization</strong> — byte-level BPE tokenizers with 0% OOV, up to 63% fewer tokens than GPT-4 on Yoruba</li>
+<li><strong>Embeddings &amp; retrieval</strong> — cross-lingual semantic search for Hausa, Yoruba, Igbo</li>
+<li><strong>Speech preprocessing</strong> — TTS text normalization for Yoruba, Igbo, and Nigerian Pidgin</li>
+</ul>
+<h3 id="2-production-ready-apis">2. Production-ready APIs<a class="headerlink" href="#2-production-ready-apis" title="Permanent link">&para;</a></h3>
+<p>Instead of wrestling with <code>AutoModel.from_pretrained()</code>, checkpoints, and generation configs:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="n">LIDLite5</span><span class="p">()</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">Reranker</span><span class="p">()</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">passages</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Correct defaults — stop tokens, sampling parameters, model routing — are baked in.</p>
+<h3 id="3-lightweight-deployment">3. Lightweight deployment<a class="headerlink" href="#3-lightweight-deployment" title="Permanent link">&para;</a></h3>
+<p>Models are sized for real infrastructure, not just research clusters:</p>
+<ul>
+<li><code>LIDLite5</code> — <strong>1.1 MB</strong>, 0.014 ms per sentence, pure Python, zero GPU</li>
+<li><code>diacnet-yor-viterbi</code> — ~7 MB, fast CPU inference</li>
+<li><code>Reranker</code> (22.7M) — 23 MB cross-encoder</li>
+<li>Prism vision models — ~25K-parameter upscalers that run anywhere</li>
+</ul>
+<hr />
+<h2 id="core-capabilities">Core Capabilities<a class="headerlink" href="#core-capabilities" title="Permanent link">&para;</a></h2>
 <div class="ov-grid">
 
 <div class="ov-card">
   <div class="ov-card-icon">🗣️</div>
   <div class="ov-card-title">NLP & Tokenization</div>
-  <div class="ov-card-body">Diacritization for Yoruba and Igbo, language detection for 5 Nigerian languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
+  <div class="ov-card-body">Diacritization for 10 languages, language detection for 5–25 languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
   <a href="nlp/" class="ov-card-link">Explore NLP →</a>
 </div>
 
@@ -1103,14 +1725,14 @@
   <div class="ov-card-icon">⚡</div>
   <div class="ov-card-title">MIST Model Family</div>
   <div class="ov-card-body">8B, 70B, 140B, and Thinking variants. Correct stop tokens and sampling defaults per variant baked in. Local via <code>transformers</code> or hosted via Featherless/Modal.</div>
-  <a href="llm/" class="ov-card-link">Explore MIST →</a>
+  <a href="models/mist/" class="ov-card-link">Explore MIST →</a>
 </div>
 
 <div class="ov-card">
   <div class="ov-card-icon">🧠</div>
   <div class="ov-card-title">Domain LLMs</div>
   <div class="ov-card-body"><code>LegalPeace</code> — fine-tuned Mistral-7B for contract analysis and legal reasoning. Memory-efficient 4-bit inference via unsloth.</div>
-  <a href="llm/#legalpace-legal-contract-reasoning-beta" class="ov-card-link">Explore LLMs →</a>
+  <a href="models/legalpeace/" class="ov-card-link">Explore LLMs →</a>
 </div>
 
 <div class="ov-card">
@@ -1124,14 +1746,14 @@
   <div class="ov-card-icon">🔎</div>
   <div class="ov-card-title">Retrieval</div>
   <div class="ov-card-body">Cross-encoder <code>Reranker</code> for RAG/search pipelines, and a Nigerian-language <code>Embedder</code> for cross-lingual semantic search over Hausa, Yoruba, and Igbo.</div>
-  <a href="nlp/#retrieval-new-in-v015" class="ov-card-link">Explore Retrieval →</a>
+  <a href="models/retrieval/" class="ov-card-link">Explore Retrieval →</a>
 </div>
 
 <div class="ov-card">
   <div class="ov-card-icon">🖼️</div>
   <div class="ov-card-title">Vision — Prism</div>
   <div class="ov-card-body">Lightweight image-to-image models: <code>PrismUpscaler</code> (2x/4x/arbitrary), <code>PrismDenoiser</code>, and <code>PrismSteganography</code> for hiding recoverable messages in images.</div>
-  <a href="vision/" class="ov-card-link">Explore Vision →</a>
+  <a href="models/prism/" class="ov-card-link">Explore Vision →</a>
 </div>
 
 <div class="ov-card">
@@ -1144,111 +1766,145 @@
 </div>
 
 <hr />
+<h2 id="featured-models">Featured Models<a class="headerlink" href="#featured-models" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>What it does</th>
+<th>Size</th>
+<th>Start here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>DiacNet</strong></td>
+<td>Restores accents, tones &amp; special characters in 10 languages</td>
+<td>1 MB – 503 MB</td>
+<td><a href="models/diacnet/">DiacNet →</a></td>
+</tr>
+<tr>
+<td><strong>LID family</strong></td>
+<td>Language detection, 5–25 languages</td>
+<td>1.1 MB – 500 MB</td>
+<td><a href="models/language-detection/">Language Detection →</a></td>
+</tr>
+<tr>
+<td><strong>OTK-BPE</strong></td>
+<td>Tokenizers for 8+ languages, 0% OOV</td>
+<td>~3 MB each</td>
+<td><a href="models/tokenizers/">Tokenizers →</a></td>
+</tr>
+<tr>
+<td><strong>Reranker / Embedder</strong></td>
+<td>RAG &amp; cross-lingual search</td>
+<td>23 MB+</td>
+<td><a href="models/retrieval/">Retrieval →</a></td>
+</tr>
+<tr>
+<td><strong>MIST</strong></td>
+<td>General LLMs — 8B / 70B / 140B / Thinking</td>
+<td>15 – 256 GB</td>
+<td><a href="models/mist/">MIST →</a></td>
+</tr>
+<tr>
+<td><strong>Prism</strong></td>
+<td>Image upscaling, denoising, steganography</td>
+<td>~25K params+</td>
+<td><a href="models/prism/">Prism →</a></td>
+</tr>
+</tbody>
+</table>
+<p>Full catalog with comparison tables: <strong><a href="models/">Model Overview →</a></strong></p>
+<hr />
+<h2 id="use-cases">Use Cases<a class="headerlink" href="#use-cases" title="Permanent link">&para;</a></h2>
+<p>Olaverse components slot into production pipelines for:</p>
+<ul>
+<li><strong>Speech AI</strong> — ASR post-processing → normalization → diacritization → TTS front-end</li>
+<li><strong>OCR correction</strong> — restore diacritics that scanners drop</li>
+<li><strong>Search</strong> — language detection, query normalization, cross-lingual retrieval, reranking</li>
+<li><strong>Education</strong> — language-learning tools with correct tone marks</li>
+<li><strong>Customer support</strong> — detect and route messages in Nigerian languages and Pidgin</li>
+<li><strong>Translation pipelines</strong> — clean, diacritized input for MT systems</li>
+</ul>
+<p>See <strong><a href="solutions/">Solutions →</a></strong> for worked examples.</p>
+<hr />
+<h2 id="benchmarks">Benchmarks<a class="headerlink" href="#benchmarks" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Size</th>
+<th>Speed</th>
+<th>Macro F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIDLite5</code></td>
+<td>1.1 MB</td>
+<td>0.014 ms</td>
+<td>98.12%</td>
+</tr>
+<tr>
+<td><code>LIDNeural5</code></td>
+<td>484 MB</td>
+<td>13.3 ms</td>
+<td>98.96%</td>
+</tr>
+</tbody>
+</table>
+<p>All published numbers — LID, diacritization, tokenizer efficiency — in one place: <strong><a href="benchmarks/">Benchmarks →</a></strong></p>
+<hr />
 <h2 id="install">Install<a class="headerlink" href="#install" title="Permanent link">&para;</a></h2>
 <div class="tabbed-set tabbed-alternate" data-tabs="1:9"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><input id="__tabbed_1_5" name="__tabbed_1" type="radio" /><input id="__tabbed_1_6" name="__tabbed_1" type="radio" /><input id="__tabbed_1_7" name="__tabbed_1" type="radio" /><input id="__tabbed_1_8" name="__tabbed_1" type="radio" /><input id="__tabbed_1_9" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Core</label><label for="__tabbed_1_2">Neural Models</label><label for="__tabbed_1_3">Hosted Inference</label><label for="__tabbed_1_4">Legal</label><label for="__tabbed_1_5">LID (25 languages)</label><label for="__tabbed_1_6">Retrieval</label><label for="__tabbed_1_7">Vision</label><label for="__tabbed_1_8">Datasets</label><label for="__tabbed_1_9">Everything</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse
 </span></code></pre></div>
 Includes: NLP tools, diacritizers, tokenizers, lightweight LID, PII masking.</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
 </span></code></pre></div>
-Adds: <code>LIDNeural5</code>, MIST local inference (requires GPU).</p>
+Adds: <code>LIDNeural5</code>, <code>diacnet-1.0</code>, MIST local inference (requires GPU).</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>
 </span></code></pre></div>
 Adds: MIST via Featherless, Modal, or any OpenAI-compatible endpoint.</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>legal<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>legal<span class="o">]</span>
 </span></code></pre></div>
 Adds: <code>LegalPeace</code> contract analysis model (requires GPU + unsloth).</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>lid<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>lid<span class="o">]</span>
 </span></code></pre></div>
 Adds: <code>LIDLite25</code> — CPU-only fastText language ID for 25 languages.</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>retrieval<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>retrieval<span class="o">]</span>
 </span></code></pre></div>
 Adds: <code>Reranker</code>, <code>Embedder</code> (requires <code>sentence-transformers</code>).</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>vision<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>vision<span class="o">]</span>
 </span></code></pre></div>
 Adds: <code>PrismUpscaler</code>, <code>PrismDenoiser</code>, <code>PrismSteganography</code> (requires <code>torch</code>, <code>torchvision</code>, <code>Pillow</code>).</p>
 </div>
 <div class="tabbed-block">
-<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>data<span class="o">]</span>
+<p><div class="language-bash highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>data<span class="o">]</span>
 </span></code></pre></div>
 Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Face.</p>
 </div>
 <div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning,hosted,legal,lid,retrieval,vision,data<span class="o">]</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning,hosted,legal,lid,retrieval,vision,data<span class="o">]</span>
 </span></code></pre></div>
 </div>
 </div>
 </div>
-<hr />
-<h2 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
-<h3 id="language-detection">Language Detection<a class="headerlink" href="#language-detection" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite5</span><span class="p">,</span> <span class="n">LIDNeural5</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="c1"># Lightweight — zero GPU, instant (0.014 ms/sentence)</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDLite5</span><span class="p">()</span>
-</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Bawo ni, se daadaa ni?&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;yor&#39;</span>
-</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>
-</span><span id="__span-9-7"><a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="c1"># Neural — 98.96% macro accuracy</span>
-</span><span id="__span-9-8"><a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="n">neural</span> <span class="o">=</span> <span class="n">LIDNeural5</span><span class="p">()</span>
-</span><span id="__span-9-9"><a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="n">neural</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># downloads olaverse/lid-neural-5 once</span>
-</span><span id="__span-9-10"><a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">&quot;Kedu ka ị mere today?&quot;</span><span class="p">)</span>  <span class="c1"># → &#39;ibo&#39;</span>
-</span><span id="__span-9-11"><a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">&quot;How far, wetin dey happen?&quot;</span><span class="p">)</span>
-</span><span id="__span-9-12"><a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="c1"># → {&#39;pcm&#39;: 0.991, &#39;eng&#39;: 0.002, ...}</span>
-</span></code></pre></div>
-<h3 id="diacritization">Diacritization<a class="headerlink" href="#diacritization" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">diacritize_yoruba</span><span class="p">,</span> <span class="n">diacritize_igbo</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">diacritize_yoruba</span><span class="p">(</span><span class="s2">&quot;Ojo lo si oja lana&quot;</span><span class="p">)</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="c1"># → &#39;Òjó lọ sí ọjà lana&#39;</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a>
-</span><span id="__span-10-6"><a id="__codelineno-10-6" name="__codelineno-10-6" href="#__codelineno-10-6"></a><span class="n">diacritize_igbo</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>
-</span><span id="__span-10-7"><a id="__codelineno-10-7" name="__codelineno-10-7" href="#__codelineno-10-7"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
-</span></code></pre></div>
-<h3 id="mist-fast-8b-local">MIST — Fast (8B, local)<a class="headerlink" href="#mist-fast-8b-local" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">)</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Explain what makes Yoruba a tonal language.&quot;</span><span class="p">))</span>
-</span></code></pre></div>
-<h3 id="mist-hosted-70b-via-featherless">MIST — Hosted (70B via Featherless)<a class="headerlink" href="#mist-hosted-70b-via-featherless" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
-</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>
-</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;70b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FEATHERLESS_API_KEY&quot;</span><span class="p">])</span>
-</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Write a Python retry decorator with exponential backoff.&quot;</span><span class="p">))</span>
-</span></code></pre></div>
-<h3 id="tokenization">Tokenization<a class="headerlink" href="#tokenization" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Tokenizer</span>
-</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>
-</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="n">tok</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>  <span class="c1"># Yoruba — 63% fewer tokens than GPT-4</span>
-</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Ẹ kú àbọ̀&quot;</span><span class="p">)</span>
-</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">tok</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>  <span class="c1"># → &#39;Ẹ kú àbọ̀&#39;</span>
-</span></code></pre></div>
-<h3 id="datasets">Datasets<a class="headerlink" href="#datasets" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span><span class="p">,</span> <span class="n">list_datasets</span>
-</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
-</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="n">list_datasets</span><span class="p">()</span>
-</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a><span class="c1"># → [&#39;reranker-general-en-llm-judged&#39;, &#39;marco-style-pairs-multi&#39;, ...]</span>
-</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>
-</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>  <span class="c1"># requires olaverse[data]</span>
-</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="c1"># → {&#39;input&#39;: &#39;Titi di igba ...&#39;, &#39;reference&#39;: &#39;Títí di ìgbà ...&#39;}</span>
-</span></code></pre></div>
 <hr />
 <h2 id="supported-languages">Supported Languages<a class="headerlink" href="#supported-languages" title="Permanent link">&para;</a></h2>
 <div class="ov-lang-row">
@@ -1283,7 +1939,7 @@ Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Fac
 <td>Diacritization</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
-<td style="text-align: center;">—</td>
+<td style="text-align: center;">✅ (diacnet-1.0)</td>
 <td style="text-align: center;">—</td>
 <td style="text-align: center;">—</td>
 </tr>
@@ -1300,161 +1956,12 @@ Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Fac
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">✅</td>
 <td style="text-align: center;">—</td>
-<td style="text-align: center;">—</td>
+<td style="text-align: center;">✅</td>
 <td style="text-align: center;">—</td>
 </tr>
 </tbody>
 </table>
-<hr />
-<h2 id="model-index">Model Index<a class="headerlink" href="#model-index" title="Permanent link">&para;</a></h2>
-<div class="ov-model-table">
-<table>
-<thead>
-<tr>
-<th>Model</th>
-<th>Task</th>
-<th>Size</th>
-<th>Speed</th>
-<th>Install</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>LIDLite5</code></td>
-<td>Language ID (5 langs)</td>
-<td>1.1 MB JSON</td>
-<td>0.014 ms</td>
-<td><code>olaverse</code></td>
-</tr>
-<tr>
-<td><code>LIDNeural5</code></td>
-<td>Language ID (5 langs)</td>
-<td>484 MB</td>
-<td>13 ms</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>LIDLite25</code></td>
-<td>Language ID (25 langs)</td>
-<td>~5-10 MB</td>
-<td>&lt;1 ms</td>
-<td><code>olaverse[lid]</code></td>
-</tr>
-<tr>
-<td><code>LIDNeural25</code></td>
-<td>Language ID (25 langs)</td>
-<td>~500 MB</td>
-<td>—</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>LIDNeural5_1</code></td>
-<td>Language ID (4 Nigerian langs, no English)</td>
-<td>~120 MB</td>
-<td>—</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>MIST-Mini-8B</code></td>
-<td>General LLM</td>
-<td>15 GB</td>
-<td>~63 tok/s</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>MIST-1-70B</code></td>
-<td>General LLM</td>
-<td>132 GB</td>
-<td>~23 tok/s</td>
-<td>hosted or multi-GPU</td>
-</tr>
-<tr>
-<td><code>MIST-1-140B</code></td>
-<td>General LLM</td>
-<td>256 GB</td>
-<td>~8 tok/s</td>
-<td>hosted or 2× H200</td>
-</tr>
-<tr>
-<td><code>MIST-Mini-8B-Thinking</code></td>
-<td>Reasoning LLM</td>
-<td>15 GB</td>
-<td>~55 tok/s</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>LegalPeace</code></td>
-<td>Legal reasoning</td>
-<td>7B (4-bit)</td>
-<td>—</td>
-<td><code>olaverse[legal]</code></td>
-</tr>
-<tr>
-<td><code>DiacNet</code> (5 Yoruba/Igbo variants)</td>
-<td>Diacritization</td>
-<td>1 MB – 503 MB</td>
-<td>—</td>
-<td><code>olaverse</code> / <code>[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>diacnet-1.0</code></td>
-<td>Diacritization (10 langs)</td>
-<td>~300 MB</td>
-<td>Slow</td>
-<td><code>olaverse[deeplearning]</code></td>
-</tr>
-<tr>
-<td><code>OTK-BPE-50k</code> (5 Nigerian variants)</td>
-<td>Tokenization</td>
-<td>~3 MB each</td>
-<td>—</td>
-<td><code>olaverse</code></td>
-</tr>
-<tr>
-<td><code>OTK-BPE</code> (9 Swahili/Kinyarwanda/merged variants)</td>
-<td>Tokenization</td>
-<td>varies</td>
-<td>—</td>
-<td><code>olaverse</code></td>
-</tr>
-<tr>
-<td><code>Reranker</code> (2 sizes)</td>
-<td>Reranking</td>
-<td>23 MB – 150M params</td>
-<td>—</td>
-<td><code>olaverse[retrieval]</code></td>
-</tr>
-<tr>
-<td><code>Embedder</code></td>
-<td>Sentence embeddings (ha/yo/ig)</td>
-<td>~120 MB</td>
-<td>—</td>
-<td><code>olaverse[retrieval]</code></td>
-</tr>
-<tr>
-<td><code>PrismUpscaler</code> (3 sizes)</td>
-<td>Image super-resolution</td>
-<td>~25K params – small</td>
-<td>—</td>
-<td><code>olaverse[vision]</code></td>
-</tr>
-<tr>
-<td><code>PrismDenoiser</code></td>
-<td>Image denoising</td>
-<td>Small U-Net</td>
-<td>—</td>
-<td><code>olaverse[vision]</code></td>
-</tr>
-<tr>
-<td><code>PrismSteganography</code></td>
-<td>Image steganography</td>
-<td>Small U-Net</td>
-<td>—</td>
-<td><code>olaverse[vision]</code></td>
-</tr>
-</tbody>
-</table>
-</div>
+<p>Beyond Nigerian languages: <code>LIDLite25</code>/<code>LIDNeural25</code> detect <strong>25 languages</strong>; <code>diacnet-1.0</code> diacritizes <strong>10</strong> (incl. Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian); OTK-BPE tokenizers cover <strong>Swahili and Kinyarwanda</strong>.</p>
 <hr />
 <h2 id="whats-new-in-v015">What's New in v0.1.5<a class="headerlink" href="#whats-new-in-v015" title="Permanent link">&para;</a></h2>
 <ul>
@@ -1472,6 +1979,9 @@ Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Fac
 <li><strong><code>ExperimentalWarning</code></strong> on speech classes — honest signalling that acoustic synthesis is not yet available</li>
 <li><strong><code>olaverse[hosted]</code></strong> extra — <code>pip install olaverse[hosted]</code> for Featherless/Modal inference</li>
 </ul>
+<hr />
+<h2 id="commercial-support">Commercial Support<a class="headerlink" href="#commercial-support" title="Permanent link">&para;</a></h2>
+<p>Need custom language support, fine-tuning, or deployment help? We work with teams adding underrepresented-language capability to their products. <strong><a href="enterprise/">Learn more →</a></strong></p>
 
 
 

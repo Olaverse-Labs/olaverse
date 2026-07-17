@@ -10,25 +10,31 @@
       
       
       
+        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/models/retrieval/">
       
+      
+        <link rel="prev" href="../tokenizers/">
+      
+      
+        <link rel="next" href="../mist/">
       
       
         
       
       
-      <link rel="icon" href="/olaverse/assets/logo.png">
+      <link rel="icon" href="../../assets/logo.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
     
     
       
-        <title>Olaverse</title>
+        <title>Retrieval - Olaverse</title>
       
     
     
-      <link rel="stylesheet" href="/olaverse/assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="/olaverse/assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
   
@@ -67,11 +73,11 @@
       
     
     
-      <link rel="stylesheet" href="/olaverse/assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-      <link rel="stylesheet" href="/olaverse/stylesheets/extra.css">
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("/olaverse/",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -95,6 +101,11 @@
     <label class="md-overlay" for="__drawer"></label>
     <div data-md-component="skip">
       
+        
+        <a href="#retrieval-reranker-embedder" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
     <div data-md-component="announce">
       
@@ -109,9 +120,9 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="/olaverse/." title="Olaverse" class="md-header__button md-logo" aria-label="Olaverse" data-md-component="logo">
+    <a href="../.." title="Olaverse" class="md-header__button md-logo" aria-label="Olaverse" data-md-component="logo">
       
-  <img src="/olaverse/assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -128,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              
+              Retrieval
             
           </span>
         </div>
@@ -265,7 +276,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/." class="md-tabs__link">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -282,11 +293,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="/olaverse/models/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
           
   
   
@@ -306,7 +319,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/benchmarks/" class="md-tabs__link">
+      <a href="../../benchmarks/" class="md-tabs__link">
         
   
   
@@ -325,7 +338,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/solutions/" class="md-tabs__link">
+      <a href="../../solutions/" class="md-tabs__link">
         
   
   
@@ -346,7 +359,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/olaverse/nlp/" class="md-tabs__link">
+        <a href="../../nlp/" class="md-tabs__link">
           
   
   
@@ -366,7 +379,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="/olaverse/enterprise/" class="md-tabs__link">
+      <a href="../../enterprise/" class="md-tabs__link">
         
   
   
@@ -387,7 +400,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="/olaverse/roadmap/" class="md-tabs__link">
+        <a href="../../roadmap/" class="md-tabs__link">
           
   
   
@@ -423,9 +436,9 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="/olaverse/." title="Olaverse" class="md-nav__button md-logo" aria-label="Olaverse" data-md-component="logo">
+    <a href="../.." title="Olaverse" class="md-nav__button md-logo" aria-label="Olaverse" data-md-component="logo">
       
-  <img src="/olaverse/assets/logo.png" alt="logo">
+  <img src="../../assets/logo.png" alt="logo">
 
     </a>
     Olaverse
@@ -479,7 +492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/." class="md-nav__link">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -503,6 +516,8 @@
       
   
   
+    
+  
   
   
     
@@ -530,20 +545,23 @@
     
     
       
+        
+        
+      
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
           <div class="md-nav__link md-nav__container">
-            <a href="/olaverse/models/" class="md-nav__link ">
+            <a href="../" class="md-nav__link ">
               
   
   
@@ -561,13 +579,13 @@
             </a>
             
               
-              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
                 <span class="md-nav__icon md-icon"></span>
               </label>
             
           </div>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -587,7 +605,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/diacnet/" class="md-nav__link">
+      <a href="../diacnet/" class="md-nav__link">
         
   
   
@@ -615,7 +633,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/language-detection/" class="md-nav__link">
+      <a href="../language-detection/" class="md-nav__link">
         
   
   
@@ -643,7 +661,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/tokenizers/" class="md-nav__link">
+      <a href="../tokenizers/" class="md-nav__link">
         
   
   
@@ -668,10 +686,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="/olaverse/models/retrieval/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Retrieval
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -687,6 +732,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#reranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reranker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reranker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which size?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -699,7 +847,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/mist/" class="md-nav__link">
+      <a href="../mist/" class="md-nav__link">
         
   
   
@@ -727,7 +875,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/legalpeace/" class="md-nav__link">
+      <a href="../legalpeace/" class="md-nav__link">
         
   
   
@@ -755,7 +903,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/models/prism/" class="md-nav__link">
+      <a href="../prism/" class="md-nav__link">
         
   
   
@@ -790,7 +938,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/benchmarks/" class="md-nav__link">
+      <a href="../../benchmarks/" class="md-nav__link">
         
   
   
@@ -817,7 +965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/solutions/" class="md-nav__link">
+      <a href="../../solutions/" class="md-nav__link">
         
   
   
@@ -910,7 +1058,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/nlp/" class="md-nav__link">
+      <a href="../../nlp/" class="md-nav__link">
         
   
   
@@ -938,7 +1086,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/llm/" class="md-nav__link">
+      <a href="../../llm/" class="md-nav__link">
         
   
   
@@ -966,7 +1114,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/vision/" class="md-nav__link">
+      <a href="../../vision/" class="md-nav__link">
         
   
   
@@ -994,7 +1142,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/datasets/" class="md-nav__link">
+      <a href="../../datasets/" class="md-nav__link">
         
   
   
@@ -1022,7 +1170,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/speech/" class="md-nav__link">
+      <a href="../../speech/" class="md-nav__link">
         
   
   
@@ -1050,7 +1198,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/utils/" class="md-nav__link">
+      <a href="../../utils/" class="md-nav__link">
         
   
   
@@ -1085,7 +1233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/enterprise/" class="md-nav__link">
+      <a href="../../enterprise/" class="md-nav__link">
         
   
   
@@ -1170,7 +1318,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/roadmap/" class="md-nav__link">
+      <a href="../../roadmap/" class="md-nav__link">
         
   
   
@@ -1198,7 +1346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="/olaverse/changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         
   
   
@@ -1243,6 +1391,99 @@
   
   
   
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#reranker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reranker
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Reranker">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#which-size" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which size?
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#embedder" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Embedder
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-data" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training data
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Applications
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -1255,8 +1496,124 @@
               
               <article class="md-content__inner md-typeset">
                 
-  <h1>404 - Not found</h1>
+                  
 
+
+  
+  
+
+
+<h1 id="retrieval-reranker-embedder">Retrieval — Reranker &amp; Embedder<a class="headerlink" href="#retrieval-reranker-embedder" title="Permanent link">&para;</a></h1>
+<p><strong>A two-piece toolkit for RAG and search pipelines: a cross-encoder reranker for precision, and cross-lingual Nigerian-language sentence embeddings for recall.</strong></p>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>retrieval<span class="o">]</span>
+</span></code></pre></div>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Query
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  |
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>First-stage retrieval  (BM25 or Embedder)
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  |
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>Top-k candidates
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  |
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>Reranker  (cross-encoder rescoring)
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>  |
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>Final ranked results
+</span></code></pre></div>
+<hr />
+<h2 id="reranker">Reranker<a class="headerlink" href="#reranker" title="Permanent link">&para;</a></h2>
+<p>Scores <code>(query, passage)</code> pairs to re-sort the top-k candidates from a first-stage retriever.</p>
+<p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/mist-reranker-150m">olaverse/mist-reranker-150m</a> · <a href="https://huggingface.co/olaverse/mist-reranker-22.7M">olaverse/mist-reranker-22.7M</a></p>
+<h3 id="which-size">Which size?<a class="headerlink" href="#which-size" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th><code>size=</code></th>
+<th>Params</th>
+<th>Backbone</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"22.7m"</code> <em>(default)</em></td>
+<td>~22.7M (23 MB)</td>
+<td>MiniLM-L6</td>
+<td>Speed, CPU serving, low latency</td>
+</tr>
+<tr>
+<td><code>"150m"</code></td>
+<td>~150M</td>
+<td>ModernBERT-base</td>
+<td>Best QA/fact accuracy</td>
+</tr>
+</tbody>
+</table>
+<h3 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Reranker</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">reranker</span> <span class="o">=</span> <span class="n">Reranker</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;22.7m&quot;</span><span class="p">)</span>
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">reranker</span><span class="o">.</span><span class="n">rank</span><span class="p">(</span><span class="s2">&quot;who wrote hamlet&quot;</span><span class="p">,</span> <span class="p">[</span>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>    <span class="s2">&quot;Hamlet is a tragedy written by William Shakespeare.&quot;</span><span class="p">,</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="s2">&quot;The capital of France is Paris.&quot;</span><span class="p">,</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">])</span>
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="c1"># → [(0, 0.98...), (1, 0.01...)]   # (original_index, score), best-first</span>
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="n">reranker</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="s2">&quot;who wrote hamlet&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;Hamlet is a tragedy by Shakespeare.&quot;</span><span class="p">])</span>
+</span><span id="__span-2-12"><a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="c1"># → [0.98...]</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">English-only</p>
+<p>Both reranker sizes are English-only. <code>Reranker</code> auto-handles their different output head shapes (single relevance score vs. 2-class logits).</p>
+</div>
+<hr />
+<h2 id="embedder">Embedder<a class="headerlink" href="#embedder" title="Permanent link">&para;</a></h2>
+<p>Cross-lingual sentence embeddings for <strong>Hausa, Yoruba, and Igbo</strong> — contrastively fine-tuned from <a href="https://huggingface.co/olaverse/mist-encoder-base-ng"><code>mist-encoder-base-ng</code></a>. A Hausa query can retrieve a Yoruba document.</p>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/naija-embed-base">olaverse/naija-embed-base</a></p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">Embedder</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">embedder</span> <span class="o">=</span> <span class="n">Embedder</span><span class="p">()</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">vecs</span> <span class="o">=</span> <span class="n">embedder</span><span class="o">.</span><span class="n">encode</span><span class="p">([</span><span class="s2">&quot;bawo ni&quot;</span><span class="p">,</span> <span class="s2">&quot;sannu&quot;</span><span class="p">])</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">embedder</span><span class="o">.</span><span class="n">similarity</span><span class="p">(</span><span class="n">vecs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">vecs</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">No Nigerian Pidgin support</p>
+<p>The underlying translation model used for training only outputs Hausa/Yoruba/Igbo — Pidgin (<code>pcm</code>) is not covered.</p>
+</div>
+<hr />
+<h2 id="training-data">Training data<a class="headerlink" href="#training-data" title="Permanent link">&para;</a></h2>
+<p>The datasets behind these models are public and loadable in one line:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># 844k LLM-judged (query, passage, grade) pairs — cross-encoder training</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">pairs</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;pairs-graded&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="c1"># 82k triplets with hard negatives — bi-encoder / ColBERT training</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="n">triplets</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;reranker-general-en-llm-judged&quot;</span><span class="p">,</span> <span class="s2">&quot;triplets&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;train&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>See <strong><a href="../../datasets/">Datasets →</a></strong> for the full catalog.</p>
+<hr />
+<h2 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h2>
+<ul>
+<li>✅ <strong>RAG pipelines</strong> — rerank retrieved chunks before they hit the LLM context</li>
+<li>✅ <strong>Cross-lingual search</strong> — query in Hausa, match documents in Yoruba or Igbo</li>
+<li>✅ <strong>Semantic deduplication</strong> — cluster and dedupe multilingual corpora</li>
+<li>✅ <strong>FAQ / support matching</strong> — map user questions to known answers</li>
+</ul>
+<hr />
+<h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
+<p>Full class reference: <a href="../../nlp/#retrieval-new-in-v015">NLP &amp; Tokenization → Retrieval</a></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
               </article>
             </div>
           
@@ -1279,7 +1636,7 @@
   <div class="ov-footer-brand">
     <span>Built by</span>
     <a href="https://github.com/Olaverse-Labs" target="_blank" class="ov-logo-pill">
-      <img src="/olaverse//assets/logo.png" alt="Olaverse Logo" style="width: 18px; height: 18px; object-fit: contain;">
+      <img src="../../assets/logo.png" alt="Olaverse Logo" style="width: 18px; height: 18px; object-fit: contain;">
       Olaverse Labs
     </a>
     <span style="opacity:0.3">·</span>
@@ -1307,10 +1664,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/olaverse/", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "/olaverse/assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="/olaverse/assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

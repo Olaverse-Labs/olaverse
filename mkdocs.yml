@@ -11,8 +11,8 @@ theme:
   favicon: assets/logo.png
 
   font:
-    text: Inter
-    code: JetBrains Mono
+    text: IBM Plex Sans
+    code: IBM Plex Mono
 
   features:
     - navigation.tabs

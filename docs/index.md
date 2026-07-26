@@ -1,7 +1,7 @@
 <img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;">
 
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
+  <div class="ov-hero-badge">v0.2.0 — Now with Title & Question Generation</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
@@ -265,7 +265,14 @@ Beyond Nigerian languages: `LIDLite25`/`LIDNeural25` detect **25 languages**; `d
 
 ---
 
-## What's New in v0.1.5
+## What's New in v0.2.0
+
+- **`MISTTitleGenerator`** — short chat titles from a user's first message, wrapping `mist-tg-0.3b`
+- **`MISTQuestionGenerator`** — search-style question generation from a passage across 25 languages, wrapping `mist-qg-1.5b`. Useful as an endpoint, or as a data factory minting `(query, positive)` pairs to train retrievers
+- **`diacnet-1.0` no longer truncates long text** — the model was trained on sentence-length input, so multi-sentence text is now segmented, restored a sentence at a time, and rejoined. Previously a 358-character paragraph came back at 235 characters with its tail dropped. Override with `split_sentences=False` or your own `splitter=`
+- **Corrected model documentation** — every documented example was re-run against the real checkpoints, and the claims that didn't hold were fixed (see the [changelog](changelog.md))
+
+**Previously, in v0.1.5:**
 
 - **25-language identification** — `LIDLite25` (fastText) and `LIDNeural25` (XLM-RoBERTa) extend language detection well beyond the original 5 Nigerian languages; `LIDNeural5_1` adds a compact Nigerian-only classifier built on the new `mist-encoder-base-ng`
 - **`diacnet-1.0`** — a single multilingual ByT5 model restores diacritics across 10 languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian), added to `Diacritizer` via `lang=`

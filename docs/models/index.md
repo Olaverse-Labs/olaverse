@@ -8,7 +8,7 @@ Every model Olaverse ships, in one place — grouped by task, with guidance on w
 | **LID** | Language detection (5–25 languages) | [Language Detection →](language-detection.md) |
 | **OTK-BPE** | Tokenization (Nigerian languages, Swahili, Kinyarwanda) | [Tokenizers →](tokenizers.md) |
 | **Reranker / Embedder** | Retrieval, RAG, cross-lingual search | [Retrieval →](retrieval.md) |
-| **MIST** | General-purpose LLMs (8B–140B) | [MIST →](mist.md) |
+| **MIST** | General-purpose LLMs (8B–140B), chat titles, question generation | [MIST →](mist.md) |
 | **LegalPeace** | Legal contract reasoning | [LegalPeace →](legalpeace.md) |
 | **Prism** | Image upscaling, denoising, steganography | [Prism →](prism.md) |
 
@@ -29,6 +29,8 @@ Every model Olaverse ships, in one place — grouped by task, with guidance on w
 | `MIST-1-70B` | General LLM | 132 GB | ~23 tok/s | hosted or multi-GPU |
 | `MIST-1-140B` | General LLM | 256 GB | ~8 tok/s | hosted or 2× H200 |
 | `MIST-Mini-8B-Thinking` | Reasoning LLM | 15 GB | ~55 tok/s | `olaverse[deeplearning]` |
+| `mist-tg-0.3b` | Chat title generation | ~1.2 GB | — | `olaverse[deeplearning]` |
+| `mist-qg-1.5b` | Question generation (25 langs) | ~3 GB | — | `olaverse[deeplearning]` |
 | `LegalPeace` | Legal reasoning | 7B (4-bit) | — | `olaverse[legal]` |
 | `DiacNet` (5 Yoruba/Igbo variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
 | `diacnet-1.0` | Diacritization (10 langs) | ~300 MB | Slow | `olaverse[deeplearning]` |

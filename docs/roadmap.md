@@ -4,6 +4,15 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ---
 
+## v0.2.0 — shipped ✓
+
+- ✓ `MISTTitleGenerator` — chat titles from a user's first message (`mist-tg-0.3b`)
+- ✓ `MISTQuestionGenerator` — question generation across 25 languages (`mist-qg-1.5b`)
+- ✓ `diacnet-1.0` sentence segmentation — long text no longer truncated
+- ✓ Documented model claims re-verified against the real checkpoints
+
+---
+
 ## v0.1.5 — shipped ✓
 
 - ✓ 25-language identification (`LIDLite25`, `LIDNeural25`, `LIDNeural5_1`)

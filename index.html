@@ -684,10 +684,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-v015" class="md-nav__link">
+  <a href="#whats-new-in-v020" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's New in v0.1.5
+        What's New in v0.2.0
       
     </span>
   </a>
@@ -1603,10 +1603,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#whats-new-in-v015" class="md-nav__link">
+  <a href="#whats-new-in-v020" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What's New in v0.1.5
+        What's New in v0.2.0
       
     </span>
   </a>
@@ -1646,7 +1646,7 @@
 
 <p><img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;"></p>
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.1.5 — Now with Retrieval & Vision</div>
+  <div class="ov-hero-badge">v0.2.0 — Now with Title & Question Generation</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
@@ -1963,7 +1963,14 @@ Adds: <code>load_dataset</code> — every public olaverse dataset on Hugging Fac
 </table>
 <p>Beyond Nigerian languages: <code>LIDLite25</code>/<code>LIDNeural25</code> detect <strong>25 languages</strong>; <code>diacnet-1.0</code> diacritizes <strong>10</strong> (incl. Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian); OTK-BPE tokenizers cover <strong>Swahili and Kinyarwanda</strong>.</p>
 <hr />
-<h2 id="whats-new-in-v015">What's New in v0.1.5<a class="headerlink" href="#whats-new-in-v015" title="Permanent link">&para;</a></h2>
+<h2 id="whats-new-in-v020">What's New in v0.2.0<a class="headerlink" href="#whats-new-in-v020" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong><code>MISTTitleGenerator</code></strong> — short chat titles from a user's first message, wrapping <code>mist-tg-0.3b</code></li>
+<li><strong><code>MISTQuestionGenerator</code></strong> — search-style question generation from a passage across 25 languages, wrapping <code>mist-qg-1.5b</code>. Useful as an endpoint, or as a data factory minting <code>(query, positive)</code> pairs to train retrievers</li>
+<li><strong><code>diacnet-1.0</code> no longer truncates long text</strong> — the model was trained on sentence-length input, so multi-sentence text is now segmented, restored a sentence at a time, and rejoined. Previously a 358-character paragraph came back at 235 characters with its tail dropped. Override with <code>split_sentences=False</code> or your own <code>splitter=</code></li>
+<li><strong>Corrected model documentation</strong> — every documented example was re-run against the real checkpoints, and the claims that didn't hold were fixed (see the <a href="changelog/">changelog</a>)</li>
+</ul>
+<p><strong>Previously, in v0.1.5:</strong></p>
 <ul>
 <li><strong>25-language identification</strong> — <code>LIDLite25</code> (fastText) and <code>LIDNeural25</code> (XLM-RoBERTa) extend language detection well beyond the original 5 Nigerian languages; <code>LIDNeural5_1</code> adds a compact Nigerian-only classifier built on the new <code>mist-encoder-base-ng</code></li>
 <li><strong><code>diacnet-1.0</code></strong> — a single multilingual ByT5 model restores diacritics across 10 languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian), added to <code>Diacritizer</code> via <code>lang=</code></li>

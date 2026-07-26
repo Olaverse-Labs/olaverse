@@ -261,7 +261,16 @@ _DIACNET_LANG_TAGS = {
 }
 
 class DiacNetDecoder:
-    """diacnet-1.0 diacritic restoration (byte-level seq2seq) — one joint model, 10 languages."""
+    """
+    diacnet-1.0 diacritic restoration (byte-level seq2seq) — one joint model, 10 languages.
+
+    Being seq2seq rather than a per-character tagger, this can rewrite the text
+    instead of only adding marks. Pass complete sentences with their punctuation:
+    short fragments degenerate into repetition loops ("el nino" -> "el niño\\nel
+    niño\\n..."), changed inflections ("nino" -> "niños"), or another language's
+    diacritics ("cafe" with lang="fr" -> "cafẹ́"). Restores diacritics only —
+    apostrophes and other punctuation are not inserted.
+    """
 
     def __init__(self, model_name="olaverse/diacnet-1.0"):
         from transformers import AutoTokenizer, T5ForConditionalGeneration

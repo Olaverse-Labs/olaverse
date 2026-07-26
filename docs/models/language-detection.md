@@ -50,7 +50,7 @@ from olaverse import LIDLite5, LIDNeural5
 lite = LIDLite5()
 lite.predict("Sannu, yaya kake?")            # → 'hau'
 lite.predict_proba("Kedu, ọ dị mma?")
-# → {'ibo': 0.993, 'pcm': 0.003, 'eng': 0.002, ...}
+# → {'ibo': 0.807, 'yor': 0.112, 'eng': 0.037, 'hau': 0.024, ...}
 
 neural = LIDNeural5()
 neural.load()   # one-time download, cached

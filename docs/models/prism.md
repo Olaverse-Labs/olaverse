@@ -46,7 +46,10 @@ All three were trained with realistic degradation (blur, sensor noise, JPEG re-c
 
 **Model Card**: [olaverse/prism-denoiser](https://huggingface.co/olaverse/prism-denoiser)
 
-Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Output resolution matches input (128x128 in, 128x128 out).
+Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net.
+
+!!! warning "Output is always 128x128"
+    Input is resized to 128x128 internally and returned at that resolution — a 640x480 photo comes back 128x128, not restored in place. Tile larger images yourself, or chain `PrismUpscaler(size="max")` afterwards to reach the target resolution.
 
 ```python
 from olaverse import PrismDenoiser
@@ -64,7 +67,10 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")
 
 **Model Card**: [olaverse/prism-steganography](https://huggingface.co/olaverse/prism-steganography)
 
-Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer at train time means the decoder recovers the message even after distortion — not just from a pristine copy.
+Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair.
+
+!!! danger "Save as PNG — JPEG destroys the message"
+    The hidden bits do not survive a real JPEG round-trip at any quality setting, including `quality=100`, and do not survive rescaling.
 
 ```python
 from olaverse import PrismSteganography
@@ -72,24 +78,24 @@ from olaverse import PrismSteganography
 steg = PrismSteganography()
 
 stego_image = steg.hide("cover.jpg", "hi there")
-stego_image.save("stego.jpg")
+stego_image.save("stego.png")   # PNG — a .jpg save loses the message
 
 steg.reveal(stego_image)   # → 'hi there'
 ```
 
-Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters.
+Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters (truncation is over UTF-8 bytes, so non-ASCII input can be cut mid-character).
 
-!!! warning "Robustness under severe distortion"
-    Clean recovery averages 99.9% bit-accuracy; under distortion the average drops to 93.7%, worst-case 62.5%. No error-correction coding is applied — applications needing near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.
+!!! warning "Measured robustness — lossless only"
+    Recovery is exact in memory, through a PNG round-trip, and under mild additive noise (Gaussian σ=5). It falls to chance under JPEG (0.42-0.48 bit accuracy across qualities 50-100) and under downscale-and-back (0.50). Treat this as a lossless-channel watermark, not a distortion-robust one. No error-correction coding is applied — applications needing near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.
 
 ---
 
 ## Applications
 
-- ✅ **Photo restoration** — upscale and denoise legacy or low-quality archives
-- ✅ **OCR preprocessing** — clean scans before text extraction
+- ✅ **Photo restoration** — upscale and denoise legacy or low-quality archives (denoise per 128x128 tile)
+- ✅ **OCR preprocessing** — clean small scan crops before text extraction
 - ✅ **Thumbnails to full-size** — arbitrary-resolution upscaling with `max`
-- ✅ **Watermarking research** — recoverable invisible tags via steganography
+- ✅ **Watermarking research** — recoverable invisible tags via steganography, within a lossless pipeline
 
 ---
 

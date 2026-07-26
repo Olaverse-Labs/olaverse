@@ -20,7 +20,7 @@ General-purpose tokenizers like GPT-4's cl100k were trained mostly on English. O
 - **fragments meaningful units** — subwords never align with morphemes
 - **degrades model quality** — models learn from worse-shaped input
 
-OTK-BPE learns proper subwords from native text, with raw UTF-8 byte fallback guaranteeing **0% OOV** on any input.
+OTK-BPE learns proper subwords from native text, with byte-level encoding giving **0% OOV** on any input — every input maps to tokens, nothing hits an `<unk>`. (Note that 0% OOV is about coverage, not lossless round-tripping — see the emoji caveat under the multilingual family below.)
 
 ---
 
@@ -65,11 +65,20 @@ Swahili, Kinyarwanda, and a merged French + Kinyarwanda + English + Swahili voca
 
 ```python
 tok = Tokenizer("sw-150k")
-ids = tok.encode("Habari yako? Leo ni siku nzuri sana 😊")
-tok.decode(ids)   # → exact round-trip, emoji included
+ids = tok.encode("Habari yako? Leo ni siku nzuri sana")
+tok.decode(ids)   # → exact round-trip
 
 tok_merged = Tokenizer("merged-150k")
 ```
+
+!!! warning "Emoji are dropped by the multilingual family"
+    `sw-*`, `kin-*`, and `merged-*` silently lose pictographic emoji
+    (U+1F300–U+1F9FF) on a round-trip — they encode to a single token that
+    decodes to an empty string, so `decode(encode(x)) != x` with no error
+    raised. Other non-BMP characters (e.g. `𝄞`, `𐍈`), CJK, and accented Latin
+    all round-trip correctly, as do emoji in the Nigerian family (`yo`, `ig`,
+    `ha`, `pcm`, `naija`). Strip or placeholder emoji before tokenizing with
+    the multilingual tokenizers if your text may contain them.
 
 ---
 

@@ -49,7 +49,10 @@ All three were trained with realistic degradation (blur, sensor noise, JPEG re-c
 
 **Model Card**: [olaverse/prism-denoiser](https://huggingface.co/olaverse/prism-denoiser)
 
-Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Unlike `PrismUpscaler`, output resolution matches input (128x128 in, 128x128 out) — useful as a standalone restoration tool or as pre-processing before other image tasks.
+Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Useful as a standalone restoration tool or as pre-processing before other image tasks.
+
+!!! warning "Output is always 128x128"
+    Input is resized to 128x128 internally and the output is returned at that resolution — a 640x480 photo comes back 128x128, not restored in place. This is a restoration model for small tiles, not a full-resolution filter. To restore a larger image, tile it yourself, or follow `PrismDenoiser` with `PrismUpscaler(size="max")` to get back to the target resolution.
 
 ```python
 from olaverse import PrismDenoiser
@@ -69,7 +72,10 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")
 
 **Model Card**: [olaverse/prism-steganography](https://huggingface.co/olaverse/prism-steganography)
 
-Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer sits between them at train time (blur, sensor noise, JPEG-like compression, pixel dropout), so the decoder learns to recover the message even after the image is distorted — not just from a pristine copy.
+Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer sits between them at train time (blur, sensor noise, JPEG-like compression, pixel dropout).
+
+!!! danger "Save as PNG — JPEG destroys the message"
+    The hidden bits do not survive a real JPEG round-trip **at any quality setting, including `quality=100`**, and do not survive rescaling. Always write the stego image to a lossless format, and decode it at 128x128 without an intermediate resize.
 
 ```python
 from olaverse import PrismSteganography
@@ -77,15 +83,26 @@ from olaverse import PrismSteganography
 steg = PrismSteganography()
 
 stego_image = steg.hide("cover.jpg", "hi there")
-stego_image.save("stego.jpg")
+stego_image.save("stego.png")   # PNG — a .jpg save loses the message
 
 steg.reveal(stego_image)
 # → 'hi there'
 ```
 
-Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters.
+Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters. Capacity is read from the checkpoint's `msg_bits` config (currently 64 bits). Truncation is applied to the UTF-8 *bytes*, so a non-ASCII message can be cut mid-character and come back with replacement characters — treat the channel as ASCII-only.
 
-!!! warning "Worst-case robustness under severe distortion"
-    Clean recovery (no distortion) averages 99.9% bit-accuracy. Under distortion (blur/noise/JPEG-approx/dropout), average bit-accuracy drops to 93.7%, with a worst-case observed as low as 62.5% under a severe distortion draw. No error-correction coding is applied on top of the raw bits — applications that need near-100% message reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.
+!!! warning "Measured robustness — lossless only"
+    Recovery is exact (100% bit-accuracy) in memory, through a PNG round-trip, and under mild additive noise (Gaussian σ=5). It collapses to chance under the two most common real-world transforms:
+
+    | Condition | Bit accuracy |
+    |---|---|
+    | In-memory / PNG round-trip | 1.00 |
+    | Gaussian noise, σ=5 | 1.00 |
+    | JPEG, `quality=100` | 0.48 |
+    | JPEG, `quality=95` | 0.45 |
+    | JPEG, `quality=75` | 0.42 |
+    | Downscale to 64x64 and back | 0.50 |
+
+    Whatever JPEG approximation was used in the training noise layer did not transfer to real JPEG encoding. Treat this as a lossless-channel watermark, not a distortion-robust one. No error-correction coding is applied on top of the raw bits — applications that need near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel, and even that will not rescue a JPEG round-trip.
 
 ::: olaverse.vision.PrismSteganography

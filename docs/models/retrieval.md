@@ -44,10 +44,10 @@ reranker.rank("who wrote hamlet", [
     "Hamlet is a tragedy written by William Shakespeare.",
     "The capital of France is Paris.",
 ])
-# → [(0, 0.98...), (1, 0.01...)]   # (original_index, score), best-first
+# → [(0, 0.915...), (1, 0.301...)]   # (original_index, score), best-first
 
 reranker.score("who wrote hamlet", ["Hamlet is a tragedy by Shakespeare."])
-# → [0.98...]
+# → [0.912...]
 ```
 
 !!! note "English-only"

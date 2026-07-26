@@ -143,13 +143,14 @@ class PrismUpscaler:
 
 class PrismDenoiser:
     """
-    Same-resolution image restoration — removes Gaussian noise, blur, and
-    JPEG-like compression artifacts.
+    Image restoration — removes Gaussian noise, blur, and JPEG-like
+    compression artifacts.
 
     Wraps olaverse/prism-denoiser — a compact U-Net trained with on-the-fly
-    random degradation. Unlike PrismUpscaler, output resolution matches input
-    (128x128 in, 128x128 out); reduces but does not fully eliminate noise on
-    complex, high-detail scenes.
+    random degradation. Input is resized to 128x128 and the output is returned
+    at that resolution, whatever the input size — this restores small tiles,
+    it is not a full-resolution filter. Reduces but does not fully eliminate
+    noise on complex, high-detail scenes.
 
     Requires: pip install olaverse[vision]
 
@@ -190,7 +191,7 @@ class PrismDenoiser:
             image: Path to an image file, or a PIL.Image. Resized to 128x128.
 
         Returns:
-            PIL.Image: the denoised image, same 128x128 resolution.
+            PIL.Image: the denoised image, always 128x128 regardless of input size.
         """
         if self._model is None:
             self.load()
@@ -211,16 +212,22 @@ class PrismSteganography:
     """
     Hide/recover a short recoverable message inside an image.
 
-    Wraps olaverse/prism-steganography — a U-Net encoder / CNN decoder pair
-    trained to survive blur, sensor noise, JPEG re-compression, and pixel
-    dropout. Message capacity is 8 ASCII characters (64 bits); longer input
-    is silently truncated. Images are resized to 128x128.
+    Wraps olaverse/prism-steganography — a U-Net encoder / CNN decoder pair.
+    Message capacity comes from the checkpoint's msg_bits config (currently
+    64 bits = 8 ASCII characters); longer input is silently truncated over
+    UTF-8 bytes, so non-ASCII messages can be cut mid-character. Images are
+    resized to 128x128.
+
+    Save stego images as PNG. The hidden bits survive a lossless round-trip
+    and mild additive noise, but are destroyed by JPEG at any quality
+    (including quality=100) and by rescaling — recovery drops to chance.
 
     Requires: pip install olaverse[vision]
 
     Quick start:
         >>> steg = PrismSteganography()
         >>> stego_image = steg.hide("cover.jpg", "hi there")
+        >>> stego_image.save("stego.png")   # PNG, not JPEG
         >>> steg.reveal(stego_image)
         'hi there'
     """
@@ -291,7 +298,8 @@ class PrismSteganography:
             message: Up to 8 ASCII characters — longer input is truncated.
 
         Returns:
-            PIL.Image: the stego image with the message hidden inside.
+            PIL.Image: the stego image with the message hidden inside. Save it
+            losslessly (PNG); a JPEG save destroys the hidden message.
         """
         if self._encoder is None:
             self.load()
@@ -312,7 +320,8 @@ class PrismSteganography:
         Recover a hidden message from a stego image.
 
         Args:
-            image: Path to an image file, or a PIL.Image.
+            image: Path to an image file, or a PIL.Image. Must be a lossless
+                copy of the stego image — JPEG or rescaled input decodes to noise.
 
         Returns:
             str: the recovered message.

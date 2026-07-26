@@ -58,7 +58,7 @@ detector.predict("How far, wetin dey happen?")   # → 'pcm'
 
 # Probability distribution over all 5 classes
 detector.predict_proba("Kedu, ọ dị mma?")
-# → {'eng': 0.002, 'hau': 0.001, 'ibo': 0.993, 'pcm': 0.003, 'yor': 0.001}
+# → {'eng': 0.037, 'hau': 0.024, 'ibo': 0.807, 'pcm': 0.021, 'yor': 0.112}
 
 # Quick one-liner
 detect_language("E kaaro, bawo ni?")             # → 'yor'
@@ -267,8 +267,8 @@ pip install olaverse[deeplearning]
 from olaverse.nlp import Diacritizer
 
 d = Diacritizer(model="diacnet-1.0", lang="fr")
-d.restore("cest fini")
-# → "c'est fini"
+d.restore("Le cafe est tres chaud, mais il prefere le the.")
+# → 'Le café est très chaud, mais il préfère le thé.'
 
 d_yo = Diacritizer(model="diacnet-1.0", lang="yo")
 d_yo.restore("se eranko naa si gbo o?")
@@ -276,6 +276,24 @@ d_yo.restore("se eranko naa si gbo o?")
 ```
 
 Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
+
+!!! warning "Feed it complete sentences — short fragments degenerate"
+    `diacnet-1.0` is a seq2seq model, not a per-character tagger, so it can
+    rewrite the text rather than only adding marks. On full sentences this is
+    reliable. On short fragments it fails in several ways:
+
+    | Input | `lang=` | Output |
+    |---|---|---|
+    | `"el nino"` | `es` | `'el niño\nel niño\nel niño…'` (repetition loop) |
+    | `"je nai pas"` | `fr` | `'je nai pas pas je nai pas pas…'` (repetition loop) |
+    | `"cafe"` | `fr` | `'cafẹ́'` (Yoruba dot-below on a French word) |
+    | `"nino"` | `es` | `'niños'` (inflection changed) |
+    | `"pho"` | `vi` | `'phối>'` (wrong word + stray character) |
+    | `"citta"` | `it` | `'città?'` (punctuation invented) |
+
+    Pass whole sentences with their punctuation. It also restores **diacritics
+    only** — it does not insert apostrophes, so `"cest fini"` does not become
+    `"c'est fini"`.
 
 !!! warning "Yoruba is the hardest language for this model"
     Yoruba's median CER (0.110) is nearly 3x the next-highest language — genuine tonal ambiguity (the same base letters can carry multiple valid tone patterns), not a model weakness. For Yoruba specifically, the dedicated `diacnet-yor-viterbi`/`diacnet-yor-x` models above may perform better; `diacnet-1.0`'s advantage is breadth (10 languages, one model), not peak Yoruba accuracy.
@@ -548,10 +566,10 @@ reranker.rank("who wrote hamlet", [
     "Hamlet is a tragedy written by William Shakespeare.",
     "The capital of France is Paris.",
 ])
-# → [(0, 0.98...), (1, 0.01...)]   # (original_index, score), best-first
+# → [(0, 0.915...), (1, 0.301...)]   # (original_index, score), best-first
 
 reranker.score("who wrote hamlet", ["Hamlet is a tragedy by Shakespeare."])
-# → [0.98...]
+# → [0.912...]
 ```
 
 Both models are English-only; `Reranker` auto-handles their different output head shapes (a single relevance score vs. 2-class logits).

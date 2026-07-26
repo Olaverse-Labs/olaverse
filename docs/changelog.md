@@ -44,7 +44,7 @@ A single joint ByT5 model restores diacritics across 10 languages (Yoruba, Igbo,
 from olaverse.nlp import Diacritizer
 
 d = Diacritizer(model="diacnet-1.0", lang="fr")
-d.restore("cest fini")   # → "c'est fini"
+d.restore("Le cafe est tres chaud.")   # → 'Le café est très chaud.'
 ```
 
 #### OTK-BPE multilingual tokenizer family

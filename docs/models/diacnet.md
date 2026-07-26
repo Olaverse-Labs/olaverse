@@ -91,8 +91,8 @@ One joint ByT5 model, 10 languages, selected via `lang=`:
 
 ```python
 d = Diacritizer(model="diacnet-1.0", lang="fr")
-d.restore("cest fini")
-# → "c'est fini"
+d.restore("Le cafe est tres chaud, mais il prefere le the.")
+# → 'Le café est très chaud, mais il préfère le thé.'
 
 d_yo = Diacritizer(model="diacnet-1.0", lang="yo")
 d_yo.restore("se eranko naa si gbo o?")
@@ -100,6 +100,18 @@ d_yo.restore("se eranko naa si gbo o?")
 ```
 
 Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
+
+!!! warning "Feed it complete sentences — short fragments degenerate"
+    `diacnet-1.0` is a seq2seq model, not a per-character tagger, so it can
+    rewrite text rather than only adding marks. On full sentences it is
+    reliable; on short fragments it drops into repetition loops
+    (`"el nino"` → `'el niño\nel niño\nel niño…'`), changes inflection
+    (`"nino"` → `'niños'`), invents punctuation (`"citta"` → `'città?'`), or
+    applies the wrong language's diacritics (`"cafe"` with `lang="fr"` →
+    `'cafẹ́'`, a Yoruba dot-below). Pass whole sentences with punctuation.
+
+    It restores **diacritics only** — it does not insert apostrophes, so
+    `"cest fini"` will not become `"c'est fini"`.
 
 **Model Card**: [olaverse/diacnet-1.0](https://huggingface.co/olaverse/diacnet-1.0)
 

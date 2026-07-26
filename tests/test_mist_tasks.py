@@ -13,7 +13,11 @@ import pytest
 from unittest.mock import patch
 
 from olaverse import MISTTitleGenerator, MISTQuestionGenerator, QG_LANGUAGES
-from olaverse.llm.mist_tasks import _QG_USER_TEMPLATE
+from olaverse.llm.mist_tasks import (
+    _QG_USER_TEMPLATE,
+    _QG_ISO1_ALIASES,
+    QG_WEAK_LANGUAGES,
+)
 
 slow = pytest.mark.slow
 
@@ -58,14 +62,22 @@ def test_qg_language_count():
 
 
 @pytest.mark.parametrize("value,expected", [
-    ("yo", "Yoruba"),
-    ("Yoruba", "Yoruba"),
-    ("yoruba", "Yoruba"),
-    ("  FR  ", "French"),
-    ("en", "English"),
+    ("yor", ("yor", "Yoruba")),      # ISO 639-3, as the reference demo uses
+    ("yo", ("yor", "Yoruba")),       # ISO 639-1 alias
+    ("Yoruba", ("yor", "Yoruba")),   # English name
+    ("yoruba", ("yor", "Yoruba")),
+    ("  FR  ", ("fra", "French")),   # whitespace + case tolerant
+    ("en", ("eng", "English")),
+    ("swh", ("swh", "Swahili")),
 ])
 def test_qg_resolve_language(value, expected):
     assert MISTQuestionGenerator._resolve_language(value) == expected
+
+
+def test_qg_iso1_and_iso3_agree_for_every_language():
+    for iso1, iso3 in _QG_ISO1_ALIASES.items():
+        assert MISTQuestionGenerator._resolve_language(iso1) == \
+               MISTQuestionGenerator._resolve_language(iso3)
 
 
 def test_qg_rejects_unsupported_language():
@@ -75,12 +87,28 @@ def test_qg_rejects_unsupported_language():
 
 
 def test_qg_prompt_interpolates_resolved_name():
-    prompt = _QG_USER_TEMPLATE.format(n=3, language="Yoruba", passage="A passage.")
+    prompt = _QG_USER_TEMPLATE.format(
+        n=3, language="Yoruba", passage="A passage.", slots=", ".join(['"..."'] * 3)
+    )
     assert "Write 3 questions" in prompt
-    assert "Write the questions in Yoruba." in prompt
+    assert "Write all questions in Yoruba." in prompt
     assert "A passage." in prompt
     # The JSON contract must survive .format() — braces are doubled in the template.
     assert '{"questions": ["...", "...", "..."]}' in prompt
+
+
+@pytest.mark.parametrize("n", [1, 2, 3, 5])
+def test_qg_slot_count_tracks_n(n):
+    # The skeleton carries one placeholder per requested question — this is what
+    # holds the model to n items instead of defaulting to three.
+    prompt = _QG_USER_TEMPLATE.format(
+        n=n, language="English", passage="A passage.", slots=", ".join(['"..."'] * n)
+    )
+    assert prompt.count('"..."') == n
+
+
+def test_qg_weak_languages_are_real_language_codes():
+    assert QG_WEAK_LANGUAGES <= set(QG_LANGUAGES)
 
 
 # =========================================================================== #

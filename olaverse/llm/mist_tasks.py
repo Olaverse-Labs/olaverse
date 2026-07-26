@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import json
 import re
+import warnings
 
 _TITLE_REPOS = {
     "0.3b": "olaverse/mist-tg-0.3b",
@@ -20,34 +21,53 @@ _QUESTION_REPOS = {
     "1.5b": "olaverse/mist-qg-1.5b",
 }
 
-# The 25 languages mist-qg-1.5b was trained on. Values are the English language
-# names the model saw during training — the prompt interpolates the name, not the code.
+# The 25 languages mist-qg-1.5b was trained on, keyed by ISO 639-3 (the codes the
+# reference demo uses). Values are the English names the model saw at training time —
+# the prompt interpolates the name, not the code.
 QG_LANGUAGES = {
-    "en": "English",     "fr": "French",      "de": "German",
-    "es": "Spanish",     "pt": "Portuguese",  "it": "Italian",
-    "nl": "Dutch",       "ru": "Russian",     "pl": "Polish",
-    "tr": "Turkish",     "vi": "Vietnamese",  "id": "Indonesian",
-    "hi": "Hindi",       "ja": "Japanese",    "ko": "Korean",
-    "yo": "Yoruba",      "ig": "Igbo",        "ha": "Hausa",
-    "sw": "Swahili",     "am": "Amharic",     "zu": "Zulu",
-    "xh": "Xhosa",       "sn": "Shona",       "so": "Somali",
-    "af": "Afrikaans",
+    "eng": "English",     "fra": "French",      "deu": "German",
+    "spa": "Spanish",     "por": "Portuguese",  "ita": "Italian",
+    "nld": "Dutch",       "rus": "Russian",     "pol": "Polish",
+    "tur": "Turkish",     "vie": "Vietnamese",  "ind": "Indonesian",
+    "hin": "Hindi",       "jpn": "Japanese",    "kor": "Korean",
+    "yor": "Yoruba",      "ibo": "Igbo",        "hau": "Hausa",
+    "swh": "Swahili",     "amh": "Amharic",     "zul": "Zulu",
+    "xho": "Xhosa",       "sna": "Shona",       "som": "Somali",
+    "afr": "Afrikaans",
 }
+
+# ISO 639-1 aliases, so both qg.generate(..., language="yo") and "yor" work.
+_QG_ISO1_ALIASES = {
+    "en": "eng", "fr": "fra", "de": "deu", "es": "spa", "pt": "por",
+    "it": "ita", "nl": "nld", "ru": "rus", "pl": "pol", "tr": "tur",
+    "vi": "vie", "id": "ind", "hi": "hin", "ja": "jpn", "ko": "kor",
+    "yo": "yor", "ig": "ibo", "ha": "hau", "sw": "swh", "am": "amh",
+    "zu": "zul", "xh": "xho", "sn": "sna", "so": "som", "af": "afr",
+}
+
+# Flagged on the model card as lower-confidence. Not blocked — callers can still
+# use them, but generate() warns so poor output isn't mistaken for a bug.
+QG_WEAK_LANGUAGES = {"amh", "som", "sna"}
+
+# Passages shorter than this give the model too little to work with.
+_QG_MIN_PASSAGE_CHARS = 20
 
 _QG_SYSTEM = "You write search-style questions that a passage directly answers."
 
-# Verbatim from the model card — the model was fine-tuned on this exact wording,
-# so changes here degrade output quality and JSON adherence.
+# The teacher prompt used to distill this model from Qwen2.5-32B-Instruct — the
+# wording the model was actually trained against. Note {slots}: the JSON skeleton
+# carries exactly n placeholders, which is what keeps the model returning n items.
 _QG_USER_TEMPLATE = """You are given a passage. Write {n} questions that the passage directly answers.
-
 Rules:
-- Each question must be answerable using ONLY this passage.
-- Vary the type: factual, yes/no, and a comparison or "why/how".
-- Natural, like a real user search query. Do NOT write "according to the passage".
-- Write the questions in {language}.
-
-Return ONLY JSON: {{"questions": ["...", "...", "..."]}}
-
+- Every question MUST be answerable using ONLY this passage.
+- NEVER copy or repeat a sentence from the passage.
+- Rewrite the information into a natural question.
+- Questions should sound like something a real person would ask in a search engine.
+- Do not quote the passage.
+- Vary the question types: factual, yes/no, why/how, comparison.
+- Write all questions in {language}.
+- Return ONLY valid JSON:
+{{"questions": [{slots}]}}
 Passage: {passage}"""
 
 
@@ -185,18 +205,25 @@ class MISTQuestionGenerator:
 
     Requires: pip install olaverse[deeplearning]
 
+    This is same-language question generation: ``language`` names the language
+    the passage is written in, and questions come back in that language. It is
+    not a translation step — pointing it at an English passage and asking for
+    Yoruba does not produce usable Yoruba.
+
     Quick start:
         >>> qg = MISTQuestionGenerator()
         >>> qg.generate("Tides are caused by the gravitational pull of the moon...")
         ['What causes ocean tides?', 'Does the sun affect tides?', ...]
 
-    Another language — pass a code or an English language name:
-        >>> qg.generate(passage, n=3, language="yo")
-        >>> qg.generate(passage, n=3, language="Yoruba")
+    A passage in another language — pass an ISO code (639-3 or 639-1) or the
+    English name of the language:
+        >>> qg.generate(yoruba_passage, n=3, language="yor")
+        >>> qg.generate(yoruba_passage, n=3, language="yo")
+        >>> qg.generate(yoruba_passage, n=3, language="Yoruba")
 
     Supported languages:
-        en, fr, de, es, pt, it, nl, ru, pl, tr, vi, id, hi, ja, ko,
-        yo, ig, ha, sw, am, zu, xh, sn, so, af
+        eng, fra, deu, spa, por, ita, nld, rus, pol, tur, vie, ind, hin,
+        jpn, kor, yor, ibo, hau, swh, amh, zul, xho, sna, som, afr
     """
 
     def __init__(self, size: str = "1.5b", device: str = None):
@@ -226,7 +253,10 @@ class MISTQuestionGenerator:
         from transformers import AutoModelForCausalLM, AutoTokenizer
 
         self.device = _pick_device(self._device_arg)
-        dtype = torch.float32 if self.device.type == "cpu" else torch.bfloat16
+        # bfloat16 only on CUDA, matching the reference demo. Verified identical
+        # greedy output to float32, so there is nothing to gain by forcing it
+        # onto MPS/CPU where support is patchier.
+        dtype = torch.bfloat16 if self.device.type == "cuda" else torch.float32
 
         self._tokenizer = AutoTokenizer.from_pretrained(self.model_name)
         self._model = AutoModelForCausalLM.from_pretrained(self.model_name, dtype=dtype)
@@ -236,16 +266,17 @@ class MISTQuestionGenerator:
 
     @staticmethod
     def _resolve_language(language: str) -> str:
-        """Accept either an ISO code ('yo') or an English name ('Yoruba')."""
+        """Accept ISO 639-3 ('yor'), ISO 639-1 ('yo'), or an English name ('Yoruba')."""
         key = language.strip().lower()
-        if key in QG_LANGUAGES:
-            return QG_LANGUAGES[key]
-        for name in QG_LANGUAGES.values():
+        code = _QG_ISO1_ALIASES.get(key, key)
+        if code in QG_LANGUAGES:
+            return code, QG_LANGUAGES[code]
+        for c, name in QG_LANGUAGES.items():
             if name.lower() == key:
-                return name
+                return c, name
         raise ValueError(
-            f"Unsupported language {language!r}. Use one of "
-            f"{sorted(QG_LANGUAGES)} or the English name of that language."
+            f"Unsupported language {language!r}. Use one of {sorted(QG_LANGUAGES)}, "
+            f"an ISO 639-1 code, or the English name of that language."
         )
 
     @staticmethod
@@ -263,15 +294,17 @@ class MISTQuestionGenerator:
         candidates = re.findall(r'"([^"\\]{4,})"', text)
         return [c.strip() for c in candidates if c.strip().lower() != "questions"][:n]
 
-    def generate(self, passage: str, n: int = 3, language: str = "English", max_new_tokens: int = 200) -> list:
+    def generate(self, passage: str, n: int = 3, language: str = "English", max_new_tokens: int = 250) -> list:
         """
         Generate questions that the passage directly answers.
 
         Args:
             passage: Source text the questions must be answerable from.
             n: How many questions to request.
-            language: Output language — an ISO code ("yo") or English name
-                      ("Yoruba"). Must be one of the 25 supported languages.
+            language: The language the passage is written in — an ISO 639-3
+                      code ("yor"), an ISO 639-1 code ("yo"), or the English
+                      name ("Yoruba"). Questions come back in this language;
+                      it does not translate across languages.
             max_new_tokens: Generation budget. Raise it for large ``n``.
 
         Returns:
@@ -283,42 +316,70 @@ class MISTQuestionGenerator:
 
         import torch
 
-        lang_name = self._resolve_language(language)
+        passage = (passage or "").strip()
+        if not passage:
+            raise ValueError("passage is empty — nothing to generate questions from.")
+        if len(passage) < _QG_MIN_PASSAGE_CHARS:
+            warnings.warn(
+                f"Passage is only {len(passage)} characters; the model was trained on "
+                "paragraph-length input and short passages give poor questions.",
+                stacklevel=2,
+            )
+
+        code, lang_name = self._resolve_language(language)
+        if code in QG_WEAK_LANGUAGES:
+            warnings.warn(
+                f"{lang_name} is one of this model's lower-confidence languages — "
+                "check the model card's benchmark numbers before relying on the output.",
+                stacklevel=2,
+            )
+
         messages = [
             {"role": "system", "content": _QG_SYSTEM},
             {"role": "user", "content": _QG_USER_TEMPLATE.format(
-                n=n, language=lang_name, passage=passage
+                n=n,
+                language=lang_name,
+                passage=passage,
+                # One placeholder per requested question — this is what holds the
+                # model to n items rather than defaulting to three.
+                slots=", ".join(['"..."'] * int(n)),
             )},
         ]
 
         encoded = self._tokenizer.apply_chat_template(
-            messages, tokenize=True, add_generation_prompt=True, return_tensors="pt"
+            messages, tokenize=True, add_generation_prompt=True,
+            return_tensors="pt", return_dict=True,
         )
         # transformers >= 4.57 returns a BatchEncoding here; older versions a bare tensor.
-        if not torch.is_tensor(encoded):
-            encoded = encoded["input_ids"]
-        input_ids = encoded.to(self.device)
+        if torch.is_tensor(encoded):
+            encoded = {"input_ids": encoded, "attention_mask": torch.ones_like(encoded)}
+        inputs = {k: v.to(self.device) for k, v in encoded.items()}
+
+        pad_id = self._tokenizer.pad_token_id
+        if pad_id is None:
+            pad_id = self._tokenizer.eos_token_id
 
         with torch.no_grad():
             out = self._model.generate(
-                input_ids,
-                attention_mask=torch.ones_like(input_ids),
+                **inputs,
                 max_new_tokens=max_new_tokens,
                 do_sample=False,
-                pad_token_id=self._tokenizer.pad_token_id or self._tokenizer.eos_token_id,
+                pad_token_id=pad_id,
             )
 
-        text = self._tokenizer.decode(out[0][input_ids.shape[1]:], skip_special_tokens=True)
+        text = self._tokenizer.decode(
+            out[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True
+        )
         return self._parse_questions(text, n)
 
-    def generate_batch(self, passages: list, n: int = 3, language: str = "English", max_new_tokens: int = 200) -> list:
+    def generate_batch(self, passages: list, n: int = 3, language: str = "English", max_new_tokens: int = 250) -> list:
         """
         Generate questions for several passages.
 
         Args:
-            passages: List of source texts.
+            passages: List of source texts, all in the same language.
             n: Questions per passage.
-            language: Output language, applied to every passage.
+            language: The language the passages are written in.
             max_new_tokens: Generation budget per passage.
 
         Returns:

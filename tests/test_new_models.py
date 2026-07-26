@@ -202,6 +202,96 @@ def test_diacritizer_diacnet_1_0_routes_to_decoder():
         assert result == "c'est fini"
 
 
+# --------------------------------------------------------------------------- #
+# diacnet-1.0 sentence segmentation
+#
+# The model was trained on sentence-length input (median 58 bytes). Without
+# segmentation, long input is silently truncated — a real 358-char paragraph
+# came back at 235 chars, losing its last two sentences.
+# --------------------------------------------------------------------------- #
+
+def _mock_diacnet(decode_return="out"):
+    mock_tokenizer = MagicMock()
+    mock_tokenizer.return_value = {"input_ids": [1, 2, 3]}
+    mock_tokenizer.decode.return_value = decode_return
+    mock_model = MagicMock()
+    mock_model.generate.return_value = [[1, 2, 3]]
+    mock_transformers = MagicMock(
+        AutoTokenizer=MagicMock(from_pretrained=MagicMock(return_value=mock_tokenizer)),
+        T5ForConditionalGeneration=MagicMock(from_pretrained=MagicMock(return_value=mock_model)),
+    )
+    mock_torch = MagicMock()
+    mock_torch.no_grad = lambda: MagicMock()
+    return mock_tokenizer, mock_transformers, mock_torch
+
+
+def test_split_sentences_helper():
+    from olaverse.nlp.diacritizer import split_sentences
+    assert split_sentences("One. Two! Three?") == ["One.", "Two!", "Three?"]
+    assert split_sentences("  Single sentence  ") == ["Single sentence"]
+    assert split_sentences("   ") == []
+
+
+def test_diacnet_splits_multi_sentence_input():
+    tok, transformers, torch_ = _mock_diacnet()
+    with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+        DiacNetDecoder().decode("Un. Deux. Trois.", lang="fr")
+        # One tokenizer call per sentence, each carrying the language tag.
+        assert tok.call_count == 3
+        assert all(c[0][0].startswith("<fra>") for c in tok.call_args_list)
+
+
+def test_diacnet_split_can_be_disabled():
+    tok, transformers, torch_ = _mock_diacnet()
+    with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+        DiacNetDecoder().decode("Un. Deux. Trois.", lang="fr", split_sentences=False)
+        assert tok.call_count == 1
+
+
+def test_diacnet_accepts_custom_splitter():
+    tok, transformers, torch_ = _mock_diacnet()
+    with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+        decoder = DiacNetDecoder(splitter=lambda t: t.split("|"))
+        decoder.decode("a|b|c|d", lang="fr")
+        assert tok.call_count == 4
+
+
+def test_diacnet_truncates_input():
+    tok, transformers, torch_ = _mock_diacnet()
+    with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+        DiacNetDecoder().decode("Une phrase.", lang="fr")
+        kwargs = tok.call_args[1]
+        assert kwargs["truncation"] is True
+        assert kwargs["max_length"] == DiacNetDecoder.MAX_INPUT_TOKENS
+
+
+def test_diacnet_empty_input_short_circuits():
+    tok, transformers, torch_ = _mock_diacnet()
+    with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+        assert DiacNetDecoder().decode("   ", lang="fr") == ""
+        assert tok.call_count == 0
+
+
+def test_diacritizer_forwards_split_options_to_decoder():
+    from olaverse.nlp.diacritizer import _NEURAL_CACHE
+
+    tok, transformers, torch_ = _mock_diacnet()
+    # Diacritizer caches decoders by model key, so drop any instance an earlier
+    # test built with a different mock tokenizer.
+    _NEURAL_CACHE.pop("diacnet-1.0", None)
+    try:
+        with patch.dict("sys.modules", {"transformers": transformers, "torch": torch_}):
+            Diacritizer(model="diacnet-1.0", lang="fr", split_sentences=False).restore("Un. Deux.")
+            assert tok.call_count == 1
+
+            tok.reset_mock()
+            _NEURAL_CACHE.pop("diacnet-1.0", None)
+            Diacritizer(model="diacnet-1.0", lang="fr").restore("Un. Deux.")
+            assert tok.call_count == 2   # default splits
+    finally:
+        _NEURAL_CACHE.pop("diacnet-1.0", None)
+
+
 # =========================================================================== #
 # Tokenizer — otk-bpe multilingual family
 # =========================================================================== #

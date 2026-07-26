@@ -160,13 +160,13 @@ English-trained; Latin-script languages often work, non-Latin scripts do not.
 from olaverse import MISTQuestionGenerator
 
 qg = MISTQuestionGenerator()
-qg.generate("Tides are caused by the gravitational pull of the moon...", n=3, language="French")
+qg.generate("Tides are caused by the gravitational pull of the moon...", n=3, language="eng")
 ```
 
-!!! warning "Language control is unreliable for African languages"
-    `language=` is followed dependably for high-resource languages, but for the
-    African languages in the set the model tends to follow the passage's own
-    language instead. Supply a passage already in the target language.
+!!! info "`language=` names the passage's language"
+    Same-language question generation, not translation — pass a French passage
+    with `language="fra"`, a Yoruba passage with `language="yor"`. ISO 639-3,
+    ISO 639-1, and English names all work.
 
 Full reference for both: **[Language Models →](../llm.md#misttitlegenerator-chat-titles)**
 

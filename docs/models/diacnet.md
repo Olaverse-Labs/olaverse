@@ -101,14 +101,34 @@ d_yo.restore("se eranko naa si gbo o?")
 
 Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
 
-!!! warning "Feed it complete sentences — short fragments degenerate"
-    `diacnet-1.0` is a seq2seq model, not a per-character tagger, so it can
-    rewrite text rather than only adding marks. On full sentences it is
-    reliable; on short fragments it drops into repetition loops
-    (`"el nino"` → `'el niño\nel niño\nel niño…'`), changes inflection
-    (`"nino"` → `'niños'`), invents punctuation (`"citta"` → `'città?'`), or
-    applies the wrong language's diacritics (`"cafe"` with `lang="fr"` →
-    `'cafẹ́'`, a Yoruba dot-below). Pass whole sentences with punctuation.
+### Long text is segmented automatically
+
+`diacnet-1.0` was trained on sentence-length input (median 58 bytes). The SDK
+handles that for you: multi-sentence text is split on sentence boundaries,
+restored a sentence at a time, and rejoined.
+
+This matters. On a 358-character French paragraph, restoring it in one pass
+returns **235 characters** — it truncates mid-sentence and drops the tail
+entirely. Segmented, all 358 characters come back correct.
+
+```python
+# Default: segments automatically
+d = Diacritizer(model="diacnet-1.0", lang="fr")
+d.restore(long_paragraph)
+
+# One pass, no segmentation
+Diacritizer(model="diacnet-1.0", lang="fr", split_sentences=False)
+
+# Your own segmentation
+Diacritizer(model="diacnet-1.0", lang="fr", splitter=my_splitter)
+```
+
+!!! warning "Very short fragments still degenerate"
+    Single words fall *below* the trained input length and misbehave:
+    repetition loops (`"el nino"` → `'el niño\nel niño\nel niño…'`), changed
+    inflection (`"nino"` → `'niños'`), invented punctuation (`"citta"` →
+    `'città?'`), or another language's diacritics (`"cafe"` with `lang="fr"` →
+    `'cafẹ́'`, a Yoruba dot-below). Pass whole sentences.
 
     It restores **diacritics only** — it does not insert apostrophes, so
     `"cest fini"` will not become `"c'est fini"`.

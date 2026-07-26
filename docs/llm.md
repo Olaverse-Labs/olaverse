@@ -269,26 +269,33 @@ qg.generate(passage)
 #    'Is the gravitational pull from the sun as significant as it is from the moon...?',
 #    'How do tides differ between the moon and the sun?']
 
-qg.generate(passage, n=5, language="French")   # or language="fr"
-# → ['Quelles forces causent les marées?', ...]
+# A French passage → French questions
+qg.generate(french_passage, n=3, language="fra")   # or "fr", or "French"
+# → ["Qu'est-ce qui cause les marées?", ...]
 ```
 
-`language=` accepts either an ISO code (`"fr"`) or the English name
-(`"French"`). The model returns strict JSON internally; the wrapper parses it
-and hands back a plain `list[str]`, falling back to string recovery if a long
-generation gets truncated mid-JSON. Raise `max_new_tokens` (default 200) for
-large `n`.
+!!! info "`language=` names the passage's language"
+    This is **same-language** question generation, not translation. `language=`
+    tells the model what language the passage is written in, and questions come
+    back in that language. Pointing it at an English passage and asking for
+    Yoruba does not produce usable Yoruba — pass a Yoruba passage instead.
 
-**Supported languages (25)**: `en, fr, de, es, pt, it, nl, ru, pl, tr, vi, id, hi, ja, ko, yo, ig, ha, sw, am, zu, xh, sn, so, af` — also available programmatically as `olaverse.QG_LANGUAGES`.
+`language=` accepts an ISO 639-3 code (`"fra"`), an ISO 639-1 code (`"fr"`), or
+the English name (`"French"`) — all three resolve identically. The model returns
+strict JSON internally; the wrapper parses it and hands back a plain `list[str]`,
+falling back to string recovery if a long generation gets truncated mid-JSON.
+Raise `max_new_tokens` (default 250) for large `n`.
 
-!!! warning "Language control is not reliable for African languages"
-    `language=` is followed dependably for high-resource languages (French,
-    Spanish, German). For the African languages in the set, the model tends to
-    follow **the passage's** language instead of the requested one: asking for
-    Yoruba questions about an English passage returns English, and asking for
-    Igbo questions about a Yoruba passage returns Yoruba. To generate questions
-    in one of these languages, supply a passage already in that language.
-    Occasional questions also contain the phrase "according to the passage"
-    despite the prompt forbidding it.
+**Supported languages (25)**: `eng, fra, deu, spa, por, ita, nld, rus, pol, tur, vie, ind, hin, jpn, kor, yor, ibo, hau, swh, amh, zul, xho, sna, som, afr` — also available programmatically as `olaverse.QG_LANGUAGES`.
+
+The wrapper uses the teacher prompt this model was distilled with, and sizes the
+JSON skeleton to `n` so the model returns the number of questions you asked for.
+
+Three guards fire automatically:
+
+- an empty passage raises `ValueError`
+- a passage under 20 characters warns — the model needs paragraph-length input
+- `amh`, `som`, and `sna` warn as the model card's lower-confidence languages
+  (exposed as `olaverse.llm.mist_tasks.QG_WEAK_LANGUAGES`)
 
 ::: olaverse.llm.MISTQuestionGenerator

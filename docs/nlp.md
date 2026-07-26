@@ -277,10 +277,21 @@ d_yo.restore("se eranko naa si gbo o?")
 
 Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
 
-!!! warning "Feed it complete sentences — short fragments degenerate"
-    `diacnet-1.0` is a seq2seq model, not a per-character tagger, so it can
-    rewrite the text rather than only adding marks. On full sentences this is
-    reliable. On short fragments it fails in several ways:
+**Long text is segmented automatically.** `diacnet-1.0` was trained on
+sentence-length input (median 58 bytes), so multi-sentence text is split on
+sentence boundaries, restored a sentence at a time, and rejoined. Without this,
+a 358-character French paragraph comes back at 235 characters — truncated
+mid-sentence with the tail dropped.
+
+```python
+Diacritizer(model="diacnet-1.0", lang="fr")                       # segments (default)
+Diacritizer(model="diacnet-1.0", lang="fr", split_sentences=False)  # one pass
+Diacritizer(model="diacnet-1.0", lang="fr", splitter=my_splitter)   # your own
+```
+
+!!! warning "Very short fragments still degenerate"
+    Single words fall *below* the trained input length, and the model rewrites
+    rather than annotates:
 
     | Input | `lang=` | Output |
     |---|---|---|

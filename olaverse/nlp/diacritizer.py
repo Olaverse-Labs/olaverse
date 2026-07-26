@@ -260,27 +260,71 @@ _DIACNET_LANG_TAGS = {
     "tr": "<tur>", "pt": "<por>", "es": "<spa>", "fr": "<fra>", "it": "<ita>",
 }
 
+# diacnet-1.0 was trained on sentence-length input (median 58 bytes), so long
+# text is split on sentence boundaries and restored piece by piece. The lookbehind
+# keeps the terminator attached to the sentence it belongs to.
+_SENTENCE_SPLIT_RE = re.compile(r"(?<=[.!?])\s+")
+
+
+def split_sentences(text: str) -> list:
+    """Default sentence splitter used by :class:`DiacNetDecoder`."""
+    return [p for p in _SENTENCE_SPLIT_RE.split(text.strip()) if p.strip()]
+
+
 class DiacNetDecoder:
     """
     diacnet-1.0 diacritic restoration (byte-level seq2seq) — one joint model, 10 languages.
 
-    Being seq2seq rather than a per-character tagger, this can rewrite the text
-    instead of only adding marks. Pass complete sentences with their punctuation:
-    short fragments degenerate into repetition loops ("el nino" -> "el niño\\nel
-    niño\\n..."), changed inflections ("nino" -> "niños"), or another language's
-    diacritics ("cafe" with lang="fr" -> "cafẹ́"). Restores diacritics only —
-    apostrophes and other punctuation are not inserted.
+    Trained on sentence-length input (median 58 bytes), so multi-sentence text is
+    split on sentence boundaries and restored a sentence at a time, then rejoined.
+    Pass ``split_sentences=False`` to send the whole string in one pass, or supply
+    your own callable to control the boundaries::
+
+        DiacNetDecoder(splitter=my_splitter)          # custom segmentation
+        decoder.decode(text, split_sentences=False)   # one pass, no splitting
+
+    Being seq2seq rather than a per-character tagger, it can rewrite text instead
+    of only adding marks. Very short fragments are below the trained input length
+    and degenerate — repetition loops ("el nino" -> "el niño\\nel niño\\n..."),
+    changed inflections ("nino" -> "niños"), or another language's diacritics
+    ("cafe" with lang="fr" -> "cafẹ́"). Restores diacritics only; apostrophes and
+    other punctuation are not inserted.
     """
 
-    def __init__(self, model_name="olaverse/diacnet-1.0"):
+    #: Input longer than this many tokens is truncated.
+    MAX_INPUT_TOKENS = 256
+
+    def __init__(self, model_name="olaverse/diacnet-1.0", splitter=None):
+        """
+        Args:
+            model_name: Hugging Face model id.
+            splitter: Callable taking a string and returning a list of segments.
+                      Defaults to splitting on sentence-ending punctuation.
+        """
         from transformers import AutoTokenizer, T5ForConditionalGeneration
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.model = T5ForConditionalGeneration.from_pretrained(model_name)
         self.model.eval()
+        self.splitter = splitter or split_sentences
 
-    def decode(self, text: str, lang: str = "yo", max_new_tokens: int = 256) -> str:
-        import torch
+    def decode(self, text: str, lang: str = "yo", max_new_tokens: int = 256,
+               split_sentences: bool = True, splitter=None) -> str:
+        """
+        Restore diacritics.
 
+        Args:
+            text: Input text. Multi-sentence input is segmented by default.
+            lang: One of the 10 supported language codes.
+            max_new_tokens: Generation budget per segment.
+            split_sentences: Set False to run the whole string through in one
+                             pass, bypassing segmentation.
+            splitter: Per-call override for the segmentation callable. Passed
+                      here rather than held on the instance so a shared cached
+                      decoder isn't mutated by one caller's choice.
+
+        Returns:
+            str: the restored text.
+        """
         tag = _DIACNET_LANG_TAGS.get(lang.lower())
         if tag is None:
             raise ValueError(
@@ -288,7 +332,27 @@ class DiacNetDecoder:
                 f"Supported: {sorted(_DIACNET_LANG_TAGS)}"
             )
 
-        inputs = self.tokenizer(f"{tag} {text}", return_tensors="pt")
+        text = (text or "").strip()
+        if not text:
+            return ""
+
+        if not split_sentences:
+            return self._decode_one(tag, text, max_new_tokens)
+
+        segments = (splitter or self.splitter)(text)
+        if len(segments) <= 1:
+            return self._decode_one(tag, text, max_new_tokens)
+        return " ".join(self._decode_one(tag, s, max_new_tokens) for s in segments)
+
+    def _decode_one(self, tag: str, text: str, max_new_tokens: int) -> str:
+        import torch
+
+        inputs = self.tokenizer(
+            f"{tag} {text.strip()}",
+            return_tensors="pt",
+            truncation=True,
+            max_length=self.MAX_INPUT_TOKENS,
+        )
         with torch.no_grad():
             output_ids = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
         return self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
@@ -439,9 +503,19 @@ class Diacritizer:
         lang: Target language for ``"diacnet-1.0"`` only. One of
               ``"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"``. Ignored
               by every other model.
+
+        split_sentences: ``"diacnet-1.0"`` only. That model was trained on
+              sentence-length input, so multi-sentence text is segmented and
+              restored a sentence at a time by default. Set ``False`` to send the
+              whole string through in one pass.
+
+        splitter: ``"diacnet-1.0"`` only. Your own callable taking a string and
+              returning a list of segments, replacing the default sentence
+              splitter.
     """
 
-    def __init__(self, model: str = "diacnet-yor-viterbi", lang: str = None):
+    def __init__(self, model: str = "diacnet-yor-viterbi", lang: str = None,
+                 split_sentences: bool = True, splitter: "callable" = None):
         if model not in MODEL_REGISTRY:
             raise ValueError(
                 f"Model '{model}' is not recognised. "
@@ -453,6 +527,8 @@ class Diacritizer:
         self.method = config["method"]
         self.neural_decoder = None
         self.diacnet_lang = lang or "yo"
+        self.split_sentences = split_sentences
+        self.splitter = splitter
 
         # Auto-routing: lazy-load LIDLite5 + sub-diacritizers at restore() time
         if self.method == "auto":
@@ -513,7 +589,12 @@ class Diacritizer:
             return self._auto_restore(text)
 
         if self.method == "diacnet":
-            return self.neural_decoder.decode(text, lang=self.diacnet_lang)
+            return self.neural_decoder.decode(
+                text,
+                lang=self.diacnet_lang,
+                split_sentences=self.split_sentences,
+                splitter=self.splitter,
+            )
 
         if self.neural_decoder:
             return self.neural_decoder.decode(text)

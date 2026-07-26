@@ -4,7 +4,15 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.2.0 — *Current*
+## v0.2.1 — *Current*
+
+**Released**: 2026-07-26
+
+Documentation only — no code changes. The README shipped in v0.2.0 predated the new models, so the PyPI project page didn't mention `MISTTitleGenerator` or `MISTQuestionGenerator`. PyPI renders the README from the uploaded distribution and won't let a published version be edited, so refreshing that page needs a release.
+
+---
+
+## v0.2.0
 
 **Released**: 2026-07-26
 

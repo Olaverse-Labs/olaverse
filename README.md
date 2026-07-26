@@ -31,6 +31,18 @@ d = Diacritizer(model="diacnet-1.0", lang="yo")
 d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ ọ?'
 ```
 
+New in v0.2.0 — title and question generation (`pip install olaverse[deeplearning]`):
+
+```python
+from olaverse import MISTTitleGenerator, MISTQuestionGenerator
+
+MISTTitleGenerator().generate("My laptop keeps freezing when I open too many tabs, why?")
+# → 'Laptop Freezing Impact'
+
+MISTQuestionGenerator().generate(passage, n=3, language="eng")
+# → ['What causes ocean tides?', 'Does the sun affect tides?', ...]
+```
+
 **📚 Full API Documentation: [https://Olaverse-Labs.github.io/olaverse/](https://Olaverse-Labs.github.io/olaverse/)**
 **📦 PyPI: [https://pypi.org/project/olaverse/](https://pypi.org/project/olaverse/)**
 
@@ -39,7 +51,7 @@ d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ �
 ## Key Capabilities
 
 - **🗣️ Natural Language Processing**: Diacritization for 10+ languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian via `diacnet-1.0`), Language Detection from 5 to 25 languages (`LIDLite5`/`LIDNeural5`, `LIDLite25`/`LIDNeural25`, and the Nigerian-only `LIDNeural5_1`), Byte-Level BPE tokenization (Nigerian languages plus Swahili/Kinyarwanda/merged families), PII masking, and TTS text normalization.
-- **⚡ MIST Model Family**: Unified interface for the MIST LLM family (8B, 70B, 140B, Thinking). Supports local inference via `transformers` and hosted inference via Featherless or any OpenAI-compatible endpoint. Correct stop tokens and generation defaults per variant are baked in.
+- **⚡ MIST Model Family**: Unified interface for the MIST LLM family (8B, 70B, 140B, Thinking). Supports local inference via `transformers` and hosted inference via Featherless or any OpenAI-compatible endpoint. Correct stop tokens and generation defaults per variant are baked in. Plus two task-specific models: `MISTTitleGenerator` (short chat titles from a user's first message) and `MISTQuestionGenerator` (search-style question generation from a passage, across 25 languages).
 - **🧠 Domain LLMs**: `LegalPeace` — memory-efficient 4-bit inference for legal contract reasoning (fine-tuned Mistral-7B-v0.3).
 - **🔎 Retrieval**: `Reranker` (cross-encoder, RAG/search second stage) and `Embedder` (cross-lingual Hausa/Yoruba/Igbo sentence embeddings).
 - **🖼️ Vision — Prism**: `PrismUpscaler` (2x/4x/arbitrary-resolution super-resolution), `PrismDenoiser` (noise/blur/compression removal), and `PrismSteganography` (hide/recover short messages in images).
@@ -85,7 +97,7 @@ pip install olaverse[data]
 - **[Benchmarks](https://Olaverse-Labs.github.io/olaverse/benchmarks/)**: All published numbers in one place.
 - **[Solutions](https://Olaverse-Labs.github.io/olaverse/solutions/)**: Worked pipelines — Speech AI, OCR, search, education, support, translation.
 - **[NLP & Tokenization](https://Olaverse-Labs.github.io/olaverse/nlp/)**: `Tokenizer`, Language Detection, Diacritization, Retrieval (`Reranker`/`Embedder`), PII masking, TTS normalizer.
-- **[Language Models](https://Olaverse-Labs.github.io/olaverse/llm/)**: `MIST` model family, `LegalPeace`, `LIDNeural5`.
+- **[Language Models](https://Olaverse-Labs.github.io/olaverse/llm/)**: `MIST` model family, `MISTTitleGenerator`, `MISTQuestionGenerator`, `LegalPeace`, `LIDNeural5`.
 - **[Vision](https://Olaverse-Labs.github.io/olaverse/vision/)**: `PrismUpscaler`, `PrismDenoiser`, `PrismSteganography`.
 - **[Datasets](https://Olaverse-Labs.github.io/olaverse/datasets/)**: `load_dataset`, `list_datasets`, `dataset_info` — all public olaverse datasets.
 - **[Speech Architecture](https://Olaverse-Labs.github.io/olaverse/speech/)**: `TTSPipeline` and base classes (experimental — roadmap).

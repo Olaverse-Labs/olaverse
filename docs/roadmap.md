@@ -4,7 +4,7 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ---
 
-## v0.2.0 — shipped ✓
+## v0.2 — shipped ✓
 
 - ✓ `MISTTitleGenerator` — chat titles from a user's first message (`mist-tg-0.3b`)
 - ✓ `MISTQuestionGenerator` — question generation across 25 languages (`mist-qg-1.5b`)
@@ -24,7 +24,7 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ---
 
-## v0.2 — planned
+## v0.3 — planned
 
 - **DiacNet 1.1** — improved Yoruba restoration, better Igbo accuracy, lower CER, faster inference
 - **CLI** — command-line access to the core models:
@@ -45,7 +45,7 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ---
 
-## v0.3 — planned
+## v0.4 — planned
 
 - Custom fine-tuning API
 - Streaming inference

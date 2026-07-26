@@ -1,7 +1,7 @@
 <img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;">
 
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.2.1 — Now with Title & Question Generation</div>
+  <div class="ov-hero-badge">v{{ olaverse_version }} — Now with Title & Question Generation</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">

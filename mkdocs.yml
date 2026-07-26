@@ -90,6 +90,11 @@ markdown_extensions:
   - pymdownx.tabbed:
       alternate_style: true
 
+# Substitutes {{ olaverse_version }} from olaverse/__init__.py at build time,
+# so the version badge can't drift behind a release.
+hooks:
+  - hooks/version.py
+
 plugins:
   - search:
       lang: en

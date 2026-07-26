@@ -277,8 +277,28 @@ body { background: var(--ov-paper); }
 .md-clipboard { color: #8A8378 !important; }
 .md-clipboard:hover { color: var(--ov-cyan) !important; }
 
-/* ── Pygments syntax tokens — mapped to the marketing site's console palette ── */
-.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs  { color: #787168; font-style: italic; }
+/* The console above is deliberately dark in BOTH schemes, but Material maps
+   several token types — punctuation, comment, generic, variable, operator — to
+   --md-default-fg-color--light, which is scheme-dependent. In light mode that
+   resolves to #57514A sitting on #211D1A: a 2.14:1 contrast ratio, effectively
+   invisible. Pin the console's own foreground variables so they track the dark
+   background rather than the page scheme. */
+.md-typeset pre,
+.md-typeset .highlight {
+  --md-default-fg-color--light:   #A79F94;
+  --md-code-fg-color:             var(--ov-code-fg);
+  --md-code-hl-punctuation-color: #A79F94;
+  --md-code-hl-comment-color:     #9C9488;
+  --md-code-hl-generic-color:     #A79F94;
+  --md-code-hl-variable-color:    var(--ov-code-fg);
+  --md-code-hl-operator-color:    #C792EA;
+}
+
+/* ── Pygments syntax tokens — mapped to the marketing site's console palette ──
+   Every colour here is checked against the #211D1A console at >= 4.5:1 (WCAG AA
+   for body text). Comments are the most muted at 5.58:1 — subordinate, but still
+   legible; they were previously #787168, which was only 3.47:1. */
+.highlight .c, .highlight .c1, .highlight .cm, .highlight .cs  { color: #9C9488; font-style: italic; }
 .highlight .k, .highlight .kd, .highlight .kn, .highlight .kp,
 .highlight .kr, .highlight .kc { color: #C792EA; font-weight: 500; }
 .highlight .n   { color: #D8D2C8; }
@@ -297,7 +317,19 @@ body { background: var(--ov-paper); }
 .highlight .nt { color: #E84B8A; }
 .highlight .l, .highlight .ld { color: #7FD1C0; }
 .highlight .err { color: #E84B8A; background: rgba(232,75,138,0.12); }
-.highlight .go { color: #8A8378; } /* generic output, e.g. >>> results */
+
+/* Tokens the palette above never named. Punctuation is the common one — every
+   bracket, comma, dot and equals sign in a snippet — and it was the worst hit
+   by the scheme-dependent fallback. */
+.highlight .p, .highlight .pi { color: #A79F94; }
+.highlight .w  { color: inherit; }
+.highlight .go { color: #A79F94; }             /* generic output, e.g. >>> results */
+.highlight .gp { color: #9C9488; }             /* generic prompt, e.g. >>> */
+.highlight .gh, .highlight .gu { color: #82AAFF; }
+.highlight .gi { color: #7FD1C0; }             /* diff insert */
+.highlight .gd { color: #E84B8A; }             /* diff delete */
+.highlight .gs { font-weight: 600; }
+.highlight .ge { font-style: italic; }
 
 /* ── Admonitions ───────────────────────────────────────────────────── */
 .md-typeset .admonition,

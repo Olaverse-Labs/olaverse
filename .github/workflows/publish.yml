@@ -3,6 +3,11 @@ name: Publish to PyPI
 on:
   release:
     types: [published]
+  # Pushing a vX.Y.Z tag publishes that version, so a release can be cut from the
+  # command line without going through the GitHub Releases UI.
+  push:
+    tags:
+      - "v*"
   workflow_dispatch:
 
 jobs:

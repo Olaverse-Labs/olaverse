@@ -4,7 +4,46 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.1.5 — *Current*
+## v0.2.0 — *Current*
+
+**Released**: 2026-07-26
+
+### New Features
+
+#### `MISTTitleGenerator` and `MISTQuestionGenerator`
+
+The two task-specific MIST models now have SDK classes instead of requiring raw `transformers` code.
+
+```python
+from olaverse import MISTTitleGenerator, MISTQuestionGenerator
+
+MISTTitleGenerator().generate("My laptop keeps freezing when I open too many tabs, why?")
+# → 'Laptop Freezing Impact'
+
+MISTQuestionGenerator().generate(passage, n=3, language="fra")
+```
+
+`MISTQuestionGenerator` uses the teacher prompt the model was distilled with, sizes the JSON skeleton to `n`, and accepts ISO 639-3, ISO 639-1, or English language names. `language=` names the language the passage is written in — this is same-language question generation, not translation.
+
+### Fixes
+
+#### `diacnet-1.0` no longer truncates long text
+
+The model was trained on sentence-length input (median 58 bytes) and the SDK fed whole paragraphs through in one pass, silently losing data — a 358-character French paragraph came back at 235 characters with its last two sentences dropped. Multi-sentence input is now segmented, restored a sentence at a time, and rejoined.
+
+```python
+Diacritizer(model="diacnet-1.0", lang="fr")                         # segments (default)
+Diacritizer(model="diacnet-1.0", lang="fr", split_sentences=False)  # one pass
+Diacritizer(model="diacnet-1.0", lang="fr", splitter=my_splitter)   # your own
+```
+
+### Documentation
+
+Model claims were re-run against the real checkpoints and corrected where they didn't hold: `PrismDenoiser` always returns 128x128 rather than matching input, `PrismSteganography` messages do not survive a JPEG save at any quality, and the multilingual OTK-BPE tokenizers silently drop emoji.
+
+---
+
+## v0.1.5
 
 **Released**: 2026-07-16
 

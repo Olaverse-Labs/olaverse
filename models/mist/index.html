@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -904,13 +904,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#smaller-mist-models-on-the-hub" class="md-nav__link">
+  <a href="#task-specific-mist-models" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Smaller MIST models on the Hub
+        Task-specific MIST models
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Task-specific MIST models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misttitlegenerator-chat-titles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MISTTitleGenerator — chat titles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistquestiongenerator-question-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MISTQuestionGenerator — question generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1594,13 +1622,41 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#smaller-mist-models-on-the-hub" class="md-nav__link">
+  <a href="#task-specific-mist-models" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Smaller MIST models on the Hub
+        Task-specific MIST models
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Task-specific MIST models">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#misttitlegenerator-chat-titles" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MISTTitleGenerator — chat titles
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mistquestiongenerator-question-generation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MISTQuestionGenerator — question generation
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1806,12 +1862,31 @@
 </tbody>
 </table>
 <hr />
-<h2 id="smaller-mist-models-on-the-hub">Smaller MIST models on the Hub<a class="headerlink" href="#smaller-mist-models-on-the-hub" title="Permanent link">&para;</a></h2>
-<p>Two small models don't have a dedicated SDK class yet — use them via <code>transformers</code>:</p>
-<ul>
-<li><strong><a href="https://huggingface.co/olaverse/mist-tg-0.3b">mist-tg-0.3b</a></strong> — generates short chat titles from a user's first message. ByT5-based (~300M), English-trained, works reasonably on other Latin-script languages.</li>
-<li><strong><a href="https://huggingface.co/olaverse/mist-qg-1.5b">mist-qg-1.5b</a></strong> — multilingual question generation from a passage, across 25 languages including several African languages. Qwen2.5-1.5B-based, structured JSON output.</li>
-</ul>
+<h2 id="task-specific-mist-models">Task-specific MIST models<a class="headerlink" href="#task-specific-mist-models" title="Permanent link">&para;</a></h2>
+<p>Two small single-purpose models, each with its own SDK class:</p>
+<h3 id="misttitlegenerator-chat-titles"><code>MISTTitleGenerator</code> — chat titles<a class="headerlink" href="#misttitlegenerator-chat-titles" title="Permanent link">&para;</a></h3>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/mist-tg-0.3b">mist-tg-0.3b</a> · ~300M, byte-level seq2seq</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MISTTitleGenerator</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">titler</span> <span class="o">=</span> <span class="n">MISTTitleGenerator</span><span class="p">()</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">titler</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;My laptop keeps freezing when I open too many tabs, why?&quot;</span><span class="p">)</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># → &#39;Laptop Freezing Impact&#39;</span>
+</span></code></pre></div>
+<p>English-trained; Latin-script languages often work, non-Latin scripts do not.</p>
+<h3 id="mistquestiongenerator-question-generation"><code>MISTQuestionGenerator</code> — question generation<a class="headerlink" href="#mistquestiongenerator-question-generation" title="Permanent link">&para;</a></h3>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/mist-qg-1.5b">mist-qg-1.5b</a> · ~1.5B, 25 languages</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MISTQuestionGenerator</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">qg</span> <span class="o">=</span> <span class="n">MISTQuestionGenerator</span><span class="p">()</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">qg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Tides are caused by the gravitational pull of the moon...&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;eng&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition info">
+<p class="admonition-title"><code>language=</code> names the passage's language</p>
+<p>Same-language question generation, not translation — pass a French passage
+with <code>language="fra"</code>, a Yoruba passage with <code>language="yor"</code>. ISO 639-3,
+ISO 639-1, and English names all work.</p>
+</div>
+<p>Full reference for both: <strong><a href="../../llm/#misttitlegenerator-chat-titles">Language Models →</a></strong></p>
 <hr />
 <h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
 <p>Full class reference: <a href="../../llm/#mist-general-purpose-model-family">Language Models → MIST</a></p>
@@ -1881,7 +1956,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

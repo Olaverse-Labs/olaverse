@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1070,12 +1070,12 @@
   <a href="#olaverse.vision.PrismUpscaler-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1137,12 +1137,12 @@
   <a href="#olaverse.vision.PrismDenoiser-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1204,12 +1204,12 @@
   <a href="#olaverse.vision.PrismSteganography-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1556,12 +1556,12 @@
   <a href="#olaverse.vision.PrismUpscaler-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1623,12 +1623,12 @@
   <a href="#olaverse.vision.PrismDenoiser-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1690,12 +1690,12 @@
   <a href="#olaverse.vision.PrismSteganography-functions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Functions
+        Methods:
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Functions">
+    <nav class="md-nav" aria-label="Methods:">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -1871,7 +1871,7 @@
 
 
 
-<h3 id="olaverse.vision.PrismUpscaler-functions">Functions<a href="#olaverse.vision.PrismUpscaler-functions" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="olaverse.vision.PrismUpscaler-functions">Methods:<a href="#olaverse.vision.PrismUpscaler-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -1992,7 +1992,11 @@
 </div><hr />
 <h2 id="prismdenoiser-noiseblurcompression-removal">PrismDenoiser — Noise/Blur/Compression Removal<a class="headerlink" href="#prismdenoiser-noiseblurcompression-removal" title="Permanent link">&para;</a></h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/prism-denoiser">olaverse/prism-denoiser</a></p>
-<p>Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Unlike <code>PrismUpscaler</code>, output resolution matches input (128x128 in, 128x128 out) — useful as a standalone restoration tool or as pre-processing before other image tasks.</p>
+<p>Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Useful as a standalone restoration tool or as pre-processing before other image tasks.</p>
+<div class="admonition warning">
+<p class="admonition-title">Output is always 128x128</p>
+<p>Input is resized to 128x128 internally and the output is returned at that resolution — a 640x480 photo comes back 128x128, not restored in place. This is a restoration model for small tiles, not a full-resolution filter. To restore a larger image, tile it yourself, or follow <code>PrismDenoiser</code> with <code>PrismUpscaler(size="max")</code> to get back to the target resolution.</p>
+</div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrismDenoiser</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">denoiser</span> <span class="o">=</span> <span class="n">PrismDenoiser</span><span class="p">()</span>
@@ -2020,12 +2024,13 @@
 
 
 
-        <p>Same-resolution image restoration — removes Gaussian noise, blur, and
-JPEG-like compression artifacts.</p>
+        <p>Image restoration — removes Gaussian noise, blur, and JPEG-like
+compression artifacts.</p>
 <p>Wraps olaverse/prism-denoiser — a compact U-Net trained with on-the-fly
-random degradation. Unlike PrismUpscaler, output resolution matches input
-(128x128 in, 128x128 out); reduces but does not fully eliminate noise on
-complex, high-detail scenes.</p>
+random degradation. Input is resized to 128x128 and the output is returned
+at that resolution, whatever the input size — this restores small tiles,
+it is not a full-resolution filter. Reduces but does not fully eliminate
+noise on complex, high-detail scenes.</p>
 <p>Requires: pip install olaverse[vision]</p>
 
 
@@ -2059,7 +2064,7 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")</p>
 
 
 
-<h3 id="olaverse.vision.PrismDenoiser-functions">Functions<a href="#olaverse.vision.PrismDenoiser-functions" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="olaverse.vision.PrismDenoiser-functions">Methods:<a href="#olaverse.vision.PrismDenoiser-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -2143,7 +2148,7 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")</p>
             </td>
             <td>
               <div class="doc-md-description">
-                <p>PIL.Image: the denoised image, same 128x128 resolution.</p>
+                <p>PIL.Image: the denoised image, always 128x128 regardless of input size.</p>
               </div>
             </td>
           </tr>
@@ -2164,21 +2169,60 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")</p>
 </div><hr />
 <h2 id="prismsteganography-hiderecover-messages">PrismSteganography — Hide/Recover Messages<a class="headerlink" href="#prismsteganography-hiderecover-messages" title="Permanent link">&para;</a></h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/prism-steganography">olaverse/prism-steganography</a></p>
-<p>Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer sits between them at train time (blur, sensor noise, JPEG-like compression, pixel dropout), so the decoder learns to recover the message even after the image is distorted — not just from a pristine copy.</p>
+<p>Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer sits between them at train time (blur, sensor noise, JPEG-like compression, pixel dropout).</p>
+<div class="admonition danger">
+<p class="admonition-title">Save as PNG — JPEG destroys the message</p>
+<p>The hidden bits do not survive a real JPEG round-trip <strong>at any quality setting, including <code>quality=100</code></strong>, and do not survive rescaling. Always write the stego image to a lossless format, and decode it at 128x128 without an intermediate resize.</p>
+</div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrismSteganography</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">steg</span> <span class="o">=</span> <span class="n">PrismSteganography</span><span class="p">()</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">stego_image</span> <span class="o">=</span> <span class="n">steg</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s2">&quot;cover.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;hi there&quot;</span><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">stego_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stego.jpg&quot;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">stego_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stego.png&quot;</span><span class="p">)</span>   <span class="c1"># PNG — a .jpg save loses the message</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">steg</span><span class="o">.</span><span class="n">reveal</span><span class="p">(</span><span class="n">stego_image</span><span class="p">)</span>
 </span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="c1"># → &#39;hi there&#39;</span>
 </span></code></pre></div>
-<p>Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters.</p>
+<p>Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters. Capacity is read from the checkpoint's <code>msg_bits</code> config (currently 64 bits). Truncation is applied to the UTF-8 <em>bytes</em>, so a non-ASCII message can be cut mid-character and come back with replacement characters — treat the channel as ASCII-only.</p>
 <div class="admonition warning">
-<p class="admonition-title">Worst-case robustness under severe distortion</p>
-<p>Clean recovery (no distortion) averages 99.9% bit-accuracy. Under distortion (blur/noise/JPEG-approx/dropout), average bit-accuracy drops to 93.7%, with a worst-case observed as low as 62.5% under a severe distortion draw. No error-correction coding is applied on top of the raw bits — applications that need near-100% message reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.</p>
+<p class="admonition-title">Measured robustness — lossless only</p>
+<p>Recovery is exact (100% bit-accuracy) in memory, through a PNG round-trip, and under mild additive noise (Gaussian σ=5). It collapses to chance under the two most common real-world transforms:</p>
+<table>
+<thead>
+<tr>
+<th>Condition</th>
+<th>Bit accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>In-memory / PNG round-trip</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>Gaussian noise, σ=5</td>
+<td>1.00</td>
+</tr>
+<tr>
+<td>JPEG, <code>quality=100</code></td>
+<td>0.48</td>
+</tr>
+<tr>
+<td>JPEG, <code>quality=95</code></td>
+<td>0.45</td>
+</tr>
+<tr>
+<td>JPEG, <code>quality=75</code></td>
+<td>0.42</td>
+</tr>
+<tr>
+<td>Downscale to 64x64 and back</td>
+<td>0.50</td>
+</tr>
+</tbody>
+</table>
+<p>Whatever JPEG approximation was used in the training noise layer did not transfer to real JPEG encoding. Treat this as a lossless-channel watermark, not a distortion-robust one. No error-correction coding is applied on top of the raw bits — applications that need near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel, and even that will not rescue a JPEG round-trip.</p>
 </div>
 
 
@@ -2199,10 +2243,14 @@ denoiser.denoise("noisy.jpg").save("denoised.jpg")</p>
 
 
         <p>Hide/recover a short recoverable message inside an image.</p>
-<p>Wraps olaverse/prism-steganography — a U-Net encoder / CNN decoder pair
-trained to survive blur, sensor noise, JPEG re-compression, and pixel
-dropout. Message capacity is 8 ASCII characters (64 bits); longer input
-is silently truncated. Images are resized to 128x128.</p>
+<p>Wraps olaverse/prism-steganography — a U-Net encoder / CNN decoder pair.
+Message capacity comes from the checkpoint's msg_bits config (currently
+64 bits = 8 ASCII characters); longer input is silently truncated over
+UTF-8 bytes, so non-ASCII messages can be cut mid-character. Images are
+resized to 128x128.</p>
+<p>Save stego images as PNG. The hidden bits survive a lossless round-trip
+and mild additive noise, but are destroyed by JPEG at any quality
+(including quality=100) and by rescaling — recovery drops to chance.</p>
 <p>Requires: pip install olaverse[vision]</p>
 
 
@@ -2213,6 +2261,7 @@ is silently truncated. Images are resized to 128x128.</p>
 <blockquote>
 <p>steg = PrismSteganography()
 stego_image = steg.hide("cover.jpg", "hi there")
+stego_image.save("stego.png")   # PNG, not JPEG
 steg.reveal(stego_image)
 'hi there'</p>
 </blockquote>
@@ -2238,7 +2287,7 @@ steg.reveal(stego_image)
 
 
 
-<h3 id="olaverse.vision.PrismSteganography-functions">Functions<a href="#olaverse.vision.PrismSteganography-functions" class="headerlink" title="Permanent link">&para;</a></h3>
+<h3 id="olaverse.vision.PrismSteganography-functions">Methods:<a href="#olaverse.vision.PrismSteganography-functions" class="headerlink" title="Permanent link">&para;</a></h3>
 
 <div class="doc doc-object doc-function">
 
@@ -2338,7 +2387,17 @@ steg.reveal(stego_image)
             </td>
             <td>
               <div class="doc-md-description">
-                <p>PIL.Image: the stego image with the message hidden inside.</p>
+                <p>PIL.Image: the stego image with the message hidden inside. Save it</p>
+              </div>
+            </td>
+          </tr>
+          <tr class="doc-section-item">
+            <td>
+                  <code>&#39;Image.Image&#39;</code>
+            </td>
+            <td>
+              <div class="doc-md-description">
+                <p>losslessly (PNG); a JPEG save destroys the hidden message.</p>
               </div>
             </td>
           </tr>
@@ -2386,7 +2445,8 @@ steg.reveal(stego_image)
             </td>
             <td>
               <div class="doc-md-description">
-                <p>Path to an image file, or a PIL.Image.</p>
+                <p>Path to an image file, or a PIL.Image. Must be a lossless
+copy of the stego image — JPEG or rescaled input decodes to noise.</p>
               </div>
             </td>
             <td>
@@ -2497,7 +2557,7 @@ steg.reveal(stego_image)
       <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

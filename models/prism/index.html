@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1541,7 +1541,11 @@
 <hr />
 <h2 id="prismdenoiser-noiseblurcompression-removal">PrismDenoiser — Noise/Blur/Compression Removal<a class="headerlink" href="#prismdenoiser-noiseblurcompression-removal" title="Permanent link">&para;</a></h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/prism-denoiser">olaverse/prism-denoiser</a></p>
-<p>Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net. Output resolution matches input (128x128 in, 128x128 out).</p>
+<p>Removes Gaussian noise, blur, and JPEG-like compression artifacts using a compact U-Net.</p>
+<div class="admonition warning">
+<p class="admonition-title">Output is always 128x128</p>
+<p>Input is resized to 128x128 internally and returned at that resolution — a 640x480 photo comes back 128x128, not restored in place. Tile larger images yourself, or chain <code>PrismUpscaler(size="max")</code> afterwards to reach the target resolution.</p>
+</div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrismDenoiser</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">denoiser</span> <span class="o">=</span> <span class="n">PrismDenoiser</span><span class="p">()</span>
@@ -1554,28 +1558,32 @@
 <hr />
 <h2 id="prismsteganography-hiderecover-messages">PrismSteganography — Hide/Recover Messages<a class="headerlink" href="#prismsteganography-hiderecover-messages" title="Permanent link">&para;</a></h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/prism-steganography">olaverse/prism-steganography</a></p>
-<p>Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair. A differentiable noise layer at train time means the decoder recovers the message even after distortion — not just from a pristine copy.</p>
+<p>Hides a recoverable message (up to 8 ASCII characters / 64 bits) inside a cover image imperceptibly, using a jointly-trained U-Net encoder / CNN decoder pair.</p>
+<div class="admonition danger">
+<p class="admonition-title">Save as PNG — JPEG destroys the message</p>
+<p>The hidden bits do not survive a real JPEG round-trip at any quality setting, including <code>quality=100</code>, and do not survive rescaling.</p>
+</div>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">PrismSteganography</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
 </span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">steg</span> <span class="o">=</span> <span class="n">PrismSteganography</span><span class="p">()</span>
 </span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
 </span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">stego_image</span> <span class="o">=</span> <span class="n">steg</span><span class="o">.</span><span class="n">hide</span><span class="p">(</span><span class="s2">&quot;cover.jpg&quot;</span><span class="p">,</span> <span class="s2">&quot;hi there&quot;</span><span class="p">)</span>
-</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">stego_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stego.jpg&quot;</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="n">stego_image</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="s2">&quot;stego.png&quot;</span><span class="p">)</span>   <span class="c1"># PNG — a .jpg save loses the message</span>
 </span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
 </span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">steg</span><span class="o">.</span><span class="n">reveal</span><span class="p">(</span><span class="n">stego_image</span><span class="p">)</span>   <span class="c1"># → &#39;hi there&#39;</span>
 </span></code></pre></div>
-<p>Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters.</p>
+<p>Images are resized to 128x128 internally; longer messages are silently truncated to 8 characters (truncation is over UTF-8 bytes, so non-ASCII input can be cut mid-character).</p>
 <div class="admonition warning">
-<p class="admonition-title">Robustness under severe distortion</p>
-<p>Clean recovery averages 99.9% bit-accuracy; under distortion the average drops to 93.7%, worst-case 62.5%. No error-correction coding is applied — applications needing near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.</p>
+<p class="admonition-title">Measured robustness — lossless only</p>
+<p>Recovery is exact in memory, through a PNG round-trip, and under mild additive noise (Gaussian σ=5). It falls to chance under JPEG (0.42-0.48 bit accuracy across qualities 50-100) and under downscale-and-back (0.50). Treat this as a lossless-channel watermark, not a distortion-robust one. No error-correction coding is applied — applications needing near-100% reliability should add redundancy (e.g. a repetition or Hamming code) on top of the raw bit channel.</p>
 </div>
 <hr />
 <h2 id="applications">Applications<a class="headerlink" href="#applications" title="Permanent link">&para;</a></h2>
 <ul>
-<li>✅ <strong>Photo restoration</strong> — upscale and denoise legacy or low-quality archives</li>
-<li>✅ <strong>OCR preprocessing</strong> — clean scans before text extraction</li>
+<li>✅ <strong>Photo restoration</strong> — upscale and denoise legacy or low-quality archives (denoise per 128x128 tile)</li>
+<li>✅ <strong>OCR preprocessing</strong> — clean small scan crops before text extraction</li>
 <li>✅ <strong>Thumbnails to full-size</strong> — arbitrary-resolution upscaling with <code>max</code></li>
-<li>✅ <strong>Watermarking research</strong> — recoverable invisible tags via steganography</li>
+<li>✅ <strong>Watermarking research</strong> — recoverable invisible tags via steganography, within a lossless pipeline</li>
 </ul>
 <hr />
 <h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
@@ -1646,7 +1654,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

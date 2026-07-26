@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -1485,7 +1485,7 @@
 <li><strong>fragments meaningful units</strong> — subwords never align with morphemes</li>
 <li><strong>degrades model quality</strong> — models learn from worse-shaped input</li>
 </ul>
-<p>OTK-BPE learns proper subwords from native text, with raw UTF-8 byte fallback guaranteeing <strong>0% OOV</strong> on any input.</p>
+<p>OTK-BPE learns proper subwords from native text, with byte-level encoding giving <strong>0% OOV</strong> on any input — every input maps to tokens, nothing hits an <code>&lt;unk&gt;</code>. (Note that 0% OOV is about coverage, not lossless round-tripping — see the emoji caveat under the multilingual family below.)</p>
 <hr />
 <h2 id="nigerian-family-otk-bpe-50k">Nigerian family — OTK-BPE-50k<a class="headerlink" href="#nigerian-family-otk-bpe-50k" title="Permanent link">&para;</a></h2>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/otk-bpe-50k">olaverse/otk-bpe-50k</a></p>
@@ -1572,11 +1572,21 @@
 </table>
 <p><strong>150k is the recommended default</strong> — fertility and entity handling both improve monotonically from 50k → 100k → 150k in every benchmark on the model card. Step down only if embedding-table size is a hard constraint.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">tok</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;sw-150k&quot;</span><span class="p">)</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Habari yako? Leo ni siku nzuri sana 😊&quot;</span><span class="p">)</span>
-</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">tok</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>   <span class="c1"># → exact round-trip, emoji included</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">ids</span> <span class="o">=</span> <span class="n">tok</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;Habari yako? Leo ni siku nzuri sana&quot;</span><span class="p">)</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">tok</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">ids</span><span class="p">)</span>   <span class="c1"># → exact round-trip</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
 </span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="n">tok_merged</span> <span class="o">=</span> <span class="n">Tokenizer</span><span class="p">(</span><span class="s2">&quot;merged-150k&quot;</span><span class="p">)</span>
 </span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Emoji are dropped by the multilingual family</p>
+<p><code>sw-*</code>, <code>kin-*</code>, and <code>merged-*</code> silently lose pictographic emoji
+(U+1F300–U+1F9FF) on a round-trip — they encode to a single token that
+decodes to an empty string, so <code>decode(encode(x)) != x</code> with no error
+raised. Other non-BMP characters (e.g. <code>𝄞</code>, <code>𐍈</code>), CJK, and accented Latin
+all round-trip correctly, as do emoji in the Nigerian family (<code>yo</code>, <code>ig</code>,
+<code>ha</code>, <code>pcm</code>, <code>naija</code>). Strip or placeholder emoji before tokenizing with
+the multilingual tokenizers if your text may contain them.</p>
+</div>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="w">   </span><span class="c1"># all tokenizers included — no GPU, no extras</span>
@@ -1658,7 +1668,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

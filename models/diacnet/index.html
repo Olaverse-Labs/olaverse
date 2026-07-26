@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="../../assets/logo.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
     
     
       
@@ -31,7 +31,7 @@
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
@@ -753,6 +753,17 @@
     <span class="md-ellipsis">
       
         Multilingual — diacnet-1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#long-text-is-segmented-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long text is segmented automatically
       
     </span>
   </a>
@@ -1556,6 +1567,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#long-text-is-segmented-automatically" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Long text is segmented automatically
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1781,14 +1803,41 @@
 <h3 id="multilingual-diacnet-10">Multilingual — <code>diacnet-1.0</code><a class="headerlink" href="#multilingual-diacnet-10" title="Permanent link">&para;</a></h3>
 <p>One joint ByT5 model, 10 languages, selected via <code>lang=</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;cest fini&quot;</span><span class="p">)</span>
-</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># → &quot;c&#39;est fini&quot;</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Le cafe est tres chaud, mais il prefere le the.&quot;</span><span class="p">)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="c1"># → &#39;Le café est très chaud, mais il préfère le thé.&#39;</span>
 </span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
 </span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="n">d_yo</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
 </span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">d_yo</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># → &#39;ṣé ẹranko náà sì gbọ́ ọ?&#39;</span>
 </span></code></pre></div>
 <p>Supported <code>lang=</code> codes: <code>"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"</code>.</p>
+<h3 id="long-text-is-segmented-automatically">Long text is segmented automatically<a class="headerlink" href="#long-text-is-segmented-automatically" title="Permanent link">&para;</a></h3>
+<p><code>diacnet-1.0</code> was trained on sentence-length input (median 58 bytes). The SDK
+handles that for you: multi-sentence text is split on sentence boundaries,
+restored a sentence at a time, and rejoined.</p>
+<p>This matters. On a 358-character French paragraph, restoring it in one pass
+returns <strong>235 characters</strong> — it truncates mid-sentence and drops the tail
+entirely. Segmented, all 358 characters come back correct.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Default: segments automatically</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">long_paragraph</span><span class="p">)</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># One pass, no segmentation</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">split_sentences</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Your own segmentation</span>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">splitter</span><span class="o">=</span><span class="n">my_splitter</span><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Very short fragments still degenerate</p>
+<p>Single words fall <em>below</em> the trained input length and misbehave:
+repetition loops (<code>"el nino"</code> → <code>'el niño\nel niño\nel niño…'</code>), changed
+inflection (<code>"nino"</code> → <code>'niños'</code>), invented punctuation (<code>"citta"</code> →
+<code>'città?'</code>), or another language's diacritics (<code>"cafe"</code> with <code>lang="fr"</code> →
+<code>'cafẹ́'</code>, a Yoruba dot-below). Pass whole sentences.</p>
+<p>It restores <strong>diacritics only</strong> — it does not insert apostrophes, so
+<code>"cest fini"</code> will not become <code>"c'est fini"</code>.</p>
+</div>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/diacnet-1.0">olaverse/diacnet-1.0</a></p>
 <hr />
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
@@ -1797,12 +1846,12 @@
 <li>Yoruba is the hardest language for the multilingual model (median CER 0.110) — genuine tonal ambiguity, since the same base letters can carry multiple valid tone patterns. For peak Yoruba accuracy, prefer the dedicated <code>diacnet-yor-x</code>; for speed, <code>diacnet-yor-viterbi</code>.</li>
 <li>Benchmark it yourself — the <a href="../../datasets/">DiacBench dataset</a> ships ~1,000 test pairs per language:</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>   <span class="c1"># olaverse[data]</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>   <span class="c1"># olaverse[data]</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
 </span></code></pre></div>
 <p>Full published numbers: <strong><a href="../../benchmarks/">Benchmarks →</a></strong></p>
 <hr />
@@ -1892,7 +1941,7 @@
       <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "navigation.instant", "navigation.footer", "navigation.indexes", "search.highlight", "search.suggest", "search.share", "content.code.copy", "content.code.annotate", "content.tabs.link", "toc.follow", "announce.dismiss"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.d7400e89.min.js"></script>
       
     
   </body>

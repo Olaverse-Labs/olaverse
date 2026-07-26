@@ -134,12 +134,41 @@ response = model.generate("If a train travels 120 miles in 2 hours, what is its 
 
 ---
 
-## Smaller MIST models on the Hub
+## Task-specific MIST models
 
-Two small models don't have a dedicated SDK class yet — use them via `transformers`:
+Two small single-purpose models, each with its own SDK class:
 
-- **[mist-tg-0.3b](https://huggingface.co/olaverse/mist-tg-0.3b)** — generates short chat titles from a user's first message. ByT5-based (~300M), English-trained, works reasonably on other Latin-script languages.
-- **[mist-qg-1.5b](https://huggingface.co/olaverse/mist-qg-1.5b)** — multilingual question generation from a passage, across 25 languages including several African languages. Qwen2.5-1.5B-based, structured JSON output.
+### `MISTTitleGenerator` — chat titles
+
+**Model Card**: [mist-tg-0.3b](https://huggingface.co/olaverse/mist-tg-0.3b) · ~300M, byte-level seq2seq
+
+```python
+from olaverse import MISTTitleGenerator
+
+titler = MISTTitleGenerator()
+titler.generate("My laptop keeps freezing when I open too many tabs, why?")
+# → 'Laptop Freezing Impact'
+```
+
+English-trained; Latin-script languages often work, non-Latin scripts do not.
+
+### `MISTQuestionGenerator` — question generation
+
+**Model Card**: [mist-qg-1.5b](https://huggingface.co/olaverse/mist-qg-1.5b) · ~1.5B, 25 languages
+
+```python
+from olaverse import MISTQuestionGenerator
+
+qg = MISTQuestionGenerator()
+qg.generate("Tides are caused by the gravitational pull of the moon...", n=3, language="French")
+```
+
+!!! warning "Language control is unreliable for African languages"
+    `language=` is followed dependably for high-resource languages, but for the
+    African languages in the set the model tends to follow the passage's own
+    language instead. Supply a passage already in the target language.
+
+Full reference for both: **[Language Models →](../llm.md#misttitlegenerator-chat-titles)**
 
 ---
 

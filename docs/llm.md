@@ -207,11 +207,88 @@ See the **[NLP & Tokenization](nlp.md#lidneural5)** page for full documentation 
 
 ---
 
-## On the Hub, not yet wrapped by the SDK
+## MISTTitleGenerator — Chat Titles
 
-Two small [olaverse](https://huggingface.co/olaverse) models don't have a dedicated SDK class yet — use them directly via `transformers` in the meantime:
+**Model Card**: [olaverse/mist-tg-0.3b](https://huggingface.co/olaverse/mist-tg-0.3b)
 
-- **[mist-tg-0.3b](https://huggingface.co/olaverse/mist-tg-0.3b)** — generates short chat titles from a user's first message. ByT5-based (~300M), English-trained, works reasonably on other Latin-script languages.
-- **[mist-qg-1.5b](https://huggingface.co/olaverse/mist-qg-1.5b)** — multilingual question generation from a passage, across 25 languages including several African languages. Qwen2.5-1.5B-based, structured JSON output.
+Generates a short title from a user's first message — the "name this conversation"
+step in a chat UI. Byte-level seq2seq (~300M), no prompt template needed.
 
-Both follow the standard `AutoTokenizer` / `AutoModelForCausalLM` (or `T5ForConditionalGeneration` for `mist-tg-0.3b`) loading pattern — see each model card for exact usage.
+```bash
+pip install olaverse[deeplearning]
+```
+
+```python
+from olaverse import MISTTitleGenerator
+
+titler = MISTTitleGenerator()
+titler.generate("My laptop keeps freezing every time I open more than five browser tabs, any idea why?")
+# → 'Laptop Freezing Impact'
+
+# One forward pass for many messages
+titler.generate_batch(["How do I center a div in CSS?", "What makes Yoruba tonal?"])
+# → ['CSS Centering Div In CSS', 'Yoruba Tonal Language']
+```
+
+Input is truncated to 256 bytes — the model's trained input length. Pass the
+user's first message raw; no language tag or instruction prefix.
+
+!!! warning "English-first; Latin script only"
+    Trained on English chat messages. Latin-script languages often work as a
+    byte-level transfer side effect, but are not guaranteed. Non-Latin scripts
+    (CJK, Hangul, Devanagari, Ethiopic) are **not** supported — the model emits
+    unrelated English text rather than failing loudly.
+
+::: olaverse.llm.MISTTitleGenerator
+
+---
+
+## MISTQuestionGenerator — Question Generation
+
+**Model Card**: [olaverse/mist-qg-1.5b](https://huggingface.co/olaverse/mist-qg-1.5b)
+
+Given a passage, generates natural search-style questions that the passage
+directly answers — as a question-generation endpoint, or as a data factory for
+minting `(query, positive)` pairs to train retrievers and rerankers (pairs well
+with [`Reranker` and `Embedder`](nlp.md#retrieval-new-in-v015)).
+
+```bash
+pip install olaverse[deeplearning]
+```
+
+```python
+from olaverse import MISTQuestionGenerator
+
+qg = MISTQuestionGenerator()
+
+passage = ("Tides are caused by the gravitational pull of the moon and, "
+           "to a lesser extent, the sun, acting on Earth's oceans.")
+
+qg.generate(passage)
+# → ['What causes tides according to the passage?',
+#    'Is the gravitational pull from the sun as significant as it is from the moon...?',
+#    'How do tides differ between the moon and the sun?']
+
+qg.generate(passage, n=5, language="French")   # or language="fr"
+# → ['Quelles forces causent les marées?', ...]
+```
+
+`language=` accepts either an ISO code (`"fr"`) or the English name
+(`"French"`). The model returns strict JSON internally; the wrapper parses it
+and hands back a plain `list[str]`, falling back to string recovery if a long
+generation gets truncated mid-JSON. Raise `max_new_tokens` (default 200) for
+large `n`.
+
+**Supported languages (25)**: `en, fr, de, es, pt, it, nl, ru, pl, tr, vi, id, hi, ja, ko, yo, ig, ha, sw, am, zu, xh, sn, so, af` — also available programmatically as `olaverse.QG_LANGUAGES`.
+
+!!! warning "Language control is not reliable for African languages"
+    `language=` is followed dependably for high-resource languages (French,
+    Spanish, German). For the African languages in the set, the model tends to
+    follow **the passage's** language instead of the requested one: asking for
+    Yoruba questions about an English passage returns English, and asking for
+    Igbo questions about a Yoruba passage returns Yoruba. To generate questions
+    in one of these languages, supply a passage already in that language.
+    Occasional questions also contain the phrase "according to the passage"
+    despite the prompt forbidding it.
+
+::: olaverse.llm.MISTQuestionGenerator

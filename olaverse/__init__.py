@@ -23,7 +23,7 @@ from olaverse.nlp import (
     filter_stopwords,
 )
 from olaverse.speech import TTSPipeline, BaseAcousticModel, BaseVocoder, ExperimentalWarning
-from olaverse.llm import LegalPeace, MIST
+from olaverse.llm import LegalPeace, MIST, MISTTitleGenerator, MISTQuestionGenerator, QG_LANGUAGES
 from olaverse.vision import PrismUpscaler, PrismDenoiser, PrismSteganography
 from olaverse.data import load_dataset, list_datasets, dataset_info
 
@@ -61,6 +61,9 @@ __all__ = [
     # LLMs
     "LegalPeace",
     "MIST",
+    "MISTTitleGenerator",
+    "MISTQuestionGenerator",
+    "QG_LANGUAGES",
     # Speech (Experimental)
     "TTSPipeline",
     "BaseAcousticModel",

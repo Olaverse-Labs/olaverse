@@ -163,16 +163,31 @@ and agrees with PyTorch to four decimal places.
     `lang=` becomes required and `restore()` raises without it, rather than
     silently treating your input as Yoruba.
 
-### Lexicon reranking
+### Lexicon reranking — opt-in, off by default
 
-If the model emits a string that is not a word but the stripped form has known
-diacritized variants, rescore the candidates under the model's own
-per-character distribution and take the best. It never invents a word — it only
-chooses among attested forms, and only when the model's own output wasn't one.
+If the model emits a non-word whose stripped form has attested variants,
+rescore the candidates under the model's own per-character distribution and
+take the best. It never invents a word — it only chooses among attested forms,
+and only when the model's own output wasn't one.
 
 ```python
 d = Diacritizer(model="diactag-1.0", lang="yor", use_lexicon=True)
 ```
+
+!!! warning "Measure it on your data before enabling it"
+    On diacbench it cuts non-word outputs by **27%** and raises Yorùbá DER by
+    **15%** (0.0836 → 0.0961). It trades a metric a reader notices against one
+    they don't, and which way that trade falls depends on your copy.
+
+    The cause is the density gating that makes the model good in the first
+    place. Restricting the lexicon to well-marked text shrank the Yorùbá
+    vocabulary from 86k forms to **18,436** — the harshest cut of any language,
+    because 89% of the Yorùbá corpus was under-marked. So "not in the lexicon"
+    frequently means "rare or inflected word we didn't keep" rather than "wrong
+    spelling", and correct output gets overwritten.
+
+    For comparison, the same gate left Igbo at 62,186 forms and Italian at
+    44,977, so the effect is far weaker there.
 
 ### Documents, not just sentences
 

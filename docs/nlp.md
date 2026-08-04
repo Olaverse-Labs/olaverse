@@ -383,8 +383,15 @@ guarantee is architectural rather than a property of numeric precision.
 d = Diacritizer(model="diactag-1.0", lang="yor", onnx=True)   # olaverse[onnx]
 ```
 
-Other options: `use_lexicon=True` reranks predicted non-words against attested
-spellings; `device=` selects `"cpu"`, `"cuda"` or `"mps"` on the PyTorch backend.
+`device=` selects `"cpu"`, `"cuda"` or `"mps"` on the PyTorch backend.
+
+**Lexicon reranking** (`use_lexicon=True`, off by default) rescores predicted
+non-words against attested spellings of the same stripped form. Measure it on
+your data before enabling it: on diacbench it cuts non-word outputs by 27% but
+raises Yorùbá DER by 15% (0.0836 → 0.0961), because density gating shrank the
+Yorùbá lexicon to 18,436 forms — so "not in the lexicon" often means "rare word
+we didn't keep", and correct output gets overwritten. See
+[DiacTag → Lexicon reranking](models/diactag.md#lexicon-reranking-opt-in-off-by-default).
 
 !!! note "Differences from the diacnet models"
     * **No sentence splitting needed.** Documents are handled with overlapping

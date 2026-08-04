@@ -491,7 +491,13 @@ class DiacTagDecoder:
                 per call.
         use_lexicon: Rerank predicted non-words against attested spellings of
                 the same stripped form. Conservative — it only ever chooses
-                among forms seen in the corpus.
+                among forms seen in the corpus. **Measure it on your data
+                before enabling it:** on diacbench it cuts non-word outputs by
+                27% but raises Yoruba DER by 15% (0.0836 -> 0.0961), because
+                the density gating that keeps the lexicon clean shrank the
+                Yoruba vocabulary to 18,436 forms, so "not in the lexicon"
+                often means "rare or inflected word we didn't keep" and correct
+                output gets overwritten. Off by default.
         onnx: Load the int8 ONNX export instead of the PyTorch checkpoint —
                 3x faster and 4x smaller on CPU for +0.03pp DER, and the strip
                 guarantee survives quantisation because it is architectural.
@@ -853,7 +859,10 @@ class Diacritizer:
               everything. Overridable per :meth:`restore` call.
 
         use_lexicon: ``"diactag-1.0"`` only. Rerank predicted non-words against
-              attested spellings of the same stripped form.
+              attested spellings of the same stripped form. Off by default, and
+              worth measuring before you turn it on — on diacbench it cuts
+              non-word outputs by 27% but raises Yoruba DER by 15%
+              (0.0836 -> 0.0961). See :class:`DiacTagDecoder`.
 
         onnx: ``"diactag-1.0"`` only. Load the int8 ONNX export — 3x faster and
               4x smaller on CPU for +0.03pp DER, with language auto-detection

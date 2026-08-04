@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/models/diacnet/">
       
       
-        <link rel="prev" href="../">
+        <link rel="prev" href="../diactag/">
       
       
         <link rel="next" href="../language-detection/">
@@ -541,6 +541,8 @@
       
         
       
+        
+      
     
     
     
@@ -596,6 +598,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../diactag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacTag — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -753,6 +783,17 @@
     <span class="md-ellipsis">
       
         Multilingual — diacnet-1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#diacnet-11-same-architecture-larger-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacnet-1.1 — same architecture, larger corpus
       
     </span>
   </a>
@@ -1568,6 +1609,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#diacnet-11-same-architecture-larger-corpus" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diacnet-1.1 — same architecture, larger corpus
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#long-text-is-segmented-automatically" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1653,6 +1705,15 @@
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Output:  ṣé ẹranko náà sì gbọ́ ọ?
 </span></code></pre></div>
 <p>Most digital text in tonal and accented languages is typed without diacritics — keyboards, OCR, and legacy systems strip them. But diacritics carry meaning: Yoruba <code>ogun</code> can mean <em>war</em>, <em>twenty</em>, <em>medicine</em>, or the deity <em>Ògún</em> depending on tone marks. DiacNet puts them back.</p>
+<div class="admonition tip">
+<p class="admonition-title">For most new work, start with DiacTag</p>
+<p><a href="../diactag/"><code>diactag-1.0</code></a> is a per-character tagger rather than a seq2seq
+model. It cannot change, insert or delete a base character, it scores every
+character, it runs on CPU at 38MB, and it beats DiacNet on 9 of 10
+languages. DiacNet remains the right choice for Vietnamese and Portuguese
+peak accuracy, and the small Viterbi/KNN models remain the fastest way to
+do Yoruba or Igbo without a deep-learning install.</p>
+</div>
 <hr />
 <h2 id="supported-languages">Supported Languages<a class="headerlink" href="#supported-languages" title="Permanent link">&para;</a></h2>
 <table>
@@ -1668,7 +1729,7 @@
 <td>Yoruba, Igbo</td>
 </tr>
 <tr>
-<td><code>diacnet-1.0</code> (multilingual)</td>
+<td><code>diacnet-1.0</code> / <code>diacnet-1.1</code> (multilingual)</td>
 <td>Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian</td>
 </tr>
 </tbody>
@@ -1735,6 +1796,14 @@
 <td>~0.02 median CER</td>
 <td>~300 MB</td>
 </tr>
+<tr>
+<td><code>diacnet-1.1</code></td>
+<td>10 languages</td>
+<td>ByT5 seq2seq</td>
+<td>Slow</td>
+<td>0.0002–0.2006 DER</td>
+<td>~1.1 GB</td>
+</tr>
 </tbody>
 </table>
 <h3 id="which-diacnet-should-i-use">Which DiacNet should I use?<a class="headerlink" href="#which-diacnet-should-i-use" title="Permanent link">&para;</a></h3>
@@ -1752,14 +1821,22 @@
 </tr>
 <tr>
 <td>Highest Yoruba accuracy</td>
-<td><code>diacnet-yor-x</code></td>
+<td><a href="../diactag/"><code>diactag-1.0</code></a>, then <code>diacnet-yor-x</code></td>
 </tr>
 <tr>
 <td>Igbo</td>
-<td><code>diacnet-ig</code></td>
+<td><a href="../diactag/"><code>diactag-1.0</code></a>, or <code>diacnet-ig</code> with no extras</td>
 </tr>
 <tr>
 <td>10 languages, one model</td>
+<td><a href="../diactag/"><code>diactag-1.0</code></a></td>
+</tr>
+<tr>
+<td>Vietnamese, Turkish, Polish, Italian via seq2seq</td>
+<td><code>diacnet-1.1</code></td>
+</tr>
+<tr>
+<td>Yoruba, Igbo or Hausa via seq2seq</td>
 <td><code>diacnet-1.0</code></td>
 </tr>
 <tr>
@@ -1771,7 +1848,7 @@
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="w">                 </span><span class="c1"># Viterbi/KNN/BiLSTM models — CPU, no extras</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">   </span><span class="c1"># adds diacnet-yor-x and diacnet-1.0</span>
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">   </span><span class="c1"># adds diacnet-yor-x, diacnet-1.0, diacnet-1.1</span>
 </span></code></pre></div>
 <hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
@@ -1811,6 +1888,95 @@
 </span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="c1"># → &#39;ṣé ẹranko náà sì gbọ́ ọ?&#39;</span>
 </span></code></pre></div>
 <p>Supported <code>lang=</code> codes: <code>"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"</code>.</p>
+<h3 id="diacnet-11-same-architecture-larger-corpus"><code>diacnet-1.1</code> — same architecture, larger corpus<a class="headerlink" href="#diacnet-11-same-architecture-larger-corpus" title="Permanent link">&para;</a></h3>
+<p>v1.1 is the same ByT5 model retrained on a much larger web-sourced corpus. It is
+a <strong>large improvement on 5 languages and a regression on 3</strong>, so it does not
+simply supersede v1.0 — pick per language:</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>DER 1.0</th>
+<th>DER 1.1</th>
+<th>verdict</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vie</td>
+<td>0.1264</td>
+<td><strong>0.0460</strong></td>
+<td>1.1 — 2.7× better</td>
+</tr>
+<tr>
+<td>tur</td>
+<td>0.0447</td>
+<td><strong>0.0068</strong></td>
+<td>1.1 — 6.6× better</td>
+</tr>
+<tr>
+<td>pol</td>
+<td>0.0357</td>
+<td><strong>0.0058</strong></td>
+<td>1.1 — 6.2× better</td>
+</tr>
+<tr>
+<td>ita</td>
+<td>0.0015</td>
+<td><strong>0.0002</strong></td>
+<td>1.1 — 7.5× better</td>
+</tr>
+<tr>
+<td>por</td>
+<td>0.0072</td>
+<td><strong>0.0031</strong></td>
+<td>1.1 better</td>
+</tr>
+<tr>
+<td>spa</td>
+<td>0.0084</td>
+<td><strong>0.0081</strong></td>
+<td>~equal</td>
+</tr>
+<tr>
+<td>fra</td>
+<td><strong>0.0038</strong></td>
+<td>0.0053</td>
+<td>mixed (1.1 has lower WER)</td>
+</tr>
+<tr>
+<td>ibo</td>
+<td><strong>0.0359</strong></td>
+<td>0.0508</td>
+<td>mixed (1.1 has lower WER)</td>
+</tr>
+<tr>
+<td>hau</td>
+<td><strong>0.0383</strong></td>
+<td>0.0593</td>
+<td>mixed (1.1 has lower WER)</td>
+</tr>
+<tr>
+<td>yor</td>
+<td><strong>0.1554</strong></td>
+<td>0.2006</td>
+<td>1.0 better</td>
+</tr>
+</tbody>
+</table>
+<p>The cause is measured, not speculative: v1.0 trained on ~2,000 well-tone-marked
+Yoruba passages (diacritic density 0.565), while v1.1's larger corpus averages
+0.223 — it contains far more Yoruba text, but most of it omits tone marks, so
+the model learned to omit them too. More data at lower annotation quality lost
+to less data at higher quality.</p>
+<p><a href="../diactag/"><code>diactag-1.0</code></a> is the fix for that regression: it scores <strong>0.0836</strong>
+on Yoruba and <strong>0.0041</strong> on Hausa by gating which sentences are allowed to
+supply diacritic supervision.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.1&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;vi&quot;</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Toi khong biet tieng Viet&quot;</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="c1"># → &#39;Tôi không biết tiếng Việt&#39;</span>
+</span></code></pre></div>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/diacnet-1.1">olaverse/diacnet-1.1</a></p>
 <h3 id="long-text-is-segmented-automatically">Long text is segmented automatically<a class="headerlink" href="#long-text-is-segmented-automatically" title="Permanent link">&para;</a></h3>
 <p><code>diacnet-1.0</code> was trained on sentence-length input (median 58 bytes). The SDK
 handles that for you: multi-sentence text is split on sentence boundaries,
@@ -1818,15 +1984,15 @@ restored a sentence at a time, and rejoined.</p>
 <p>This matters. On a 358-character French paragraph, restoring it in one pass
 returns <strong>235 characters</strong> — it truncates mid-sentence and drops the tail
 entirely. Segmented, all 358 characters come back correct.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># Default: segments automatically</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">)</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">long_paragraph</span><span class="p">)</span>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># One pass, no segmentation</span>
-</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">split_sentences</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a>
-</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="c1"># Your own segmentation</span>
-</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">splitter</span><span class="o">=</span><span class="n">my_splitter</span><span class="p">)</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># Default: segments automatically</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">)</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">long_paragraph</span><span class="p">)</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="c1"># One pass, no segmentation</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">split_sentences</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a><span class="c1"># Your own segmentation</span>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;fr&quot;</span><span class="p">,</span> <span class="n">splitter</span><span class="o">=</span><span class="n">my_splitter</span><span class="p">)</span>
 </span></code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Very short fragments still degenerate</p>
@@ -1846,12 +2012,12 @@ inflection (<code>"nino"</code> → <code>'niños'</code>), invented punctuation
 <li>Yoruba is the hardest language for the multilingual model (median CER 0.110) — genuine tonal ambiguity, since the same base letters can carry multiple valid tone patterns. For peak Yoruba accuracy, prefer the dedicated <code>diacnet-yor-x</code>; for speed, <code>diacnet-yor-viterbi</code>.</li>
 <li>Benchmark it yourself — the <a href="../../datasets/">DiacBench dataset</a> ships ~1,000 test pairs per language:</li>
 </ul>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
-</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
-</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
-</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>   <span class="c1"># olaverse[data]</span>
-</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
-</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_dataset</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="n">bench</span> <span class="o">=</span> <span class="n">load_dataset</span><span class="p">(</span><span class="s2">&quot;diacbench&quot;</span><span class="p">,</span> <span class="s2">&quot;yo&quot;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="s2">&quot;test&quot;</span><span class="p">)</span>   <span class="c1"># olaverse[data]</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-yor-viterbi&quot;</span><span class="p">)</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="n">restored</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">bench</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;input&quot;</span><span class="p">])</span>
 </span></code></pre></div>
 <p>Full published numbers: <strong><a href="../../benchmarks/">Benchmarks →</a></strong></p>
 <hr />
@@ -1867,7 +2033,8 @@ inflection (<code>"nino"</code> → <code>'niños'</code>), invented punctuation
 <hr />
 <h2 id="roadmap">Roadmap<a class="headerlink" href="#roadmap" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>DiacNet 1.1</strong> — improved Yoruba restoration, better Igbo accuracy, lower CER, faster inference <em>(planned)</em></li>
+<li>✅ <strong>DiacNet 1.1</strong> — shipped; large gains on Vietnamese, Turkish, Polish and Italian, a regression on Yoruba</li>
+<li>✅ <strong>DiacTag 1.0</strong> — shipped; the tone-marking regression fixed, plus a structural compliance guarantee. <a href="../diactag/">DiacTag →</a></li>
 <li>More African languages</li>
 <li>Streaming/batched inference API</li>
 </ul>

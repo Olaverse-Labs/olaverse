@@ -16,7 +16,7 @@
         <link rel="prev" href="..">
       
       
-        <link rel="next" href="diacnet/">
+        <link rel="next" href="diactag/">
       
       
         
@@ -541,6 +541,8 @@
       
         
       
+        
+      
     
     
     
@@ -596,6 +598,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="diactag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacTag — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1374,8 +1404,13 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>DiacTag</strong></td>
+<td>Diacritization as per-character tagging — cannot corrupt the input</td>
+<td><a href="diactag/">DiacTag →</a></td>
+</tr>
+<tr>
 <td><strong>DiacNet</strong></td>
-<td>Diacritization (restore accents, tones, special characters)</td>
+<td>Diacritization via seq2seq (restore accents, tones, special characters)</td>
 <td><a href="diacnet/">DiacNet →</a></td>
 </tr>
 <tr>
@@ -1523,6 +1558,20 @@
 <td><code>olaverse[deeplearning]</code></td>
 </tr>
 <tr>
+<td><code>diacnet-1.1</code></td>
+<td>Diacritization (10 langs)</td>
+<td>~1.1 GB</td>
+<td>Slow</td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td><code>diactag-1.0</code></td>
+<td>Diacritization (10 langs), compliance guaranteed</td>
+<td>150 MB / 38 MB int8</td>
+<td>244 chars/s CPU</td>
+<td><code>olaverse[deeplearning]</code> / <code>[onnx]</code></td>
+</tr>
+<tr>
 <td><code>OTK-BPE-50k</code> (5 Nigerian variants)</td>
 <td>Tokenization</td>
 <td>~3 MB each</td>
@@ -1586,23 +1635,35 @@
 </thead>
 <tbody>
 <tr>
-<td>Fast Yoruba, CPU-only</td>
+<td>Output must never differ from input except in marks</td>
+<td><code>diactag-1.0</code></td>
+</tr>
+<tr>
+<td>Best Yoruba, Igbo or Hausa accuracy</td>
+<td><code>diactag-1.0</code></td>
+</tr>
+<tr>
+<td>CPU-only serving at scale</td>
+<td><code>diactag-1.0</code> with <code>onnx=True</code></td>
+</tr>
+<tr>
+<td>Per-character confidence / review routing</td>
+<td><code>diactag-1.0</code></td>
+</tr>
+<tr>
+<td>Vietnamese or Portuguese peak accuracy</td>
+<td><code>diacnet-1.1</code></td>
+</tr>
+<tr>
+<td>Fast Yoruba with no deep-learning extra</td>
 <td><code>diacnet-yor-viterbi</code></td>
 </tr>
 <tr>
-<td>Highest Yoruba accuracy</td>
-<td><code>diacnet-yor-x</code></td>
-</tr>
-<tr>
-<td>Igbo</td>
+<td>Igbo with no deep-learning extra</td>
 <td><code>diacnet-ig</code></td>
 </tr>
 <tr>
-<td>10 languages, one model</td>
-<td><code>diacnet-1.0</code></td>
-</tr>
-<tr>
-<td>Automatic language routing</td>
+<td>Automatic language routing (Yoruba/Igbo)</td>
 <td><code>Diacritizer(model="auto")</code></td>
 </tr>
 </tbody>

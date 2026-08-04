@@ -2,82 +2,86 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/benchmarks/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/changelog/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/datasets/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/enterprise/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/llm/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/nlp/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/roadmap/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/solutions/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/speech/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/utils/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/vision/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/diacnet/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
+    </url>
+    <url>
+         <loc>https://olaverse-labs.github.io/olaverse/models/diactag/</loc>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/language-detection/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/legalpeace/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/mist/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/prism/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/retrieval/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
     <url>
          <loc>https://olaverse-labs.github.io/olaverse/models/tokenizers/</loc>
-         <lastmod>2026-07-26</lastmod>
+         <lastmod>2026-08-04</lastmod>
     </url>
 </urlset>

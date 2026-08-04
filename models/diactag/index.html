@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/models/mist/">
+        <link rel="canonical" href="https://olaverse-labs.github.io/olaverse/models/diactag/">
       
       
-        <link rel="prev" href="../retrieval/">
+        <link rel="prev" href="../">
       
       
-        <link rel="next" href="../legalpeace/">
+        <link rel="next" href="../diacnet/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>MIST — LLM Family - Olaverse</title>
+        <title>DiacTag — Diacritization - Olaverse</title>
       
     
     
@@ -102,7 +102,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#mist-llm-family" class="md-skip">
+        <a href="#diactag" class="md-skip">
           Skip to content
         </a>
       
@@ -139,7 +139,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              MIST — LLM Family
+              DiacTag — Diacritization
             
           </span>
         </div>
@@ -604,10 +604,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../diactag/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacTag — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -623,6 +650,225 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-a-tagger-and-not-seq2seq" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why a tagger and not seq2seq
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#installation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Installation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Usage
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Usage">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#automatic-language-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automatic language detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#per-character-confidence-and-abstention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Per-character confidence and abstention
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cpu-serving-with-onnx" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPU serving with ONNX
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lexicon-reranking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Lexicon reranking
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#documents-not-just-sentences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Documents, not just sentences
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#protected-spans" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Protected spans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marks-you-typed-are-never-deleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marks you typed are never deleted
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#performance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Performance
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#versus-frontier-llms" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Versus frontier LLMs
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-diacritization-model-should-i-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which diacritization model should I use?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api-reference" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        API Reference
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -744,37 +990,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    MIST — LLM Family
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../mist/" class="md-nav__link">
         
   
   
@@ -790,203 +1009,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#which-variant" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Which variant?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-use-the-sdk-wrapper" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Why use the SDK wrapper?
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Usage">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#local" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Local
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hosted-featherless" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hosted (Featherless)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#hosted-modal-custom-vllm" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hosted (Modal / custom vLLM)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#multi-turn-chat" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Multi-turn chat
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#streaming-hosted-only" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Streaming (hosted only)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reasoning-variant" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reasoning variant
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#hardware-requirements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Hardware Requirements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#task-specific-mist-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Task-specific MIST models
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Task-specific MIST models">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#misttitlegenerator-chat-titles" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MISTTitleGenerator — chat titles
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mistquestiongenerator-question-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MISTQuestionGenerator — question generation
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#api-reference" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        API Reference
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1525,10 +1547,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#which-variant" class="md-nav__link">
+  <a href="#why-a-tagger-and-not-seq2seq" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Which variant?
+        Why a tagger and not seq2seq
       
     </span>
   </a>
@@ -1536,10 +1558,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-use-the-sdk-wrapper" class="md-nav__link">
+  <a href="#available-model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Why use the SDK wrapper?
+        Available model
       
     </span>
   </a>
@@ -1570,10 +1592,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#local" class="md-nav__link">
+  <a href="#automatic-language-detection" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Local
+        Automatic language detection
       
     </span>
   </a>
@@ -1581,10 +1603,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hosted-featherless" class="md-nav__link">
+  <a href="#per-character-confidence-and-abstention" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hosted (Featherless)
+        Per-character confidence and abstention
       
     </span>
   </a>
@@ -1592,10 +1614,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#hosted-modal-custom-vllm" class="md-nav__link">
+  <a href="#cpu-serving-with-onnx" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hosted (Modal / custom vLLM)
+        CPU serving with ONNX
       
     </span>
   </a>
@@ -1603,10 +1625,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#multi-turn-chat" class="md-nav__link">
+  <a href="#lexicon-reranking" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Multi-turn chat
+        Lexicon reranking
       
     </span>
   </a>
@@ -1614,10 +1636,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#streaming-hosted-only" class="md-nav__link">
+  <a href="#documents-not-just-sentences" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Streaming (hosted only)
+        Documents, not just sentences
       
     </span>
   </a>
@@ -1625,10 +1647,21 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reasoning-variant" class="md-nav__link">
+  <a href="#protected-spans" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reasoning variant
+        Protected spans
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#marks-you-typed-are-never-deleted" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Marks you typed are never deleted
       
     </span>
   </a>
@@ -1641,44 +1674,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#hardware-requirements" class="md-nav__link">
+  <a href="#performance" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Hardware Requirements
+        Performance
       
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#task-specific-mist-models" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Task-specific MIST models
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Task-specific MIST models">
+    <nav class="md-nav" aria-label="Performance">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#misttitlegenerator-chat-titles" class="md-nav__link">
+  <a href="#versus-frontier-llms" class="md-nav__link">
     <span class="md-ellipsis">
       
-        MISTTitleGenerator — chat titles
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mistquestiongenerator-question-generation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        MISTQuestionGenerator — question generation
+        Versus frontier LLMs
       
     </span>
   </a>
@@ -1687,6 +1698,39 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deployment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#which-diacritization-model-should-i-use" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Which diacritization model should I use?
+      
+    </span>
+  </a>
   
 </li>
       
@@ -1721,205 +1765,502 @@
   
 
 
-<h1 id="mist-llm-family">MIST — LLM Family<a class="headerlink" href="#mist-llm-family" title="Permanent link">&para;</a></h1>
-<p><strong>General-purpose language models from 8B to 140B parameters, built by blending the best Llama 3.1 models via DARE+TIES and Frankenmerge — with correct generation defaults baked into the SDK.</strong></p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
-</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">)</span>
-</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Explain what makes Yoruba a tonal language.&quot;</span><span class="p">))</span>
+<h1 id="diactag">DiacTag<a class="headerlink" href="#diactag" title="Permanent link">&para;</a></h1>
+<p><strong>A diacritic model that cannot corrupt your text.</strong> DiacTag restores accents and
+tone marks in 10 languages by classifying each character rather than generating
+new text — so the output is guaranteed to be the input with marks added, and
+nothing else.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Input:   se eranko naa si gbo o?
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Output:  ṣé ẹranko náà sì gbọ́ ọ?
 </span></code></pre></div>
-<p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/MIST-Mini-8B">MIST-Mini-8B</a> · <a href="https://huggingface.co/olaverse/MIST-1-70B">MIST-1-70B</a> · <a href="https://huggingface.co/olaverse/MIST-1-140B">MIST-1-140B</a> · <a href="https://huggingface.co/olaverse/MIST-1-140B-4bit">MIST-1-140B-4bit</a> · <a href="https://huggingface.co/olaverse/MIST-Mini-8B-Thinking">MIST-Mini-8B-Thinking</a></p>
 <hr />
-<h2 id="which-variant">Which variant?<a class="headerlink" href="#which-variant" title="Permanent link">&para;</a></h2>
+<h2 id="why-a-tagger-and-not-seq2seq">Why a tagger and not seq2seq<a class="headerlink" href="#why-a-tagger-and-not-seq2seq" title="Permanent link">&para;</a></h2>
+<p><a href="../diacnet/"><code>diacnet</code></a> treats diacritization as translation: bare text in,
+marked text out, generated token by token. It works, mostly — but "mostly" hides
+something. On Hausa, only <strong>94.7%</strong> of <code>diacnet-1.1</code> outputs still stripped back
+to their input. The other 5.3% weren't mis-accented, they were <em>different text</em>:
+words dropped, clauses rewritten, punctuation invented.</p>
+<p>That is not a tuning problem. A generative decoder can emit any token at any
+position, so nothing in the architecture prevents it.</p>
+<p>DiacTag reframes the task. The output has exactly as many characters as the
+input, in the same order, with the same base letters — only the marks change. So
+don't generate; <strong>classify</strong>. For each character, predict which diacritics it
+carries and copy the base character through.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>input      s    e    r    a    n    k    o
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>           │    │    │    │    │    │    │
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>      ┌─────────────────────────────────────┐
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      │      character transformer          │
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>      └─────────────────────────────────────┘
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>  SHAPE   dot   ·    ·    ·    ·    ·    ·
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>  TONE     ·    ·    ·  acute  ·    ·    ·
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>           │    │    │    │    │    │    │
+</span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>output     ṣ    e    r    á    n    k    o
+</span></code></pre></div>
+<p>The base character is never predicted, so <code>strip(output) == strip(input)</code> holds
+<strong>by construction</strong> — for a trained model, an untrained one, or the int8 export.
+The SDK asserts it on every call rather than assuming it.</p>
 <table>
 <thead>
 <tr>
-<th><code>size=</code></th>
-<th>Model</th>
-<th>Params</th>
-<th>Speed</th>
-<th>Best for</th>
+<th></th>
+<th><code>diacnet-1.1</code> (seq2seq)</th>
+<th><code>diactag-1.0</code> (tagger)</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>"8b"</code> / <code>"mini"</code></td>
-<td>MIST-Mini-8B</td>
-<td>8B</td>
-<td>~63 tok/s</td>
-<td>Fast everyday use</td>
+<td>structural compliance</td>
+<td>measured, ~94.7% on Hausa</td>
+<td><strong>1.0000 by construction</strong></td>
 </tr>
 <tr>
-<td><code>"70b"</code></td>
-<td>MIST-1-70B</td>
-<td>70B</td>
-<td>~23 tok/s</td>
-<td>Structured, detailed output</td>
+<td>confidence</td>
+<td>sequence-level</td>
+<td><strong>per character, calibrated</strong></td>
 </tr>
 <tr>
-<td><code>"140b"</code></td>
-<td>MIST-1-140B</td>
-<td>140B</td>
-<td>~8 tok/s</td>
-<td>Deepest reasoning</td>
+<td>language detection</td>
+<td>via a <code>&lt;auto&gt;</code> prefix token</td>
+<td><strong>built-in LID head</strong></td>
 </tr>
 <tr>
-<td><code>"140b-4bit"</code></td>
-<td>MIST-1-140B-4bit</td>
-<td>140B (4-bit)</td>
-<td>~8 tok/s</td>
-<td>Single H100/H200 (70GB VRAM)</td>
+<td>inference</td>
+<td>autoregressive</td>
+<td>one forward pass</td>
 </tr>
 <tr>
-<td><code>"thinking"</code></td>
-<td>MIST-Mini-8B-Thinking</td>
-<td>8B</td>
-<td>~55 tok/s</td>
-<td>Step-by-step reasoning with <code>&lt;think&gt;</code></td>
+<td>parameters</td>
+<td>580M</td>
+<td><strong>37.6M</strong></td>
+</tr>
+<tr>
+<td>CPU serving</td>
+<td>impractical</td>
+<td><strong>the default</strong></td>
+</tr>
+<tr>
+<td>typo correction</td>
+<td>possible in principle</td>
+<td><strong>impossible</strong> — see below</td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="why-use-the-sdk-wrapper">Why use the SDK wrapper?<a class="headerlink" href="#why-use-the-sdk-wrapper" title="Permanent link">&para;</a></h2>
-<p>A bare <code>from_pretrained</code> call on MIST produces rambling or cut-off output because:</p>
-<ul>
-<li><strong>Stop tokens differ per variant.</strong> MIST-8B/Thinking inherited ChatML <code>&lt;|im_end|&gt;</code> (token <code>128040</code>) from its DARE+TIES parents alongside Llama 3.1's native tokens. MIST-70B/140B use a different set — no ChatML.</li>
-<li><strong><code>repetition_penalty</code> and <code>min_p</code> are required.</strong> Without them, the model repeats and doesn't terminate. The verified defaults vary per variant.</li>
-<li><strong>One API, any backend.</strong> Same <code>.generate()</code> / <code>.chat()</code> whether you run locally or via Featherless, Modal, or your own vLLM server.</li>
-</ul>
+<h2 id="available-model">Available model<a class="headerlink" href="#available-model" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Model ID</th>
+<th>Languages</th>
+<th>Method</th>
+<th>Backend</th>
+<th>Size</th>
+<th>DER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>diactag-1.0</code></td>
+<td>10</td>
+<td>character transformer, 12 layers</td>
+<td>PyTorch</td>
+<td>~150 MB</td>
+<td>0.0132</td>
+</tr>
+<tr>
+<td><code>diactag-1.0</code></td>
+<td>10</td>
+<td>same, int8 quantized</td>
+<td>ONNX</td>
+<td><strong>38 MB</strong></td>
+<td>0.0135</td>
+</tr>
+</tbody>
+</table>
+<p>Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French,
+Italian.</p>
+<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/diactag-1.0">olaverse/diactag-1.0</a></p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Local inference</label><label for="__tabbed_1_2">Hosted inference</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
-</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="c1"># requires GPU (CUDA or MPS)</span>
+<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">    </span><span class="c1"># PyTorch checkpoint</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>onnx<span class="o">]</span><span class="w">            </span><span class="c1"># adds the int8 ONNX backend</span>
 </span></code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>
-</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># works on any machine — no GPU needed</span>
-</span></code></pre></div>
-</div>
-</div>
-</div>
 <hr />
 <h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<h3 id="local">Local<a class="headerlink" href="#local" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
 </span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">)</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>  <span class="c1"># downloads from Hugging Face, cached after first run</span>
-</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Explain what makes Yoruba a tonal language.&quot;</span><span class="p">))</span>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="c1"># → &#39;ṣé ẹranko náà sì gbọ́ ọ?&#39;</span>
 </span></code></pre></div>
-<p><strong>4-bit quantization</strong> — runs MIST-8B on a 6 GB GPU:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">,</span> <span class="n">quantize</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+<p><code>lang=</code> accepts ISO-639-1 (<code>"yo"</code>) or ISO-639-3 (<code>"yor"</code>).</p>
+<h3 id="automatic-language-detection">Automatic language detection<a class="headerlink" href="#automatic-language-detection" title="Permanent link">&para;</a></h3>
+<p>Leave <code>lang</code> out and the model's own LID head decides. It costs almost nothing —
+DER 0.0132 with the language supplied, 0.0133 with it detected — and most
+integrations don't reliably know the input language.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">)</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Co ay rat dam dang&quot;</span><span class="p">)</span>           <span class="c1"># → &#39;Cô ấy rất đảm đang&#39;</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;El nino esta en la casa&quot;</span><span class="p">)</span>      <span class="c1"># → &#39;El niño está en la casa&#39;</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="n">d</span><span class="o">.</span><span class="n">detect_language</span><span class="p">(</span><span class="s2">&quot;Lodz jest piekna&quot;</span><span class="p">)</span>     <span class="c1"># → (&#39;pol&#39;, 0.9999)</span>
 </span></code></pre></div>
-<h3 id="hosted-featherless">Hosted (Featherless)<a class="headerlink" href="#hosted-featherless" title="Permanent link">&para;</a></h3>
-<p>No GPU required. Create a free API key at <a href="https://featherless.ai">featherless.ai</a>.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MIST</span>
-</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
-</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;70b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;FEATHERLESS_API_KEY&quot;</span><span class="p">])</span>
-</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Summarise the key differences between 70B and 140B MIST models.&quot;</span><span class="p">))</span>
-</span></code></pre></div>
-<h3 id="hosted-modal-custom-vllm">Hosted (Modal / custom vLLM)<a class="headerlink" href="#hosted-modal-custom-vllm" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;140b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;https://your-modal-endpoint.modal.run&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="multi-turn-chat">Multi-turn chat<a class="headerlink" href="#multi-turn-chat" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">messages</span> <span class="o">=</span> <span class="p">[</span>
-</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>      <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;What is the capital of Nigeria?&quot;</span><span class="p">},</span>
-</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;assistant&quot;</span><span class="p">,</span> <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;The capital of Nigeria is Abuja.&quot;</span><span class="p">},</span>
-</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="p">{</span><span class="s2">&quot;role&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">,</span>      <span class="s2">&quot;content&quot;</span><span class="p">:</span> <span class="s2">&quot;What languages are spoken there?&quot;</span><span class="p">},</span>
-</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">]</span>
-</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">chat</span><span class="p">(</span><span class="n">messages</span><span class="p">))</span>
-</span></code></pre></div>
-<h3 id="streaming-hosted-only">Streaming (hosted only)<a class="headerlink" href="#streaming-hosted-only" title="Permanent link">&para;</a></h3>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;8b&quot;</span><span class="p">,</span> <span class="n">endpoint</span><span class="o">=</span><span class="s2">&quot;featherless&quot;</span><span class="p">,</span> <span class="n">api_key</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
-</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Tell me about Lagos.&quot;</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="nb">print</span><span class="p">(</span><span class="n">chunk</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span></code></pre></div>
-<h3 id="reasoning-variant">Reasoning variant<a class="headerlink" href="#reasoning-variant" title="Permanent link">&para;</a></h3>
-<p><code>MIST-Mini-8B-Thinking</code> was trained with 4 phases of GRPO reinforcement learning to show its reasoning before answering. The system prompt is set automatically.</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MIST</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="s2">&quot;thinking&quot;</span><span class="p">)</span>
-</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="n">model</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="n">response</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;If a train travels 120 miles in 2 hours, what is its speed?&quot;</span><span class="p">)</span>
-</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="c1"># Response shows &lt;think&gt;...&lt;/think&gt; then the final answer</span>
-</span></code></pre></div>
-<hr />
-<h2 id="hardware-requirements">Hardware Requirements<a class="headerlink" href="#hardware-requirements" title="Permanent link">&para;</a></h2>
+<h3 id="per-character-confidence-and-abstention">Per-character confidence and abstention<a class="headerlink" href="#per-character-confidence-and-abstention" title="Permanent link">&para;</a></h3>
+<p>The joint shape × tone distribution gives a calibrated probability per
+character (temperature-fitted on validation, T = 1.14). Set a threshold and
+characters below it are left exactly as the user typed them.</p>
 <table>
 <thead>
 <tr>
-<th>Variant</th>
-<th>Precision</th>
-<th>VRAM</th>
+<th>threshold</th>
+<th>coverage</th>
+<th>DER on committed characters</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>8B / Thinking</td>
-<td>bfloat16</td>
-<td>16 GB (RTX 3090/4090)</td>
+<td>0.00</td>
+<td>100.0%</td>
+<td>0.0132</td>
 </tr>
 <tr>
-<td>8B / Thinking</td>
-<td>4-bit NF4</td>
-<td>6 GB (RTX 3060+)</td>
+<td>0.90</td>
+<td>97.1%</td>
+<td>0.0039</td>
 </tr>
 <tr>
-<td>70B</td>
-<td>bfloat16</td>
-<td>140 GB (1× H200 or 2× H100)</td>
+<td>0.99</td>
+<td>91.9%</td>
+<td>0.0008</td>
+</tr>
+</tbody>
+</table>
+<p>At 0.90, <strong>97% of characters are restored at 99.6% accuracy</strong> and the rest are
+flagged. A wrong tone mark changes meaning; a missing one is merely incomplete.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="c1"># The threshold is per-request too — one loaded model can serve a CMS pre-fill</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="c1"># and a legal pipeline at different points on the same curve.</span>
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">min_confidence</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Route the uncertain characters to review:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">text</span><span class="p">,</span> <span class="n">details</span> <span class="o">=</span> <span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa&quot;</span><span class="p">,</span> <span class="n">return_details</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">review</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">details</span> <span class="k">if</span> <span class="n">c</span><span class="o">.</span><span class="n">confidence</span> <span class="o">&lt;</span> <span class="mf">0.9</span><span class="p">]</span>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">details</span><span class="p">:</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>    <span class="n">c</span><span class="o">.</span><span class="n">char</span>          <span class="c1"># the emitted character</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="n">c</span><span class="o">.</span><span class="n">confidence</span>    <span class="c1"># calibrated probability</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>    <span class="n">c</span><span class="o">.</span><span class="n">abstained</span>     <span class="c1"># left as the user typed it</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>    <span class="n">c</span><span class="o">.</span><span class="n">protected</span>     <span class="c1"># inside a URL/email/handle/identifier</span>
+</span></code></pre></div>
+<h3 id="cpu-serving-with-onnx">CPU serving with ONNX<a class="headerlink" href="#cpu-serving-with-onnx" title="Permanent link">&para;</a></h3>
+<p>Three times faster and four times smaller for +0.03pp DER. Compliance stays
+<code>1.0000</code> under quantisation — the guarantee is architectural, not a property of
+numeric precision.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="n">onnx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Language auto-detection works on this backend too — it reads the same LID head
+and agrees with PyTorch to four decimal places.</p>
+<div class="admonition note">
+<p class="admonition-title">Older exports have no LID head</p>
+<p>Exports published before 2026-08-04 emit <code>shape_logits</code> and <code>tone_logits</code>
+only. The SDK reads the capability off the graph, so against one of those
+<code>lang=</code> becomes required and <code>restore()</code> raises without it, rather than
+silently treating your input as Yoruba.</p>
+</div>
+<h3 id="lexicon-reranking">Lexicon reranking<a class="headerlink" href="#lexicon-reranking" title="Permanent link">&para;</a></h3>
+<p>If the model emits a string that is not a word but the stripped form has known
+diacritized variants, rescore the candidates under the model's own
+per-character distribution and take the best. It never invents a word — it only
+chooses among attested forms, and only when the model's own output wasn't one.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="n">use_lexicon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="documents-not-just-sentences">Documents, not just sentences<a class="headerlink" href="#documents-not-just-sentences" title="Permanent link">&para;</a></h3>
+<p>Unlike <code>diacnet</code>, no sentence splitting is needed. Overlapping windows are
+planned across the input and only the centre of each is trusted, so every
+character is predicted with context on both sides. The window plan is proved to
+partition the input exactly.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="s2">&quot;article.txt&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>     <span class="c1"># just works</span>
+</span></code></pre></div>
+<h3 id="protected-spans">Protected spans<a class="headerlink" href="#protected-spans" title="Permanent link">&para;</a></h3>
+<p>URLs, emails, <code>@handles</code>, inline code, <code>CONSTANT_NAMES</code> and bare domains pass
+through untouched — and were excluded from the training loss. An accent inside a
+URL is never correct, and it is the error a reader notices first.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Visit https://ile-ife.com or email ade@ola.ng for eniyan&quot;</span><span class="p">)</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="c1"># → &#39;Visit https://ile-ife.com or email ade@ola.ng for ènìyàn&#39;</span>
+</span></code></pre></div>
+<h3 id="marks-you-typed-are-never-deleted">Marks you typed are never deleted<a class="headerlink" href="#marks-you-typed-are-never-deleted" title="Permanent link">&para;</a></h3>
+<p><code>respect_existing</code> is on by default: a mark already present in the input is
+treated as your intent and preserved. 30% of training examples kept a random
+subset of their marks, so half-corrected input is in-distribution rather than
+an edge case.</p>
+<hr />
+<h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
+<p><a href="../../datasets/">diacbench</a>, 1000 sentences per language.</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th>DER</th>
+<th>shape</th>
+<th>tone</th>
+<th>exact</th>
+<th>compliance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ita</td>
+<td>0.0002</td>
+<td>0.0000</td>
+<td>0.0002</td>
+<td>0.991</td>
+<td>1.0000</td>
 </tr>
 <tr>
-<td>70B</td>
-<td>4-bit NF4</td>
-<td>40 GB (1× A100/H100)</td>
+<td>fra</td>
+<td>0.0012</td>
+<td>0.0003</td>
+<td>0.0009</td>
+<td>0.952</td>
+<td>1.0000</td>
 </tr>
 <tr>
-<td>140B</td>
-<td>bfloat16</td>
-<td>280 GB (2× H200)</td>
+<td>tur</td>
+<td>0.0016</td>
+<td>0.0016</td>
+<td>0.0000</td>
+<td>0.961</td>
+<td>1.0000</td>
 </tr>
 <tr>
-<td>140B</td>
-<td>4-bit NF4</td>
-<td>70 GB (1× H200)</td>
+<td>por</td>
+<td>0.0019</td>
+<td>0.0006</td>
+<td>0.0014</td>
+<td>0.925</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>pol</td>
+<td>0.0022</td>
+<td>0.0018</td>
+<td>0.0003</td>
+<td>0.935</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>spa</td>
+<td>0.0022</td>
+<td>0.0001</td>
+<td>0.0021</td>
+<td>0.917</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>hau</td>
+<td>0.0041</td>
+<td>0.0040</td>
+<td>0.0001</td>
+<td>0.741</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>ibo</td>
+<td>0.0122</td>
+<td>0.0110</td>
+<td>0.0013</td>
+<td>0.483</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>vie</td>
+<td>0.0164</td>
+<td>0.0073</td>
+<td>0.0124</td>
+<td>0.650</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>yor</td>
+<td>0.0836</td>
+<td>0.0203</td>
+<td>0.0695</td>
+<td>0.084</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td><strong>all</strong></td>
+<td><strong>0.0132</strong></td>
+<td>0.0055</td>
+<td>0.0086</td>
+<td>0.764</td>
+<td><strong>1.0000</strong></td>
+</tr>
+</tbody>
+</table>
+<p>Against the model it replaces: Yoruba <strong>0.2006 → 0.0836</strong> (58% lower), Hausa
+<strong>0.0593 → 0.0041</strong> (93%) — though much of the Hausa gain is the compliance
+guarantee rather than better modelling, since a large share of the old error was
+text corruption rather than wrong accents.</p>
+<p><code>shape_DER</code> counts errors of letter identity; <code>tone_DER</code> counts errors of pitch
+or stress. They are separate heads because which mark is which is
+language-dependent — U+0323 dot-below is <em>shape</em> in Yoruba (<code>ẹ</code> and <code>e</code> are
+different letters) and <em>tone</em> in Vietnamese (nặng). Reporting them apart is what
+showed that four fifths of the remaining Yoruba error is a single failure mode.</p>
+<h3 id="versus-frontier-llms">Versus frontier LLMs<a class="headerlink" href="#versus-frontier-llms" title="Permanent link">&para;</a></h3>
+<p>300 sentences per language, matching how the baselines were run.</p>
+<table>
+<thead>
+<tr>
+<th>lang</th>
+<th><code>diactag-1.0</code></th>
+<th>Claude Sonnet 4.5</th>
+<th>GPT-4o-mini</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>yor</td>
+<td><strong>0.0933</strong></td>
+<td>0.1913</td>
+<td>0.2811</td>
+</tr>
+<tr>
+<td>ibo</td>
+<td><strong>0.0110</strong></td>
+<td>0.0427</td>
+<td>0.1277</td>
+</tr>
+<tr>
+<td>hau</td>
+<td><strong>0.0041</strong></td>
+<td>0.0178</td>
+<td>0.1432</td>
+</tr>
+<tr>
+<td>vie</td>
+<td>0.0166</td>
+<td><strong>0.0107</strong></td>
+<td>0.0399</td>
+</tr>
+<tr>
+<td>fra</td>
+<td><strong>0.0014</strong></td>
+<td>0.0052</td>
+<td>0.0023</td>
+</tr>
+</tbody>
+</table>
+<p>Best on 7 of 10; Vietnamese and Portuguese genuinely lose. Note that those LLM
+numbers are the <em>charitable</em> ones — they come from a harness that discards any
+output that no longer strips back to the input. Raw, against the floor of simply
+copying the input unchanged, Claude scores 0.3509 on Hausa against a floor of
+0.0236: on three languages a frontier model makes the text <strong>worse than doing
+nothing</strong>. That fallback harness is this architecture, reimplemented externally.
+Here there is nothing to discard.</p>
+<p>Full published numbers: <strong><a href="../../benchmarks/">Benchmarks →</a></strong></p>
+<hr />
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>backend</th>
+<th>chars/s</th>
+<th>p50 latency</th>
+<th>size</th>
+<th>DER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PyTorch CPU</td>
+<td>105</td>
+<td>591 ms</td>
+<td>150 MB</td>
+<td>0.0105</td>
+</tr>
+<tr>
+<td>ONNX fp32</td>
+<td>202</td>
+<td>286 ms</td>
+<td>150.9 MB</td>
+<td>0.0105</td>
+</tr>
+<tr>
+<td><strong>ONNX int8</strong></td>
+<td><strong>244</strong></td>
+<td><strong>200 ms</strong></td>
+<td><strong>38.3 MB</strong></td>
+<td>0.0108</td>
+</tr>
+</tbody>
+</table>
+<p>A 38MB artifact at 244 characters per second on one CPU core takes the GPU off
+the serving bill entirely.</p>
+<hr />
+<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>No typo correction.</strong> The architecture cannot insert or delete characters,
+  so it cannot fix <code>Ile → Ilé</code> and <code>teh → the</code> in one pass. That is the price of
+  the guarantee. The per-character confidence is a natural trigger for a
+  separate corrector: characters where the tagger is unsure are exactly where a
+  spelling issue is likely.</li>
+<li><strong>Yoruba is still hard.</strong> DER 0.0836, 83% of it tone <em>direction</em> — the model
+  knows a mark belongs there and picks the wrong one. Sentence-level exact match
+  is 0.084, so 92 of every 100 Yoruba sentences contain at least one wrong mark.</li>
+<li><strong>Igbo and Hausa tone numbers are not achievements.</strong> <code>tone_DER</code> of 0.0013 and
+  0.0001 looks superb and means little: those orthographies barely write tone.</li>
+<li><strong>Dense input degrades.</strong> The Polish pangram <em>Zażółć gęślą jaźń</em> has nine
+  times the density of real Polish and the model misses six characters, despite
+  a Polish DER of 0.0022.</li>
+<li><strong>Some errors are irreducible.</strong> <code>Viaggio</code> and <code>Viaggiò</code> are both valid
+  Italian and the stripped form contains no information distinguishing them.</li>
+<li><strong>Fixed label space.</strong> Adding a language with new marks invalidates existing
+  checkpoints. The label space carries a <code>SPEC_VERSION</code> that is checked on load,
+  so a mismatch fails loudly rather than silently.</li>
+</ul>
+<hr />
+<h2 id="which-diacritization-model-should-i-use">Which diacritization model should I use?<a class="headerlink" href="#which-diacritization-model-should-i-use" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Need</th>
+<th>Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Output must never differ from input except in marks</td>
+<td><strong><code>diactag-1.0</code></strong></td>
+</tr>
+<tr>
+<td>Yoruba, Igbo or Hausa accuracy</td>
+<td><strong><code>diactag-1.0</code></strong></td>
+</tr>
+<tr>
+<td>CPU-only serving at scale</td>
+<td><strong><code>diactag-1.0</code></strong> (<code>onnx=True</code>)</td>
+</tr>
+<tr>
+<td>Confidence scores / human review routing</td>
+<td><strong><code>diactag-1.0</code></strong></td>
+</tr>
+<tr>
+<td>Vietnamese or Portuguese peak accuracy</td>
+<td><a href="../diacnet/"><code>diacnet-1.1</code></a></td>
+</tr>
+<tr>
+<td>Fast Yoruba with no deep-learning extra</td>
+<td><a href="../diacnet/"><code>diacnet-yor-viterbi</code></a></td>
 </tr>
 </tbody>
 </table>
 <hr />
-<h2 id="task-specific-mist-models">Task-specific MIST models<a class="headerlink" href="#task-specific-mist-models" title="Permanent link">&para;</a></h2>
-<p>Two small single-purpose models, each with its own SDK class:</p>
-<h3 id="misttitlegenerator-chat-titles"><code>MISTTitleGenerator</code> — chat titles<a class="headerlink" href="#misttitlegenerator-chat-titles" title="Permanent link">&para;</a></h3>
-<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/mist-tg-0.3b">mist-tg-0.3b</a> · ~300M, byte-level seq2seq</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MISTTitleGenerator</span>
-</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>
-</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="n">titler</span> <span class="o">=</span> <span class="n">MISTTitleGenerator</span><span class="p">()</span>
-</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="n">titler</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;My laptop keeps freezing when I open too many tabs, why?&quot;</span><span class="p">)</span>
-</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="c1"># → &#39;Laptop Freezing Impact&#39;</span>
-</span></code></pre></div>
-<p>English-trained; Latin-script languages often work, non-Latin scripts do not.</p>
-<h3 id="mistquestiongenerator-question-generation"><code>MISTQuestionGenerator</code> — question generation<a class="headerlink" href="#mistquestiongenerator-question-generation" title="Permanent link">&para;</a></h3>
-<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/mist-qg-1.5b">mist-qg-1.5b</a> · ~1.5B, 25 languages</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">MISTQuestionGenerator</span>
-</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
-</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">qg</span> <span class="o">=</span> <span class="n">MISTQuestionGenerator</span><span class="p">()</span>
-</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">qg</span><span class="o">.</span><span class="n">generate</span><span class="p">(</span><span class="s2">&quot;Tides are caused by the gravitational pull of the moon...&quot;</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">language</span><span class="o">=</span><span class="s2">&quot;eng&quot;</span><span class="p">)</span>
-</span></code></pre></div>
-<div class="admonition info">
-<p class="admonition-title"><code>language=</code> names the passage's language</p>
-<p>Same-language question generation, not translation — pass a French passage
-with <code>language="fra"</code>, a Yoruba passage with <code>language="yor"</code>. ISO 639-3,
-ISO 639-1, and English names all work.</p>
-</div>
-<p>Full reference for both: <strong><a href="../../llm/#misttitlegenerator-chat-titles">Language Models →</a></strong></p>
-<hr />
 <h2 id="api-reference">API Reference<a class="headerlink" href="#api-reference" title="Permanent link">&para;</a></h2>
-<p>Full class reference: <a href="../../llm/#mist-general-purpose-model-family">Language Models → MIST</a></p>
+<p>Full class/function reference: <a href="../../nlp/#diacritization">NLP &amp; Tokenization → Diacritization</a></p>
 
 
 

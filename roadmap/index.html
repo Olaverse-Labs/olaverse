@@ -539,6 +539,8 @@
       
         
       
+        
+      
     
     
     
@@ -591,6 +593,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../models/diactag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacTag — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1270,10 +1300,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#v03-planned" class="md-nav__link">
+  <a href="#v03-shipped" class="md-nav__link">
     <span class="md-ellipsis">
       
-        v0.3 — planned
+        v0.3 — shipped ✓
       
     </span>
   </a>
@@ -1282,6 +1312,17 @@
       
         <li class="md-nav__item">
   <a href="#v04-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v0.4 — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v04-planned_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         v0.4 — planned
@@ -1406,10 +1447,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#v03-planned" class="md-nav__link">
+  <a href="#v03-shipped" class="md-nav__link">
     <span class="md-ellipsis">
       
-        v0.3 — planned
+        v0.3 — shipped ✓
       
     </span>
   </a>
@@ -1418,6 +1459,17 @@
       
         <li class="md-nav__item">
   <a href="#v04-planned" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v0.4 — planned
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#v04-planned_1" class="md-nav__link">
     <span class="md-ellipsis">
       
         v0.4 — planned
@@ -1490,9 +1542,15 @@
 <li>✓ Datasets API (<code>load_dataset</code>, DiacBench)</li>
 </ul>
 <hr />
-<h2 id="v03-planned">v0.3 — planned<a class="headerlink" href="#v03-planned" title="Permanent link">&para;</a></h2>
+<h2 id="v03-shipped">v0.3 — shipped ✓<a class="headerlink" href="#v03-shipped" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>DiacNet 1.1</strong> — improved Yoruba restoration, better Igbo accuracy, lower CER, faster inference</li>
+<li>✓ <code>diactag-1.0</code> — diacritization as per-character tagging: the output is guaranteed to be the input with marks added, per-character calibrated confidence, built-in language detection, and a 38 MB int8 CPU backend. Yoruba 0.2006 → 0.0836 DER, Hausa 0.0593 → 0.0041</li>
+<li>✓ <code>diacnet-1.1</code> — the ByT5 line retrained on a larger corpus; large gains on Vietnamese, Turkish, Polish and Italian, a regression on Yoruba</li>
+<li>✓ Private/gated Hugging Face repos authenticate via the <code>huggingface-cli login</code> token store, not just <code>HF_TOKEN</code></li>
+</ul>
+<hr />
+<h2 id="v04-planned">v0.4 — planned<a class="headerlink" href="#v04-planned" title="Permanent link">&para;</a></h2>
+<ul>
 <li><strong>CLI</strong> — command-line access to the core models:
   <div class="language-bash highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>olaverse<span class="w"> </span>diacritize<span class="w"> </span><span class="s2">&quot;se eranko naa&quot;</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>olaverse<span class="w"> </span>detect<span class="w"> </span>text.txt
@@ -1505,10 +1563,10 @@
 </span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="n">pipeline</span><span class="o">.</span><span class="n">process</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
 </span></code></pre></div></li>
 <li><strong>REST inference API</strong> — <code>olaverse serve diacnet</code> → <code>POST /diacritize</code></li>
-<li>More African languages across LID and DiacNet</li>
+<li>More African languages across LID, DiacNet and DiacTag</li>
 </ul>
 <hr />
-<h2 id="v04-planned">v0.4 — planned<a class="headerlink" href="#v04-planned" title="Permanent link">&para;</a></h2>
+<h2 id="v04-planned_1">v0.4 — planned<a class="headerlink" href="#v04-planned_1" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Custom fine-tuning API</li>
 <li>Streaming inference</li>
@@ -1521,7 +1579,7 @@
 </ul>
 <hr />
 <h2 id="not-on-the-roadmap-deliberately">Not on the roadmap (deliberately)<a class="headerlink" href="#not-on-the-roadmap-deliberately" title="Permanent link">&para;</a></h2>
-<p>More model families. The current focus is depth over breadth: making the existing models — DiacNet, LID, OTK-BPE, retrieval, MIST, Prism — easier to adopt, deploy, and trust in production.</p>
+<p>More model families. The current focus is depth over breadth: making the existing models — DiacTag, DiacNet, LID, OTK-BPE, retrieval, MIST, Prism — easier to adopt, deploy, and trust in production.</p>
 
 
 

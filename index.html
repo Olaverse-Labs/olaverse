@@ -740,6 +740,8 @@
       
         
       
+        
+      
     
     
     
@@ -792,6 +794,34 @@
           </label>
           <ul class="md-nav__list" data-md-scrollfix>
             
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="models/diactag/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DiacTag — Diacritization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
               
             
               
@@ -1646,7 +1676,7 @@
 
 <p><img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;"></p>
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.2.1 — Now with Title & Question Generation</div>
+  <div class="ov-hero-badge">v0.3.0 — Now with Title & Question Generation</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
@@ -1673,11 +1703,15 @@
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Kedu ka i mere&quot;</span><span class="p">)</span>         <span class="c1"># Igbo</span>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># → &#39;Kedụ ka ị mere&#39;</span>
 </span></code></pre></div>
-<p>Need more languages? The multilingual <a href="models/diacnet/"><code>diacnet-1.0</code></a> model covers 10 — with <code>pip install olaverse[deeplearning]</code>:</p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diacnet-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
+<p>Need more languages? <a href="models/diactag/"><code>diactag-1.0</code></a> covers 10 — and cannot change your text beyond adding marks. With <code>pip install olaverse[deeplearning]</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yo&quot;</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;se eranko naa si gbo o?&quot;</span><span class="p">)</span>
 </span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># → &#39;ṣé ẹranko náà sì gbọ́ ọ?&#39;</span>
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="c1"># Leave lang out and it detects the language itself</span>
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">&quot;Co ay rat dam dang&quot;</span><span class="p">)</span>
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># → &#39;Cô ấy rất đảm đang&#39;</span>
 </span></code></pre></div>
 <hr />
 <h2 id="what-is-olaverse">What is Olaverse?<a class="headerlink" href="#what-is-olaverse" title="Permanent link">&para;</a></h2>
@@ -1707,6 +1741,7 @@
 <ul>
 <li><code>LIDLite5</code> — <strong>1.1 MB</strong>, 0.014 ms per sentence, pure Python, zero GPU</li>
 <li><code>diacnet-yor-viterbi</code> — ~7 MB, fast CPU inference</li>
+<li><code>diactag-1.0</code> — <strong>38 MB</strong> int8, 10 languages, 244 characters/second on one CPU core</li>
 <li><code>Reranker</code> (22.7M) — 23 MB cross-encoder</li>
 <li>Prism vision models — ~25K-parameter upscalers that run anywhere</li>
 </ul>
@@ -1778,9 +1813,15 @@
 </thead>
 <tbody>
 <tr>
+<td><strong>DiacTag</strong></td>
+<td>Restores accents &amp; tones in 10 languages, guaranteed not to alter the text</td>
+<td>38 MB – 150 MB</td>
+<td><a href="models/diactag/">DiacTag →</a></td>
+</tr>
+<tr>
 <td><strong>DiacNet</strong></td>
 <td>Restores accents, tones &amp; special characters in 10 languages</td>
-<td>1 MB – 503 MB</td>
+<td>1 MB – 1.1 GB</td>
 <td><a href="models/diacnet/">DiacNet →</a></td>
 </tr>
 <tr>
@@ -1867,7 +1908,7 @@ Includes: NLP tools, diacritizers, tokenizers, lightweight LID, PII masking.</p>
 <div class="tabbed-block">
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
 </span></code></pre></div>
-Adds: <code>LIDNeural5</code>, <code>diacnet-1.0</code>, MIST local inference (requires GPU).</p>
+Adds: <code>LIDNeural5</code>, <code>diactag-1.0</code>, <code>diacnet-1.0</code>/<code>1.1</code>, MIST local inference (requires GPU).</p>
 </div>
 <div class="tabbed-block">
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>

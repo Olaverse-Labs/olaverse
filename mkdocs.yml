@@ -117,6 +117,7 @@ nav:
   - Home: index.md
   - Models:
       - Overview: models/index.md
+      - DiacTag — Diacritization: models/diactag.md
       - DiacNet — Diacritization: models/diacnet.md
       - Language Detection: models/language-detection.md
       - Tokenizers — OTK-BPE: models/tokenizers.md

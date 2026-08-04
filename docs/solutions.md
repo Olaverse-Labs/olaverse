@@ -34,11 +34,11 @@ Scanners and OCR engines routinely drop diacritics. Restore them as a post-proce
 ```python
 from olaverse.nlp import Diacritizer
 
-d = Diacritizer(model="diacnet-1.0", lang="vi")   # 10 languages available
+d = Diacritizer(model="diactag-1.0", lang="vi")   # 10 languages available
 d.restore("Toi yeu tieng Viet")
 ```
 
-Pair with `PrismDenoiser` to clean scans *before* OCR, and DiacNet to repair the text *after*.
+Pair with `PrismDenoiser` to clean scans *before* OCR, and DiacTag to repair the text *after* — it cannot alter the OCR output beyond adding the marks it dropped.
 
 ---
 

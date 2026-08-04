@@ -1,5 +1,7 @@
 from olaverse.nlp.diacritizer import (
     Diacritizer,
+    DiacNetDecoder,
+    DiacTagDecoder,
     diacritize_yoruba,
     diacritize_yoruba_dot_below,
     diacritize_igbo,
@@ -28,6 +30,8 @@ from olaverse.nlp.stopwords import (
 __all__ = [
     # Diacritization
     "Diacritizer",
+    "DiacNetDecoder",
+    "DiacTagDecoder",
     "diacritize_yoruba",
     "diacritize_yoruba_dot_below",
     "diacritize_igbo",

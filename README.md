@@ -26,9 +26,24 @@ from olaverse.nlp import Diacritizer
 d = Diacritizer(model="auto")       # detects the language, routes to the right model
 d.restore("Ojo lo si oja lana")     # → 'Òjó lọ sí ọjà lana'
 
-# 10 languages via the multilingual model (pip install olaverse[deeplearning]):
-d = Diacritizer(model="diacnet-1.0", lang="yo")
+# 10 languages via diactag-1.0 (pip install olaverse[deeplearning]):
+d = Diacritizer(model="diactag-1.0", lang="yo")
 d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
+
+New in v0.3.0 — `diactag-1.0`, diacritization as per-character tagging. It copies
+every base character through and only predicts the marks, so the output is
+guaranteed to be your input with accents added and nothing else — no dropped
+words, no rewritten clauses. 38 MB on CPU, and best-in-class on 7 of its 10
+languages:
+
+```python
+d = Diacritizer(model="diactag-1.0")           # no lang= → it detects the language
+d.restore("Co ay rat dam dang")                # → 'Cô ấy rất đảm đang'
+
+# Per-character confidence, for routing uncertain output to human review
+text, details = d.restore("se eranko naa", lang="yo", return_details=True)
+review = [c for c in details if c.confidence < 0.9]
 ```
 
 New in v0.2.0 — title and question generation (`pip install olaverse[deeplearning]`):
@@ -50,7 +65,7 @@ MISTQuestionGenerator().generate(passage, n=3, language="eng")
 
 ## Key Capabilities
 
-- **🗣️ Natural Language Processing**: Diacritization for 10+ languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian via `diacnet-1.0`), Language Detection from 5 to 25 languages (`LIDLite5`/`LIDNeural5`, `LIDLite25`/`LIDNeural25`, and the Nigerian-only `LIDNeural5_1`), Byte-Level BPE tokenization (Nigerian languages plus Swahili/Kinyarwanda/merged families), PII masking, and TTS text normalization.
+- **🗣️ Natural Language Processing**: Diacritization for 10+ languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian via `diactag-1.0` or `diacnet-1.0`/`1.1`), Language Detection from 5 to 25 languages (`LIDLite5`/`LIDNeural5`, `LIDLite25`/`LIDNeural25`, and the Nigerian-only `LIDNeural5_1`), Byte-Level BPE tokenization (Nigerian languages plus Swahili/Kinyarwanda/merged families), PII masking, and TTS text normalization.
 - **⚡ MIST Model Family**: Unified interface for the MIST LLM family (8B, 70B, 140B, Thinking). Supports local inference via `transformers` and hosted inference via Featherless or any OpenAI-compatible endpoint. Correct stop tokens and generation defaults per variant are baked in. Plus two task-specific models: `MISTTitleGenerator` (short chat titles from a user's first message) and `MISTQuestionGenerator` (search-style question generation from a passage, across 25 languages).
 - **🧠 Domain LLMs**: `LegalPeace` — memory-efficient 4-bit inference for legal contract reasoning (fine-tuned Mistral-7B-v0.3).
 - **🔎 Retrieval**: `Reranker` (cross-encoder, RAG/search second stage) and `Embedder` (cross-lingual Hausa/Yoruba/Igbo sentence embeddings).
@@ -67,8 +82,11 @@ MISTQuestionGenerator().generate(passage, n=3, language="eng")
 # Core (NLP, tokenizer, lightweight LID)
 pip install olaverse
 
-# Neural models (LIDNeural5/25/5_1, diacnet-1.0, MIST local inference)
+# Neural models (LIDNeural5/25/5_1, diactag-1.0, diacnet-1.0/1.1, MIST local inference)
 pip install olaverse[deeplearning]
+
+# int8 CPU backend for diactag-1.0
+pip install olaverse[onnx]
 
 # Lightweight 25-language LID (fastText, CPU-only)
 pip install olaverse[lid]

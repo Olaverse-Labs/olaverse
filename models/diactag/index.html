@@ -745,10 +745,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lexicon-reranking" class="md-nav__link">
+  <a href="#lexicon-reranking-opt-in-off-by-default" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lexicon reranking
+        Lexicon reranking — opt-in, off by default
       
     </span>
   </a>
@@ -1625,10 +1625,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#lexicon-reranking" class="md-nav__link">
+  <a href="#lexicon-reranking-opt-in-off-by-default" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Lexicon reranking
+        Lexicon reranking — opt-in, off by default
       
     </span>
   </a>
@@ -1970,13 +1970,27 @@ only. The SDK reads the capability off the graph, so against one of those
 <code>lang=</code> becomes required and <code>restore()</code> raises without it, rather than
 silently treating your input as Yoruba.</p>
 </div>
-<h3 id="lexicon-reranking">Lexicon reranking<a class="headerlink" href="#lexicon-reranking" title="Permanent link">&para;</a></h3>
-<p>If the model emits a string that is not a word but the stripped form has known
-diacritized variants, rescore the candidates under the model's own
-per-character distribution and take the best. It never invents a word — it only
-chooses among attested forms, and only when the model's own output wasn't one.</p>
+<h3 id="lexicon-reranking-opt-in-off-by-default">Lexicon reranking — opt-in, off by default<a class="headerlink" href="#lexicon-reranking-opt-in-off-by-default" title="Permanent link">&para;</a></h3>
+<p>If the model emits a non-word whose stripped form has attested variants,
+rescore the candidates under the model's own per-character distribution and
+take the best. It never invents a word — it only chooses among attested forms,
+and only when the model's own output wasn't one.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="n">use_lexicon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Measure it on your data before enabling it</p>
+<p>On diacbench it cuts non-word outputs by <strong>27%</strong> and raises Yorùbá DER by
+<strong>15%</strong> (0.0836 → 0.0961). It trades a metric a reader notices against one
+they don't, and which way that trade falls depends on your copy.</p>
+<p>The cause is the density gating that makes the model good in the first
+place. Restricting the lexicon to well-marked text shrank the Yorùbá
+vocabulary from 86k forms to <strong>18,436</strong> — the harshest cut of any language,
+because 89% of the Yorùbá corpus was under-marked. So "not in the lexicon"
+frequently means "rare or inflected word we didn't keep" rather than "wrong
+spelling", and correct output gets overwritten.</p>
+<p>For comparison, the same gate left Igbo at 62,186 forms and Italian at
+44,977, so the effect is far weaker there.</p>
+</div>
 <h3 id="documents-not-just-sentences">Documents, not just sentences<a class="headerlink" href="#documents-not-just-sentences" title="Permanent link">&para;</a></h3>
 <p>Unlike <code>diacnet</code>, no sentence splitting is needed. Overlapping windows are
 planned across the input and only the centre of each is trusted, so every

@@ -4341,8 +4341,14 @@ language auto-detection intact, and compliance stays 1.0000 because the
 guarantee is architectural rather than a property of numeric precision.</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">&quot;diactag-1.0&quot;</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">&quot;yor&quot;</span><span class="p">,</span> <span class="n">onnx</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>   <span class="c1"># olaverse[onnx]</span>
 </span></code></pre></div>
-<p>Other options: <code>use_lexicon=True</code> reranks predicted non-words against attested
-spellings; <code>device=</code> selects <code>"cpu"</code>, <code>"cuda"</code> or <code>"mps"</code> on the PyTorch backend.</p>
+<p><code>device=</code> selects <code>"cpu"</code>, <code>"cuda"</code> or <code>"mps"</code> on the PyTorch backend.</p>
+<p><strong>Lexicon reranking</strong> (<code>use_lexicon=True</code>, off by default) rescores predicted
+non-words against attested spellings of the same stripped form. Measure it on
+your data before enabling it: on diacbench it cuts non-word outputs by 27% but
+raises Yorùbá DER by 15% (0.0836 → 0.0961), because density gating shrank the
+Yorùbá lexicon to 18,436 forms — so "not in the lexicon" often means "rare word
+we didn't keep", and correct output gets overwritten. See
+<a href="../models/diactag/#lexicon-reranking-opt-in-off-by-default">DiacTag → Lexicon reranking</a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Differences from the diacnet models</p>
 <ul>
@@ -4513,7 +4519,10 @@ the language automatically and route to the appropriate diacritizer.</p>
             <td>
               <div class="doc-md-description">
                 <p><code>"diactag-1.0"</code> only. Rerank predicted non-words against
-  attested spellings of the same stripped form.</p>
+  attested spellings of the same stripped form. Off by default, and
+  worth measuring before you turn it on — on diacbench it cuts
+  non-word outputs by 27% but raises Yoruba DER by 15%
+  (0.0836 -&gt; 0.0961). See :class:<code>DiacTagDecoder</code>.</p>
               </div>
             </td>
             <td>
@@ -4880,7 +4889,13 @@ or deleting a character.</p>
               <div class="doc-md-description">
                 <p>Rerank predicted non-words against attested spellings of
     the same stripped form. Conservative — it only ever chooses
-    among forms seen in the corpus.</p>
+    among forms seen in the corpus. <strong>Measure it on your data
+    before enabling it:</strong> on diacbench it cuts non-word outputs by
+    27% but raises Yoruba DER by 15% (0.0836 -&gt; 0.0961), because
+    the density gating that keeps the lexicon clean shrank the
+    Yoruba vocabulary to 18,436 forms, so "not in the lexicon"
+    often means "rare or inflected word we didn't keep" and correct
+    output gets overwritten. Off by default.</p>
               </div>
             </td>
             <td>

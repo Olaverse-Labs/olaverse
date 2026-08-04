@@ -27,7 +27,7 @@ from olaverse.llm import LegalPeace, MIST, MISTTitleGenerator, MISTQuestionGener
 from olaverse.vision import PrismUpscaler, PrismDenoiser, PrismSteganography
 from olaverse.data import load_dataset, list_datasets, dataset_info
 
-__version__ = "0.3.0"
+__version__ = "0.3.1"
 
 __all__ = [
     # NLP — diacritization

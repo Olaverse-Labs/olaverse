@@ -4,7 +4,21 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.3.0 — *Current*
+## v0.3.1 — *Current*
+
+**Released**: 2026-08-04
+
+Documentation only — no code changes.
+
+The `diactag-1.0` docs presented lexicon reranking as a straightforward feature. Measured on diacbench it cuts non-word outputs by **27%** but raises Yorùbá DER by **15%** (0.0836 → 0.0961), which the model card documented and the SDK docs did not.
+
+The cause is the density gating that makes the model good in the first place: restricting the lexicon to well-marked text shrank the Yorùbá vocabulary from 86k forms to **18,436** — the harshest cut of any language, because 89% of the Yorùbá corpus was under-marked. So "not in the lexicon" often means "rare or inflected word we didn't keep" rather than "wrong spelling", and correct output gets overwritten. The same gate left Igbo at 62,186 forms and Italian at 44,977, so the effect is far weaker there.
+
+`use_lexicon` was already off by default; this release documents why you would leave it that way. The docstrings are corrected too, so `help(Diacritizer)` matches the docs site — that is the part which needed a release, since the docs site rebuilds from `main` but docstrings ship inside the wheel.
+
+---
+
+## v0.3.0
 
 **Released**: 2026-08-04
 

@@ -4,7 +4,8 @@ The `olaverse.nlp` module is the core of the SDK — production-ready tools for 
 
 ```bash
 pip install olaverse                # all NLP tools included (no GPU required)
-pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0
+pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0/1.1, diactag-1.0
+pip install olaverse[onnx]          # adds the int8 diactag-1.0 backend
 pip install olaverse[lid]           # adds LIDLite25 (fastText, 25 languages)
 pip install olaverse[retrieval]     # adds Reranker, Embedder
 ```
@@ -187,7 +188,9 @@ detector.predict("Ina kwana?")   # → 'Hausa'
 
 ## Diacritization
 
-DiacNet restores tones and diacritical marks stripped from Yoruba and Igbo text — the critical front-end step for TTS, language learning, and NLP accuracy.
+DiacNet and DiacTag restore tones and diacritical marks stripped from text — the critical front-end step for TTS, language learning, and NLP accuracy. The small DiacNet models cover Yoruba and Igbo with no extras; `diacnet-1.0`/`1.1` and `diactag-1.0` cover 10 languages each.
+
+For new work prefer **`diactag-1.0`**: it classifies each character instead of generating text, so it cannot alter your input beyond adding marks, and it wins on 9 of 10 languages.
 
 ### Available Models
 
@@ -199,6 +202,8 @@ DiacNet restores tones and diacritical marks stripped from Yoruba and Igbo text 
 | `diacnet-yor-x` | Yoruba (full) | XLM-RoBERTa | Slow | 82.46% word | 503 MB |
 | `diacnet-ig` | Igbo | KNN backoff | ⚡ Fast | Good | ~3 MB |
 | `diacnet-1.0` | 10 languages (see below) | ByT5 seq2seq | Slow | ~0.02 median CER | ~300 MB |
+| `diacnet-1.1` | 10 languages | ByT5 seq2seq | Slow | 0.0002–0.2006 DER | ~1.1 GB |
+| `diactag-1.0` | 10 languages | character tagger | ⚡ 244 chars/s CPU | **0.0132 DER, 1.0 compliance** | 150 MB / 38 MB int8 |
 
 ### Quick Functions
 
@@ -309,7 +314,92 @@ Diacritizer(model="diacnet-1.0", lang="fr", splitter=my_splitter)   # your own
 !!! warning "Yoruba is the hardest language for this model"
     Yoruba's median CER (0.110) is nearly 3x the next-highest language — genuine tonal ambiguity (the same base letters can carry multiple valid tone patterns), not a model weakness. For Yoruba specifically, the dedicated `diacnet-yor-viterbi`/`diacnet-yor-x` models above may perform better; `diacnet-1.0`'s advantage is breadth (10 languages, one model), not peak Yoruba accuracy.
 
+#### diacnet-1.1 — same architecture, larger corpus *(New in v0.3.0)*
+
+**Model Card**: [olaverse/diacnet-1.1](https://huggingface.co/olaverse/diacnet-1.1)
+
+Retrained on a much larger web-sourced corpus. A large improvement on Vietnamese
+(0.1264 → 0.0460 DER), Turkish (0.0447 → 0.0068), Polish (0.0357 → 0.0058) and
+Italian (0.0015 → 0.0002); a regression on Yoruba (0.1554 → 0.2006), because the
+larger corpus is mostly under-tone-marked and the model learned to omit marks
+too. It takes the same `lang=`, `split_sentences=` and `splitter=` arguments as
+`diacnet-1.0`.
+
+```python
+d = Diacritizer(model="diacnet-1.1", lang="vi")
+d.restore("Toi khong biet tieng Viet")
+# → 'Tôi không biết tiếng Việt'
+```
+
+#### diactag-1.0 — per-character tagger, 10 languages *(New in v0.3.0)*
+
+**Model Card**: [olaverse/diactag-1.0](https://huggingface.co/olaverse/diactag-1.0) · **Full guide**: [DiacTag →](models/diactag.md)
+
+Classifies each character into a diacritic transformation instead of generating
+output text. It has no mechanism for changing, inserting or deleting a base
+character, so `strip(output) == strip(input)` holds by construction — asserted on
+every call. 37.6M parameters against 580M, and it beats `diacnet-1.1` on 9 of 10
+languages (Yoruba 0.2006 → 0.0836 DER, Hausa 0.0593 → 0.0041).
+
+```bash
+pip install olaverse[deeplearning]
+```
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diactag-1.0", lang="yo")
+d.restore("se eranko naa si gbo o?")
+# → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
+
+`lang=` takes ISO-639-1 (`"yo"`) or ISO-639-3 (`"yor"`). **Omit it and the
+model's own LID head detects the language**, at a cost of ~0.0001 DER:
+
+```python
+d = Diacritizer(model="diactag-1.0")
+d.restore("Co ay rat dam dang")        # → 'Cô ấy rất đảm đang'
+d.detect_language("Lodz jest piekna")  # → ('pol', 0.9999)
+```
+
+**Per-character confidence and abstention.** Characters below `min_confidence`
+are left exactly as the caller typed them. At 0.9, ~97% of characters are
+restored at 99.6% accuracy and the rest are flagged. The threshold is also a
+per-call argument, so one loaded model serves several pipelines.
+
+```python
+d = Diacritizer(model="diactag-1.0", lang="yor", min_confidence=0.9)
+
+text, details = d.restore("se eranko naa", return_details=True)
+review = [c for c in details if c.confidence < 0.9]
+# each detail: .char, .confidence, .abstained, .protected
+```
+
+**CPU serving.** `onnx=True` loads the int8 export — 3x faster, 4x smaller, with
+language auto-detection intact, and compliance stays 1.0000 because the
+guarantee is architectural rather than a property of numeric precision.
+
+```python
+d = Diacritizer(model="diactag-1.0", lang="yor", onnx=True)   # olaverse[onnx]
+```
+
+Other options: `use_lexicon=True` reranks predicted non-words against attested
+spellings; `device=` selects `"cpu"`, `"cuda"` or `"mps"` on the PyTorch backend.
+
+!!! note "Differences from the diacnet models"
+    * **No sentence splitting needed.** Documents are handled with overlapping
+      sliding windows, so `split_sentences=`/`splitter=` do not apply.
+    * **URLs, emails, `@handles` and `CONSTANT_NAMES` pass through untouched**,
+      and marks already in the input are never silently deleted.
+    * **It cannot fix typos.** Insertions and deletions are impossible by
+      construction — that is the price of the guarantee.
+    * **ONNX exports predating 2026-08-04 have no LID head.** The SDK reads
+      the capability off the graph, so against one of those `lang=` is
+      required and calling without it raises rather than silently assuming
+      Yoruba.
+
 ::: olaverse.nlp.Diacritizer
+::: olaverse.nlp.DiacTagDecoder
 ::: olaverse.nlp.diacritize_yoruba
 ::: olaverse.nlp.diacritize_yoruba_dot_below
 ::: olaverse.nlp.diacritize_igbo

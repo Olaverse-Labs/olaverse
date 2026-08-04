@@ -4,7 +4,8 @@ Every model Olaverse ships, in one place — grouped by task, with guidance on w
 
 | Family | Task | Page |
 |---|---|---|
-| **DiacNet** | Diacritization (restore accents, tones, special characters) | [DiacNet →](diacnet.md) |
+| **DiacTag** | Diacritization as per-character tagging — cannot corrupt the input | [DiacTag →](diactag.md) |
+| **DiacNet** | Diacritization via seq2seq (restore accents, tones, special characters) | [DiacNet →](diacnet.md) |
 | **LID** | Language detection (5–25 languages) | [Language Detection →](language-detection.md) |
 | **OTK-BPE** | Tokenization (Nigerian languages, Swahili, Kinyarwanda) | [Tokenizers →](tokenizers.md) |
 | **Reranker / Embedder** | Retrieval, RAG, cross-lingual search | [Retrieval →](retrieval.md) |
@@ -34,6 +35,8 @@ Every model Olaverse ships, in one place — grouped by task, with guidance on w
 | `LegalPeace` | Legal reasoning | 7B (4-bit) | — | `olaverse[legal]` |
 | `DiacNet` (5 Yoruba/Igbo variants) | Diacritization | 1 MB – 503 MB | — | `olaverse` / `[deeplearning]` |
 | `diacnet-1.0` | Diacritization (10 langs) | ~300 MB | Slow | `olaverse[deeplearning]` |
+| `diacnet-1.1` | Diacritization (10 langs) | ~1.1 GB | Slow | `olaverse[deeplearning]` |
+| `diactag-1.0` | Diacritization (10 langs), compliance guaranteed | 150 MB / 38 MB int8 | 244 chars/s CPU | `olaverse[deeplearning]` / `[onnx]` |
 | `OTK-BPE-50k` (5 Nigerian variants) | Tokenization | ~3 MB each | — | `olaverse` |
 | `OTK-BPE` (9 Swahili/Kinyarwanda/merged variants) | Tokenization | varies | — | `olaverse` |
 | `Reranker` (2 sizes) | Reranking | 23 MB – 150M params | — | `olaverse[retrieval]` |
@@ -52,11 +55,14 @@ Every model Olaverse ships, in one place — grouped by task, with guidance on w
 
 | Need | Model |
 |---|---|
-| Fast Yoruba, CPU-only | `diacnet-yor-viterbi` |
-| Highest Yoruba accuracy | `diacnet-yor-x` |
-| Igbo | `diacnet-ig` |
-| 10 languages, one model | `diacnet-1.0` |
-| Automatic language routing | `Diacritizer(model="auto")` |
+| Output must never differ from input except in marks | `diactag-1.0` |
+| Best Yoruba, Igbo or Hausa accuracy | `diactag-1.0` |
+| CPU-only serving at scale | `diactag-1.0` with `onnx=True` |
+| Per-character confidence / review routing | `diactag-1.0` |
+| Vietnamese or Portuguese peak accuracy | `diacnet-1.1` |
+| Fast Yoruba with no deep-learning extra | `diacnet-yor-viterbi` |
+| Igbo with no deep-learning extra | `diacnet-ig` |
+| Automatic language routing (Yoruba/Igbo) | `Diacritizer(model="auto")` |
 
 ### Language detection
 

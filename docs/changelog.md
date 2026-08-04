@@ -4,7 +4,81 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.2.1 — *Current*
+## v0.3.0 — *Current*
+
+**Released**: 2026-08-04
+
+### New Features
+
+#### `diactag-1.0` — diacritization that cannot corrupt your text
+
+A per-character tagger rather than a seq2seq model. It copies every base character through and only predicts which diacritics that character carries, so `strip(output) == strip(input)` holds **by construction** — for a trained model, an untrained one, or the int8 export. The SDK asserts it on every call.
+
+This is a real failure the previous line had: on Hausa only 94.7% of `diacnet-1.1` outputs still stripped back to their input. The other 5.3% weren't mis-accented, they were different text — words dropped, clauses rewritten, punctuation invented.
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diactag-1.0", lang="yo")
+d.restore("se eranko naa si gbo o?")
+# → 'ṣé ẹranko náà sì gbọ́ ọ?'
+```
+
+37.6M parameters against 580M, and it beats `diacnet-1.1` on 9 of 10 languages — Yoruba 0.2006 → **0.0836** DER, Hausa 0.0593 → **0.0041**.
+
+**Built-in language detection.** Omit `lang=` and the model's own LID head decides, at a cost of ~0.0001 DER.
+
+```python
+d = Diacritizer(model="diactag-1.0")
+d.restore("Co ay rat dam dang")           # → 'Cô ấy rất đảm đang'
+d.detect_language("Lodz jest piekna")     # → ('pol', 0.9999)
+```
+
+**Per-character confidence and abstention.** Characters below `min_confidence` are left exactly as the caller typed them. At 0.9, ~97% of characters are restored at 99.6% accuracy and the rest are flagged. The threshold is also a per-call argument, so one loaded model can serve a CMS pre-fill and a legal pipeline at different points on the same curve.
+
+```python
+d = Diacritizer(model="diactag-1.0", lang="yor", min_confidence=0.9)
+
+text, details = d.restore("se eranko naa", return_details=True)
+review = [c for c in details if c.confidence < 0.9]
+```
+
+**int8 ONNX backend** — 3x faster and 4x smaller (38 MB, 244 chars/s on one CPU core) for +0.03pp DER. Compliance stays 1.0000 under quantisation, because the guarantee is architectural rather than a property of numeric precision.
+
+```python
+d = Diacritizer(model="diactag-1.0", lang="yor", onnx=True)   # pip install olaverse[onnx]
+```
+
+Language auto-detection works on the ONNX backend too, matching the PyTorch head to four decimal places. This needed a re-export: the previous ONNX graph carried the SHAPE and TONE heads only, and `lang_known` was hardcoded inside diactag's `ExportWrapper` — which matters, because the language embedding is additive at every position and leaks into the mean-pooled state the LID head reads, so a head exported under "language is known" just echoes the caller's own guess (Polish text with `lang="yor"` comes back `yor` at 0.9477). The published export now takes `lang_known` as a graph input and emits `lid_logits`.
+
+The SDK reads that capability off the graph rather than assuming it, so a pinned older revision still loads — it just requires an explicit `lang=` and raises without one, instead of silently resolving every input to Yoruba.
+
+Documents are handled natively with overlapping sliding windows — no sentence splitting needed. URLs, emails, `@handles` and `CONSTANT_NAMES` pass through untouched, and marks already present in the input are never silently deleted.
+
+Full guide: **[DiacTag →](models/diactag.md)**
+
+#### `diacnet-1.1`
+
+The same ByT5 architecture retrained on a much larger web-sourced corpus. A large improvement on Vietnamese (0.1264 → 0.0460 DER), Turkish (0.0447 → 0.0068), Polish (0.0357 → 0.0058) and Italian (0.0015 → 0.0002); a **regression on Yoruba** (0.1554 → 0.2006), because the larger corpus is mostly under-tone-marked and the model learned to omit marks too. It does not supersede `diacnet-1.0` — pick per language, or use `diactag-1.0`, which fixes the regression outright.
+
+```python
+d = Diacritizer(model="diacnet-1.1", lang="vi")
+d.restore("Toi khong biet tieng Viet")   # → 'Tôi không biết tiếng Việt'
+```
+
+### Fixes
+
+#### Private and gated Hugging Face repositories now authenticate
+
+The model downloader only read `HF_TOKEN` from the environment, so anyone who had authenticated the normal way — `huggingface-cli login`, which writes a token file — hit a bare `401` on a private repo. It now falls back to the CLI token store (`HF_HOME/token`, `~/.cache/huggingface/token`) and also accepts `HUGGING_FACE_HUB_TOKEN`.
+
+### Notes
+
+`Diacritizer.restore()` gained `lang=`, `min_confidence=` and `return_details=` keyword arguments. Passing a diactag-only argument to another model raises rather than being silently ignored, and `lang=` is now a per-call override for the multilingual models. Existing single-argument calls are unaffected.
+
+---
+
+## v0.2.1
 
 **Released**: 2026-07-26
 

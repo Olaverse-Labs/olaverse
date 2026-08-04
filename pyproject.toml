@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "olaverse"
-version = "0.2.1"
+version = "0.3.0"
 description = "Advanced ML infrastructure and interface to load and run all Olaverse models"
 readme = "README.md"
 authors = [
@@ -47,6 +47,9 @@ legal = [
 deeplearning = [
     "torch",
     "transformers",
+]
+onnx = [
+    "onnxruntime",
 ]
 hosted = [
     "openai>=1.0.0",

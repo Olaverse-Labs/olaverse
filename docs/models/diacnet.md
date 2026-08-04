@@ -9,6 +9,14 @@ Output:  ṣé ẹranko náà sì gbọ́ ọ?
 
 Most digital text in tonal and accented languages is typed without diacritics — keyboards, OCR, and legacy systems strip them. But diacritics carry meaning: Yoruba `ogun` can mean *war*, *twenty*, *medicine*, or the deity *Ògún* depending on tone marks. DiacNet puts them back.
 
+!!! tip "For most new work, start with DiacTag"
+    [`diactag-1.0`](diactag.md) is a per-character tagger rather than a seq2seq
+    model. It cannot change, insert or delete a base character, it scores every
+    character, it runs on CPU at 38MB, and it beats DiacNet on 9 of 10
+    languages. DiacNet remains the right choice for Vietnamese and Portuguese
+    peak accuracy, and the small Viterbi/KNN models remain the fastest way to
+    do Yoruba or Igbo without a deep-learning install.
+
 ---
 
 ## Supported Languages
@@ -16,7 +24,7 @@ Most digital text in tonal and accented languages is typed without diacritics �
 | Model scope | Languages |
 |---|---|
 | Dedicated models | Yoruba, Igbo |
-| `diacnet-1.0` (multilingual) | Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian |
+| `diacnet-1.0` / `diacnet-1.1` (multilingual) | Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian |
 
 ---
 
@@ -30,15 +38,18 @@ Most digital text in tonal and accented languages is typed without diacritics �
 | `diacnet-yor-x` | Yoruba (full) | XLM-RoBERTa | Slow | 82.46% word | 503 MB |
 | `diacnet-ig` | Igbo | KNN backoff | ⚡ Fast | Good | ~3 MB |
 | `diacnet-1.0` | 10 languages | ByT5 seq2seq | Slow | ~0.02 median CER | ~300 MB |
+| `diacnet-1.1` | 10 languages | ByT5 seq2seq | Slow | 0.0002–0.2006 DER | ~1.1 GB |
 
 ### Which DiacNet should I use?
 
 | Need | Model |
 |---|---|
 | Fast Yoruba, CPU-only | `diacnet-yor-viterbi` |
-| Highest Yoruba accuracy | `diacnet-yor-x` |
-| Igbo | `diacnet-ig` |
-| 10 languages, one model | `diacnet-1.0` |
+| Highest Yoruba accuracy | [`diactag-1.0`](diactag.md), then `diacnet-yor-x` |
+| Igbo | [`diactag-1.0`](diactag.md), or `diacnet-ig` with no extras |
+| 10 languages, one model | [`diactag-1.0`](diactag.md) |
+| Vietnamese, Turkish, Polish, Italian via seq2seq | `diacnet-1.1` |
+| Yoruba, Igbo or Hausa via seq2seq | `diacnet-1.0` |
 | Automatic routing (Yoruba/Igbo) | `auto` |
 
 ---
@@ -47,7 +58,7 @@ Most digital text in tonal and accented languages is typed without diacritics �
 
 ```bash
 pip install olaverse                 # Viterbi/KNN/BiLSTM models — CPU, no extras
-pip install olaverse[deeplearning]   # adds diacnet-yor-x and diacnet-1.0
+pip install olaverse[deeplearning]   # adds diacnet-yor-x, diacnet-1.0, diacnet-1.1
 ```
 
 ---
@@ -100,6 +111,43 @@ d_yo.restore("se eranko naa si gbo o?")
 ```
 
 Supported `lang=` codes: `"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"`.
+
+### `diacnet-1.1` — same architecture, larger corpus
+
+v1.1 is the same ByT5 model retrained on a much larger web-sourced corpus. It is
+a **large improvement on 5 languages and a regression on 3**, so it does not
+simply supersede v1.0 — pick per language:
+
+| lang | DER 1.0 | DER 1.1 | verdict |
+|---|---|---|---|
+| vie | 0.1264 | **0.0460** | 1.1 — 2.7× better |
+| tur | 0.0447 | **0.0068** | 1.1 — 6.6× better |
+| pol | 0.0357 | **0.0058** | 1.1 — 6.2× better |
+| ita | 0.0015 | **0.0002** | 1.1 — 7.5× better |
+| por | 0.0072 | **0.0031** | 1.1 better |
+| spa | 0.0084 | **0.0081** | ~equal |
+| fra | **0.0038** | 0.0053 | mixed (1.1 has lower WER) |
+| ibo | **0.0359** | 0.0508 | mixed (1.1 has lower WER) |
+| hau | **0.0383** | 0.0593 | mixed (1.1 has lower WER) |
+| yor | **0.1554** | 0.2006 | 1.0 better |
+
+The cause is measured, not speculative: v1.0 trained on ~2,000 well-tone-marked
+Yoruba passages (diacritic density 0.565), while v1.1's larger corpus averages
+0.223 — it contains far more Yoruba text, but most of it omits tone marks, so
+the model learned to omit them too. More data at lower annotation quality lost
+to less data at higher quality.
+
+[`diactag-1.0`](diactag.md) is the fix for that regression: it scores **0.0836**
+on Yoruba and **0.0041** on Hausa by gating which sentences are allowed to
+supply diacritic supervision.
+
+```python
+d = Diacritizer(model="diacnet-1.1", lang="vi")
+d.restore("Toi khong biet tieng Viet")
+# → 'Tôi không biết tiếng Việt'
+```
+
+**Model Card**: [olaverse/diacnet-1.1](https://huggingface.co/olaverse/diacnet-1.1)
 
 ### Long text is segmented automatically
 
@@ -169,7 +217,8 @@ Full published numbers: **[Benchmarks →](../benchmarks.md)**
 
 ## Roadmap
 
-- **DiacNet 1.1** — improved Yoruba restoration, better Igbo accuracy, lower CER, faster inference *(planned)*
+- ✅ **DiacNet 1.1** — shipped; large gains on Vietnamese, Turkish, Polish and Italian, a regression on Yoruba
+- ✅ **DiacTag 1.0** — shipped; the tone-marking regression fixed, plus a structural compliance guarantee. [DiacTag →](diactag.md)
 - More African languages
 - Streaming/batched inference API
 

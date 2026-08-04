@@ -1,8 +1,8 @@
 """
-DiacNet — Runtime Diacritization Engine
-=======================================
+DiacNet / DiacTag — Runtime Diacritization Engine
+=================================================
 Provides a unified Diacritizer class to load and use any of the available
-DiacNet models for African languages.
+diacritization models.
 
 Supported Methods for Yoruba ('yo'):
   - "viterbi": Fast statistical n-gram Viterbi decoder (default)
@@ -12,12 +12,26 @@ Supported Methods for Yoruba ('yo'):
 
 Supported Methods for Igbo ('ig'):
   - "knn": Character k-NN backoff (default)
+
+Multilingual (10 languages: yo, ig, ha, vi, pl, tr, pt, es, fr, it):
+  - "diacnet": ByT5 seq2seq — diacnet-1.0, diacnet-1.1
+  - "diactag": per-character tagger — diactag-1.0
+
+The two multilingual families differ in kind, not degree. A seq2seq model
+generates the output text, so it *can* drop a word or rewrite a clause; on
+Hausa only 94.7% of diacnet-1.1's outputs still stripped back to their input.
+The tagger classifies each character into a diacritic transformation and copies
+the base character, so ``strip(output) == strip(input)`` holds by construction
+and is asserted on every call. The price is that a tagger cannot insert or
+delete characters, so it cannot fix a typo. Prefer diactag-1.0 unless you need
+that, or unless you are on Vietnamese or Portuguese, where diacnet still wins.
 """
 
 import os
 import json
 import unicodedata
 import re
+from typing import List, Tuple, Union
 from olaverse.utils.downloader import get_model_path
 
 _YORUBA_MODEL_CACHE = {}
@@ -357,6 +371,313 @@ class DiacNetDecoder:
             output_ids = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
         return self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
 
+_DIACTAG_DEFAULT_CKPT = "ckpt_120000.pt"
+# int8 first: 3x faster and 4x smaller on CPU for +0.03pp DER, and compliance
+# is architectural so quantisation cannot break the strip guarantee.
+_DIACTAG_ONNX_NAMES = ("diactag.int8.onnx", "diactag.onnx")
+
+# (repo, artefact, device) -> (model, LabelSpace, temperature)
+_DIACTAG_CACHE = {}
+_DIACTAG_LEXICON_CACHE = {}
+
+
+def _diactag_fetch(repo_id: str, filename: str, required: bool = True):
+    """Resolve one artefact from a diactag repo through the olaverse cache."""
+    try:
+        return get_model_path(filename, repo_id=repo_id)
+    except Exception as exc:
+        if not required:
+            return None
+        raise RuntimeError(
+            f"Could not fetch '{filename}' from '{repo_id}'. If the repository "
+            f"is private or gated, authenticate first — either `huggingface-cli "
+            f"login` or HF_TOKEN=<token with read access>. "
+            f"Original error: {exc}"
+        ) from exc
+
+
+class OnnxTaggerSession:
+    """
+    Adapts an ONNX Runtime session to the ``DiacTagger`` interface, so the ONNX
+    path runs through the identical decoder — same windowing, legality masking
+    and invariant check — rather than a parallel implementation that could drift
+    away from the PyTorch one.
+
+    Inputs are fed and outputs read **by name**, against what the loaded graph
+    declares, so one decoder serves both the current export
+    (``ids/lang/lang_known/attn`` -> ``shape/tone/lid_logits``) and the earlier
+    one that omitted the LID head, which is still what a pinned ``revision=``
+    resolves to.
+
+    ``lang_known`` must be a graph *input* before the LID head can be trusted.
+    The language embedding is additive at every position and leaks into the
+    mean-pooled state the head reads, so under "language is known" the head
+    merely echoes the caller's own guess — on Polish text with ``lang=yor`` it
+    answers ``yor`` at 0.9477. Both conditions are therefore required before
+    ``has_lid`` is set.
+    """
+
+    def __init__(self, session, n_langs: int):
+        self.sess = session
+        self.n_langs = n_langs
+        self.inputs = [i.name for i in session.get_inputs()]
+        self.outputs = [o.name for o in session.get_outputs()]
+        self.has_lid = ("lid_logits" in self.outputs
+                        and "lang_known" in self.inputs)
+
+    # DiacTagger is an nn.Module; these make the duck-type complete.
+    def eval(self):
+        return self
+
+    def to(self, *args, **kwargs):
+        return self
+
+    def __call__(self, ids, lang, lang_known=None, attn=None, need_mlm=False):
+        import numpy as np
+        import torch
+
+        if attn is None:
+            attn = torch.ones_like(ids, dtype=torch.bool)
+        if lang_known is None:
+            lang_known = torch.ones_like(lang)
+        feed = {
+            "ids": ids.cpu().numpy().astype(np.int64),
+            "lang": lang.cpu().numpy().astype(np.int64),
+            "attn": attn.cpu().numpy(),
+            "lang_known": lang_known.cpu().numpy().astype(np.int64),
+        }
+        out = self.sess.run(
+            None, {k: v for k, v in feed.items() if k in self.inputs})
+        by_name = dict(zip(self.outputs, out))
+        return {
+            "shape": torch.from_numpy(by_name["shape_logits"]),
+            "tone": torch.from_numpy(by_name["tone_logits"]),
+            # The zeros are never consumed: detect_language() and a lang=None
+            # restore() both raise when has_lid is False, rather than
+            # arg-maxing a constant into "yor".
+            "lid": (torch.from_numpy(by_name["lid_logits"]) if self.has_lid
+                    else torch.zeros(ids.shape[0], self.n_langs)),
+        }
+
+
+class DiacTagDecoder:
+    """
+    diactag-1.0 diacritic restoration (per-character tagger) — 10 languages.
+
+    Unlike the seq2seq ``diacnet`` line, this model classifies each character
+    into a diacritic transformation instead of generating output text. It has no
+    mechanism for changing, inserting or deleting a base character, so::
+
+        strip_diacritics(output) == strip_diacritics(input)
+
+    holds by construction. The invariant is asserted on every call rather than
+    assumed, and it survives int8 quantisation because it is a property of the
+    architecture, not of numeric precision.
+
+    What that buys over ``diacnet-1.1``: no text corruption, per-character
+    calibrated confidence, built-in language detection, and 37.6M parameters
+    against 580M — CPU serving is the default rather than a compromise. What it
+    costs: the model cannot fix a typo, because fixing one would mean inserting
+    or deleting a character.
+
+    Args:
+        model_name: Hugging Face repo id.
+        ckpt: Checkpoint filename in the repo. Ignored when ``onnx=True``.
+        device: ``"cpu"`` (default), ``"cuda"``, ``"mps"``. Ignored when
+                ``onnx=True`` — the ONNX session is CPU-only.
+        min_confidence: Abstention threshold in [0, 1]. Characters the model is
+                less sure about than this are left exactly as the caller typed
+                them. ``0`` (default) commits to every character. Overridable
+                per call.
+        use_lexicon: Rerank predicted non-words against attested spellings of
+                the same stripped form. Conservative — it only ever chooses
+                among forms seen in the corpus.
+        onnx: Load the int8 ONNX export instead of the PyTorch checkpoint —
+                3x faster and 4x smaller on CPU for +0.03pp DER, and the strip
+                guarantee survives quantisation because it is architectural.
+                Language auto-detection works here too, matching the PyTorch
+                head; against an export predating the LID head, ``lang``
+                becomes required rather than silently guessed. Requires
+                ``onnxruntime``.
+    """
+
+    #: Language codes accepted by :meth:`decode`, ISO-639-3 and ISO-639-1.
+    LANGUAGES = ("yor", "ibo", "hau", "vie", "pol", "tur", "por", "spa",
+                 "fra", "ita")
+
+    def __init__(self, model_name: str = "olaverse/diactag-1.0",
+                 ckpt: str = _DIACTAG_DEFAULT_CKPT, device: str = "cpu",
+                 min_confidence: float = 0.0, use_lexicon: bool = False,
+                 onnx: bool = False):
+        self.model_name = model_name
+        self.device = "cpu" if onnx else device
+        self.min_confidence = min_confidence
+        self.onnx = onnx
+
+        key = (model_name, "onnx" if onnx else ckpt, self.device)
+        if key not in _DIACTAG_CACHE:
+            _DIACTAG_CACHE[key] = self._load(model_name, ckpt, self.device, onnx)
+        self._model, self._labels, self._temperature = _DIACTAG_CACHE[key]
+
+        # Read the capability off the graph rather than assuming it from
+        # `onnx`. The current export carries the LID head, but exports before
+        # it returned SHAPE and TONE only, and auto-detection against one of
+        # those silently answers "yor" for every input.
+        self.supports_language_detection = (
+            self._model.has_lid if onnx else True)
+
+        self._lexicon = self._load_lexicon(model_name) if use_lexicon else None
+        # One runtime per abstention threshold. The expensive parts (weights,
+        # label space, lexicon) are shared; a runtime is just a config plus the
+        # legality mask, so a caller can move along the coverage curve without
+        # reloading anything.
+        self._runtimes = {}
+
+    # -- loading ----------------------------------------------------------
+    @staticmethod
+    def _load(model_name, ckpt, device, onnx):
+        import json as _json
+
+        from olaverse.nlp._diactag.labels import LabelSpace
+
+        labels = LabelSpace.load(_diactag_fetch(model_name, "labels.json"))
+
+        temperature = 1.0
+        calibration = _diactag_fetch(model_name, "calibration.json", required=False)
+        if calibration:
+            try:
+                with open(calibration, encoding="utf-8") as f:
+                    temperature = _json.load(f).get("shared", 1.0)
+            except Exception:
+                pass
+
+        if onnx:
+            model = DiacTagDecoder._load_onnx(model_name, labels)
+        else:
+            from olaverse.nlp._diactag.model import DiacTagger
+            model, _ = DiacTagger.load(_diactag_fetch(model_name, ckpt),
+                                       map_location=device)
+        return model, labels, temperature
+
+    @staticmethod
+    def _load_onnx(model_name, labels):
+        try:
+            import onnxruntime as ort
+        except ImportError as exc:
+            raise ImportError(
+                "onnx=True requires onnxruntime. Install it with "
+                "`pip install olaverse[onnx]`."
+            ) from exc
+
+        path = None
+        for name in _DIACTAG_ONNX_NAMES:
+            path = _diactag_fetch(model_name, name, required=False)
+            if path:
+                break
+        if path is None:
+            raise FileNotFoundError(f"No ONNX export found in '{model_name}'.")
+
+        so = ort.SessionOptions()
+        so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+        session = ort.InferenceSession(path, so,
+                                       providers=["CPUExecutionProvider"])
+        return OnnxTaggerSession(session, labels.n_langs)
+
+    @staticmethod
+    def _load_lexicon(model_name):
+        from olaverse.nlp._diactag.lexicon import Lexicon
+        if model_name not in _DIACTAG_LEXICON_CACHE:
+            # Raises if the repo has no lexicon. Silently returning the plain
+            # model would leave use_lexicon=True doing nothing at all.
+            _DIACTAG_LEXICON_CACHE[model_name] = Lexicon.load(
+                _diactag_fetch(model_name, "lexicon.json"))
+        return _DIACTAG_LEXICON_CACHE[model_name]
+
+    def _runtime(self, min_confidence):
+        threshold = (self.min_confidence if min_confidence is None
+                     else float(min_confidence))
+        if threshold not in self._runtimes:
+            from olaverse.nlp._diactag.infer import (
+                Diacritizer as _Runtime, InferConfig)
+            cfg = InferConfig(
+                device=self.device,
+                temperature=self._temperature,
+                min_confidence=threshold,
+                use_legality=True,
+                lexicon_mode="rerank" if self._lexicon else "off",
+            )
+            self._runtimes[threshold] = _Runtime(
+                self._model, self._labels, cfg, self._lexicon)
+        return self._runtimes[threshold]
+
+    # -- inference --------------------------------------------------------
+    def normalize_language(self, lang):
+        """
+        Map a language code to the ISO-639-3 form the model uses, raising on
+        anything it does not support. ``None`` passes through and means
+        "detect it".
+        """
+        if lang is None:
+            return None
+        from olaverse.nlp._diactag.unicode_ops import normalize_lang
+        resolved = normalize_lang(lang)
+        if resolved is None:
+            raise ValueError(
+                f"Unsupported language '{lang}' for diactag-1.0. Supported: "
+                f"{list(self.LANGUAGES)} (ISO-639-1 codes such as 'yo' are also "
+                f"accepted). Pass lang=None to auto-detect."
+            )
+        return resolved
+
+    def detect_language(self, text: str) -> Tuple[str, float]:
+        """
+        Identify the language of ``text`` with the model's own LID head.
+
+        Returns:
+            tuple: ``(code, probability)``, where ``code`` is ISO-639-3.
+        """
+        self._require_lid()
+        return self._runtime(None).detect_language(text)
+
+    def _require_lid(self):
+        if not self.supports_language_detection:
+            raise ValueError(
+                "This ONNX export does not include the language-detection "
+                "head, so language cannot be auto-detected from it. Pass an "
+                "explicit lang=, or construct with onnx=False to use the "
+                "PyTorch checkpoint. Exports published from 2026-08-04 carry "
+                "the head; a pinned older revision will not."
+            )
+
+    def decode(self, text: str, lang: str = None, min_confidence: float = None,
+               return_details: bool = False) -> Union[str, Tuple[str, List]]:
+        """
+        Restore diacritics.
+
+        Args:
+            text: Input text. Documents are handled directly — the model slides
+                  an overlapping window and keeps only the centre of each, so
+                  every character is predicted with context on both sides.
+            lang: ISO-639-3 or ISO-639-1 code. ``None`` (default) runs the LID
+                  head and uses what it detects, which costs ~0.0001 DER.
+            min_confidence: Per-call override of the abstention threshold.
+            return_details: Also return a list of per-character results
+                  (``char``, ``confidence``, ``abstained``, ``protected``), one
+                  per grapheme, for routing low-confidence spans to review.
+
+        Returns:
+            Union[str, Tuple[str, List]]: the restored text, or ``(text, details)`` when ``return_details=True``.
+        """
+        text = text or ""
+        if not text.strip():
+            return ("", []) if return_details else ""
+        resolved = self.normalize_language(lang)
+        if resolved is None:
+            self._require_lid()
+        return self._runtime(min_confidence).restore(
+            text, resolved, return_details=return_details)
+
+
 class TransformerDecoder:
     def __init__(self, pt_path, vocab_path):
         import torch
@@ -478,6 +799,8 @@ MODEL_REGISTRY = {
     "diacnet-yor":         {"lang": "yo", "method": "bilstm"},
     "diacnet-yor-x":       {"lang": "yo", "method": "transformer"},
     "diacnet-1.0":         {"lang": "multi", "method": "diacnet"},
+    "diacnet-1.1":         {"lang": "multi", "method": "diacnet"},
+    "diactag-1.0":         {"lang": "multi", "method": "diactag"},
     "auto":                {"lang": "auto", "method": "auto"},
 }
 
@@ -498,24 +821,52 @@ class Diacritizer:
             * ``"diacnet-yor-x"``       — Yoruba XLM-RoBERTa (requires ``olaverse[deeplearning]``)
             * ``"diacnet-1.0"``         — Multilingual DiacNet, 10 languages, see ``lang=``
                                           (requires ``olaverse[deeplearning]``)
+            * ``"diacnet-1.1"``         — Same architecture, larger corpus. Better on
+                                          vie/tur/pol/ita/por, worse on yor/ibo/hau
+                                          (requires ``olaverse[deeplearning]``)
+            * ``"diactag-1.0"``         — Per-character tagger, 10 languages. Cannot
+                                          corrupt the text, 38MB on CPU, best DER on
+                                          7 of 10 languages (requires ``olaverse[deeplearning]``)
             * ``"auto"``                — detect language via LIDLite5, then route automatically
 
-        lang: Target language for ``"diacnet-1.0"`` only. One of
-              ``"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"``. Ignored
-              by every other model.
+        lang: Target language for the multilingual models. One of
+              ``"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"``, or the
+              ISO-639-3 equivalent for ``"diactag-1.0"``. Ignored by the
+              single-language models. For ``"diactag-1.0"`` leaving it ``None``
+              auto-detects with the model's own LID head; ``"diacnet-1.0"``/``"1.1"``
+              fall back to Yoruba.
 
-        split_sentences: ``"diacnet-1.0"`` only. That model was trained on
+        split_sentences: ``diacnet`` models only. They were trained on
               sentence-length input, so multi-sentence text is segmented and
               restored a sentence at a time by default. Set ``False`` to send the
-              whole string through in one pass.
+              whole string through in one pass. ``diactag-1.0`` handles documents
+              natively with sliding windows and ignores this.
 
-        splitter: ``"diacnet-1.0"`` only. Your own callable taking a string and
+        splitter: ``diacnet`` models only. Your own callable taking a string and
               returning a list of segments, replacing the default sentence
               splitter.
+
+        min_confidence: ``"diactag-1.0"`` only. Abstention threshold in [0, 1].
+              Characters the model is less sure about are left exactly as the
+              caller typed them. At 0.9, ~97% of characters are restored at
+              99.6% accuracy and the rest are flagged. Default 0 commits to
+              everything. Overridable per :meth:`restore` call.
+
+        use_lexicon: ``"diactag-1.0"`` only. Rerank predicted non-words against
+              attested spellings of the same stripped form.
+
+        onnx: ``"diactag-1.0"`` only. Load the int8 ONNX export — 3x faster and
+              4x smaller on CPU for +0.03pp DER, with language auto-detection
+              intact. Requires ``olaverse[onnx]``.
+
+        device: ``"diactag-1.0"`` only. ``"cpu"`` (default), ``"cuda"`` or
+              ``"mps"``. Ignored when ``onnx=True``.
     """
 
     def __init__(self, model: str = "diacnet-yor-viterbi", lang: str = None,
-                 split_sentences: bool = True, splitter: "callable" = None):
+                 split_sentences: bool = True, splitter: "callable" = None,
+                 min_confidence: float = 0.0, use_lexicon: bool = False,
+                 onnx: bool = False, device: str = "cpu"):
         if model not in MODEL_REGISTRY:
             raise ValueError(
                 f"Model '{model}' is not recognised. "
@@ -527,6 +878,9 @@ class Diacritizer:
         self.method = config["method"]
         self.neural_decoder = None
         self.diacnet_lang = lang or "yo"
+        # diactag treats "no language given" as "detect it", so the raw value is
+        # kept rather than defaulted to Yoruba.
+        self.diactag_lang = lang
         self.split_sentences = split_sentences
         self.splitter = splitter
 
@@ -551,11 +905,26 @@ class Diacritizer:
             self.neural_decoder = _NEURAL_CACHE["transformer"]
 
         elif self.method == "diacnet":
-            # Cache per version key ("diacnet-1.0", later "diacnet-1.1", ...) so
+            # Cache per version key ("diacnet-1.0", "diacnet-1.1", ...) so
             # future DiacNet releases are one registry line, same decoder class.
             if model not in _NEURAL_CACHE:
                 _NEURAL_CACHE[model] = DiacNetDecoder(f"olaverse/{model}")
             self.neural_decoder = _NEURAL_CACHE[model]
+
+        elif self.method == "diactag":
+            # DiacTagDecoder does its own caching of the weights and label
+            # space, so each instance is cheap even though the wrapper is not
+            # shared: min_confidence, lexicon and device are per-instance.
+            self.neural_decoder = DiacTagDecoder(
+                model_name=f"olaverse/{model}",
+                device=device,
+                min_confidence=min_confidence,
+                use_lexicon=use_lexicon,
+                onnx=onnx,
+            )
+            # Fail on an unsupported code now rather than silently
+            # auto-detecting on the first restore() call.
+            self.diactag_lang = self.neural_decoder.normalize_language(lang)
 
     def _auto_restore(self, text: str) -> str:
         """Detect language then delegate to the correct diacritizer."""
@@ -575,25 +944,77 @@ class Diacritizer:
             self._sub["yo"] = Diacritizer(model="diacnet-yor-viterbi")
         return self._sub["yo"].restore(text)
 
-    def restore(self, text: str) -> str:
+    def detect_language(self, text: str) -> Tuple[str, float]:
+        """
+        Identify the language of ``text``. ``"diactag-1.0"`` only — it is the
+        only model with a language-identification head of its own.
+
+        Returns:
+            tuple: ``(iso_639_3_code, probability)``.
+        """
+        if self.method != "diactag":
+            raise ValueError(
+                f"detect_language() is only available on 'diactag-1.0'; this "
+                f"Diacritizer is using '{self.method}'. For standalone language "
+                f"identification use olaverse.nlp.LIDLite5 / LIDNeural25."
+            )
+        return self.neural_decoder.detect_language(text)
+
+    def restore(self, text: str, lang: str = None, min_confidence: float = None,
+                return_details: bool = False) -> Union[str, Tuple[str, List]]:
         """
         Restore diacritics in the given text.
 
         Args:
             text: Plain text (tones/diacritics stripped or missing).
+            lang: Per-call language override for the multilingual models,
+                  replacing the one given at construction.
+            min_confidence: ``"diactag-1.0"`` only. Per-call abstention
+                  threshold, so one loaded model can serve a CMS pre-fill and a
+                  legal pipeline at different points on the coverage curve.
+            return_details: ``"diactag-1.0"`` only. Also return per-character
+                  results (``char``, ``confidence``, ``abstained``,
+                  ``protected``) for routing low-confidence spans to review.
 
         Returns:
-            Text with diacritics restored.
+            Union[str, Tuple[str, List]]: the restored text, or ``(text, details)`` when ``return_details=True``.
         """
+        if return_details and self.method != "diactag":
+            raise ValueError(
+                f"return_details=True is only supported by 'diactag-1.0', which "
+                f"scores each character independently; this Diacritizer is using "
+                f"'{self.method}'."
+            )
+        if min_confidence is not None and self.method != "diactag":
+            raise ValueError(
+                f"min_confidence is only supported by 'diactag-1.0'; this "
+                f"Diacritizer is using '{self.method}'."
+            )
+
+        if self.method == "diactag":
+            return self.neural_decoder.decode(
+                text,
+                lang=lang if lang is not None else self.diactag_lang,
+                min_confidence=min_confidence,
+                return_details=return_details,
+            )
+
         if self.method == "auto":
             return self._auto_restore(text)
 
         if self.method == "diacnet":
             return self.neural_decoder.decode(
                 text,
-                lang=self.diacnet_lang,
+                lang=lang or self.diacnet_lang,
                 split_sentences=self.split_sentences,
                 splitter=self.splitter,
+            )
+
+        if lang is not None:
+            raise ValueError(
+                f"lang= is only meaningful for the multilingual models "
+                f"(diacnet-1.0, diacnet-1.1, diactag-1.0); this Diacritizer is "
+                f"using '{self.method}', which is single-language."
             )
 
         if self.neural_decoder:

@@ -34,13 +34,17 @@ d.restore("Kedu ka i mere")         # Igbo
 # → 'Kedụ ka ị mere'
 ```
 
-Need more languages? The multilingual [`diacnet-1.0`](models/diacnet.md) model covers 10 — with `pip install olaverse[deeplearning]`:
+Need more languages? [`diactag-1.0`](models/diactag.md) covers 10 — and cannot change your text beyond adding marks. With `pip install olaverse[deeplearning]`:
 
 ```python
-d = Diacritizer(model="diacnet-1.0", lang="yo")
+d = Diacritizer(model="diactag-1.0", lang="yo")
 
 d.restore("se eranko naa si gbo o?")
 # → 'ṣé ẹranko náà sì gbọ́ ọ?'
+
+# Leave lang out and it detects the language itself
+Diacritizer(model="diactag-1.0").restore("Co ay rat dam dang")
+# → 'Cô ấy rất đảm đang'
 ```
 
 ---
@@ -84,6 +88,7 @@ Models are sized for real infrastructure, not just research clusters:
 
 - `LIDLite5` — **1.1 MB**, 0.014 ms per sentence, pure Python, zero GPU
 - `diacnet-yor-viterbi` — ~7 MB, fast CPU inference
+- `diactag-1.0` — **38 MB** int8, 10 languages, 244 characters/second on one CPU core
 - `Reranker` (22.7M) — 23 MB cross-encoder
 - Prism vision models — ~25K-parameter upscalers that run anywhere
 
@@ -150,7 +155,8 @@ Models are sized for real infrastructure, not just research clusters:
 
 | Model | What it does | Size | Start here |
 |---|---|---|---|
-| **DiacNet** | Restores accents, tones & special characters in 10 languages | 1 MB – 503 MB | [DiacNet →](models/diacnet.md) |
+| **DiacTag** | Restores accents & tones in 10 languages, guaranteed not to alter the text | 38 MB – 150 MB | [DiacTag →](models/diactag.md) |
+| **DiacNet** | Restores accents, tones & special characters in 10 languages | 1 MB – 1.1 GB | [DiacNet →](models/diacnet.md) |
 | **LID family** | Language detection, 5–25 languages | 1.1 MB – 500 MB | [Language Detection →](models/language-detection.md) |
 | **OTK-BPE** | Tokenizers for 8+ languages, 0% OOV | ~3 MB each | [Tokenizers →](models/tokenizers.md) |
 | **Reranker / Embedder** | RAG & cross-lingual search | 23 MB+ | [Retrieval →](models/retrieval.md) |
@@ -199,7 +205,7 @@ All published numbers — LID, diacritization, tokenizer efficiency — in one p
     ```bash
     pip install olaverse[deeplearning]
     ```
-    Adds: `LIDNeural5`, `diacnet-1.0`, MIST local inference (requires GPU).
+    Adds: `LIDNeural5`, `diactag-1.0`, `diacnet-1.0`/`1.1`, MIST local inference (requires GPU).
 
 === "Hosted Inference"
     ```bash

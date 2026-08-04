@@ -24,9 +24,16 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ---
 
-## v0.3 — planned
+## v0.3 — shipped ✓
 
-- **DiacNet 1.1** — improved Yoruba restoration, better Igbo accuracy, lower CER, faster inference
+- ✓ `diactag-1.0` — diacritization as per-character tagging: the output is guaranteed to be the input with marks added, per-character calibrated confidence, built-in language detection, and a 38 MB int8 CPU backend. Yoruba 0.2006 → 0.0836 DER, Hausa 0.0593 → 0.0041
+- ✓ `diacnet-1.1` — the ByT5 line retrained on a larger corpus; large gains on Vietnamese, Turkish, Polish and Italian, a regression on Yoruba
+- ✓ Private/gated Hugging Face repos authenticate via the `huggingface-cli login` token store, not just `HF_TOKEN`
+
+---
+
+## v0.4 — planned
+
 - **CLI** — command-line access to the core models:
   ```bash
   olaverse diacritize "se eranko naa"
@@ -41,7 +48,7 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
   pipeline.process(text)
   ```
 - **REST inference API** — `olaverse serve diacnet` → `POST /diacritize`
-- More African languages across LID and DiacNet
+- More African languages across LID, DiacNet and DiacTag
 
 ---
 
@@ -61,4 +68,4 @@ Where Olaverse is heading. Shipped items are marked ✓; everything else is plan
 
 ## Not on the roadmap (deliberately)
 
-More model families. The current focus is depth over breadth: making the existing models — DiacNet, LID, OTK-BPE, retrieval, MIST, Prism — easier to adopt, deploy, and trust in production.
+More model families. The current focus is depth over breadth: making the existing models — DiacTag, DiacNet, LID, OTK-BPE, retrieval, MIST, Prism — easier to adopt, deploy, and trust in production.

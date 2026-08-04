@@ -6,6 +6,38 @@ import urllib.error
 # Default Hugging Face repository hosting the serialized model JSON files
 HF_REPO_ID = "olaverse/otk-bpe-50k"
 
+def _get_hf_token():
+    """
+    Resolve a Hugging Face access token for private or gated repositories.
+
+    HF_TOKEN wins, then the token store written by `huggingface-cli login`
+    (HF_HOME/token, ~/.cache/huggingface/token). Reading the store matters
+    because most people authenticate with the CLI and never export HF_TOKEN,
+    and without it a private repo fails with a bare 401.
+    """
+    for var in ("HF_TOKEN", "HUGGING_FACE_HUB_TOKEN"):
+        token = os.environ.get(var)
+        if token:
+            return token.strip()
+
+    hf_home = os.environ.get("HF_HOME")
+    if hf_home:
+        candidates = [os.path.join(hf_home, "token")]
+    else:
+        cache_base = os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache")
+        candidates = [os.path.join(cache_base, "huggingface", "token")]
+
+    for path in candidates:
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                token = f.read().strip()
+            if token:
+                return token
+        except OSError:
+            continue
+    return None
+
+
 def get_cache_dir():
     """
     Get the default cross-platform local cache directory for olaverse models.
@@ -79,7 +111,7 @@ def get_model_path(filename, repo_id=None):
             ctx.verify_mode = ssl.CERT_NONE
 
         req = urllib.request.Request(url)
-        hf_token = os.environ.get("HF_TOKEN")
+        hf_token = _get_hf_token()
         if hf_token:
             req.add_header("Authorization", f"Bearer {hf_token}")
             

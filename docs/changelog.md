@@ -4,6 +4,14 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
+## Unreleased
+
+### New Features
+
+- `MISTQuestionGenerator.build_messages(passage, n, language)` — public, static (no model load) helper returning the exact system + user chat messages `generate` sends. Use it to run the teacher prompt against your own endpoint without importing private names.
+
+---
+
 ## v0.3.1 — *Current*
 
 **Released**: 2026-08-04

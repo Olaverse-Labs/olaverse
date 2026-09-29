@@ -14,7 +14,6 @@ from unittest.mock import patch
 
 from olaverse import MISTTitleGenerator, MISTQuestionGenerator, QG_LANGUAGES
 from olaverse.llm.mist_tasks import (
-    _QG_USER_TEMPLATE,
     _QG_ISO1_ALIASES,
     QG_WEAK_LANGUAGES,
 )
@@ -86,10 +85,24 @@ def test_qg_rejects_unsupported_language():
     assert "klingon" in str(exc.value)
 
 
+def _user_prompt(passage, n, language):
+    messages = MISTQuestionGenerator.build_messages(passage, n, language)
+    assert [m["role"] for m in messages] == ["system", "user"]
+    return messages[1]["content"]
+
+
+def test_qg_build_messages_rejects_empty_passage():
+    with pytest.raises(ValueError):
+        MISTQuestionGenerator.build_messages("   ", 3, "English")
+
+
+def test_qg_build_messages_rejects_unsupported_language():
+    with pytest.raises(ValueError):
+        MISTQuestionGenerator.build_messages("A passage.", 3, "klingon")
+
+
 def test_qg_prompt_interpolates_resolved_name():
-    prompt = _QG_USER_TEMPLATE.format(
-        n=3, language="Yoruba", passage="A passage.", slots=", ".join(['"..."'] * 3)
-    )
+    prompt = _user_prompt("A passage.", 3, "yo")   # ISO 639-1 resolves to "Yoruba"
     assert "Write 3 questions" in prompt
     assert "Write all questions in Yoruba." in prompt
     assert "A passage." in prompt
@@ -101,9 +114,7 @@ def test_qg_prompt_interpolates_resolved_name():
 def test_qg_slot_count_tracks_n(n):
     # The skeleton carries one placeholder per requested question — this is what
     # holds the model to n items instead of defaulting to three.
-    prompt = _QG_USER_TEMPLATE.format(
-        n=n, language="English", passage="A passage.", slots=", ".join(['"..."'] * n)
-    )
+    prompt = _user_prompt("A passage.", n, "English")
     assert prompt.count('"..."') == n
 
 

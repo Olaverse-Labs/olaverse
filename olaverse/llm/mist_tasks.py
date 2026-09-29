@@ -280,6 +280,43 @@ class MISTQuestionGenerator:
         )
 
     @staticmethod
+    def build_messages(passage: str, n: int = 3, language: str = "English") -> list:
+        """
+        Build the chat messages (system + user) that ``generate`` sends to the model.
+
+        Public so callers who run the model elsewhere (a hosted endpoint, vLLM, a
+        data pipeline) can reuse the exact teacher prompt without touching private
+        names. Does not load the model.
+
+        Args:
+            passage: Source text the questions must be answerable from.
+            n: How many questions to request. The JSON skeleton is sized to this.
+            language: The language the passage is written in — ISO 639-3, ISO 639-1,
+                      or English name.
+
+        Returns:
+            list[dict]: ``[{"role": "system", ...}, {"role": "user", ...}]``
+
+        Raises:
+            ValueError: if the passage is empty or the language is unsupported.
+        """
+        passage = (passage or "").strip()
+        if not passage:
+            raise ValueError("passage is empty — nothing to generate questions from.")
+        _, lang_name = MISTQuestionGenerator._resolve_language(language)
+        return [
+            {"role": "system", "content": _QG_SYSTEM},
+            {"role": "user", "content": _QG_USER_TEMPLATE.format(
+                n=n,
+                language=lang_name,
+                passage=passage,
+                # One placeholder per requested question — this is what holds the
+                # model to n items rather than defaulting to three.
+                slots=", ".join(['"..."'] * int(n)),
+            )},
+        ]
+
+    @staticmethod
     def _parse_questions(text: str, n: int) -> list:
         """Pull the questions list out of the model's JSON, tolerating stray text."""
         try:
@@ -334,17 +371,7 @@ class MISTQuestionGenerator:
                 stacklevel=2,
             )
 
-        messages = [
-            {"role": "system", "content": _QG_SYSTEM},
-            {"role": "user", "content": _QG_USER_TEMPLATE.format(
-                n=n,
-                language=lang_name,
-                passage=passage,
-                # One placeholder per requested question — this is what holds the
-                # model to n items rather than defaulting to three.
-                slots=", ".join(['"..."'] * int(n)),
-            )},
-        ]
+        messages = self.build_messages(passage, n, language)
 
         encoded = self._tokenizer.apply_chat_template(
             messages, tokenize=True, add_generation_prompt=True,

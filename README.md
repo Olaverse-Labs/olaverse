@@ -31,6 +31,22 @@ d = Diacritizer(model="diactag-1.0", lang="yo")
 d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ ọ?'
 ```
 
+New in v0.4.1 — language identification for **608 languages**, African-first:
+`LIDLite608` (fastText, 37 MB, CPU) and `LIDNeural608` (mmBERT, the most accurate on
+short text). Both have a `coverage` mode (every language equally likely, for corpus
+building) and a `traffic` mode (shifted by real-world frequency, for user input).
+Labels carry the script, e.g. `yor_Latn`. This release also fixes model downloads: a
+dropped connection can no longer leave a broken file in the cache (downloads resume
+and are size-checked), and a failed download is no longer reported as a missing file.
+
+```python
+from olaverse import LIDLite608, LIDNeural608
+
+LIDLite608().predict("Ẹ kú àárọ̀, ṣé dáadáa ni?")                      # → 'yor_Latn'
+LIDNeural608(mode="traffic").predict_batch(["Good morning", "Habari za asubuhi"])
+# → ['eng_Latn', 'swh_Latn']
+```
+
 New in v0.4.0 — Arabic, and the 2.0 diacritizers. `diactag-2.0` adds Arabic to the
 per-character tagger, `diacnet-2.0` / `diacnet-mini-2.0` are ByT5 text-to-text
 models with meaning hints and `<auto>` language detection. Existing

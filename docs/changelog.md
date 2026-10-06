@@ -4,7 +4,11 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## Unreleased
+## v0.4.1 — *Unreleased*
+
+**Status**: prepared 2026-10-06, not yet published. Replace this line with the release date when the tag is pushed.
+
+The 608-language identification models, and fixes for downloads that left a broken file behind. This is mostly a bug-fix release, but it also adds two new classes (`LIDLite608`, `LIDNeural608`); nothing existing changes behaviour except where a bug is fixed. It also refreshes the PyPI project page: the README shipped in 0.4.0 still said the 2.0 models were private and needed a login, and PyPI renders the README from the uploaded distribution.
 
 ### New Features
 

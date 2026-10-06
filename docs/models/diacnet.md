@@ -197,7 +197,7 @@ Diacritizer(model="diacnet-1.0", lang="fr", splitter=my_splitter)
 
 ByT5 text-to-text models for 11 languages including Arabic (**New in v0.4.0**).
 `diacnet-2.0` is 582M parameters, `diacnet-mini-2.0` 300M with the same interface.
-Both are private repos: authenticate with `huggingface-cli login` or `HF_TOKEN`.
+Weights download from Hugging Face on first use (2.3 GB and 1.2 GB).
 
 ```python
 from olaverse.nlp import Diacritizer

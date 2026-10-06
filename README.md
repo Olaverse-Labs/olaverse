@@ -31,8 +31,7 @@ d = Diacritizer(model="diactag-1.0", lang="yo")
 d.restore("se eranko naa si gbo o?")   # → 'ṣé ẹranko náà sì gbọ́ ọ?'
 ```
 
-New in v0.4.0 — Arabic, and the 2.0 diacritizers (private models; log in with
-`huggingface-cli login` or set `HF_TOKEN`). `diactag-2.0` adds Arabic to the
+New in v0.4.0 — Arabic, and the 2.0 diacritizers. `diactag-2.0` adds Arabic to the
 per-character tagger, `diacnet-2.0` / `diacnet-mini-2.0` are ByT5 text-to-text
 models with meaning hints and `<auto>` language detection. Existing
 `diactag-1.0` and `diacnet-1.0`/`1.1` code is unchanged.

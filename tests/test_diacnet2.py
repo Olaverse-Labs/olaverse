@@ -11,8 +11,7 @@ Tiers:
     length-sorted padded batching, dtype/device, validation. Nothing is
     downloaded.
   * ``slow`` — the real private checkpoints and the golden examples. Excluded by
-    default (``pytest -m slow``) and skipped when no Hugging Face token is
-    available.
+    default (``pytest -m slow``) and skipped when Hugging Face is not reachable.
 
 The golden strings below came from GPU bf16 batched runs. If one differs on a
 CPU float32 run by a single mark, that is a result to report, not a reason to
@@ -54,15 +53,14 @@ GOLDEN = [
 ]
 
 
-def _hf_token():
-    pytest.importorskip("transformers")
-    from huggingface_hub import get_token
-    return get_token()
-
-
-def _needs_token():
-    if not _hf_token():
-        pytest.skip("needs a Hugging Face token (the olaverse/* repos are private)")
+def _needs_hub():
+    """Skip unless Hugging Face is reachable (the olaverse/* repos are public)."""
+    import urllib.request
+    try:
+        urllib.request.urlopen(
+            f"https://huggingface.co/olaverse/diacnet-2.0/resolve/main/config.json", timeout=10).close()
+    except Exception as exc:
+        pytest.skip(f"Hugging Face is not reachable: {exc}")
 
 
 # =========================================================================== #
@@ -692,7 +690,7 @@ def test_diacnet_1_1_still_rejects_arabic_and_the_2_0_options(fake_diacnet_1):
 
 
 # =========================================================================== #
-# Real checkpoints — opt in with: pytest -m slow   (needs an HF token)
+# Real checkpoints — opt in with: pytest -m slow   (downloads the models)
 # =========================================================================== #
 
 def _golden_ids():
@@ -701,7 +699,7 @@ def _golden_ids():
 
 @pytest.fixture(scope="module")
 def real_diacnet():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("torch")
     return Diacritizer(model="diacnet-2.0", device="auto")
 
@@ -739,7 +737,7 @@ def test_diacnet_2_auto_tag_and_partial_input(real_diacnet):
 
 @slow
 def test_diacnet_2_arabic_without_case_endings():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("torch")
     d = Diacritizer(model="diacnet-2.0", device="auto", case_endings=False)
     assert d.restore("وهذا قول مرغوب عنه .", lang="ara") == "وَهَذَا قَوْل مَرْغُوب عَنْه ."
@@ -747,7 +745,7 @@ def test_diacnet_2_arabic_without_case_endings():
 
 @slow
 def test_diacnet_mini_2_runs_and_keeps_the_invariant():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("torch")
     d = Diacritizer(model="diacnet-mini-2.0", device="auto")
     for lang, hint, source, _ in GOLDEN:
@@ -758,7 +756,7 @@ def test_diacnet_mini_2_runs_and_keeps_the_invariant():
 
 @slow
 def test_diacnet_1_1_real_still_works_and_can_align():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("torch")
     d = Diacritizer(model="diacnet-1.1", lang="yo")
     source = "O so fun ara re pe oun ko ni isoro kankan."

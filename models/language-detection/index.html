@@ -767,6 +767,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#lidlite608-lidneural608-608-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite608 / LIDNeural608 — 608 languages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lidneural5_1-nigerian-only" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1480,6 +1491,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#lidlite608-lidneural608-608-languages" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LIDLite608 / LIDNeural608 — 608 languages
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#lidneural5_1-nigerian-only" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1544,7 +1566,7 @@
 
 
 <h1 id="language-detection-lid">Language Detection (LID)<a class="headerlink" href="#language-detection-lid" title="Permanent link">&para;</a></h1>
-<p><strong>Five language-identification models, from a 1.1 MB pure-Python classifier to 25-language neural models — pick by coverage, latency, and accuracy.</strong></p>
+<p><strong>Seven language-identification models, from a 1.1 MB pure-Python classifier to 608-language neural models — pick by coverage, latency, and accuracy.</strong></p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">detect_language</span>
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
 </span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="n">detect_language</span><span class="p">(</span><span class="s2">"Bawo ni, se daadaa ni?"</span><span class="p">)</span>   <span class="c1"># → 'yor'</span>
@@ -1590,6 +1612,16 @@
 <tr>
 <td>Only the 4 Nigerian languages — input never contains English</td>
 <td><code>LIDNeural5_1</code></td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+<tr>
+<td>608 languages, CPU-only, fast bulk filtering</td>
+<td><code>LIDLite608</code></td>
+<td><code>olaverse[lid]</code></td>
+</tr>
+<tr>
+<td>608 languages, best accuracy, especially short text</td>
+<td><code>LIDNeural608</code></td>
 <td><code>olaverse[deeplearning]</code></td>
 </tr>
 </tbody>
@@ -1687,13 +1719,107 @@
 <p>Both models score noticeably lower on Zulu/Xhosa short-text classification (F1 ~0.77-0.79) than every other language (≥0.98) — the two languages are closely related with substantial shared vocabulary. Treat predictions between these two with reduced confidence on short input.</p>
 </div>
 <hr />
+<h2 id="lidlite608-lidneural608-608-languages">LIDLite608 / LIDNeural608 — 608 languages<a class="headerlink" href="#lidlite608-lidneural608-608-languages" title="Permanent link">&para;</a></h2>
+<p>African-first identification across <strong>608 languages and 36 scripts</strong>, plus a noise class for numbers, URLs and code. Both models share their languages, labels and two reading modes; pick by speed against short-text accuracy.</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th><code>LIDLite608</code></th>
+<th><code>LIDNeural608</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Engine</td>
+<td>fastText (CPU only)</td>
+<td>ModernBERT / mmBERT, 140M parameters</td>
+</tr>
+<tr>
+<td>Size</td>
+<td>37 MB</td>
+<td>~560 MB</td>
+</tr>
+<tr>
+<td>Speed</td>
+<td>~6,800 texts/s on one CPU thread</td>
+<td>~1,100 texts/s on an A100</td>
+</tr>
+<tr>
+<td>Held-out test, accuracy</td>
+<td>0.858</td>
+<td>0.867</td>
+</tr>
+<tr>
+<td>1–5 word input, traffic mode (web-weighted)</td>
+<td>0.829</td>
+<td>0.906</td>
+</tr>
+<tr>
+<td>Everyday phrases, traffic mode</td>
+<td>0.838</td>
+<td>0.943</td>
+</tr>
+<tr>
+<td>Install</td>
+<td><code>olaverse[lid]</code></td>
+<td><code>olaverse[deeplearning]</code></td>
+</tr>
+</tbody>
+</table>
+<p>Figures are from the model cards: <a href="https://huggingface.co/olaverse/lid-lite-608">olaverse/lid-lite-608</a> · <a href="https://huggingface.co/olaverse/lid-neural-608">olaverse/lid-neural-608</a>. Use both: run <code>LIDLite608</code> as a fast first pass and send only short or uncertain inputs to <code>LIDNeural608</code>.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite608</span><span class="p">,</span> <span class="n">LIDNeural608</span>
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">lite</span> <span class="o">=</span> <span class="n">LIDLite608</span><span class="p">()</span>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">lite</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">"Ẹ kú àárọ̀, ṣé dáadáa ni?"</span><span class="p">)</span>     <span class="c1"># → 'yor_Latn'</span>
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="n">lite</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="s2">"Habari za asubuhi"</span><span class="p">,</span> <span class="n">top_k</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="c1"># → {'swh_Latn': 0.916, 'swc_Latn': 0.084, 'hau_Latn': 0.0}</span>
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="n">neural</span> <span class="o">=</span> <span class="n">LIDNeural608</span><span class="p">()</span>                         <span class="c1"># CUDA if available (bf16), else CPU</span>
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="n">neural</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">([</span><span class="s2">"Habari za asubuhi"</span><span class="p">,</span> <span class="s2">"Mo fẹ́ lọ sí ọjà lónìí"</span><span class="p">,</span> <span class="s2">"Bonjour mon ami"</span><span class="p">])</span>
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="c1"># → ['swh_Latn', 'yor_Latn', 'fra_Latn']</span>
+</span></code></pre></div>
+<p><strong>Labels</strong> are ISO 639-3 plus ISO 15924 script: <code>yor_Latn</code>, <code>srp_Cyrl</code>. <code>zxx_Zxxx</code> marks numbers, URLs, code and other non-language text. The 5- and 25-language classes return bare codes like <code>yor</code>; use <code>label.split("_")[0]</code> for the code alone.</p>
+<p><strong>Two modes</strong> (<code>mode=</code>):</p>
+<table>
+<thead>
+<tr>
+<th><code>mode=</code></th>
+<th>Use for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>"coverage"</code> <em>(default)</em></td>
+<td>Every language equally likely. Corpus building and mining low-resource text; best per-language accuracy.</td>
+</tr>
+<tr>
+<td><code>"traffic"</code></td>
+<td>Scores shifted by each language's real-world frequency, so short or ambiguous input leans towards common languages. User input, chat and routing.</td>
+</tr>
+</tbody>
+</table>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">LIDLite608</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"traffic"</span><span class="p">)</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">"Bonjour mon ami"</span><span class="p">)</span>      <span class="c1"># → 'fra_Latn'</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">LIDLite608</span><span class="p">()</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">"Bonjour mon ami"</span><span class="p">)</span>                    <span class="c1"># → 'dhv_Latn'  (coverage: two words are ambiguous)</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="n">LIDNeural608</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">"traffic"</span><span class="p">)</span><span class="o">.</span><span class="n">predict_batch</span><span class="p">([</span><span class="s2">"Good morning"</span><span class="p">,</span> <span class="s2">"Thank you very much"</span><span class="p">])</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># → ['eng_Latn', 'eng_Latn']</span>
+</span></code></pre></div>
+<p>Notes:</p>
+<ul>
+<li><strong>Short text.</strong> Very short input is hard for every model here, the lite one most of all (<code>LIDLite608</code> labels <code>Good morning</code> as <code>ceb_Latn</code>, even in traffic mode). Use <code>LIDNeural608</code> for one-to-five-word input.</li>
+<li><strong>Long text.</strong> <code>LIDNeural608</code> reads up to 512 tokens (about 200 words) and truncates the rest. Split long documents into ~200-word chunks and aggregate; this also catches pages that switch language partway through.</li>
+<li><strong>Input is collapsed to one line.</strong> Newlines and runs of whitespace become single spaces (fastText reads one line, and both models were trained on it). Empty or whitespace-only text raises <code>ValueError</code>.</li>
+<li><strong><code>device=</code></strong> (<code>LIDNeural608</code> only): <code>"cpu"</code>, <code>"cuda"</code>, <code>"mps"</code>, or <code>None</code>/<code>"auto"</code> to pick CUDA when available. The weights load in bfloat16 on CUDA and float32 elsewhere.</li>
+<li><strong><code>transformers&gt;=5.14</code></strong> is what the <code>LIDNeural608</code> model card requires; an older version can fail while loading, and the error says so.</li>
+</ul>
+<hr />
 <h2 id="lidneural5_1-nigerian-only">LIDNeural5_1 — Nigerian-only<a class="headerlink" href="#lidneural5_1-nigerian-only" title="Permanent link">&para;</a></h2>
 <p>A compact (~31M parameter) classifier built on <a href="https://huggingface.co/olaverse/mist-encoder-base-ng"><code>mist-encoder-base-ng</code></a>, covering only Yoruba, Igbo, Hausa, and Nigerian Pidgin.</p>
 <p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/lid-neural-5.1">olaverse/lid-neural-5.1</a></p>
-<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDNeural5_1</span>
-</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>
-</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5_1</span><span class="p">()</span>
-</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">"Ina kwana?"</span><span class="p">)</span>   <span class="c1"># → 'Hausa'</span>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDNeural5_1</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="n">detector</span> <span class="o">=</span> <span class="n">LIDNeural5_1</span><span class="p">()</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="n">detector</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="s2">"Ina kwana?"</span><span class="p">)</span>   <span class="c1"># → 'Hausa'</span>
 </span></code></pre></div>
 <div class="admonition danger">
 <p class="admonition-title">No English class</p>

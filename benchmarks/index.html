@@ -937,6 +937,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#608-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        608-language models
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1531,6 +1542,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#608-language-models" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        608-language models
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1750,6 +1772,42 @@
 <td>XLM-RoBERTa-base</td>
 <td><strong>98.2%</strong></td>
 <td>Requires <code>transformers</code>/<code>torch</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="608-language-models">608-language models<a class="headerlink" href="#608-language-models" title="Permanent link">&para;</a></h3>
+<p>Held-out test of 240,000 samples across 608 languages (accuracy), from the model cards. GlotLID v3 is the nearest comparable open model.</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Type</th>
+<th>Held-out accuracy</th>
+<th>1–5 words</th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LIDLite608</code></td>
+<td>fastText, CPU, 37 MB</td>
+<td>0.858</td>
+<td>0.672</td>
+<td>Apache-2.0</td>
+</tr>
+<tr>
+<td><code>LIDNeural608</code></td>
+<td>mmBERT, 140M</td>
+<td><strong>0.867</strong></td>
+<td>0.666</td>
+<td>Apache-2.0; best in traffic mode on short and everyday text (0.906 on 1–5 words, web-weighted)</td>
+</tr>
+<tr>
+<td>GlotLID v3</td>
+<td>fastText, 1.7 GB</td>
+<td>0.783</td>
+<td>0.486</td>
+<td>for reference</td>
 </tr>
 </tbody>
 </table>

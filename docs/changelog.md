@@ -4,11 +4,48 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## Unreleased
+## v0.4.0 — *Unreleased*
+
+**Status**: prepared 2026-10-06, not yet published.
+
+Arabic, and three new private models: `diactag-2.0`, `diacnet-2.0` and `diacnet-mini-2.0`. Everything that worked on 0.3.1 — `diactag-1.0`, `diacnet-1.0`/`1.1` and the small Yoruba/Igbo models — behaves exactly as before.
 
 ### New Features
 
+#### `diactag-2.0` — the per-character tagger, now with Arabic
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diactag-2.0", lang="ar")          # "ar" or "ara"
+d.restore("ذهب الطالب إلى المدرسة في الصباح")
+Diacritizer(model="diactag-2.0", lang="ar", case_endings=False)
+```
+
+- 11 languages: the original ten plus Arabic (`ara`/`ar`; the LID head detects it too). Label space spec 2.0.0 — 986 characters, 18 shape classes, 15 tone classes. Harakat, tanwīn and sukūn are tone; shadda and dagger alif are shape; hamza letters (أ إ آ ؤ ئ) are spelling and are never added or removed.
+- **`case_endings=`** (constructor and per call, default `True`). `False` drops the vowel / tanwīn / sukūn on each word's last Arabic letter, keeping shadda; a mark you typed yourself is left alone. No effect on other languages. On `diactag-1.0`, which has no Arabic, it raises.
+- **Spec-gated decoding.** The SDK now ships two vendored copies of the decoding code, `olaverse.nlp._diactag` (spec 1.2.0, untouched) and `olaverse.nlp._diactag2` (spec 2.0.0, ported from the code in the model repo). Which one decodes a checkpoint is decided by the `spec_version` in its `labels.json`, so `diactag-1.0` keeps running on the code it was built with. The exact-match check in `LabelSpace.load` is unchanged: a 1.1.0 or 2.1.0 file is rejected, and an unknown major version fails with an error naming the specs involved.
+- `DiacTagDecoder(ckpt=None)` now picks the release's own checkpoint (`ckpt_final.pt` for 2.0; `ckpt_120000.pt` for 1.0, as before).
+
+#### `diacnet-2.0` and `diacnet-mini-2.0` — ByT5 text-to-text, 11 languages
+
+- Prompt format `<tag> [g: word=meaning] text`. Tags: `yor ibo hau vie pol tur por spa fra ita ara ara-nocase auto`; `lang=None` sends `<auto>`. ISO-639-1 codes are accepted.
+- **Meaning hints** — `restore(text, hints={"ranh": "free (time)"})` (or a list of `"word=meaning"` strings).
+- **Output alignment, on by default (`aligned=True`).** Your letters are kept and only the model's marks are taken, so the output strips back to your input. `aligned=False` returns the raw generation (which can also repair typos, and may change a letter). Alignment protects letters, not marks: a mark you typed can still be replaced by the model's choice. Also available standalone as `olaverse.nlp.align_marks`.
+- Text is chunked at ~300 characters on spaces, decoded greedily (`num_beams=1`, `max_new_tokens = 2 × input tokens + 16`), NFC-normalised and rejoined with single spaces.
+- **Batching** — `Diacritizer.restore_batch(texts, ...)` pools the chunks of many texts, sorts them by length and decodes them in batches padded to the longest. `device=` (`"cpu"`, `"cuda"`, `"mps"`, `"auto"`) and `batch_size=`; weights load in bfloat16 on CUDA and float32 elsewhere.
+- New public helpers in `olaverse.nlp.diacnet_utils`: `align`, `strip_marks`, `chunk_text`, `build_hint`, `resolve_tag`.
+
+#### Also
+
 - `MISTQuestionGenerator.build_messages(passage, n, language)` — public, static (no model load) helper returning the exact system + user chat messages `generate` sends. Use it to run the teacher prompt against your own endpoint without importing private names.
+- `Diacritizer.restore_batch` works on every model; on the non-batching ones it restores each text in turn.
+
+### Compatibility
+
+- `diacnet-1.0`/`1.1` keep their prompt format, sentence splitting and raw output. They accept `aligned=True` as an opt-in; it is `False` by default, so existing output does not change.
+- `Diacritizer.restore(...)` gained the keyword arguments `case_endings`, `aligned` and `hints`, appended after the existing ones. Passing one to a model that does not support it raises `ValueError`.
+- `DiacTagDecoder.normalize_language` errors now name the model they came from instead of always saying `diactag-1.0`.
 
 ---
 

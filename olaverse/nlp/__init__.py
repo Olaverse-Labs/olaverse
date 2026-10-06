@@ -1,11 +1,13 @@
 from olaverse.nlp.diacritizer import (
     Diacritizer,
     DiacNetDecoder,
+    DiacNet2Decoder,
     DiacTagDecoder,
     diacritize_yoruba,
     diacritize_yoruba_dot_below,
     diacritize_igbo,
 )
+from olaverse.nlp.diacnet_utils import align as align_marks
 from olaverse.nlp.language_detection import (
     detect_language,
     LIDLite5,
@@ -31,7 +33,9 @@ __all__ = [
     # Diacritization
     "Diacritizer",
     "DiacNetDecoder",
+    "DiacNet2Decoder",
     "DiacTagDecoder",
+    "align_marks",
     "diacritize_yoruba",
     "diacritize_yoruba_dot_below",
     "diacritize_igbo",

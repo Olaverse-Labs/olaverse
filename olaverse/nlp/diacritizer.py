@@ -17,14 +17,30 @@ Multilingual (10 languages: yo, ig, ha, vi, pl, tr, pt, es, fr, it):
   - "diacnet": ByT5 seq2seq — diacnet-1.0, diacnet-1.1
   - "diactag": per-character tagger — diactag-1.0
 
+Multilingual with Arabic (11 languages: the ten above plus ar):
+  - "diactag": per-character tagger — diactag-2.0
+  - "diacnet2": ByT5 text-to-text — diacnet-2.0, diacnet-mini-2.0
+
 The two multilingual families differ in kind, not degree. A seq2seq model
 generates the output text, so it *can* drop a word or rewrite a clause; on
 Hausa only 94.7% of diacnet-1.1's outputs still stripped back to their input.
 The tagger classifies each character into a diacritic transformation and copies
 the base character, so ``strip(output) == strip(input)`` holds by construction
 and is asserted on every call. The price is that a tagger cannot insert or
-delete characters, so it cannot fix a typo. Prefer diactag-1.0 unless you need
-that, or unless you are on Vietnamese or Portuguese, where diacnet still wins.
+delete characters, so it cannot fix a typo.
+
+For diacnet-1.x that meant preferring diactag unless you needed typo repair, or
+were on Vietnamese or Portuguese. The diacnet-2.x models change the trade: with
+*output alignment* (on by default) the model's text is aligned back onto yours,
+keeping your letters and taking only its marks, so they no longer change the
+text either. Per the model cards, diacnet-2.0 then scores a lower error rate than
+diactag-2.0 on 8 of the 10 Latin-script languages, at 582M parameters against
+37.9M; diactag-2.0 stays the CPU-native choice, and the better one on Igbo,
+Vietnamese and Modern Standard Arabic. diacnet-1.x output is left exactly as it
+was unless you ask for ``aligned=True``.
+
+diactag-1.0 and diactag-2.0 are decoded by different vendored code, chosen from
+the ``spec_version`` recorded in each checkpoint's ``labels.json``.
 """
 
 import os
@@ -322,7 +338,8 @@ class DiacNetDecoder:
         self.splitter = splitter or split_sentences
 
     def decode(self, text: str, lang: str = "yo", max_new_tokens: int = 256,
-               split_sentences: bool = True, splitter=None) -> str:
+               split_sentences: bool = True, splitter=None,
+               aligned: bool = False) -> str:
         """
         Restore diacritics.
 
@@ -335,6 +352,10 @@ class DiacNetDecoder:
             splitter: Per-call override for the segmentation callable. Passed
                       here rather than held on the instance so a shared cached
                       decoder isn't mutated by one caller's choice.
+            aligned: Keep each segment's own letters and take only the model's
+                     marks (see :func:`olaverse.nlp.diacnet_utils.align`), so
+                     the output strips back to the input. Off by default, which
+                     leaves diacnet-1.x output exactly as it has always been.
 
         Returns:
             str: the restored text.
@@ -351,14 +372,15 @@ class DiacNetDecoder:
             return ""
 
         if not split_sentences:
-            return self._decode_one(tag, text, max_new_tokens)
+            return self._decode_one(tag, text, max_new_tokens, aligned)
 
         segments = (splitter or self.splitter)(text)
         if len(segments) <= 1:
-            return self._decode_one(tag, text, max_new_tokens)
-        return " ".join(self._decode_one(tag, s, max_new_tokens) for s in segments)
+            return self._decode_one(tag, text, max_new_tokens, aligned)
+        return " ".join(self._decode_one(tag, s, max_new_tokens, aligned) for s in segments)
 
-    def _decode_one(self, tag: str, text: str, max_new_tokens: int) -> str:
+    def _decode_one(self, tag: str, text: str, max_new_tokens: int,
+                    aligned: bool = False) -> str:
         import torch
 
         inputs = self.tokenizer(
@@ -369,16 +391,196 @@ class DiacNetDecoder:
         )
         with torch.no_grad():
             output_ids = self.model.generate(**inputs, max_new_tokens=max_new_tokens)
-        return self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        out = self.tokenizer.decode(output_ids[0], skip_special_tokens=True)
+        if aligned:
+            from olaverse.nlp.diacnet_utils import align
+            out = align(text.strip(), out.strip())
+        return out
+
+
+class DiacNet2Decoder:
+    """
+    diacnet-2.0 / diacnet-mini-2.0 diacritic restoration (byte-level seq2seq) —
+    11 languages including Arabic, from one model.
+
+    A ByT5 text-to-text model. The prompt is ``"<tag> [g: word=meaning] text"``;
+    the language tag is optional (``<auto>``) and so is the gloss block. Unlike
+    diacnet-1.x it was trained on pieces of up to ~300 characters, so text is
+    split into chunks of at most that size on spaces (not on sentence ends),
+    decoded greedily, and the pieces rejoined with single spaces.
+
+    By default (``aligned=True``) the output keeps the input's own letters and
+    takes only the model's marks, so ``strip_marks(output) == strip_marks(input)``
+    by construction. ``aligned=False`` returns the raw generation, which can also
+    repair typos but may change a letter in a few percent of sentences.
+
+    Batching: chunks from every text are pooled, sorted by length and padded to
+    the longest in each batch, so many short texts cost far less than one call
+    each. On a CUDA device the weights load in bfloat16; elsewhere in float32.
+    The reference outputs were produced by batched bf16 GPU runs, so a CPU
+    float32 run can differ by an occasional mark.
+    """
+
+    #: Longest piece sent to the model in one call, in characters.
+    CHUNK_CHARS = 300
+
+    def __init__(self, model_name: str = "olaverse/diacnet-2.0",
+                 device: str = None, batch_size: int = 16):
+        """
+        Args:
+            model_name: Hugging Face model id.
+            device: ``"cuda"``, ``"cpu"``, ``"mps"`` ... ``None`` or ``"auto"``
+                    picks CUDA when available, else CPU.
+            batch_size: Chunks decoded together.
+        """
+        import torch
+        from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
+
+        if device in (None, "auto"):
+            device = "cuda" if torch.cuda.is_available() else "cpu"
+        self.model_name = model_name
+        self.device = device
+        self.batch_size = max(1, int(batch_size))
+        dtype = torch.bfloat16 if str(device).startswith("cuda") else torch.float32
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name, dtype=dtype)
+        self.model.to(device)
+        self.model.eval()
+
+    @staticmethod
+    def _per_item(value, n: int, name: str, broadcast_types=(str, type(None))):
+        """One value per text: a string/None is broadcast, a sequence must match."""
+        if isinstance(value, broadcast_types):
+            return [value] * n
+        value = list(value)
+        if len(value) != n:
+            raise ValueError(
+                f"{name} has {len(value)} entries for {n} texts; pass one per "
+                f"text, or a single value for all."
+            )
+        return value
+
+    def decode(self, text: str, lang: str = None, hints=None,
+               aligned: bool = True, case_endings: bool = True) -> str:
+        """
+        Restore diacritics in one text.
+
+        Args:
+            text: Input text of any length; chunked at ~300 characters.
+            lang: ISO-639-3 / ISO-639-1 code, ``"ara-nocase"`` or ``"auto"``.
+                  ``None`` (default) means ``"auto"``.
+            hints: Meaning hints for words whose marks depend on meaning — a
+                   ``{word: meaning}`` mapping, a list of ``"word=meaning"``
+                   strings, or a ready-made ``"[g: ...]"`` block. Written in
+                   English; applied to every chunk of this text.
+            aligned: Keep your letters, take only the model's marks (default).
+            case_endings: Arabic only. ``False`` selects ``<ara-nocase>``.
+
+        Returns:
+            str: the restored text. Surrounding whitespace is trimmed, and empty
+            input gives ``""``.
+        """
+        return self.decode_batch(
+            [text], lang=lang,
+            hints=None if hints is None else [hints],
+            aligned=aligned, case_endings=case_endings)[0]
+
+    def decode_batch(self, texts, lang=None, hints=None, aligned: bool = True,
+                     case_endings: bool = True, batch_size: int = None) -> list:
+        """
+        Restore diacritics in many texts.
+
+        Args:
+            texts: Sequence of strings.
+            lang: One code for all texts, or a sequence with one per text.
+            hints: ``None``, or a sequence with one entry per text (each ``None``
+                   or anything :func:`olaverse.nlp.diacnet_utils.build_hint`
+                   accepts). Not broadcast: a list of hint strings is ambiguous
+                   between "several hints" and "one per text".
+            aligned: Keep your letters, take only the model's marks (default).
+            case_endings: Arabic only. ``False`` selects ``<ara-nocase>``.
+            batch_size: Override the instance default for this call.
+
+        Returns:
+            list[str]: one restored text per input, in order.
+        """
+        import torch
+        import unicodedata
+
+        from olaverse.nlp.diacnet_utils import (
+            align, build_hint, chunk_text, resolve_tag)
+
+        if isinstance(texts, str):
+            raise TypeError(
+                "decode_batch() takes a sequence of texts, not a single string "
+                "(it would be split into characters); use decode() for one text."
+            )
+        texts = list(texts)
+        n = len(texts)
+        langs = self._per_item(lang, n, "lang")
+        hint_list = [None] * n if hints is None else list(hints)
+        if len(hint_list) != n:
+            raise ValueError(
+                f"hints has {len(hint_list)} entries for {n} texts; pass one "
+                f"per text (None where there is no hint)."
+            )
+
+        results = [""] * n
+        parts = {}
+        items = []                       # (text index, chunk index, chunk, prompt)
+        for i, text in enumerate(texts):
+            text = (text or "").strip()
+            if not text:
+                continue
+            tag = resolve_tag(langs[i], case_endings)
+            hint = build_hint(hint_list[i])
+            pieces = chunk_text(text, self.CHUNK_CHARS)
+            parts[i] = [None] * len(pieces)
+            for j, piece in enumerate(pieces):
+                prompt = f"<{tag}> {hint + ' ' if hint else ''}{piece}"
+                items.append((i, j, piece, prompt))
+
+        # Longest first: batches pad to their longest member, and an
+        # out-of-memory on the biggest batch shows up immediately.
+        items.sort(key=lambda it: len(it[3].encode("utf-8")), reverse=True)
+        step = max(1, int(batch_size or self.batch_size))
+        for b0 in range(0, len(items), step):
+            batch = items[b0:b0 + step]
+            enc = self.tokenizer([it[3] for it in batch], return_tensors="pt",
+                                 padding="longest").to(self.device)
+            with torch.no_grad():
+                out = self.model.generate(
+                    **enc,
+                    max_new_tokens=2 * enc["input_ids"].shape[1] + 16,
+                    num_beams=1, do_sample=False)
+            decoded = self.tokenizer.batch_decode(out, skip_special_tokens=True)
+            for (i, j, piece, _), y in zip(batch, decoded):
+                y = unicodedata.normalize("NFC", y.strip())
+                parts[i][j] = align(piece, y) if aligned else y
+
+        for i, pieces in parts.items():
+            results[i] = " ".join(pieces)
+        return results
+
 
 _DIACTAG_DEFAULT_CKPT = "ckpt_120000.pt"
+# Checkpoint filename per release. A repo not listed here (a fork) keeps the
+# diactag-1.0 default, as before; pass ``ckpt=`` for anything else.
+_DIACTAG_CKPTS = {
+    "diactag-1.0": "ckpt_120000.pt",
+    "diactag-2.0": "ckpt_final.pt",
+}
 # int8 first: 3x faster and 4x smaller on CPU for +0.03pp DER, and compliance
 # is architectural so quantisation cannot break the strip guarantee.
 _DIACTAG_ONNX_NAMES = ("diactag.int8.onnx", "diactag.onnx")
 
-# (repo, artefact, device) -> (model, LabelSpace, temperature)
+# (repo, artefact, device) -> (model, LabelSpace, temperature, backend)
 _DIACTAG_CACHE = {}
 _DIACTAG_LEXICON_CACHE = {}
+
+
+def _diactag_default_ckpt(model_name: str) -> str:
+    return _DIACTAG_CKPTS.get(model_name.rsplit("/", 1)[-1], _DIACTAG_DEFAULT_CKPT)
 
 
 def _diactag_fetch(repo_id: str, filename: str, required: bool = True):
@@ -462,7 +664,12 @@ class OnnxTaggerSession:
 
 class DiacTagDecoder:
     """
-    diactag-1.0 diacritic restoration (per-character tagger) — 10 languages.
+    diactag diacritic restoration (per-character tagger) — diactag-1.0 covers 10
+    languages, diactag-2.0 adds Arabic (11).
+
+    Which vendored code decodes a checkpoint is decided by the ``spec_version`` in
+    its ``labels.json`` (1.x -> spec 1.2.0, 2.x -> spec 2.0.0), so diactag-1.0
+    keeps running on the code it was built with.
 
     Unlike the seq2seq ``diacnet`` line, this model classifies each character
     into a diacritic transformation instead of generating output text. It has no
@@ -474,7 +681,8 @@ class DiacTagDecoder:
     assumed, and it survives int8 quantisation because it is a property of the
     architecture, not of numeric precision.
 
-    What that buys over ``diacnet-1.1``: no text corruption, per-character
+    What that buys over ``diacnet-1.1`` (or, with output alignment off, over any
+    generative model): no text corruption, per-character
     calibrated confidence, built-in language detection, and 37.6M parameters
     against 580M — CPU serving is the default rather than a compromise. What it
     costs: the model cannot fix a typo, because fixing one would mean inserting
@@ -482,7 +690,9 @@ class DiacTagDecoder:
 
     Args:
         model_name: Hugging Face repo id.
-        ckpt: Checkpoint filename in the repo. Ignored when ``onnx=True``.
+        ckpt: Checkpoint filename in the repo. ``None`` (default) picks the
+                release's own: ``ckpt_120000.pt`` for diactag-1.0, ``ckpt_final.pt``
+                for diactag-2.0. Ignored when ``onnx=True``.
         device: ``"cpu"`` (default), ``"cuda"``, ``"mps"``. Ignored when
                 ``onnx=True`` — the ONNX session is CPU-only.
         min_confidence: Abstention threshold in [0, 1]. Characters the model is
@@ -498,6 +708,10 @@ class DiacTagDecoder:
                 Yoruba vocabulary to 18,436 forms, so "not in the lexicon"
                 often means "rare or inflected word we didn't keep" and correct
                 output gets overwritten. Off by default.
+        case_endings: Arabic only (diactag-2.0). ``False`` leaves each word's last
+                letter without its vowel / tanwīn / sukūn (shadda kept) — how most
+                modern Arabic is vowelled. Raises on diactag-1.0, which has no
+                Arabic. Overridable per call.
         onnx: Load the int8 ONNX export instead of the PyTorch checkpoint —
                 3x faster and 4x smaller on CPU for +0.03pp DER, and the strip
                 guarantee survives quantisation because it is architectural.
@@ -507,23 +721,36 @@ class DiacTagDecoder:
                 ``onnxruntime``.
     """
 
-    #: Language codes accepted by :meth:`decode`, ISO-639-3 and ISO-639-1.
+    #: Language codes accepted by :meth:`decode`, ISO-639-3 (ISO-639-1 also
+    #: works). This is the diactag-1.0 set; an instance narrows or widens it to
+    #: what its own label space covers (diactag-2.0 adds ``ara``).
     LANGUAGES = ("yor", "ibo", "hau", "vie", "pol", "tur", "por", "spa",
                  "fra", "ita")
 
+    # Set on construction. Class-level so a bare ``__new__`` instance (as the
+    # language-validation tests build) still resolves against diactag-1.0.
+    _backend = None
+
     def __init__(self, model_name: str = "olaverse/diactag-1.0",
-                 ckpt: str = _DIACTAG_DEFAULT_CKPT, device: str = "cpu",
+                 ckpt: str = None, device: str = "cpu",
                  min_confidence: float = 0.0, use_lexicon: bool = False,
-                 onnx: bool = False):
+                 onnx: bool = False, case_endings: bool = True):
         self.model_name = model_name
         self.device = "cpu" if onnx else device
         self.min_confidence = min_confidence
         self.onnx = onnx
+        self.case_endings = case_endings
+        if ckpt is None:
+            ckpt = _diactag_default_ckpt(model_name)
 
         key = (model_name, "onnx" if onnx else ckpt, self.device)
         if key not in _DIACTAG_CACHE:
             _DIACTAG_CACHE[key] = self._load(model_name, ckpt, self.device, onnx)
-        self._model, self._labels, self._temperature = _DIACTAG_CACHE[key]
+        (self._model, self._labels, self._temperature,
+         self._backend) = _DIACTAG_CACHE[key]
+        self.LANGUAGES = self._backend.languages
+        if not case_endings:
+            self._require_case_endings()
 
         # Read the capability off the graph rather than assuming it from
         # `onnx`. The current export carries the LID head, but exports before
@@ -532,7 +759,8 @@ class DiacTagDecoder:
         self.supports_language_detection = (
             self._model.has_lid if onnx else True)
 
-        self._lexicon = self._load_lexicon(model_name) if use_lexicon else None
+        self._lexicon = (self._load_lexicon(model_name, self._backend)
+                         if use_lexicon else None)
         # One runtime per abstention threshold. The expensive parts (weights,
         # label space, lexicon) are shared; a runtime is just a config plus the
         # legality mask, so a caller can move along the coverage curve without
@@ -544,9 +772,14 @@ class DiacTagDecoder:
     def _load(model_name, ckpt, device, onnx):
         import json as _json
 
-        from olaverse.nlp._diactag.labels import LabelSpace
+        from olaverse.nlp._diactag_backend import backend_for_labels
 
-        labels = LabelSpace.load(_diactag_fetch(model_name, "labels.json"))
+        # The label space is versioned: the spec in labels.json decides which
+        # vendored code decodes this checkpoint (1.x -> _diactag, 2.x ->
+        # _diactag2). LabelSpace.load then requires an exact spec match.
+        labels_path = _diactag_fetch(model_name, "labels.json")
+        backend = backend_for_labels(labels_path)
+        labels = backend.module("labels").LabelSpace.load(labels_path)
 
         temperature = 1.0
         calibration = _diactag_fetch(model_name, "calibration.json", required=False)
@@ -560,10 +793,10 @@ class DiacTagDecoder:
         if onnx:
             model = DiacTagDecoder._load_onnx(model_name, labels)
         else:
-            from olaverse.nlp._diactag.model import DiacTagger
+            DiacTagger = backend.module("model").DiacTagger
             model, _ = DiacTagger.load(_diactag_fetch(model_name, ckpt),
                                        map_location=device)
-        return model, labels, temperature
+        return model, labels, temperature, backend
 
     @staticmethod
     def _load_onnx(model_name, labels):
@@ -590,31 +823,58 @@ class DiacTagDecoder:
         return OnnxTaggerSession(session, labels.n_langs)
 
     @staticmethod
-    def _load_lexicon(model_name):
-        from olaverse.nlp._diactag.lexicon import Lexicon
-        if model_name not in _DIACTAG_LEXICON_CACHE:
+    def _load_lexicon(model_name, backend):
+        # The lexicon is keyed through the backend's unicode_ops, so it is
+        # loaded by the same generation of code as the checkpoint.
+        Lexicon = backend.module("lexicon").Lexicon
+        key = (model_name, backend.package)
+        if key not in _DIACTAG_LEXICON_CACHE:
             # Raises if the repo has no lexicon. Silently returning the plain
             # model would leave use_lexicon=True doing nothing at all.
-            _DIACTAG_LEXICON_CACHE[model_name] = Lexicon.load(
+            _DIACTAG_LEXICON_CACHE[key] = Lexicon.load(
                 _diactag_fetch(model_name, "lexicon.json"))
-        return _DIACTAG_LEXICON_CACHE[model_name]
+        return _DIACTAG_LEXICON_CACHE[key]
 
-    def _runtime(self, min_confidence):
+    def _active_backend(self):
+        if self._backend is None:
+            from olaverse.nlp._diactag_backend import backend_for_spec
+            return backend_for_spec("1")        # diactag-1.0, the default model
+        return self._backend
+
+    def _model_label(self):
+        return getattr(self, "model_name", "olaverse/diactag-1.0").rsplit("/", 1)[-1]
+
+    def _require_case_endings(self):
+        if not self._active_backend().supports_case_endings:
+            raise ValueError(
+                f"case_endings only applies to Arabic, which '{self._model_label()}' "
+                f"does not cover. Use diactag-2.0, or leave case_endings at its "
+                f"default."
+            )
+
+    def _runtime(self, min_confidence, case_endings=None):
         threshold = (self.min_confidence if min_confidence is None
                      else float(min_confidence))
-        if threshold not in self._runtimes:
-            from olaverse.nlp._diactag.infer import (
-                Diacritizer as _Runtime, InferConfig)
-            cfg = InferConfig(
+        endings = self.case_endings if case_endings is None else bool(case_endings)
+        if not endings:
+            self._require_case_endings()
+        key = (threshold, endings)
+        if key not in self._runtimes:
+            infer = self._backend.module("infer")
+            kwargs = {}
+            if self._backend.supports_case_endings:
+                kwargs["case_endings"] = endings
+            cfg = infer.InferConfig(
                 device=self.device,
                 temperature=self._temperature,
                 min_confidence=threshold,
                 use_legality=True,
                 lexicon_mode="rerank" if self._lexicon else "off",
+                **kwargs,
             )
-            self._runtimes[threshold] = _Runtime(
+            self._runtimes[key] = infer.Diacritizer(
                 self._model, self._labels, cfg, self._lexicon)
-        return self._runtimes[threshold]
+        return self._runtimes[key]
 
     # -- inference --------------------------------------------------------
     def normalize_language(self, lang):
@@ -625,13 +885,13 @@ class DiacTagDecoder:
         """
         if lang is None:
             return None
-        from olaverse.nlp._diactag.unicode_ops import normalize_lang
-        resolved = normalize_lang(lang)
+        backend = self._active_backend()
+        resolved = backend.module("unicode_ops").normalize_lang(lang)
         if resolved is None:
             raise ValueError(
-                f"Unsupported language '{lang}' for diactag-1.0. Supported: "
-                f"{list(self.LANGUAGES)} (ISO-639-1 codes such as 'yo' are also "
-                f"accepted). Pass lang=None to auto-detect."
+                f"Unsupported language '{lang}' for {self._model_label()}. "
+                f"Supported: {list(backend.languages)} (ISO-639-1 codes such as "
+                f"'yo' are also accepted). Pass lang=None to auto-detect."
             )
         return resolved
 
@@ -656,7 +916,8 @@ class DiacTagDecoder:
             )
 
     def decode(self, text: str, lang: str = None, min_confidence: float = None,
-               return_details: bool = False) -> Union[str, Tuple[str, List]]:
+               return_details: bool = False,
+               case_endings: bool = None) -> Union[str, Tuple[str, List]]:
         """
         Restore diacritics.
 
@@ -670,6 +931,10 @@ class DiacTagDecoder:
             return_details: Also return a list of per-character results
                   (``char``, ``confidence``, ``abstained``, ``protected``), one
                   per grapheme, for routing low-confidence spans to review.
+            case_endings: Arabic only (diactag-2.0). ``False`` drops the vowel,
+                  tanwīn or sukūn on each word's last letter (shadda is kept).
+                  ``None`` uses the value given at construction. Has no effect
+                  on other languages.
 
         Returns:
             Union[str, Tuple[str, List]]: the restored text, or ``(text, details)`` when ``return_details=True``.
@@ -680,7 +945,7 @@ class DiacTagDecoder:
         resolved = self.normalize_language(lang)
         if resolved is None:
             self._require_lid()
-        return self._runtime(min_confidence).restore(
+        return self._runtime(min_confidence, case_endings).restore(
             text, resolved, return_details=return_details)
 
 
@@ -807,6 +1072,9 @@ MODEL_REGISTRY = {
     "diacnet-1.0":         {"lang": "multi", "method": "diacnet"},
     "diacnet-1.1":         {"lang": "multi", "method": "diacnet"},
     "diactag-1.0":         {"lang": "multi", "method": "diactag"},
+    "diactag-2.0":         {"lang": "multi", "method": "diactag"},
+    "diacnet-2.0":         {"lang": "multi", "method": "diacnet2"},
+    "diacnet-mini-2.0":    {"lang": "multi", "method": "diacnet2"},
     "auto":                {"lang": "auto", "method": "auto"},
 }
 
@@ -833,49 +1101,81 @@ class Diacritizer:
             * ``"diactag-1.0"``         — Per-character tagger, 10 languages. Cannot
                                           corrupt the text, 38MB on CPU, best DER on
                                           7 of 10 languages (requires ``olaverse[deeplearning]``)
+            * ``"diactag-2.0"``         — Same tagger architecture, 11 languages: adds
+                                          Arabic (``ara``/``ar``) with a no-case-endings
+                                          mode. Matches 1.0 on the other ten
+                                          (requires ``olaverse[deeplearning]``)
+            * ``"diacnet-2.0"``         — ByT5 text-to-text, 11 languages incl. Arabic,
+                                          582M. Meaning hints, ``<auto>`` language, output
+                                          alignment on by default
+                                          (requires ``olaverse[deeplearning]``)
+            * ``"diacnet-mini-2.0"``    — Same interface, 300M, close to diacnet-2.0
+                                          (requires ``olaverse[deeplearning]``)
             * ``"auto"``                — detect language via LIDLite5, then route automatically
 
         lang: Target language for the multilingual models. One of
               ``"yo", "vi", "ig", "ha", "pl", "tr", "pt", "es", "fr", "it"``, or the
-              ISO-639-3 equivalent for ``"diactag-1.0"``. Ignored by the
-              single-language models. For ``"diactag-1.0"`` leaving it ``None``
-              auto-detects with the model's own LID head; ``"diacnet-1.0"``/``"1.1"``
-              fall back to Yoruba.
+              ISO-639-3 equivalent for the diactag and diacnet-2.x models; those
+              also take ``"ar"``/``"ara"``, and diacnet-2.x additionally
+              ``"ara-nocase"`` and ``"auto"``. Ignored by the single-language
+              models. For the diactag models leaving it ``None`` auto-detects
+              with the model's own LID head, and diacnet-2.x sends ``<auto>``;
+              ``"diacnet-1.0"``/``"1.1"`` fall back to Yoruba.
 
-        split_sentences: ``diacnet`` models only. They were trained on
+        split_sentences: ``diacnet-1.0``/``1.1`` only. They were trained on
               sentence-length input, so multi-sentence text is segmented and
               restored a sentence at a time by default. Set ``False`` to send the
-              whole string through in one pass. ``diactag-1.0`` handles documents
-              natively with sliding windows and ignores this.
+              whole string through in one pass. The diactag models handle documents
+              natively with sliding windows, and diacnet-2.x chunks at ~300
+              characters instead; both ignore this.
 
-        splitter: ``diacnet`` models only. Your own callable taking a string and
+        splitter: ``diacnet-1.0``/``1.1`` only. Your own callable taking a string and
               returning a list of segments, replacing the default sentence
               splitter.
 
-        min_confidence: ``"diactag-1.0"`` only. Abstention threshold in [0, 1].
+        min_confidence: diactag models only. Abstention threshold in [0, 1].
               Characters the model is less sure about are left exactly as the
               caller typed them. At 0.9, ~97% of characters are restored at
               99.6% accuracy and the rest are flagged. Default 0 commits to
               everything. Overridable per :meth:`restore` call.
 
-        use_lexicon: ``"diactag-1.0"`` only. Rerank predicted non-words against
+        use_lexicon: diactag models only. Rerank predicted non-words against
               attested spellings of the same stripped form. Off by default, and
               worth measuring before you turn it on — on diacbench it cuts
               non-word outputs by 27% but raises Yoruba DER by 15%
               (0.0836 -> 0.0961). See :class:`DiacTagDecoder`.
 
-        onnx: ``"diactag-1.0"`` only. Load the int8 ONNX export — 3x faster and
+        onnx: diactag models only. Load the int8 ONNX export — 3x faster and
               4x smaller on CPU for +0.03pp DER, with language auto-detection
               intact. Requires ``olaverse[onnx]``.
 
-        device: ``"diactag-1.0"`` only. ``"cpu"`` (default), ``"cuda"`` or
-              ``"mps"``. Ignored when ``onnx=True``.
+        device: ``"diactag-*"`` and ``"diacnet-2.0"``/``"diacnet-mini-2.0"``.
+              ``"cpu"`` (default), ``"cuda"`` or ``"mps"``; ``"auto"`` picks CUDA
+              when available. Ignored by diactag when ``onnx=True``. The diacnet-2.x
+              models load in bfloat16 on CUDA and float32 elsewhere.
+
+        case_endings: Arabic only (``"diactag-2.0"``, ``"diacnet-2.0"``,
+              ``"diacnet-mini-2.0"``). ``False`` leaves each word's last letter
+              without its vowel / tanwīn / sukūn (shadda kept), which is how most
+              modern Arabic is vowelled. Has no effect on other languages.
+              Overridable per :meth:`restore` call.
+
+        aligned: ``diacnet`` models only. Keep your own letters and take only the
+              model's marks, so the output always strips back to the input.
+              Defaults to ``True`` for ``"diacnet-2.0"``/``"diacnet-mini-2.0"`` and
+              ``False`` for ``"diacnet-1.0"``/``"1.1"``, whose output is therefore
+              unchanged unless you ask. Overridable per :meth:`restore` call.
+
+        batch_size: ``"diacnet-2.0"``/``"diacnet-mini-2.0"`` only. Chunks decoded
+              together by :meth:`restore_batch`.
     """
 
     def __init__(self, model: str = "diacnet-yor-viterbi", lang: str = None,
                  split_sentences: bool = True, splitter: "callable" = None,
                  min_confidence: float = 0.0, use_lexicon: bool = False,
-                 onnx: bool = False, device: str = "cpu"):
+                 onnx: bool = False, device: str = "cpu",
+                 case_endings: bool = True, aligned: bool = None,
+                 batch_size: int = 16):
         if model not in MODEL_REGISTRY:
             raise ValueError(
                 f"Model '{model}' is not recognised. "
@@ -892,6 +1192,20 @@ class Diacritizer:
         self.diactag_lang = lang
         self.split_sentences = split_sentences
         self.splitter = splitter
+        self.case_endings = case_endings
+        # diacnet-2.x aligns by default; 1.x keeps its historical raw output.
+        self.aligned = (self.method == "diacnet2") if aligned is None else aligned
+        if not case_endings and self.method not in ("diactag", "diacnet2"):
+            raise ValueError(
+                f"case_endings is only supported by the Arabic-capable models "
+                f"(diactag-2.0, diacnet-2.0, diacnet-mini-2.0); this Diacritizer "
+                f"is using '{model}'."
+            )
+        if aligned is not None and self.method not in ("diacnet", "diacnet2"):
+            raise ValueError(
+                f"aligned is only supported by the diacnet models; this "
+                f"Diacritizer is using '{model}'."
+            )
 
         # Auto-routing: lazy-load LIDLite5 + sub-diacritizers at restore() time
         if self.method == "auto":
@@ -930,10 +1244,24 @@ class Diacritizer:
                 min_confidence=min_confidence,
                 use_lexicon=use_lexicon,
                 onnx=onnx,
+                case_endings=case_endings,
             )
             # Fail on an unsupported code now rather than silently
             # auto-detecting on the first restore() call.
             self.diactag_lang = self.neural_decoder.normalize_language(lang)
+
+        elif self.method == "diacnet2":
+            from olaverse.nlp.diacnet_utils import resolve_tag
+            # Fail on an unsupported code now, before a 2GB download.
+            resolve_tag(lang, case_endings)
+            self.batch_size = int(batch_size)
+            # Weights are shared per (model, device); batch_size is passed per
+            # call so changing it never reloads or mutates the shared decoder.
+            key = (model, device)
+            if key not in _NEURAL_CACHE:
+                _NEURAL_CACHE[key] = DiacNet2Decoder(
+                    f"olaverse/{model}", device=device)
+            self.neural_decoder = _NEURAL_CACHE[key]
 
     def _auto_restore(self, text: str) -> str:
         """Detect language then delegate to the correct diacritizer."""
@@ -955,22 +1283,23 @@ class Diacritizer:
 
     def detect_language(self, text: str) -> Tuple[str, float]:
         """
-        Identify the language of ``text``. ``"diactag-1.0"`` only — it is the
-        only model with a language-identification head of its own.
+        Identify the language of ``text``. The diactag models only — they are the
+        only ones with a language-identification head of their own.
 
         Returns:
             tuple: ``(iso_639_3_code, probability)``.
         """
         if self.method != "diactag":
             raise ValueError(
-                f"detect_language() is only available on 'diactag-1.0'; this "
+                f"detect_language() is only available on the diactag models; this "
                 f"Diacritizer is using '{self.method}'. For standalone language "
                 f"identification use olaverse.nlp.LIDLite5 / LIDNeural25."
             )
         return self.neural_decoder.detect_language(text)
 
     def restore(self, text: str, lang: str = None, min_confidence: float = None,
-                return_details: bool = False) -> Union[str, Tuple[str, List]]:
+                return_details: bool = False, case_endings: bool = None,
+                aligned: bool = None, hints=None) -> Union[str, Tuple[str, List]]:
         """
         Restore diacritics in the given text.
 
@@ -978,26 +1307,51 @@ class Diacritizer:
             text: Plain text (tones/diacritics stripped or missing).
             lang: Per-call language override for the multilingual models,
                   replacing the one given at construction.
-            min_confidence: ``"diactag-1.0"`` only. Per-call abstention
+            min_confidence: ``"diactag-*"`` only. Per-call abstention
                   threshold, so one loaded model can serve a CMS pre-fill and a
                   legal pipeline at different points on the coverage curve.
-            return_details: ``"diactag-1.0"`` only. Also return per-character
+            return_details: ``"diactag-*"`` only. Also return per-character
                   results (``char``, ``confidence``, ``abstained``,
                   ``protected``) for routing low-confidence spans to review.
+            case_endings: Arabic only (``"diactag-2.0"``, ``"diacnet-2.0"``,
+                  ``"diacnet-mini-2.0"``). Per-call override of the constructor
+                  setting; ``False`` drops the vowel on each word's last letter.
+            aligned: ``diacnet`` models only. Per-call override of the
+                  constructor setting: keep your letters, take only the marks.
+            hints: ``"diacnet-2.0"``/``"diacnet-mini-2.0"`` only. Meaning hints
+                  for words whose marks depend on meaning: a ``{word: meaning}``
+                  mapping, a list of ``"word=meaning"`` strings, or a ready-made
+                  ``"[g: ...]"`` block. Written in English.
 
         Returns:
             Union[str, Tuple[str, List]]: the restored text, or ``(text, details)`` when ``return_details=True``.
         """
         if return_details and self.method != "diactag":
             raise ValueError(
-                f"return_details=True is only supported by 'diactag-1.0', which "
-                f"scores each character independently; this Diacritizer is using "
-                f"'{self.method}'."
+                f"return_details=True is only supported by the diactag models, "
+                f"which score each character independently; this Diacritizer is "
+                f"using '{self.method}'."
             )
         if min_confidence is not None and self.method != "diactag":
             raise ValueError(
-                f"min_confidence is only supported by 'diactag-1.0'; this "
+                f"min_confidence is only supported by the diactag models; this "
                 f"Diacritizer is using '{self.method}'."
+            )
+        if case_endings is not None and self.method not in ("diactag", "diacnet2"):
+            raise ValueError(
+                f"case_endings is only supported by the Arabic-capable models "
+                f"(diactag-2.0, diacnet-2.0, diacnet-mini-2.0); this Diacritizer "
+                f"is using '{self.method}'."
+            )
+        if aligned is not None and self.method not in ("diacnet", "diacnet2"):
+            raise ValueError(
+                f"aligned is only supported by the diacnet models; this "
+                f"Diacritizer is using '{self.method}'."
+            )
+        if hints is not None and self.method != "diacnet2":
+            raise ValueError(
+                f"hints is only supported by diacnet-2.0 and diacnet-mini-2.0; "
+                f"this Diacritizer is using '{self.method}'."
             )
 
         if self.method == "diactag":
@@ -1006,6 +1360,7 @@ class Diacritizer:
                 lang=lang if lang is not None else self.diactag_lang,
                 min_confidence=min_confidence,
                 return_details=return_details,
+                case_endings=case_endings,
             )
 
         if self.method == "auto":
@@ -1017,7 +1372,13 @@ class Diacritizer:
                 lang=lang or self.diacnet_lang,
                 split_sentences=self.split_sentences,
                 splitter=self.splitter,
+                aligned=self.aligned if aligned is None else aligned,
             )
+
+        if self.method == "diacnet2":
+            return self.restore_batch(
+                [text], lang=lang, case_endings=case_endings, aligned=aligned,
+                hints=None if hints is None else [hints])[0]
 
         if lang is not None:
             raise ValueError(
@@ -1041,3 +1402,55 @@ class Diacritizer:
             return diacritize_igbo(text)
 
         raise ValueError(f"Unsupported language '{self.lang}'.")
+
+    def restore_batch(self, texts, lang=None, case_endings: bool = None,
+                      aligned: bool = None, hints=None) -> list:
+        """
+        Restore diacritics in many texts.
+
+        ``"diacnet-2.0"``/``"diacnet-mini-2.0"`` pool the ~300-character chunks of
+        every text, sort them by length and decode them in padded batches, which
+        is far faster on a GPU than one call per text. Every other model simply
+        restores the texts one at a time.
+
+        Args:
+            texts: Sequence of strings.
+            lang: One language for all texts, or a sequence with one per text.
+                  Defaults to the one given at construction.
+            case_endings: Arabic only; per-call override.
+            aligned: ``diacnet`` models only; per-call override.
+            hints: ``"diacnet-2.0"``/``"diacnet-mini-2.0"`` only. A sequence with
+                  one entry per text (``None`` where there is no hint).
+
+        Returns:
+            list[str]: one restored text per input, in order.
+        """
+        if isinstance(texts, str):
+            raise TypeError(
+                "restore_batch() takes a sequence of texts, not a single string; "
+                "use restore() for one text."
+            )
+        texts = list(texts)
+        if self.method != "diacnet2":
+            if hints is not None:
+                raise ValueError(
+                    f"hints is only supported by diacnet-2.0 and diacnet-mini-2.0; "
+                    f"this Diacritizer is using '{self.method}'."
+                )
+            langs = lang if isinstance(lang, (list, tuple)) else [lang] * len(texts)
+            if len(langs) != len(texts):
+                raise ValueError(
+                    f"lang has {len(langs)} entries for {len(texts)} texts.")
+            return [self.restore(t, lang=l, case_endings=case_endings, aligned=aligned)
+                    for t, l in zip(texts, langs)]
+
+        if case_endings is None:
+            case_endings = self.case_endings
+        return self.neural_decoder.decode_batch(
+            texts,
+            lang=lang if lang is not None else self.diactag_lang,
+            hints=hints,
+            aligned=self.aligned if aligned is None else aligned,
+            case_endings=case_endings,
+            batch_size=self.batch_size,
+        )

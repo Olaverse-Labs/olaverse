@@ -14,6 +14,8 @@ from olaverse.nlp.language_detection import (
     LIDNeural5,
     LIDLite25,
     LIDNeural25,
+    LIDLite608,
+    LIDNeural608,
     LIDNeural5_1,
 )
 from olaverse.nlp.preprocessing import mask_pii, clean_text
@@ -45,6 +47,8 @@ __all__ = [
     "LIDNeural5",
     "LIDLite25",
     "LIDNeural25",
+    "LIDLite608",
+    "LIDNeural608",
     "LIDNeural5_1",
     # Text preprocessing
     "mask_pii",

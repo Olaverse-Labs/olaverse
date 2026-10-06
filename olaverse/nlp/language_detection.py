@@ -124,15 +124,49 @@ def detect_language(text, model_path="lid-lite-5.json"):
 class _HFSequenceClassifierLID:
     """
     Shared loading/inference logic for transformer-based LID classifiers.
-    Not meant to be used directly — see LIDNeural5, LIDNeural5_1, LIDNeural25.
+    Not meant to be used directly — see LIDNeural5, LIDNeural5_1, LIDNeural25,
+    LIDNeural608.
+
+    Subclasses can change behaviour through four small hooks: ``max_length``
+    (tokenizer truncation), ``_prepare`` (text clean-up before tokenizing),
+    ``_from_pretrained_kwargs`` (extra loading options) and ``_probs`` (logits
+    to probabilities). The defaults reproduce the original behaviour exactly.
     """
 
-    def __init__(self, model_name: str, default_classes=None):
+    #: Tokenizer truncation length.
+    max_length = 128
+
+    def __init__(self, model_name: str, default_classes=None, device: str = None):
         self.model_name = model_name
         self.model = None
         self.tokenizer = None
         self._loaded = False
         self.classes = default_classes
+        self._device = device      # None leaves the model where transformers put it
+
+    # -- hooks ------------------------------------------------------------
+    def _prepare(self, text: str) -> str:
+        return text
+
+    def _from_pretrained_kwargs(self) -> dict:
+        return {}
+
+    def _after_load(self) -> None:
+        """Called once the model and ``classes`` are set, before ``eval()``."""
+
+    def _probs(self, logits):
+        import torch
+        return torch.softmax(logits, dim=-1)
+
+    def _encode(self, texts):
+        enc = self.tokenizer(
+            texts,
+            return_tensors="pt",
+            truncation=True,
+            max_length=self.max_length,
+            **({"padding": True} if isinstance(texts, list) else {}),
+        )
+        return enc.to(self._device) if self._device else enc
 
     def load(self):
         """Download and load the model from Hugging Face (runs once; cached after first call)."""
@@ -148,12 +182,16 @@ class _HFSequenceClassifierLID:
             )
 
         self.tokenizer = AutoTokenizer.from_pretrained(self.model_name)
-        self.model = AutoModelForSequenceClassification.from_pretrained(self.model_name)
+        self.model = AutoModelForSequenceClassification.from_pretrained(
+            self.model_name, **self._from_pretrained_kwargs())
+        if self._device:
+            self.model.to(self._device)
 
         if hasattr(self.model.config, "id2label") and self.model.config.id2label:
             id2lbl = self.model.config.id2label
             self.classes = [id2lbl[i] if i in id2lbl else id2lbl[str(i)] for i in range(len(id2lbl))]
 
+        self._after_load()
         self.model.eval()
         self._loaded = True
 
@@ -169,11 +207,11 @@ class _HFSequenceClassifierLID:
 
         import torch
 
-        inputs = self.tokenizer(text, return_tensors="pt", truncation=True, max_length=128)
+        inputs = self._encode(self._prepare(text))
 
         with torch.no_grad():
             logits = self.model(**inputs).logits
-            probs = torch.softmax(logits, dim=-1).squeeze().tolist()
+            probs = self._probs(logits).squeeze().tolist()
 
         if not isinstance(probs, list):
             probs = [probs]
@@ -200,17 +238,11 @@ class _HFSequenceClassifierLID:
 
         import torch
 
-        inputs = self.tokenizer(
-            texts,
-            return_tensors="pt",
-            truncation=True,
-            max_length=128,
-            padding=True,
-        )
+        inputs = self._encode([self._prepare(t) for t in texts])
 
         with torch.no_grad():
             logits = self.model(**inputs).logits
-            probs = torch.softmax(logits, dim=-1).tolist()
+            probs = self._probs(logits).tolist()
 
         return [{self.classes[i]: row[i] for i in range(len(self.classes))} for row in probs]
 
@@ -345,3 +377,277 @@ class LIDLite25:
         """Predict the dominant language of the text (ISO 639-3 code, e.g. 'eng')."""
         probs = self.predict_proba(text)
         return max(probs, key=probs.get)
+
+
+# ---------------------------------------------------------------------------
+# 608-language identification: lid-lite-608 (fastText) / lid-neural-608 (mmBERT)
+# ---------------------------------------------------------------------------
+# The two models share their 608 languages, their labels ("yor_Latn": ISO 639-3
+# plus ISO 15924 script, and a noise class "zxx_Zxxx") and their two reading
+# modes, so the mode logic lives here once.
+#
+#   coverage  every language equally likely — corpus building, low-resource mining
+#   traffic   scores shifted by alpha * log_prior_ratio (priors.json, identical in
+#             both repos) so short or ambiguous input leans towards the languages
+#             that dominate real traffic — user input, routing
+
+_LID608_MODES = ("coverage", "traffic")
+_LID608_PRIORS_REPO = "olaverse/lid-lite-608"
+_LID608_NOISE_LABEL = "zxx_Zxxx"
+
+
+def _check_608_mode(mode: str) -> str:
+    if mode not in _LID608_MODES:
+        raise ValueError(f"mode must be one of {list(_LID608_MODES)}, got {mode!r}")
+    return mode
+
+
+def _clean_608(text) -> str:
+    """Collapse whitespace to a single line, as both models were trained and scored on.
+
+    fastText reads one line at a time, so a newline would silently truncate the input.
+    """
+    cleaned = " ".join(str(text if text is not None else "").split())
+    if not cleaned:
+        raise ValueError("text is empty — there is nothing to identify the language of.")
+    return cleaned
+
+
+def _load_priors_608(repo_id: str) -> dict:
+    """``{label: alpha * log_prior_ratio}`` for traffic mode."""
+    path = get_model_path("priors.json", repo_id=repo_id)
+    with open(path, "r", encoding="utf-8") as f:
+        priors = json.load(f)
+    alpha = float(priors["alpha"])
+    return {label: alpha * float(v) for label, v in priors["log_prior_ratio"].items()}
+
+
+class LIDLite608:
+    """
+    Fast, CPU-only fastText language identifier for **608 languages**, African-first.
+
+    37 MB, ~6,800 texts/s on one CPU thread. Labels are ISO 639-3 plus ISO 15924
+    script — ``'yor_Latn'``, ``'srp_Cyrl'`` — and ``'zxx_Zxxx'`` marks numbers, URLs,
+    code and other non-language text. (The 5- and 25-language classes return bare
+    codes like ``'yor'``; use ``label.split('_')[0]`` for the code alone.)
+
+    Two modes in one model (``mode=``):
+        "coverage" — every language equally likely; best per-language accuracy.
+                     Use it to build corpora or mine low-resource text. [default]
+        "traffic"  — scores shifted by each language's real-world frequency, so
+                     short or ambiguous input leans towards common languages. Use
+                     it for user input, chat and routing. In this mode the
+                     probabilities are spread over the 40 likeliest candidates.
+
+    For higher accuracy on short and conversational text see :class:`LIDNeural608`.
+
+    Requires: pip install olaverse[lid]
+
+    Quick start:
+        >>> lid = LIDLite608()
+        >>> lid.predict("Ẹ kú àárọ̀, ṣé dáadáa ni?")
+        'yor_Latn'
+        >>> LIDLite608(mode="traffic").predict("Bonjour mon ami")
+        'fra_Latn'
+    """
+
+    REPO_ID = "olaverse/lid-lite-608"
+    #: How many fastText candidates traffic mode re-scores.
+    TRAFFIC_CANDIDATES = 40
+    _LABEL_PREFIX = "__label__"
+
+    def __init__(self, mode: str = "coverage"):
+        self.mode = _check_608_mode(mode)
+        self._model = None
+        self._bias = None
+
+    def load(self):
+        """Download and load the fastText model and priors (runs once; cached afterwards)."""
+        if self._model is not None:
+            return
+
+        try:
+            import fasttext
+        except ImportError:
+            raise ImportError(
+                "The 'fasttext' library is required to load LIDLite608. "
+                "Install with: pip install olaverse[lid]"
+            )
+
+        model_path = get_model_path("model.ftz", repo_id=self.REPO_ID)
+        self._bias = _load_priors_608(self.REPO_ID) if self.mode == "traffic" else {}
+        self._model = fasttext.load_model(model_path)
+
+    def _candidates(self, text: str, k: int):
+        """The model's ``k`` likeliest ``(label, probability)`` pairs (``k=-1``: all)."""
+        text = _clean_608(text)
+        try:
+            labels, probs = self._model.predict(text, k=k)
+            pairs = list(zip(labels, (float(p) for p in probs)))
+        except ValueError:
+            # fasttext-wheel's predict() calls np.array(..., copy=False), which
+            # NumPy >= 2 rejects. The binding underneath has no NumPy in it.
+            pairs = [(label, float(p))
+                     for p, label in self._model.f.predict(text + "\n", k, 0.0, "strict")]
+        return [(label[len(self._LABEL_PREFIX):] if label.startswith(self._LABEL_PREFIX) else label, p)
+                for label, p in pairs]
+
+    def _scored(self, text: str):
+        """``[(label, log score)]`` over the traffic-mode candidates, best first."""
+        scored = [(label, math.log(max(p, 1e-12)) + self._bias.get(label, 0.0))
+                  for label, p in self._candidates(text, self.TRAFFIC_CANDIDATES)]
+        return sorted(scored, key=lambda item: item[1], reverse=True)
+
+    def predict_proba(self, text: str, top_k: int = None) -> dict:
+        """
+        Probabilities for the likeliest languages, best first.
+
+        Args:
+            text: Any length, from one word to a document. Newlines are collapsed.
+            top_k: Keep only the ``top_k`` likeliest labels. ``None`` returns all
+                   608 in coverage mode and the 40 candidates in traffic mode.
+
+        Returns:
+            dict: ``{'yor_Latn': 0.99, 'ibo_Latn': 0.004, ...}``
+
+        Raises:
+            ValueError: if ``text`` is empty.
+        """
+        if self._model is None:
+            self.load()
+
+        if self.mode == "coverage":
+            pairs = self._candidates(text, -1 if top_k is None else top_k)
+            return dict(pairs)
+
+        scored = self._scored(text)
+        if not scored:
+            return {}
+        top = max(score for _, score in scored)
+        weights = [(label, math.exp(score - top)) for label, score in scored]
+        total = sum(w for _, w in weights)
+        probs = {label: w / total for label, w in weights}
+        return dict(list(probs.items())[:top_k]) if top_k is not None else probs
+
+    def predict(self, text: str) -> str:
+        """The likeliest language of ``text`` (e.g. ``'yor_Latn'``)."""
+        if self._model is None:
+            self.load()
+        # No candidates at all means nothing recognisable as language in the text.
+        ranked = (self._candidates(text, 1) if self.mode == "coverage"
+                  else self._scored(text))
+        return ranked[0][0] if ranked else _LID608_NOISE_LABEL
+
+    def predict_batch(self, texts: list) -> list:
+        """The likeliest language for each text. Calls :meth:`predict` in turn."""
+        return [self.predict(t) for t in texts]
+
+
+class LIDNeural608(_HFSequenceClassifierLID):
+    """
+    Transformer language identifier for **608 languages**, African-first — the
+    most accurate of the Olaverse LID models on short and conversational text.
+
+    A ModernBERT sequence classifier fine-tuned from ``jhu-clsp/mmBERT-small``
+    (140M parameters). Reads up to 512 tokens (about 200 words); longer text is
+    truncated, so split long documents into ~200-word chunks. Labels are ISO 639-3
+    plus ISO 15924 script — ``'yor_Latn'``, ``'srp_Cyrl'`` — and ``'zxx_Zxxx'``
+    marks numbers, URLs, code and other non-language text. (The 5- and
+    25-language classes return bare codes like ``'yor'``; use
+    ``label.split('_')[0]`` for the code alone.)
+
+    Two modes in one model (``mode=``):
+        "coverage" — every language equally likely; best per-language accuracy.
+                     Use it to build corpora or mine low-resource text. [default]
+        "traffic"  — probabilities shifted by each language's real-world
+                     frequency, so short or ambiguous input leans towards common
+                     languages. Use it for user input, chat and routing.
+
+    Runs on CPU, but a GPU helps: on CUDA the weights load in bfloat16.
+
+    Requires: pip install olaverse[deeplearning]. The model card asks for
+    ``transformers>=5.14``; an older version can fail while loading.
+
+    For a 37 MB CPU-only alternative with the same languages and modes, see
+    :class:`LIDLite608`.
+
+    Quick start:
+        >>> lid = LIDNeural608()
+        >>> lid.predict("Habari za asubuhi")
+        'swh_Latn'
+        >>> LIDNeural608(mode="traffic").predict_batch(["Good morning", "Mo fẹ́ lọ sí ọjà"])
+        ['eng_Latn', 'yor_Latn']
+    """
+
+    max_length = 512
+    REPO_ID = "olaverse/lid-neural-608"
+
+    def __init__(self, mode: str = "coverage", device: str = None,
+                 model_name: str = REPO_ID):
+        """
+        Args:
+            mode: ``"coverage"`` (default) or ``"traffic"``.
+            device: ``"cpu"``, ``"cuda"``, ``"mps"`` ... ``None`` or ``"auto"`` picks
+                    CUDA when it is available, else CPU.
+            model_name: Hugging Face model id.
+        """
+        super().__init__(model_name, device=device)
+        self.mode = _check_608_mode(mode)
+        self._bias = None
+
+    # -- hooks ------------------------------------------------------------
+    def _prepare(self, text: str) -> str:
+        return _clean_608(text)
+
+    def _resolve_device(self):
+        import torch
+        if self._device in (None, "auto"):
+            self._device = "cuda" if torch.cuda.is_available() else "cpu"
+        return self._device
+
+    def _from_pretrained_kwargs(self) -> dict:
+        import torch
+        device = self._resolve_device()
+        # bfloat16 on CUDA only (the model card's recommendation); CPU stays float32.
+        return {"dtype": torch.bfloat16} if str(device).startswith("cuda") else {}
+
+    def _after_load(self) -> None:
+        import torch
+        if self.mode == "traffic":
+            priors = _load_priors_608(_LID608_PRIORS_REPO)
+            self._bias = torch.tensor(
+                [priors.get(label, 0.0) for label in self.classes], dtype=torch.float32
+            ).to(self._device)
+
+    def _probs(self, logits):
+        import torch
+        if self.mode != "traffic":
+            return torch.softmax(logits.float(), dim=-1)
+        # argmax(log p + bias), renormalised so the values are still probabilities
+        return torch.softmax(torch.log_softmax(logits.float(), dim=-1) + self._bias, dim=-1)
+
+    def load(self):
+        """Download and load the model (runs once; cached after first call)."""
+        if self._loaded:
+            return
+        try:
+            super().load()
+        except ImportError:
+            raise
+        except Exception as exc:
+            import transformers
+            version = tuple(int(x) for x in transformers.__version__.split(".")[:2] if x.isdigit())
+            if version < (5, 14):
+                raise RuntimeError(
+                    f"LIDNeural608 could not be loaded with transformers "
+                    f"{transformers.__version__}; its model card requires "
+                    f"transformers>=5.14 (pip install -U transformers). "
+                    f"Original error: {exc}"
+                ) from exc
+            raise
+
+    def predict_proba_batch(self, texts: list) -> list:
+        """Probabilities for many texts in one forward pass (see the base class)."""
+        if not texts:
+            return []
+        return super().predict_proba_batch(texts)

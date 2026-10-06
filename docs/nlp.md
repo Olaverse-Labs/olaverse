@@ -4,9 +4,9 @@ The `olaverse.nlp` module is the core of the SDK — production-ready tools for 
 
 ```bash
 pip install olaverse                # all NLP tools included (no GPU required)
-pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0/1.1/2.0, diactag-1.0/2.0
+pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural608/LIDNeural5_1, diacnet-1.0/1.1/2.0, diactag-1.0/2.0
 pip install olaverse[onnx]          # adds the int8 diactag backend
-pip install olaverse[lid]           # adds LIDLite25 (fastText, 25 languages)
+pip install olaverse[lid]           # adds LIDLite25 and LIDLite608 (fastText, 25 / 608 languages)
 pip install olaverse[retrieval]     # adds Reranker, Embedder
 ```
 
@@ -163,6 +163,25 @@ neural.predict_proba("What causes ocean tides?")
 
 ::: olaverse.nlp.LIDLite25
 ::: olaverse.nlp.LIDNeural25
+
+---
+
+### LIDLite608 / LIDNeural608 — 608-language identification
+
+**Model Cards**: [olaverse/lid-lite-608](https://huggingface.co/olaverse/lid-lite-608) · [olaverse/lid-neural-608](https://huggingface.co/olaverse/lid-neural-608) · **Full guide**: [Language Detection →](models/language-detection.md#lidlite608-lidneural608-608-languages)
+
+African-first identification across 608 languages and 36 scripts. `LIDLite608` is a 37 MB CPU-only fastText model (~6,800 texts/s on one thread); `LIDNeural608` is a 140M-parameter ModernBERT classifier, the most accurate of the two on short and conversational text. They share their labels (`yor_Latn`: ISO 639-3 plus script, and a `zxx_Zxxx` noise class) and two modes: `mode="coverage"` (default; every language equally likely, for corpus building) and `mode="traffic"` (shifted by real-world language frequency, for user input and routing).
+
+```python
+from olaverse import LIDLite608, LIDNeural608
+
+LIDLite608().predict("Ẹ kú àárọ̀, ṣé dáadáa ni?")                       # → 'yor_Latn'
+LIDNeural608(mode="traffic").predict_batch(["Good morning", "Habari za asubuhi"])
+# → ['eng_Latn', 'swh_Latn']
+```
+
+::: olaverse.nlp.LIDLite608
+::: olaverse.nlp.LIDNeural608
 
 ---
 

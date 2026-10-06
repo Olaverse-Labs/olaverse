@@ -4,9 +4,32 @@ All notable changes to the Olaverse SDK are documented here.
 
 ---
 
-## v0.4.0 — *Unreleased*
+## Unreleased
 
-**Status**: prepared 2026-10-06, not yet published.
+### New Features
+
+#### `LIDLite608` and `LIDNeural608` — language identification for 608 languages
+
+```python
+from olaverse import LIDLite608, LIDNeural608
+
+LIDLite608().predict("Ẹ kú àárọ̀, ṣé dáadáa ni?")                 # → 'yor_Latn'  (fastText, CPU, 37 MB)
+LIDNeural608(mode="traffic").predict_batch(["Good morning", "Habari za asubuhi"])
+# → ['eng_Latn', 'swh_Latn']                                       (mmBERT, 140M)
+```
+
+- 608 languages across 36 scripts plus a `zxx_Zxxx` noise class, African-first. Labels are ISO 639-3 plus ISO 15924 script (`yor_Latn`); the 5- and 25-language classes keep returning bare codes.
+- **Two modes** (`mode=`): `"coverage"` (default; every language equally likely, for corpus building and low-resource mining) and `"traffic"` (scores shifted by each language's real-world frequency via the models' `priors.json`, for user input and routing).
+- `LIDLite608` needs `olaverse[lid]`; `LIDNeural608` needs `olaverse[deeplearning]` and, per its model card, `transformers>=5.14` (an older version fails with an error that says so). `LIDNeural608` takes `device=` and loads in bfloat16 on CUDA; it reads up to 512 tokens.
+- Input is collapsed to one line, as both models expect; empty text raises `ValueError`.
+- `LIDLite608` works with NumPy 2, where fasttext-wheel's own `predict()` fails (`Unable to avoid copy`). `LIDLite25` still calls that method and is unchanged.
+- The shared transformer base class gained small hooks (`max_length`, `device`, probability and text-preparation hooks). Their defaults leave `LIDNeural5`, `LIDNeural5_1` and `LIDNeural25` behaving exactly as before.
+
+---
+
+## v0.4.0
+
+**Released**: 2026-10-06
 
 Arabic, and three new models: `diactag-2.0`, `diacnet-2.0` and `diacnet-mini-2.0`. Everything that worked on 0.3.1 — `diactag-1.0`, `diacnet-1.0`/`1.1` and the small Yoruba/Igbo models — behaves exactly as before.
 
@@ -49,7 +72,7 @@ Diacritizer(model="diactag-2.0", lang="ar", case_endings=False)
 
 ---
 
-## v0.3.1 — *Current*
+## v0.3.1
 
 **Released**: 2026-08-04
 

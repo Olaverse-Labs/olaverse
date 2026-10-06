@@ -83,7 +83,7 @@ MISTQuestionGenerator().generate(passage, n=3, language="eng")
 
 ## Key Capabilities
 
-- **🗣️ Natural Language Processing**: Diacritization for 10+ languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian via `diactag-1.0` or `diacnet-1.0`/`1.1`, plus Arabic via `diactag-2.0` or `diacnet-2.0`), Language Detection from 5 to 25 languages (`LIDLite5`/`LIDNeural5`, `LIDLite25`/`LIDNeural25`, and the Nigerian-only `LIDNeural5_1`), Byte-Level BPE tokenization (Nigerian languages plus Swahili/Kinyarwanda/merged families), PII masking, and TTS text normalization.
+- **🗣️ Natural Language Processing**: Diacritization for 10+ languages (Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian via `diactag-1.0` or `diacnet-1.0`/`1.1`, plus Arabic via `diactag-2.0` or `diacnet-2.0`), Language Detection from 5 to 608 languages (`LIDLite5`/`LIDNeural5`, `LIDLite25`/`LIDNeural25`, `LIDLite608`/`LIDNeural608`, and the Nigerian-only `LIDNeural5_1`), Byte-Level BPE tokenization (Nigerian languages plus Swahili/Kinyarwanda/merged families), PII masking, and TTS text normalization.
 - **⚡ MIST Model Family**: Unified interface for the MIST LLM family (8B, 70B, 140B, Thinking). Supports local inference via `transformers` and hosted inference via Featherless or any OpenAI-compatible endpoint. Correct stop tokens and generation defaults per variant are baked in. Plus two task-specific models: `MISTTitleGenerator` (short chat titles from a user's first message) and `MISTQuestionGenerator` (search-style question generation from a passage, across 25 languages).
 - **🧠 Domain LLMs**: `LegalPeace` — memory-efficient 4-bit inference for legal contract reasoning (fine-tuned Mistral-7B-v0.3).
 - **🔎 Retrieval**: `Reranker` (cross-encoder, RAG/search second stage) and `Embedder` (cross-lingual Hausa/Yoruba/Igbo sentence embeddings).
@@ -100,13 +100,13 @@ MISTQuestionGenerator().generate(passage, n=3, language="eng")
 # Core (NLP, tokenizer, lightweight LID)
 pip install olaverse
 
-# Neural models (LIDNeural5/25/5_1, diactag-1.0/2.0, diacnet-1.0/1.1/2.0, MIST local inference)
+# Neural models (LIDNeural5/25/608/5_1, diactag-1.0/2.0, diacnet-1.0/1.1/2.0, MIST local inference)
 pip install olaverse[deeplearning]
 
 # int8 CPU backend for diactag
 pip install olaverse[onnx]
 
-# Lightweight 25-language LID (fastText, CPU-only)
+# Lightweight 25- and 608-language LID (fastText, CPU-only)
 pip install olaverse[lid]
 
 # Retrieval (Reranker, Embedder)

@@ -31,6 +31,16 @@ All published Olaverse model numbers in one place. Where a figure isn't listed h
 | `LIDLite25` | fastText, CPU | 97.3% | Sub-millisecond, ~5-10 MB per checkpoint |
 | `LIDNeural25` | XLM-RoBERTa-base | **98.2%** | Requires `transformers`/`torch` |
 
+### 608-language models
+
+Held-out test of 240,000 samples across 608 languages (accuracy), from the model cards. GlotLID v3 is the nearest comparable open model.
+
+| Model | Type | Held-out accuracy | 1–5 words | Notes |
+|---|---|---|---|---|
+| `LIDLite608` | fastText, CPU, 37 MB | 0.858 | 0.672 | Apache-2.0 |
+| `LIDNeural608` | mmBERT, 140M | **0.867** | 0.666 | Apache-2.0; best in traffic mode on short and everyday text (0.906 on 1–5 words, web-weighted) |
+| GlotLID v3 | fastText, 1.7 GB | 0.783 | 0.486 | for reference |
+
 Known weak spot: Zulu/Xhosa confusion on short text (F1 ~0.77-0.79 for that pair vs ≥0.98 everywhere else) — the languages share substantial vocabulary. Full per-language tables are on the model cards: [lid-lite-25](https://huggingface.co/olaverse/lid-lite-25) · [lid-neural-25.1](https://huggingface.co/olaverse/lid-neural-25.1) · [lid-neural-25.2](https://huggingface.co/olaverse/lid-neural-25.2).
 
 ---

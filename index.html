@@ -1676,7 +1676,7 @@
 
 <p><img src="assets/banner.png" alt="Olaverse — small models, sharp focus: LID, DiacNet, MIST, Prism" style="width:100%; border-radius:12px; margin-bottom:1rem;"></p>
 <div class="ov-hero">
-  <div class="ov-hero-badge">v0.3.1 — Now with Title & Question Generation</div>
+  <div class="ov-hero-badge">v0.4.0 — Now with Title & Question Generation</div>
   <h1 class="ov-hero-title">The Olaverse SDK</h1>
   <p class="ov-hero-sub">Open-source NLP infrastructure for underrepresented languages</p>
   <div class="ov-hero-install">
@@ -1703,7 +1703,7 @@
 </span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">"Kedu ka i mere"</span><span class="p">)</span>         <span class="c1"># Igbo</span>
 </span><span id="__span-1-9"><a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="c1"># → 'Kedụ ka ị mere'</span>
 </span></code></pre></div>
-<p>Need more languages? <a href="models/diactag/"><code>diactag-1.0</code></a> covers 10 — and cannot change your text beyond adding marks. With <code>pip install olaverse[deeplearning]</code>:</p>
+<p>Need more languages? <a href="models/diactag/"><code>diactag-1.0</code></a> covers 10 — and cannot change your text beyond adding marks; <code>diactag-2.0</code> and <a href="models/diacnet/"><code>diacnet-2.0</code></a> add Arabic (11 languages). With <code>pip install olaverse[deeplearning]</code>:</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"diactag-1.0"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"yo"</span><span class="p">)</span>
 </span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
 </span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">"se eranko naa si gbo o?"</span><span class="p">)</span>
@@ -1814,14 +1814,14 @@
 <tbody>
 <tr>
 <td><strong>DiacTag</strong></td>
-<td>Restores accents &amp; tones in 10 languages, guaranteed not to alter the text</td>
+<td>Restores accents &amp; tones in 10 languages (11 with Arabic in 2.0), guaranteed not to alter the text</td>
 <td>38 MB – 150 MB</td>
 <td><a href="models/diactag/">DiacTag →</a></td>
 </tr>
 <tr>
 <td><strong>DiacNet</strong></td>
-<td>Restores accents, tones &amp; special characters in 10 languages</td>
-<td>1 MB – 1.1 GB</td>
+<td>Restores accents, tones &amp; special characters in 10 languages (11 with Arabic in 2.0, with meaning hints)</td>
+<td>1 MB – 2.3 GB</td>
 <td><a href="models/diacnet/">DiacNet →</a></td>
 </tr>
 <tr>
@@ -1908,7 +1908,7 @@ Includes: NLP tools, diacritizers, tokenizers, lightweight LID, PII masking.</p>
 <div class="tabbed-block">
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span>
 </span></code></pre></div>
-Adds: <code>LIDNeural5</code>, <code>diactag-1.0</code>, <code>diacnet-1.0</code>/<code>1.1</code>, MIST local inference (requires GPU).</p>
+Adds: <code>LIDNeural5</code>, <code>diactag-1.0</code>/<code>2.0</code>, <code>diacnet-1.0</code>/<code>1.1</code>/<code>2.0</code>/<code>mini-2.0</code>, MIST local inference (requires GPU).</p>
 </div>
 <div class="tabbed-block">
 <p><div class="language-bash highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>hosted<span class="o">]</span>

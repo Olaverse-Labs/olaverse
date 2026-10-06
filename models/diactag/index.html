@@ -788,6 +788,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#diactag-20-and-arabic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diactag-2.0 and Arabic
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1668,6 +1679,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#diactag-20-and-arabic" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        diactag-2.0 and Arabic
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1767,8 +1789,8 @@
 
 <h1 id="diactag">DiacTag<a class="headerlink" href="#diactag" title="Permanent link">&para;</a></h1>
 <p><strong>A diacritic model that cannot corrupt your text.</strong> DiacTag restores accents and
-tone marks in 10 languages by classifying each character rather than generating
-new text — so the output is guaranteed to be the input with marks added, and
+tone marks in 10 languages (11 with <code>diactag-2.0</code>, which adds Arabic) by
+classifying each character rather than generating new text — so the output is guaranteed to be the input with marks added, and
 nothing else.</p>
 <div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Input:   se eranko naa si gbo o?
 </span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Output:  ṣé ẹranko náà sì gbọ́ ọ?
@@ -1875,11 +1897,32 @@ The SDK asserts it on every call rather than assuming it.</p>
 <td><strong>38 MB</strong></td>
 <td>0.0135</td>
 </tr>
+<tr>
+<td><code>diactag-2.0</code></td>
+<td><strong>11</strong> (adds Arabic)</td>
+<td>character transformer, 12 layers</td>
+<td>PyTorch</td>
+<td>~152 MB</td>
+<td>0.0130 on the 10 original languages</td>
+</tr>
+<tr>
+<td><code>diactag-2.0</code></td>
+<td><strong>11</strong></td>
+<td>same, int8 quantized</td>
+<td>ONNX</td>
+<td><strong>38.6 MB</strong></td>
+<td>—</td>
+</tr>
 </tbody>
 </table>
-<p>Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French,
-Italian.</p>
-<p><strong>Model Card</strong>: <a href="https://huggingface.co/olaverse/diactag-1.0">olaverse/diactag-1.0</a></p>
+<p><code>diactag-1.0</code> covers Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish,
+Portuguese, Spanish, French and Italian. <code>diactag-2.0</code> adds <strong>Arabic</strong>
+(<code>ara</code>/<code>ar</code>) with a no-case-endings mode, and matches 1.0 on the other ten (mean
+DER 0.0130 against 0.0127 for 1.0, scored side by side on diacbench, per the
+model card). 1.0 keeps working unchanged — see
+<a href="#diactag-20-and-arabic">diactag-2.0 and Arabic</a>.</p>
+<p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/diactag-1.0">olaverse/diactag-1.0</a> ·
+<a href="https://huggingface.co/olaverse/diactag-2.0">olaverse/diactag-2.0</a></p>
 <hr />
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <div class="language-bash highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>pip<span class="w"> </span>install<span class="w"> </span>olaverse<span class="o">[</span>deeplearning<span class="o">]</span><span class="w">    </span><span class="c1"># PyTorch checkpoint</span>
@@ -2010,6 +2053,71 @@ URL is never correct, and it is the error a reader notices first.</p>
 treated as your intent and preserved. 30% of training examples kept a random
 subset of their marks, so half-corrected input is in-distribution rather than
 an edge case.</p>
+<h3 id="diactag-20-and-arabic">diactag-2.0 and Arabic<a class="headerlink" href="#diactag-20-and-arabic" title="Permanent link">&para;</a></h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse.nlp</span><span class="w"> </span><span class="kn">import</span> <span class="n">Diacritizer</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"diactag-2.0"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"ar"</span><span class="p">)</span>        <span class="c1"># "ar" or "ara"</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">"ذهب الطالب إلى المدرسة في الصباح"</span><span class="p">)</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="c1"># → 'ذَهَبَ الطَّالِبُ إلَى الْمَدْرَسَةِ فِي الصَّبَاحِ'</span>
+</span></code></pre></div>
+<p>The other ten languages work exactly as above (<code>Diacritizer(model="diactag-2.0",
+lang="yo")</code>, or omit <code>lang=</code> to auto-detect — the LID head now knows Arabic too).</p>
+<p><strong>Case endings.</strong> By default Arabic gets full diacritization, including the
+grammatical case ending (<em>iʿrāb</em>) on each word's last letter — right for teaching
+material, religious and classical text, and text-to-speech. Most modern Arabic is
+vowelled without those endings, so <code>case_endings=False</code> drops the vowel, tanwīn
+or sukūn on every word's last letter (a shadda there is kept):</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">d</span> <span class="o">=</span> <span class="n">Diacritizer</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="s2">"diactag-2.0"</span><span class="p">,</span> <span class="n">lang</span><span class="o">=</span><span class="s2">"ar"</span><span class="p">,</span> <span class="n">case_endings</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="s2">"ذهب الطالب إلى المدرسة في الصباح"</span><span class="p">)</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a><span class="c1"># → 'ذَهَب الطَّالِب إلَى الْمَدْرَسَة فِي الصَّبَاح'</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a><span class="n">d</span><span class="o">.</span><span class="n">restore</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">case_endings</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>       <span class="c1"># per-call override, either direction</span>
+</span></code></pre></div>
+<p><code>case_endings</code> only affects Arabic; for every other language it is a no-op. A mark
+you typed yourself on a word's last letter is never removed. On <code>diactag-1.0</code>,
+which has no Arabic, <code>case_endings=False</code> raises.</p>
+<p><strong>What counts as a mark in Arabic.</strong> Harakat, tanwīn and sukūn fill the <em>tone</em>
+slot; shadda and dagger alif are <em>shape</em>. Hamza letters (أ إ آ ؤ ئ) are spelling,
+not diacritics: they are never added or removed, so the input should already use
+them correctly. Arabic is not NFD-decomposed, which is what keeps them whole.</p>
+<table>
+<thead>
+<tr>
+<th>Arabic, Fadel test split (1,000 sentences)</th>
+<th>DER</th>
+<th>Exact</th>
+<th>Compliance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Full (with case endings)</td>
+<td>0.0587</td>
+<td>0.251</td>
+<td>1.0000</td>
+</tr>
+<tr>
+<td>No case endings</td>
+<td>0.0382</td>
+<td>0.395</td>
+<td>1.0000</td>
+</tr>
+</tbody>
+</table>
+<p>Figures are from the <a href="https://huggingface.co/olaverse/diactag-2.0">model card</a>,
+which also compares four other open Arabic diacritizers. Some of them score
+better, especially on Classical Arabic, but the generative ones do not keep the
+input intact (compliance 0.75–0.90 on the Modern Standard Arabic sets);
+<code>diactag-2.0</code> is 1.000 on all of them.</p>
+<div class="admonition note">
+<p class="admonition-title">One SDK, two label-space generations</p>
+<p>The label space is versioned (<code>diactag-2.0</code> is spec 2.0.0, which adds Arabic and
+changes how Arabic text is factorised). The SDK reads <code>spec_version</code> from each
+checkpoint's <code>labels.json</code> and decodes it with the matching vendored code:
+1.x checkpoints run on the original spec 1.2.0 code, unchanged; 2.x on the new
+code. A checkpoint whose spec the installed SDK does not know fails with an
+error naming both versions instead of loading against the wrong code.</p>
+</div>
 <hr />
 <h2 id="performance">Performance<a class="headerlink" href="#performance" title="Permanent link">&para;</a></h2>
 <p><a href="../../datasets/">diacbench</a>, 1000 sentences per language.</p>
@@ -2234,7 +2342,10 @@ the serving bill entirely.</p>
   Italian and the stripped form contains no information distinguishing them.</li>
 <li><strong>Fixed label space.</strong> Adding a language with new marks invalidates existing
   checkpoints. The label space carries a <code>SPEC_VERSION</code> that is checked on load,
-  so a mismatch fails loudly rather than silently.</li>
+  so a mismatch fails loudly rather than silently. The SDK ships one decoder per
+  spec generation (1.x and 2.x) and picks it from the checkpoint's <code>labels.json</code>.</li>
+<li><strong>Arabic hamza is not restored.</strong> <code>أ إ آ ؤ ئ</code> are treated as spelling, so a
+  hamza the input is missing stays missing.</li>
 </ul>
 <hr />
 <h2 id="which-diacritization-model-should-i-use">Which diacritization model should I use?<a class="headerlink" href="#which-diacritization-model-should-i-use" title="Permanent link">&para;</a></h2>
@@ -2248,7 +2359,15 @@ the serving bill entirely.</p>
 <tbody>
 <tr>
 <td>Output must never differ from input except in marks</td>
-<td><strong><code>diactag-1.0</code></strong></td>
+<td><strong><code>diactag-1.0</code></strong> / <strong><code>diactag-2.0</code></strong></td>
+</tr>
+<tr>
+<td>Arabic, output must never differ from input</td>
+<td><strong><code>diactag-2.0</code></strong></td>
+</tr>
+<tr>
+<td>Arabic without case endings</td>
+<td><strong><code>diactag-2.0</code></strong> (<code>case_endings=False</code>) or <a href="../diacnet/"><code>diacnet-2.0</code></a> (<code>lang="ara-nocase"</code>)</td>
 </tr>
 <tr>
 <td>Yoruba, Igbo or Hausa accuracy</td>

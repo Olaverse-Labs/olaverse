@@ -4,8 +4,8 @@ The `olaverse.nlp` module is the core of the SDK — production-ready tools for 
 
 ```bash
 pip install olaverse                # all NLP tools included (no GPU required)
-pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0/1.1, diactag-1.0
-pip install olaverse[onnx]          # adds the int8 diactag-1.0 backend
+pip install olaverse[deeplearning]  # adds LIDNeural5/LIDNeural25/LIDNeural5_1, diacnet-1.0/1.1/2.0, diactag-1.0/2.0
+pip install olaverse[onnx]          # adds the int8 diactag backend
 pip install olaverse[lid]           # adds LIDLite25 (fastText, 25 languages)
 pip install olaverse[retrieval]     # adds Reranker, Embedder
 ```
@@ -188,9 +188,9 @@ detector.predict("Ina kwana?")   # → 'Hausa'
 
 ## Diacritization
 
-DiacNet and DiacTag restore tones and diacritical marks stripped from text — the critical front-end step for TTS, language learning, and NLP accuracy. The small DiacNet models cover Yoruba and Igbo with no extras; `diacnet-1.0`/`1.1` and `diactag-1.0` cover 10 languages each.
+DiacNet and DiacTag restore tones and diacritical marks stripped from text — the critical front-end step for TTS, language learning, and NLP accuracy. The small DiacNet models cover Yoruba and Igbo with no extras; `diacnet-1.0`/`1.1` and `diactag-1.0` cover 10 languages each, and `diacnet-2.0`, `diacnet-mini-2.0` and `diactag-2.0` cover 11 — the same ten plus Arabic.
 
-For new work prefer **`diactag-1.0`**: it classifies each character instead of generating text, so it cannot alter your input beyond adding marks, and it wins on 9 of 10 languages.
+For new work start with a **`diactag`** model: it classifies each character instead of generating text, so it cannot alter your input beyond adding marks. `diactag-1.0` beat `diacnet-1.1` on 9 of 10 languages. The `diacnet-2.x` models align their output onto your text by default and, per the model cards, have a lower error rate than `diactag-2.0` on 8 of the 10 Latin-script languages (at 582M / 300M parameters against 37.9M).
 
 ### Available Models
 
@@ -204,6 +204,9 @@ For new work prefer **`diactag-1.0`**: it classifies each character instead of g
 | `diacnet-1.0` | 10 languages (see below) | ByT5 seq2seq | Slow | ~0.02 median CER | ~300 MB |
 | `diacnet-1.1` | 10 languages | ByT5 seq2seq | Slow | 0.0002–0.2006 DER | ~1.1 GB |
 | `diactag-1.0` | 10 languages | character tagger | ⚡ 244 chars/s CPU | **0.0132 DER, 1.0 compliance** | 150 MB / 38 MB int8 |
+| `diactag-2.0` | 11 languages (+ Arabic) | character tagger | ⚡ CPU-native | 0.0130 DER on the 10 original languages, 1.0 compliance | 152 MB / 38.6 MB int8 |
+| `diacnet-2.0` | 11 languages | ByT5 text-to-text, 582M | Slow (GPU recommended) | mean DER 0.0117 (aligned) | 2.3 GB |
+| `diacnet-mini-2.0` | 11 languages | ByT5 text-to-text, 300M | Slow (GPU recommended) | mean DER 0.0141 (aligned) | 1.2 GB |
 
 ### Quick Functions
 
@@ -405,7 +408,43 @@ we didn't keep", and correct output gets overwritten. See
       required and calling without it raises rather than silently assuming
       Yoruba.
 
+#### diactag-2.0 — Arabic, 11 languages *(New in v0.4.0)*
+
+**Model Card**: [olaverse/diactag-2.0](https://huggingface.co/olaverse/diactag-2.0) · **Full guide**: [DiacTag → diactag-2.0 and Arabic](models/diactag.md#diactag-20-and-arabic)
+
+The same tagger architecture with Arabic added (`lang="ar"` or `"ara"`; the LID head knows it too). Harakat, tanwīn and sukūn are the tone slot, shadda and dagger alif are shape, and hamza letters are never added or removed. `case_endings=False` drops the vowel on each word's last letter, shadda kept.
+
+```python
+d = Diacritizer(model="diactag-2.0", lang="ar")
+d.restore("ذهب الطالب إلى المدرسة في الصباح")
+# → 'ذَهَبَ الطَّالِبُ إلَى الْمَدْرَسَةِ فِي الصَّبَاحِ'
+
+Diacritizer(model="diactag-2.0", lang="ar", case_endings=False)   # per-call: restore(..., case_endings=False)
+```
+
+The SDK decodes each checkpoint with the vendored code that matches the `spec_version` in its `labels.json`, so `diactag-1.0` keeps running on its original spec 1.2.0 code.
+
+#### diacnet-2.0 and diacnet-mini-2.0 — 11 languages, hints, alignment *(New in v0.4.0)*
+
+**Model Cards**: [olaverse/diacnet-2.0](https://huggingface.co/olaverse/diacnet-2.0) · [olaverse/diacnet-mini-2.0](https://huggingface.co/olaverse/diacnet-mini-2.0) · **Full guide**: [DiacNet → diacnet-2.0](models/diacnet.md#diacnet-20-and-diacnet-mini-20)
+
+ByT5 text-to-text models. The prompt is `<tag> [g: word=meaning] text`; the language tag is optional (`<auto>`) and so are meaning hints. Text is chunked at ~300 characters on spaces, decoded greedily and rejoined. By default the output is **aligned** onto your input — your letters are kept and only the model's marks are taken — so it strips back to your text exactly; `aligned=False` returns the raw generation, which can also repair typos.
+
+```python
+d = Diacritizer(model="diacnet-2.0", lang="vie", device="cuda")      # bf16 on GPU
+d.restore("Chi ay chi that su ranh vao nhung buoi toi sau khi da cho con ngu say.",
+          hints={"ranh": "free (time)"})
+# → 'Chị ấy chỉ thật sự rảnh vào những buổi tối sau khi đã cho con ngủ say.'
+
+Diacritizer(model="diacnet-2.0").restore("وهذا قول مرغوب عنه .", lang="ara")   # also "ara-nocase", "auto"
+d.restore_batch(texts, lang="vie")      # length-sorted, padded batches
+```
+
+`diacnet-1.0`/`1.1` are unchanged; they accept `aligned=True` but default to raw output.
+
 ::: olaverse.nlp.Diacritizer
+::: olaverse.nlp.DiacNet2Decoder
+::: olaverse.nlp.align_marks
 ::: olaverse.nlp.DiacTagDecoder
 ::: olaverse.nlp.diacritize_yoruba
 ::: olaverse.nlp.diacritize_yoruba_dot_below

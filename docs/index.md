@@ -34,7 +34,7 @@ d.restore("Kedu ka i mere")         # Igbo
 # → 'Kedụ ka ị mere'
 ```
 
-Need more languages? [`diactag-1.0`](models/diactag.md) covers 10 — and cannot change your text beyond adding marks. With `pip install olaverse[deeplearning]`:
+Need more languages? [`diactag-1.0`](models/diactag.md) covers 10 — and cannot change your text beyond adding marks; `diactag-2.0` and [`diacnet-2.0`](models/diacnet.md) add Arabic (11 languages). With `pip install olaverse[deeplearning]`:
 
 ```python
 d = Diacritizer(model="diactag-1.0", lang="yo")
@@ -155,8 +155,8 @@ Models are sized for real infrastructure, not just research clusters:
 
 | Model | What it does | Size | Start here |
 |---|---|---|---|
-| **DiacTag** | Restores accents & tones in 10 languages, guaranteed not to alter the text | 38 MB – 150 MB | [DiacTag →](models/diactag.md) |
-| **DiacNet** | Restores accents, tones & special characters in 10 languages | 1 MB – 1.1 GB | [DiacNet →](models/diacnet.md) |
+| **DiacTag** | Restores accents & tones in 10 languages (11 with Arabic in 2.0), guaranteed not to alter the text | 38 MB – 150 MB | [DiacTag →](models/diactag.md) |
+| **DiacNet** | Restores accents, tones & special characters in 10 languages (11 with Arabic in 2.0, with meaning hints) | 1 MB – 2.3 GB | [DiacNet →](models/diacnet.md) |
 | **LID family** | Language detection, 5–25 languages | 1.1 MB – 500 MB | [Language Detection →](models/language-detection.md) |
 | **OTK-BPE** | Tokenizers for 8+ languages, 0% OOV | ~3 MB each | [Tokenizers →](models/tokenizers.md) |
 | **Reranker / Embedder** | RAG & cross-lingual search | 23 MB+ | [Retrieval →](models/retrieval.md) |
@@ -205,7 +205,7 @@ All published numbers — LID, diacritization, tokenizer efficiency — in one p
     ```bash
     pip install olaverse[deeplearning]
     ```
-    Adds: `LIDNeural5`, `diactag-1.0`, `diacnet-1.0`/`1.1`, MIST local inference (requires GPU).
+    Adds: `LIDNeural5`, `diactag-1.0`/`2.0`, `diacnet-1.0`/`1.1`/`2.0`/`mini-2.0`, MIST local inference (requires GPU).
 
 === "Hosted Inference"
     ```bash

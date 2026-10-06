@@ -1,8 +1,8 @@
 # DiacTag
 
 **A diacritic model that cannot corrupt your text.** DiacTag restores accents and
-tone marks in 10 languages by classifying each character rather than generating
-new text — so the output is guaranteed to be the input with marks added, and
+tone marks in 10 languages (11 with `diactag-2.0`, which adds Arabic) by
+classifying each character rather than generating new text — so the output is guaranteed to be the input with marks added, and
 nothing else.
 
 ```text
@@ -62,11 +62,18 @@ The SDK asserts it on every call rather than assuming it.
 |---|---|---|---|---|---|
 | `diactag-1.0` | 10 | character transformer, 12 layers | PyTorch | ~150 MB | 0.0132 |
 | `diactag-1.0` | 10 | same, int8 quantized | ONNX | **38 MB** | 0.0135 |
+| `diactag-2.0` | **11** (adds Arabic) | character transformer, 12 layers | PyTorch | ~152 MB | 0.0130 on the 10 original languages |
+| `diactag-2.0` | **11** | same, int8 quantized | ONNX | **38.6 MB** | — |
 
-Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish, Portuguese, Spanish, French,
-Italian.
+`diactag-1.0` covers Yoruba, Igbo, Hausa, Vietnamese, Polish, Turkish,
+Portuguese, Spanish, French and Italian. `diactag-2.0` adds **Arabic**
+(`ara`/`ar`) with a no-case-endings mode, and matches 1.0 on the other ten (mean
+DER 0.0130 against 0.0127 for 1.0, scored side by side on diacbench, per the
+model card). 1.0 keeps working unchanged — see
+[diactag-2.0 and Arabic](#diactag-20-and-arabic).
 
-**Model Card**: [olaverse/diactag-1.0](https://huggingface.co/olaverse/diactag-1.0)
+**Model Cards**: [olaverse/diactag-1.0](https://huggingface.co/olaverse/diactag-1.0) ·
+[olaverse/diactag-2.0](https://huggingface.co/olaverse/diactag-2.0)
 
 ---
 
@@ -218,6 +225,61 @@ treated as your intent and preserved. 30% of training examples kept a random
 subset of their marks, so half-corrected input is in-distribution rather than
 an edge case.
 
+### diactag-2.0 and Arabic
+
+```python
+from olaverse.nlp import Diacritizer
+
+d = Diacritizer(model="diactag-2.0", lang="ar")        # "ar" or "ara"
+d.restore("ذهب الطالب إلى المدرسة في الصباح")
+# → 'ذَهَبَ الطَّالِبُ إلَى الْمَدْرَسَةِ فِي الصَّبَاحِ'
+```
+
+The other ten languages work exactly as above (`Diacritizer(model="diactag-2.0",
+lang="yo")`, or omit `lang=` to auto-detect — the LID head now knows Arabic too).
+
+**Case endings.** By default Arabic gets full diacritization, including the
+grammatical case ending (*iʿrāb*) on each word's last letter — right for teaching
+material, religious and classical text, and text-to-speech. Most modern Arabic is
+vowelled without those endings, so `case_endings=False` drops the vowel, tanwīn
+or sukūn on every word's last letter (a shadda there is kept):
+
+```python
+d = Diacritizer(model="diactag-2.0", lang="ar", case_endings=False)
+d.restore("ذهب الطالب إلى المدرسة في الصباح")
+# → 'ذَهَب الطَّالِب إلَى الْمَدْرَسَة فِي الصَّبَاح'
+
+d.restore(text, case_endings=True)       # per-call override, either direction
+```
+
+`case_endings` only affects Arabic; for every other language it is a no-op. A mark
+you typed yourself on a word's last letter is never removed. On `diactag-1.0`,
+which has no Arabic, `case_endings=False` raises.
+
+**What counts as a mark in Arabic.** Harakat, tanwīn and sukūn fill the *tone*
+slot; shadda and dagger alif are *shape*. Hamza letters (أ إ آ ؤ ئ) are spelling,
+not diacritics: they are never added or removed, so the input should already use
+them correctly. Arabic is not NFD-decomposed, which is what keeps them whole.
+
+| Arabic, Fadel test split (1,000 sentences) | DER | Exact | Compliance |
+|---|---|---|---|
+| Full (with case endings) | 0.0587 | 0.251 | 1.0000 |
+| No case endings | 0.0382 | 0.395 | 1.0000 |
+
+Figures are from the [model card](https://huggingface.co/olaverse/diactag-2.0),
+which also compares four other open Arabic diacritizers. Some of them score
+better, especially on Classical Arabic, but the generative ones do not keep the
+input intact (compliance 0.75–0.90 on the Modern Standard Arabic sets);
+`diactag-2.0` is 1.000 on all of them.
+
+!!! note "One SDK, two label-space generations"
+    The label space is versioned (`diactag-2.0` is spec 2.0.0, which adds Arabic and
+    changes how Arabic text is factorised). The SDK reads `spec_version` from each
+    checkpoint's `labels.json` and decodes it with the matching vendored code:
+    1.x checkpoints run on the original spec 1.2.0 code, unchanged; 2.x on the new
+    code. A checkpoint whose spec the installed SDK does not know fails with an
+    error naming both versions instead of loading against the wrong code.
+
 ---
 
 ## Performance
@@ -305,7 +367,10 @@ the serving bill entirely.
   Italian and the stripped form contains no information distinguishing them.
 - **Fixed label space.** Adding a language with new marks invalidates existing
   checkpoints. The label space carries a `SPEC_VERSION` that is checked on load,
-  so a mismatch fails loudly rather than silently.
+  so a mismatch fails loudly rather than silently. The SDK ships one decoder per
+  spec generation (1.x and 2.x) and picks it from the checkpoint's `labels.json`.
+- **Arabic hamza is not restored.** `أ إ آ ؤ ئ` are treated as spelling, so a
+  hamza the input is missing stays missing.
 
 ---
 
@@ -313,7 +378,9 @@ the serving bill entirely.
 
 | Need | Model |
 |---|---|
-| Output must never differ from input except in marks | **`diactag-1.0`** |
+| Output must never differ from input except in marks | **`diactag-1.0`** / **`diactag-2.0`** |
+| Arabic, output must never differ from input | **`diactag-2.0`** |
+| Arabic without case endings | **`diactag-2.0`** (`case_endings=False`) or [`diacnet-2.0`](diacnet.md) (`lang="ara-nocase"`) |
 | Yoruba, Igbo or Hausa accuracy | **`diactag-1.0`** |
 | CPU-only serving at scale | **`diactag-1.0`** (`onnx=True`) |
 | Confidence scores / human review routing | **`diactag-1.0`** |

@@ -101,7 +101,7 @@ Models are sized for real infrastructure, not just research clusters:
 <div class="ov-card">
   <div class="ov-card-icon">🗣️</div>
   <div class="ov-card-title">NLP & Tokenization</div>
-  <div class="ov-card-body">Diacritization for 10 languages, language detection for 5–25 languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
+  <div class="ov-card-body">Diacritization for 10 languages, language detection for 5–608 languages, Byte-Level BPE tokenizers with 0% OOV, PII masking, and TTS text normalization.</div>
   <a href="nlp/" class="ov-card-link">Explore NLP →</a>
 </div>
 
@@ -157,7 +157,7 @@ Models are sized for real infrastructure, not just research clusters:
 |---|---|---|---|
 | **DiacTag** | Restores accents & tones in 10 languages (11 with Arabic in 2.0), guaranteed not to alter the text | 38 MB – 150 MB | [DiacTag →](models/diactag.md) |
 | **DiacNet** | Restores accents, tones & special characters in 10 languages (11 with Arabic in 2.0, with meaning hints) | 1 MB – 2.3 GB | [DiacNet →](models/diacnet.md) |
-| **LID family** | Language detection, 5–25 languages | 1.1 MB – 500 MB | [Language Detection →](models/language-detection.md) |
+| **LID family** | Language detection, 5–608 languages | 1.1 MB – 560 MB | [Language Detection →](models/language-detection.md) |
 | **OTK-BPE** | Tokenizers for 8+ languages, 0% OOV | ~3 MB each | [Tokenizers →](models/tokenizers.md) |
 | **Reranker / Embedder** | RAG & cross-lingual search | 23 MB+ | [Retrieval →](models/retrieval.md) |
 | **MIST** | General LLMs — 8B / 70B / 140B / Thinking | 15 – 256 GB | [MIST →](models/mist.md) |
@@ -267,7 +267,7 @@ All published numbers — LID, diacritization, tokenizer efficiency — in one p
 | BPE Tokenizer | ✅ | ✅ | ✅ | ✅ | via naija |
 | TTS Normalization | ✅ | ✅ | — | ✅ | — |
 
-Beyond Nigerian languages: `LIDLite25`/`LIDNeural25` detect **25 languages**; `diacnet-1.0` diacritizes **10** (incl. Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian); OTK-BPE tokenizers cover **Swahili and Kinyarwanda**.
+Beyond Nigerian languages: `LIDLite25`/`LIDNeural25` detect **25 languages** and `LIDLite608`/`LIDNeural608` **608**; `diacnet-1.0` diacritizes **10** (incl. Vietnamese, Polish, Turkish, Portuguese, Spanish, French, Italian); OTK-BPE tokenizers cover **Swahili and Kinyarwanda**.
 
 ---
 

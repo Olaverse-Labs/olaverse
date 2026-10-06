@@ -8,6 +8,8 @@ from olaverse.nlp import (
     LIDNeural5,
     LIDLite25,
     LIDNeural25,
+    LIDLite608,
+    LIDNeural608,
     LIDNeural5_1,
     mask_pii,
     clean_text,
@@ -41,6 +43,8 @@ __all__ = [
     "LIDNeural5",
     "LIDLite25",
     "LIDNeural25",
+    "LIDLite608",
+    "LIDNeural608",
     "LIDNeural5_1",
     # NLP — preprocessing
     "mask_pii",

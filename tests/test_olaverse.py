@@ -172,10 +172,12 @@ def test_downloader_huggingface_download(tmp_path):
     model_dir = custom_cache / "olaverse" / "models"
     # Ensure cache directory is empty/non-existent initially
 
-    # get_model_path() downloads via urllib.request.urlopen(req, context=ctx), used
-    # as a context manager, then reads the response body.
+    # get_model_path() downloads via urllib.request.urlopen(req, context=ctx, ...), used
+    # as a context manager, then streams the body in chunks until read() returns b"".
     mock_response = MagicMock()
-    mock_response.read.return_value = b'{"downloaded": true}'
+    mock_response.read.side_effect = [b'{"downloaded": true}', b""]
+    mock_response.status = 200
+    mock_response.headers = {"Content-Length": str(len(b'{"downloaded": true}'))}
     mock_response.__enter__.return_value = mock_response
     mock_response.__exit__.return_value = False
 

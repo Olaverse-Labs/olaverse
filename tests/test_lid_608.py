@@ -212,6 +212,71 @@ def test_lite_survives_the_numpy_2_predict_failure(priors_file):
     assert text == "Ẹ kú àárọ̀\n" and k == -1 and threshold == 0.0 and on_error == "strict"
 
 
+def test_lite_608_reraises_value_errors_that_are_not_the_numpy_failure(priors_file):
+    class BrokenModel:
+        f = MagicMock()
+
+        def predict(self, text, k=1):
+            raise ValueError("predict processes one line at a time (remove '\\n')")
+
+    lid, _ = _lite(None, "coverage", priors_file, model=BrokenModel())
+    with pytest.raises(ValueError, match="one line at a time"):
+        lid.predict("text")
+    BrokenModel.f.predict.assert_not_called()
+
+
+# --------------------------------------------------------------------------- #
+# LIDLite25 shares the same NumPy 2 workaround
+# --------------------------------------------------------------------------- #
+
+def _lite25(model):
+    fake_fasttext = MagicMock()
+    fake_fasttext.load_model.return_value = model
+    with patch.dict("sys.modules", {"fasttext": fake_fasttext}), \
+         patch.object(ld, "get_model_path", return_value="/fake/questions.bin"):
+        detector = ld.LIDLite25(variant="questions")
+        detector.load()
+    return detector
+
+
+def test_lite_25_survives_the_numpy_2_predict_failure():
+    """fasttext-wheel's predict() raises 'Unable to avoid copy' under NumPy >= 2."""
+    class Numpy2Model:
+        def __init__(self):
+            self.f = MagicMock()
+            self.f.predict.return_value = [(0.9, "__label__eng"), (0.1, "__label__fra")]
+
+        def predict(self, text, k=1):
+            raise ValueError("Unable to avoid copy while creating an array as requested.")
+
+    model = Numpy2Model()
+    detector = _lite25(model)
+    probs = detector.predict_proba("What causes\nocean tides?")
+    assert probs == {"eng": 0.9, "fra": 0.1}
+    assert detector.predict("What causes ocean tides?") == "eng"
+    text, k, threshold, on_error = model.f.predict.call_args[0]
+    assert text == "What causes ocean tides?\n" and k == -1      # newline inside the text was replaced first
+
+
+def test_lite_25_keeps_the_normal_path_when_predict_works():
+    model = _FakeFastText([("__label__eng", 0.8), ("__label__fra", 0.2)])
+    model.f = MagicMock()
+    detector = _lite25(model)
+    assert detector.predict_proba("hello") == {"eng": 0.8, "fra": 0.2}
+    model.f.predict.assert_not_called()                          # the fallback is only for the failure
+
+
+def test_lite_25_reraises_other_value_errors():
+    class Broken:
+        f = MagicMock()
+
+        def predict(self, text, k=1):
+            raise ValueError("something else entirely")
+
+    with pytest.raises(ValueError, match="something else"):
+        _lite25(Broken()).predict("hello")
+
+
 def test_lite_predict_batch(priors_file):
     lid, _ = _lite(CANDIDATES, "coverage", priors_file)
     assert lid.predict_batch(["a", "b"]) == ["aaa_Latn", "aaa_Latn"]

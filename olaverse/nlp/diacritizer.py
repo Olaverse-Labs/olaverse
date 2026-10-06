@@ -49,7 +49,7 @@ import unicodedata
 import re
 from typing import List, Optional, Sequence, Tuple, Union
 from olaverse.nlp.diacnet_utils import Hints
-from olaverse.utils.downloader import get_model_path
+from olaverse.utils.downloader import ModelNotFoundError, get_model_path
 
 _YORUBA_MODEL_CACHE = {}
 _YORUBA_DB_MODEL_CACHE = {}
@@ -588,18 +588,30 @@ def _diactag_default_ckpt(model_name: str) -> str:
 
 
 def _diactag_fetch(repo_id: str, filename: str, required: bool = True):
-    """Resolve one artefact from a diactag repo through the olaverse cache."""
+    """Resolve one artefact from a diactag repo through the olaverse cache.
+
+    With ``required=False`` the file may legitimately be absent, and **only** a 404
+    (``ModelNotFoundError``) means that: it returns ``None``. Any other failure — a
+    dropped connection, a 401 on a private repo, a 5xx — is re-raised unchanged,
+    because "could not reach it" is not "it is not there", and reporting one as the
+    other sends the user looking for a file that exists.
+    """
     try:
         return get_model_path(filename, repo_id=repo_id)
-    except Exception as exc:
+    except ModelNotFoundError as exc:
         if not required:
             return None
-        raise RuntimeError(
-            f"Could not fetch '{filename}' from '{repo_id}'. If the repository "
-            f"is private or gated, authenticate first — either `huggingface-cli "
-            f"login` or HF_TOKEN=<token with read access>. "
-            f"Original error: {exc}"
-        ) from exc
+        error = exc
+    except Exception as exc:
+        if not required:
+            raise
+        error = exc
+    raise RuntimeError(
+        f"Could not fetch '{filename}' from '{repo_id}'. If the repository "
+        f"is private or gated, authenticate first — either `huggingface-cli "
+        f"login` or HF_TOKEN=<token with read access>. "
+        f"Original error: {error}"
+    ) from error
 
 
 class OnnxTaggerSession:
@@ -812,13 +824,17 @@ class DiacTagDecoder:
                 "`pip install olaverse[onnx]`."
             ) from exc
 
+        # None means the repo answered 404 for that name; a download error is
+        # raised by _diactag_fetch itself and is not turned into "not found".
         path = None
         for name in _DIACTAG_ONNX_NAMES:
             path = _diactag_fetch(model_name, name, required=False)
             if path:
                 break
         if path is None:
-            raise FileNotFoundError(f"No ONNX export found in '{model_name}'.")
+            raise FileNotFoundError(
+                f"No ONNX export found in '{model_name}' "
+                f"(looked for {', '.join(_DIACTAG_ONNX_NAMES)}).")
 
         so = ort.SessionOptions()
         so.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL

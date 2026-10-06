@@ -457,12 +457,14 @@ def test_get_model_path_cache_does_not_collide_across_repos(tmp_path, monkeypatc
         "olaverse/repo-b": b"class B: pass",
     }
 
-    def fake_urlopen(req, context=None):
+    def fake_urlopen(req, context=None, timeout=None):
         url = req.full_url
         for repo_id, body in responses.items():
             if repo_id in url:
                 mock_response = MagicMock()
-                mock_response.read.return_value = body
+                mock_response.read.side_effect = [body, b""]   # streamed until b""
+                mock_response.status = 200
+                mock_response.headers = {"Content-Length": str(len(body))}
                 mock_response.__enter__.return_value = mock_response
                 mock_response.__exit__.return_value = False
                 return mock_response

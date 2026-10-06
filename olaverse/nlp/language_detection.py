@@ -121,6 +121,23 @@ def detect_language(text, model_path="lid-lite-5.json"):
     return detector.predict(text)
 
 
+def _fasttext_predict(model, text: str, k: int):
+    """``[(label, probability)]``, best first, labels as fastText returns them.
+
+    fasttext-wheel's ``predict()`` builds its result with ``np.array(..., copy=False)``,
+    which NumPy >= 2 rejects ("Unable to avoid copy while creating an array"). That
+    exact failure falls back to the pybind object underneath, which involves no
+    NumPy. Any other error is raised as it is.
+    """
+    try:
+        labels, probs = model.predict(text, k=k)
+        return list(zip(labels, (float(p) for p in probs)))
+    except ValueError as exc:
+        if "copy" not in str(exc):
+            raise
+        return [(label, float(p)) for p, label in model.f.predict(text + "\n", k, 0.0, "strict")]
+
+
 class _HFSequenceClassifierLID:
     """
     Shared loading/inference logic for transformer-based LID classifiers.
@@ -370,8 +387,8 @@ class LIDLite25:
         if self._model is None:
             self.load()
 
-        labels, probs = self._model.predict(text.replace("\n", " ").strip(), k=-1)
-        return {label.replace("__label__", ""): float(prob) for label, prob in zip(labels, probs)}
+        pairs = _fasttext_predict(self._model, text.replace("\n", " ").strip(), -1)
+        return {label.replace("__label__", ""): prob for label, prob in pairs}
 
     def predict(self, text: str) -> str:
         """Predict the dominant language of the text (ISO 639-3 code, e.g. 'eng')."""
@@ -480,15 +497,7 @@ class LIDLite608:
 
     def _candidates(self, text: str, k: int):
         """The model's ``k`` likeliest ``(label, probability)`` pairs (``k=-1``: all)."""
-        text = _clean_608(text)
-        try:
-            labels, probs = self._model.predict(text, k=k)
-            pairs = list(zip(labels, (float(p) for p in probs)))
-        except ValueError:
-            # fasttext-wheel's predict() calls np.array(..., copy=False), which
-            # NumPy >= 2 rejects. The binding underneath has no NumPy in it.
-            pairs = [(label, float(p))
-                     for p, label in self._model.f.predict(text + "\n", k, 0.0, "strict")]
+        pairs = _fasttext_predict(self._model, _clean_608(text), k)
         return [(label[len(self._LABEL_PREFIX):] if label.startswith(self._LABEL_PREFIX) else label, p)
                 for label, p in pairs]
 

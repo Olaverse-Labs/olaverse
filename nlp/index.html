@@ -1254,10 +1254,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lidlite608-lidneural608-608-language-identification" class="md-nav__link">
+  <a href="#lidlite608-lidneural608-608-language-identification-new-in-v041" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LIDLite608 / LIDNeural608 — 608-language identification
+        LIDLite608 / LIDNeural608 — 608-language identification (New in v0.4.1)
       
     </span>
   </a>
@@ -2889,10 +2889,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#lidlite608-lidneural608-608-language-identification" class="md-nav__link">
+  <a href="#lidlite608-lidneural608-608-language-identification-new-in-v041" class="md-nav__link">
     <span class="md-ellipsis">
       
-        LIDLite608 / LIDNeural608 — 608-language identification
+        LIDLite608 / LIDNeural608 — 608-language identification (New in v0.4.1)
       
     </span>
   </a>
@@ -4512,7 +4512,7 @@ at the cost of needing transformers/torch.</p>
     </div>
 
 </div><hr />
-<h3 id="lidlite608-lidneural608-608-language-identification">LIDLite608 / LIDNeural608 — 608-language identification<a class="headerlink" href="#lidlite608-lidneural608-608-language-identification" title="Permanent link">&para;</a></h3>
+<h3 id="lidlite608-lidneural608-608-language-identification-new-in-v041">LIDLite608 / LIDNeural608 — 608-language identification <em>(New in v0.4.1)</em><a class="headerlink" href="#lidlite608-lidneural608-608-language-identification-new-in-v041" title="Permanent link">&para;</a></h3>
 <p><strong>Model Cards</strong>: <a href="https://huggingface.co/olaverse/lid-lite-608">olaverse/lid-lite-608</a> · <a href="https://huggingface.co/olaverse/lid-neural-608">olaverse/lid-neural-608</a> · <strong>Full guide</strong>: <a href="../models/language-detection/#lidlite608-lidneural608-608-languages">Language Detection →</a></p>
 <p>African-first identification across 608 languages and 36 scripts. <code>LIDLite608</code> is a 37 MB CPU-only fastText model (~6,800 texts/s on one thread); <code>LIDNeural608</code> is a 140M-parameter ModernBERT classifier, the most accurate of the two on short and conversational text. They share their labels (<code>yor_Latn</code>: ISO 639-3 plus script, and a <code>zxx_Zxxx</code> noise class) and two modes: <code>mode="coverage"</code> (default; every language equally likely, for corpus building) and <code>mode="traffic"</code> (shifted by real-world language frequency, for user input and routing).</p>
 <div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">olaverse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LIDLite608</span><span class="p">,</span> <span class="n">LIDNeural608</span>

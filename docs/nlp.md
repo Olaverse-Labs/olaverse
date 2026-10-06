@@ -166,7 +166,7 @@ neural.predict_proba("What causes ocean tides?")
 
 ---
 
-### LIDLite608 / LIDNeural608 — 608-language identification
+### LIDLite608 / LIDNeural608 — 608-language identification *(New in v0.4.1)*
 
 **Model Cards**: [olaverse/lid-lite-608](https://huggingface.co/olaverse/lid-lite-608) · [olaverse/lid-neural-608](https://huggingface.co/olaverse/lid-neural-608) · **Full guide**: [Language Detection →](models/language-detection.md#lidlite608-lidneural608-608-languages)
 

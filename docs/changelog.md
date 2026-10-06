@@ -8,7 +8,7 @@ All notable changes to the Olaverse SDK are documented here.
 
 **Status**: prepared 2026-10-06, not yet published.
 
-Arabic, and three new private models: `diactag-2.0`, `diacnet-2.0` and `diacnet-mini-2.0`. Everything that worked on 0.3.1 — `diactag-1.0`, `diacnet-1.0`/`1.1` and the small Yoruba/Igbo models — behaves exactly as before.
+Arabic, and three new models: `diactag-2.0`, `diacnet-2.0` and `diacnet-mini-2.0`. Everything that worked on 0.3.1 — `diactag-1.0`, `diacnet-1.0`/`1.1` and the small Yoruba/Igbo models — behaves exactly as before.
 
 ### New Features
 

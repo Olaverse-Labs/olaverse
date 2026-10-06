@@ -15,7 +15,7 @@ Tiers:
     (routing, languages, case_endings, the strip invariant) end to end without
     downloading anything. It says nothing about accuracy.
   * ``slow`` — the real private checkpoints. Excluded by default
-    (``pytest -m slow``), and skipped when no Hugging Face token is available.
+    (``pytest -m slow``), and skipped when Hugging Face is not reachable.
 """
 
 import importlib
@@ -52,15 +52,14 @@ LATIN_SAMPLES = {
 }
 
 
-def _hf_token():
-    pytest.importorskip("transformers")
-    from huggingface_hub import get_token
-    return get_token()
-
-
-def _needs_token():
-    if not _hf_token():
-        pytest.skip("needs a Hugging Face token (the olaverse/* repos are private)")
+def _needs_hub():
+    """Skip unless Hugging Face is reachable (the olaverse/* repos are public)."""
+    import urllib.request
+    try:
+        urllib.request.urlopen(
+            f"https://huggingface.co/olaverse/diactag-2.0/resolve/main/config.json", timeout=10).close()
+    except Exception as exc:
+        pytest.skip(f"Hugging Face is not reachable: {exc}")
 
 
 # =========================================================================== #
@@ -491,19 +490,19 @@ def test_onnx_adapter_matches_an_11_language_graph():
 
 
 # =========================================================================== #
-# Real checkpoint — opt in with: pytest -m slow   (needs an HF token)
+# Real checkpoint — opt in with: pytest -m slow   (downloads the models)
 # =========================================================================== #
 
 @pytest.fixture(scope="module")
 def real_tagger():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("torch")
     return DiacTagDecoder("olaverse/diactag-2.0")
 
 
 @slow
 def test_diactag_2_real_label_space():
-    _needs_token()
+    _needs_hub()
     path = dz._diactag_fetch("olaverse/diactag-2.0", "labels.json")
     assert read_spec_version(path) == "2.0.0"
     ls = backend_for_labels(path).module("labels").LabelSpace.load(path)
@@ -543,7 +542,7 @@ def test_diactag_2_real_auto_detects_arabic(real_tagger):
 
 @slow
 def test_diactag_2_real_onnx_matches_pytorch():
-    _needs_token()
+    _needs_hub()
     pytest.importorskip("onnxruntime")
     pt = DiacTagDecoder("olaverse/diactag-2.0")
     ox = DiacTagDecoder("olaverse/diactag-2.0", onnx=True)

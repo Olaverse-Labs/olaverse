@@ -47,7 +47,8 @@ import os
 import json
 import unicodedata
 import re
-from typing import List, Tuple, Union
+from typing import List, Optional, Sequence, Tuple, Union
+from olaverse.nlp.diacnet_utils import Hints
 from olaverse.utils.downloader import get_model_path
 
 _YORUBA_MODEL_CACHE = {}
@@ -460,7 +461,7 @@ class DiacNet2Decoder:
             )
         return value
 
-    def decode(self, text: str, lang: str = None, hints=None,
+    def decode(self, text: str, lang: str = None, hints: Hints = None,
                aligned: bool = True, case_endings: bool = True) -> str:
         """
         Restore diacritics in one text.
@@ -485,8 +486,11 @@ class DiacNet2Decoder:
             hints=None if hints is None else [hints],
             aligned=aligned, case_endings=case_endings)[0]
 
-    def decode_batch(self, texts, lang=None, hints=None, aligned: bool = True,
-                     case_endings: bool = True, batch_size: int = None) -> list:
+    def decode_batch(self, texts: Sequence[str],
+                     lang: Union[None, str, Sequence[Optional[str]]] = None,
+                     hints: Optional[Sequence[Hints]] = None,
+                     aligned: bool = True, case_endings: bool = True,
+                     batch_size: int = None) -> list:
         """
         Restore diacritics in many texts.
 
@@ -1299,7 +1303,7 @@ class Diacritizer:
 
     def restore(self, text: str, lang: str = None, min_confidence: float = None,
                 return_details: bool = False, case_endings: bool = None,
-                aligned: bool = None, hints=None) -> Union[str, Tuple[str, List]]:
+                aligned: bool = None, hints: Hints = None) -> Union[str, Tuple[str, List]]:
         """
         Restore diacritics in the given text.
 
@@ -1403,8 +1407,10 @@ class Diacritizer:
 
         raise ValueError(f"Unsupported language '{self.lang}'.")
 
-    def restore_batch(self, texts, lang=None, case_endings: bool = None,
-                      aligned: bool = None, hints=None) -> list:
+    def restore_batch(self, texts: Sequence[str],
+                      lang: Union[None, str, Sequence[Optional[str]]] = None,
+                      case_endings: bool = None, aligned: bool = None,
+                      hints: Optional[Sequence[Hints]] = None) -> list:
         """
         Restore diacritics in many texts.
 
